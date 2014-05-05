@@ -26,6 +26,7 @@ function SuperScript() {
 	this._users    	= {}; // 'user' variables
 	this._sorted   	= {};
 	this._topics   	= {}; // main reply structure
+	this._topicFlags = {}; 
 
 	this._includes = {}; // included topics
 	this._lineage  = {}; // inherited topics
@@ -239,7 +240,13 @@ SuperScript.prototype.parse = function(fileName, code) {
 				// > LABEL
 				var temp   = Utils.trim(line).split(" ");
 				var type   = temp.shift();
-				debug("line: " + line + "; temp: " + temp + "; type: " + type);
+				var flags  = type.split(":");
+				if (flags.length > 0) {
+					type 			= flags[0];
+					var nflags = flags.shift();
+				}
+			
+				debug("line: " + line + "; temp: " + temp + "; type: " + type + "; flags: " + flags);
 				var name   = '';
 				var fields = [];
 				if (temp.length > 0) {
@@ -262,6 +269,11 @@ SuperScript.prototype.parse = function(fileName, code) {
 					ontrig = '';
 					topic  = name;
 
+					if (!this._topicFlags[topic]) {
+						this._topicFlags[topic] = [];
+					}
+
+					this._topicFlags[topic] = this._topicFlags[topic].concat(flags);
 					// This needs to be improved + tested
 					// Does this topic include or inherit another one?
 					var mode = ''; // or 'inherits' or 'includes'

@@ -11,11 +11,15 @@
 	- topic test pass
 < topic
 
-
 + set topic to dry
 - Okay we are going to dry {topic=dry}
 
 > topic dry
+	+ i have one thing to say
+	- dry topic test pass
+< topic
+
+> topic:keep:system:sticky dry2
 	+ i have one thing to say
 	- dry topic test pass
 < topic
