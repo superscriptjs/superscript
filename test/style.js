@@ -1,0 +1,79 @@
+var mocha = require("mocha");
+var should  = require("should");
+
+var script = require("../index");
+var bot = new script();
+
+describe('Super Script Style', function(){
+
+ before(function(done){
+    bot.loadDirectory("./test/fixtures", function(err, res) {
+    	done();
+    });
+  })
+
+	describe('Wrapping lines', function(){
+		it("should continue onto the next line", function(done){
+			bot.reply("user1", "tell me a poem", function(err, reply) {
+				reply.should.eql("Little Miss Muffit sat on her tuffet,\nIn a nonchalant sort of way.\nWith her forcefield around her,\nThe Spider, the bounder,\nIs not in the picture today.");
+				done();
+			});
+		});		
+	});
+
+
+	describe('Normalize Trigger', function(){
+		it("should be expanded before trying to match", function(done){
+			bot.reply("user1", "it is all good in the hood", function(err, reply) {
+				reply.should.eql("normalize trigger test");
+				done();
+			});
+		});		
+
+		it("should be expanded before trying to match contract form", function(done){
+			bot.reply("user1", "it's all good in the hood", function(err, reply) {
+				reply.should.eql("normalize trigger test");
+				done();
+			});
+		});		
+
+	});
+
+	describe('Mix case test', function(){
+		it("should match all capitals", function(done){
+			bot.reply("user1", "this is all capitals", function(err, reply) {
+				reply.should.eql("Test six should pass");
+				done();
+			});
+		});
+
+		it("should match some capitals", function(done){
+			bot.reply("user1", "this IS ALL capitals", function(err, reply) {
+				reply.should.eql("Test six should pass");
+				done();
+			});
+		});
+
+		it("should match with or without puct - 1", function(done){
+			bot.reply("user1", "Do you have a clue?", function(err, reply) {
+				reply.should.eql("Test seven should pass");
+				done();
+			});
+		});
+
+		it("should match with or without puct - 2", function(done){
+			bot.reply("user1", "Do you have a clue", function(err, reply) {
+				reply.should.eql("Test seven should pass");
+				done();
+			});
+		});
+
+		it("should match with extra spaces mixed in", function(done){
+			bot.reply("user1", "Do       you       have   a 	 clue", function(err, reply) {
+				reply.should.eql("Test seven should pass");
+				done();
+			});
+		});
+
+	});
+});

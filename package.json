@@ -1,0 +1,35 @@
+{
+  "name": "superscript",
+  "version": "0.0.1",
+  "description": "A new type of chat script",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/ -R spec -s 500"
+  },
+  "author": "Rob Ellis",
+  "license": "?GPLv3?",
+  "dependencies": {
+    "async": "~0.7.0",
+    "debug": "~0.8.0",
+    "pos": "~0.1.5",
+    "qtypes": "0.0.2",
+    "node-normalizer": "0.0.4",
+    "natural": "~0.1.27",
+    "WNdb": "~3.1.1",
+    "async-replace": "0.0.2",
+    "require-dir": "~0.1.0",
+    "moment": "~2.6.0",
+    "underscore": "~1.6.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.18.2",
+    "should": "~3.3.1",
+    "blanket": "~1.1.6"
+  },
+  "config": {
+    "blanket": {
+      "pattern": "/lib",
+      "data-cover-never": "node_modules"
+    }
+  }
+}
