@@ -25,6 +25,7 @@ When input comes into the system that matches "I like fish", it will return with
 * dialog engine
 * custom functions 
 * expressive syntax
+* real knug-fu action grip
 
 ## Documentation
 * What is this thing
@@ -46,6 +47,13 @@ When input comes into the system that matches "I like fish", it will return with
 		* Date Time Functions
 		* Wordnet Functions
 	* Reasoning with ConceptNet
+* Working with Topics
+	* What is a topic
+	* The '__begin__' topic
+	* The 'random' topic
+	* Topic Flags
+		* keep
+
 * The Message Object
 * The User Object
 
@@ -64,16 +72,16 @@ When input comes into the system that matches "I like fish", it will return with
 	* Add helper functions for replies eg: Pluralization, Capitalize
 
 	## Information Retrieval
-	* Concept Net Support
+	* ½ Concept Net Support
+	* ½ Fact Triples
 	* Generic Scripted Concepts
-	* Fact Triples
 	* Memory
 	* Bot variables
 
 	## Dialogue Flow
-	* Topic exhaustion
+	* ✓ Topic exhaustion
+	* ✓ non-sticky topics (one time replies)
 	* Topic Gambits (reverse conversation - Bot Questions)
-	* non-sticky topics (one time replies)
 	* Continuation
 	* Weighted replies
 	* Better Topic Redirects
@@ -81,7 +89,7 @@ When input comes into the system that matches "I like fish", it will return with
 	  - Maybe add "suggestedReply" to message stream and catch it after the dialogue exits. Could this be better done with plugins?
 
  ## Bigger tasks
-  * Remove building topic tree from bot flow ans cache results to disk
+  * Remove building topic tree from bot flow and cache results to disk
   * Front load Reply.parse regex compile to topic trees
   * Add Example client for IRC, Gabber, Slack or ?
 

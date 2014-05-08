@@ -26,7 +26,7 @@ function SuperScript() {
 	this._users    	= {}; // 'user' variables
 	this._sorted   	= {};
 	this._topics   	= {}; // main reply structure
-	this._topicFlags = {}; 
+	this._topicFlags = {"random":[]}; 
 
 	this._includes = {}; // included topics
 	this._lineage  = {}; // inherited topics
@@ -262,6 +262,9 @@ SuperScript.prototype.parse = function(fileName, code) {
 					debug("Found the BEGIN block.");
 					type = "topic";
 					name = "__begin__";
+
+					// This topic is hard-coded to keep
+					this._topicFlags["__begin__"] = ["keep"];
 				}
 				if (type == "topic") {
 					// Starting a new topic.
@@ -271,6 +274,7 @@ SuperScript.prototype.parse = function(fileName, code) {
 
 					if (!this._topicFlags[topic]) {
 						this._topicFlags[topic] = [];
+
 					}
 
 					this._topicFlags[topic] = this._topicFlags[topic].concat(flags);
@@ -401,10 +405,10 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 	
 	user.message = msgObj;
 
-
 	var options = {
 		user: user, 
 		topics: that._topics, 
+		topicFlags: that._topicFlags,
 		sorted: that._sorted, 
 		plugins: that._plugins,
 		step: 0,
@@ -426,9 +430,9 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 
 				getreply(options, function(err, reply2){
 					reply2 = begin.replace(/\{ok\}/g, reply2);	
-					processTags(user, msgObj, reply2, [], [], 0, that._plugins, function(err, reply) {
-						user.updateHistory(msgObj, reply);
-						callback(err, reply);
+					processTags(user, msgObj, reply2, [], [], 0, that._plugins, that._topicFlags, function(err, reply3) {
+						user.updateHistory(msgObj, reply3);
+						callback(err, reply3);
 					});
 				});
 			} else {

@@ -4,7 +4,7 @@
   "description": "A new type of chat script",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/ -R spec -s 500"
+    "test": "DEBUG='* -Utils* -Normalizer -mocha*' mocha test/ -R spec -s 500"
   },
   "author": "Rob Ellis",
   "license": "?GPLv3?",
