@@ -440,7 +440,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 							stars: [], 
 							botstars:[],
 							step: 0, 
-							plutins: that._plugins, 
+							plutins: that._plugins,
 							topicFlags: that._topicFlags,
 							sorted: that._sorted, 
 							topics: that._topics

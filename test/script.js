@@ -4,10 +4,10 @@ var should  = require("should");
 var script = require("../index");
 var bot = new script();
 
-describe.only('Super Script', function(){
+describe('Super Script', function(){
 
  before(function(done){
-    bot.loadDirectory("./test/fixtures", function(err, res) {
+    bot.loadDirectory("./test/fixtures/script", function(err, res) {
     	done();
     });
   })
@@ -198,7 +198,7 @@ describe.only('Super Script', function(){
 		});
 	});	
 
-	describe('Custom functions', function(){
+	describe.only('Custom functions', function(){
 		it("should call a custom function", function(done) {
 			bot.reply("user1", "custom function", function(err, reply) {
 				reply.should.eql("The Definition of function is perform duties attached to a particular office or place or function");
