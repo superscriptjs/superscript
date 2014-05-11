@@ -4,7 +4,7 @@ var should  = require("should");
 var script = require("../index");
 var bot = new script();
 
-describe('Super Script', function(){
+describe.only('Super Script', function(){
 
  before(function(done){
     bot.loadDirectory("./test/fixtures", function(err, res) {

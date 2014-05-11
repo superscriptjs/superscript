@@ -406,10 +406,10 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 	user.message = msgObj;
 
 	var options = {
-		user: user, 
-		topics: that._topics, 
+		user: user,
 		topicFlags: that._topicFlags,
 		sorted: that._sorted, 
+		topics: that._topics, 
 		plugins: that._plugins,
 		step: 0,
 		type: "normal"
@@ -429,11 +429,27 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 				options.type = "normal";
 
 				getreply(options, function(err, reply2){
-					reply2 = begin.replace(/\{ok\}/g, reply2);	
-					processTags(user, msgObj, reply2, [], [], 0, that._plugins, that._topicFlags, function(err, reply3) {
-						user.updateHistory(msgObj, reply3);
+					if (err) {
 						callback(err, reply3);
-					});
+					} else {					
+						reply2 = begin.replace(/\{ok\}/g, reply2);	
+						var pOptions = {
+							user: user, 
+							msg: msgObj, 
+							reply: reply2, 
+							stars: [], 
+							botstars:[],
+							step: 0, 
+							plutins: that._plugins, 
+							topicFlags: that._topicFlags,
+							sorted: that._sorted, 
+							topics: that._topics
+						};
+						processTags(pOptions, function(err, reply3) {
+							user.updateHistory(msgObj, reply3);
+							callback(err, reply3);
+						});
+					}
 				});
 			} else {
 				user.updateHistory(msgObj, reply);
@@ -442,12 +458,17 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 		});		
 
 	} else {
+
 		debug("Normal getreply");
 		options.message = msgObj;
 		options.type = "normal";
 		getreply(options, function(err, reply) {
-			user.updateHistory(msgObj, reply);
-			callback(err, reply);
+			if (err) {
+				callback(err, null);
+			} else {
+				user.updateHistory(msgObj, reply);
+				callback(err, reply);
+			}
 		});
 	}
 }

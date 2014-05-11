@@ -1,25 +1,11 @@
+
 var script = require("../index");
 var bot = new script();
 
-bot.loadDirectory("./topics", function(err, res) {
-	if (!err) {
-		// bot.reply("this is a test", function(err, result){
-		// 	console.log(">", result);
-		// })
-	
-		// bot.reply("what is the definition of bridge", function(err, result){
-		// 	console.log(">", result);
-		// });
-
-		// bot.reply("what season is it?", function(err, result){
-		// 	console.log(">", result);
-		// })
-
-		// ( I * ~like * _~meat * and * _~vegetable ) I hate _0 and _1	
-		bot.reply("I love beef", function(err, result){
-			console.log(">", result);
-		});
-
-	}
+bot.loadDirectory("./test/fixtures/redirect", function(err, res) {
+	bot.reply("user1", "this is an inline redirect", function(err, reply) {
+		
+		console.log(reply);
+	});
 });
 

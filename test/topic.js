@@ -6,7 +6,7 @@ var bot = new script();
 
 
 // We have a bug some replies in non-keep can change the topic
-describe.only('Super Script Topics', function(){
+describe('Super Script Topics', function(){
 
  before(function(done){
     bot.loadDirectory("./test/fixtures/topics", function(err, res) {
