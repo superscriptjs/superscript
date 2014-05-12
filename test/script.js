@@ -4,7 +4,7 @@ var should  = require("should");
 var script = require("../index");
 var bot = new script();
 
-describe.only('Super Script Script Interface', function(){
+describe('Super Script Script Interface', function(){
 
  before(function(done){
     bot.loadDirectory("./test/fixtures/script", function(err, res) {
@@ -16,7 +16,7 @@ describe.only('Super Script Script Interface', function(){
 
 		it("should reply to simple string", function(done) {
 			bot.reply("user1", "This is a test", function(err, reply) {
-				reply.should.eql("Test should pass");
+				reply.should.eql("Test should pass one");
 				done();
 			});
 		});
@@ -198,7 +198,7 @@ describe.only('Super Script Script Interface', function(){
 		});
 	});	
 
-	describe.only('Custom functions', function(){
+	describe('Custom functions', function(){
 		it("should call a custom function", function(done) {
 			bot.reply("user1", "custom function", function(err, reply) {
 				reply.should.eql("The Definition of function is perform duties attached to a particular office or place or function");

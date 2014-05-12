@@ -1,6 +1,6 @@
 // Simple Test
 + This is a test
-- Test should pass
+- Test should pass one
 
 // Star match
 + connect the *
@@ -77,3 +77,5 @@
 + custom3 *1
 - backup plan
 
++ I ~like basketball
+- Wordnet test one

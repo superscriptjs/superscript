@@ -25,6 +25,7 @@ function SuperScript() {
 	var that = this;
 	this._users    	= {}; // 'user' variables
 	this._sorted   	= {};
+	this._thats 		= {}; // Previous
 	this._topics   	= {}; // main reply structure
 	this._topicFlags = {"random":[]}; 
 
@@ -84,12 +85,12 @@ SuperScript.prototype.loadDirectory = function(path, callback ) {
 	});
 }
 
-SuperScript.prototype.sortReplies = function(previous) {
+SuperScript.prototype.sortReplies = function(thats) {
 
 	var triglvl, sortlvl;
-	if (previous != undefined) {
+	if (thats != undefined) {
 		triglvl = this._thats;
-		sortlvl = 'previous';
+		sortlvl = 'thats';
 	} else {
 		triglvl = this._topics;
 		sortlvl = 'topics';
@@ -114,6 +115,18 @@ SuperScript.prototype.sortReplies = function(previous) {
 
 		this._sorted[sortlvl][topic] = running;
 	}
+
+	// And do it all again for %Previous!
+	if (thats == undefined) {
+		// This will set the %Previous lines to best match the bot's last reply.
+		this.sortReplies(true);
+
+		// If any of the %Previous's had more than one +Trigger for them,
+		// this will sort all those +Triggers to pair back to the best human
+		// interaction.
+		this._sorted = sorter._sort_that_triggers(this._sorted, this._thats);
+	}
+
 }
 
 SuperScript.prototype._loadFile = function(file) {
@@ -351,7 +364,9 @@ SuperScript.prototype.parse = function(fileName, code) {
 					this._topics[topic][ontrig]['redirect'] = Utils.trim(line);
 				}
 				continue;
-
+				case '%':
+					// % PREVIOUS
+					continue; // This was handled above.
 			default:
 				dWarn("Unknown Command: '" + cmd + "'", fileName, lineno);
 		}
@@ -403,6 +418,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 	var user = Users.findOrCreate(userName);
 	var msgObj = new Message(msg, that.question, that.normalize);
 	
+
 	user.message = msgObj;
 
 	var options = {
@@ -410,6 +426,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 		topicFlags: that._topicFlags,
 		sorted: that._sorted, 
 		topics: that._topics, 
+		thats: that._thats,
 		plugins: that._plugins,
 		step: 0,
 		type: "normal"
@@ -443,7 +460,8 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 							plutins: that._plugins,
 							topicFlags: that._topicFlags,
 							sorted: that._sorted, 
-							topics: that._topics
+							topics: that._topics,
+							thats: that._thats
 						};
 						processTags(pOptions, function(err, reply3) {
 							user.updateHistory(msgObj, reply3);
@@ -464,8 +482,10 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 		options.type = "normal";
 		getreply(options, function(err, reply) {
 			if (err) {
+				dWarn("Error", err);
 				callback(err, null);
 			} else {
+				debug("Update and Reply to Human", reply)
 				user.updateHistory(msgObj, reply);
 				callback(err, reply);
 			}
