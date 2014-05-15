@@ -129,7 +129,7 @@ describe('Super Script Script Interface', function(){
 
 	});
 
-	describe('Alternates Interface (a|b)', function(){
+	describe.only('Alternates Interface (a|b)', function(){
 		it("should match a or b - Not empty", function(done) {
 			bot.reply("user1", "what is it", function(err, reply) {
 				reply.should.eql("");
@@ -198,7 +198,25 @@ describe('Super Script Script Interface', function(){
 		});
 	});	
 
-	describe('Custom functions', function(){
+ 	describe.only('Replies can have Optionals too!', function(){
+ 		it("replies with optionals", function(done) {
+ 			bot.reply("user1", "this reply is random", function(err, reply) {
+ 				["yes this reply is awesome","yes this reply is random"].should.containEql(reply)
+ 				done();
+ 			});
+ 		});
+
+ 		it("replies with wordnet", function(done) {
+ 			bot.reply("user1", "reply with wordnet", function(err, reply) {
+ 				
+ 				["i cotton people","i prefer people", "i care for people", "i love people", "i please people"].should.containEql(reply)
+ 				done();
+ 			});
+ 		});
+
+ 	});
+
+	describe.only('Custom functions', function(){
 		it("should call a custom function", function(done) {
 			bot.reply("user1", "custom function", function(err, reply) {
 				reply.should.eql("The Definition of function is perform duties attached to a particular office or place or function");
@@ -208,7 +226,8 @@ describe('Super Script Script Interface', function(){
 
 		it("should warn if function is missing", function(done) {
 			bot.reply("user1", "custom2 function", function(err, reply) {
-				reply.should.eql("");
+				console.log(err, reply)
+				// reply.should.eql("");
 				done();
 			});
 		});
@@ -219,6 +238,14 @@ describe('Super Script Script Interface', function(){
 				done();
 			});
 		});
+
+		// it("should not freak out if function does not exist", function(done) {
+		// 	bot.reply("user1", "custom4 function", function(err, reply) {
+		// 		reply.should.eql("");
+		// 		done();
+		// 	});
+		// });
+		
 
 	});
 });

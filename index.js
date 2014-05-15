@@ -6,8 +6,9 @@ var qtypes 	= require("qtypes");
 var Message = require("./lib/message");
 var Users 	= require("./lib/users");
 
-var getreply 	= require("./lib/getreply");
-var processTags = require("./lib/processtags");
+var getreply 			= require("./lib/getreply");
+var processTags 	= require("./lib/processtags");
+var reason 				= require("./lib/reason");
 
 var Sort 		= require("./lib/sort");
 var Utils 	= require("./lib/utils");
@@ -404,6 +405,71 @@ SuperScript.prototype._initTopicTree = function (toplevel, topic, trigger, what)
 	}
 };
 
+
+var messageItorHandle = function(user, system) {
+
+	return messageItor = function(msg, next) {
+		reason.internalizeMessage(msg, user, function(err, reasoned){
+			
+			var options = {
+				user: user,
+				type: "normal",
+				system: system
+			}
+
+			if (system.topics["__begin__"]) {
+				debug("Begin getreply");
+				options.message = new Message("request", system.question, system.normalize);
+				options.type = "begin";
+
+				getreply(options,  function(err, begin){
+					// Okay to continue?
+					if (begin.indexOf("{ok}") > -1) {
+						debug("Normal getreply");
+
+						options.message = msg;
+						options.type = "normal";
+
+						getreply(options, function(err, reply2){
+							if (err) { 
+								next(err, null);
+							} else {					
+								reply2 = begin.replace(/\{ok\}/g, reply2);	
+								var pOptions = {
+									msg: msg, reply: reply2, 
+									stars: [], botstars:[],
+									user: user, 
+									system: system
+								};
+								processTags(pOptions, next);
+							}
+						});
+					} else {
+						next(err, begin);
+					}
+				});
+				
+			} else {
+				debug("Normal getreply");
+				options.message = msg;
+				options.type = "normal";
+				getreply(options, next);
+			}
+		});
+	}
+}
+
+// This takes a message and breaks it into chucks to be passed though 
+// the sytem. We put them back together on the other end.
+var messageFactory = function(rawMsg, question, normalize) {
+	// TODO - Make this a little more elegant.
+	var messageParts = rawMsg.split(".");
+	
+	return messageParts.map(function(messageChunk){
+		return new Message(messageChunk.trim(), question, normalize);	
+	});
+}
+
 // Convert msg into message object, then check for a match
 SuperScript.prototype.reply = function(userName, msg, callback) {
 	if (arguments.length == 2 && typeof msg == "function") {
@@ -414,88 +480,40 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 
 	debug("Message Recieved from '" + userName + "'", msg);
 	var that = this;
-	var reply = '';
-	var user = Users.findOrCreate(userName);
-	var msgObj = new Message(msg, that.question, that.normalize);
 	
-
-	user.message = msgObj;
-
-	var options = {
-		user: user,
+	// Ideally these will come from a cache, but that is a exercise for a rainy day
+	var system = {
 		topicFlags: that._topicFlags,
 		sorted: that._sorted, 
 		topics: that._topics, 
 		thats: that._thats,
 		plugins: that._plugins,
-		step: 0,
-		type: "normal"
+		question: that.question, 
+		normalize: that.normalize
 	}
 
-	// If the BEGIN block exists, consult it first.
-	if (that._topics["__begin__"]) {
-		debug("begin getreply");
-		options.message = new Message("request", that.question, that.normalize);
-		options.type = "begin";
-		getreply(options,  function(err, begin){
-			// Okay to continue?
-			if (begin.indexOf("{ok}") > -1) {
-				debug("Normal getreply");
+	var user = Users.findOrCreate(userName);
+	var messages = messageFactory(msg, that.question, that.normalize);
 
-				options.message = msgObj;
-				options.type = "normal";
+	async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
+		var reply = "";
+		messageArray = Utils.cleanArray(messageArray);
+		
+		if (messageArray.length == 1) {
+			reply = messageArray[0];
+		} else {
+			// TODO - We will want to add some smarts on putting multiple
+			// lines back together - check for tail grammar or drop bits.
+			reply = messageArray.join(" ");
+		}
+		var replyObj = new Message(reply, system.question, system.normalize);
+		debug("Update and Reply to user '" + user.name + "'", replyObj.clean)
+		user.updateHistory(msg, replyObj);
 
-				getreply(options, function(err, reply2){
-					if (err) {
-						callback(err, reply3);
-					} else {					
-						reply2 = begin.replace(/\{ok\}/g, reply2);	
-						var pOptions = {
-							user: user, 
-							msg: msgObj, 
-							reply: reply2, 
-							stars: [], 
-							botstars:[],
-							step: 0, 
-							plutins: that._plugins,
-							topicFlags: that._topicFlags,
-							sorted: that._sorted, 
-							topics: that._topics,
-							thats: that._thats
-						};
-						processTags(pOptions, function(err, reply3) {
-							user.updateHistory(msgObj, reply3);
-							callback(err, reply3);
-						});
-					}
-				});
-			} else {
-				user.updateHistory(msgObj, reply);
-				callback(err, reply);
-			}
-		});		
+		callback(null, reply);
+	});
 
-	} else {
-
-		debug("Normal getreply");
-		options.message = msgObj;
-		options.type = "normal";
-		getreply(options, function(err, reply) {
-			if (err) {
-				dWarn("Error", err);
-				callback(err, null);
-			} else {
-				debug("Update and Reply to Human", reply)
-				user.updateHistory(msgObj, reply);
-				callback(err, reply);
-			}
-		});
-	}
 }
-
-
-
-
 
 SuperScript.prototype.getUser = function(userName) {
 	return Users.get(userName);

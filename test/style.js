@@ -7,10 +7,11 @@ var bot = new script();
 describe('Super Script Style', function(){
 
  before(function(done){
-    bot.loadDirectory("./test/fixtures", function(err, res) {
+    bot.loadDirectory("./test/fixtures/style", function(err, res) {
     	done();
     });
   })
+
 
 	describe('Wrapping lines', function(){
 		it("should continue onto the next line", function(done){
@@ -31,12 +32,11 @@ describe('Super Script Style', function(){
 		});		
 
 		it("should be expanded before trying to match contract form", function(done){
-			bot.reply("user1", "it's all good in the hood", function(err, reply) {
+			bot.reply("user1", "it's all good in the hood two", function(err, reply) {
 				reply.should.eql("normalize trigger test");
 				done();
 			});
 		});		
-
 	});
 
 	describe('Mix case test', function(){
@@ -62,18 +62,26 @@ describe('Super Script Style', function(){
 		});
 
 		it("should match with or without puct - 2", function(done){
-			bot.reply("user1", "Do you have a clue", function(err, reply) {
+			bot.reply("user1", "Do you have a cause", function(err, reply) {
 				reply.should.eql("Test seven should pass");
 				done();
 			});
 		});
 
 		it("should match with extra spaces mixed in", function(done){
-			bot.reply("user1", "Do       you       have   a 	 clue", function(err, reply) {
+			bot.reply("user1", "Do       you       have   a 	 condition", function(err, reply) {
 				reply.should.eql("Test seven should pass");
 				done();
 			});
 		});
+	});
 
+	describe("chunk message", function(){
+		it("should split the message into two", function(done){
+			bot.reply("user1", "My name is Bill. What is your name?", function(err, reply) {
+				reply.should.eql("My name is jane.");
+				done();
+			});
+		});
 	});
 });

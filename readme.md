@@ -1,13 +1,18 @@
 # SuperScript
 
-SuperScript is a dialog system + expert system for creating human-like chat bots. It exposes an easy to expand text using wordnet and to extract meaning in text using ConceptNet.
+SuperScript is a dialog system + bot engine for creating human-like conversation chat bots. It exposes an expressive script for crafting dialogue and features text-expansion using wordnet and Information Retreaval and extraction using ConceptNet. 
 
+## What comes in the box
+* Dialog Engine
+* Multi-User Platform for easy intergration with Group Chat systems
+* Message Pipeline with POS Tagging, Sentence Analysys and Question Tagging
+* Extensible Plugin Architecture
 
 ## How it works
 
 The message pipeline contains many steps, and varies from other implemetations.
 
-When input comes into the system we convert the input into a message object. The message object contains multiple purmatuations of the origional object and has been analyzed for parts of speach and question classification.
+When input comes into the system we convert the input into a message object. The message object contains multiple purmatuations of the origional object and has been analyzed for parts of speach and question classification. The message is first handled by the reasoning system, before being sent to the dialog engine for processing.
 
 ## Install
 
@@ -53,6 +58,7 @@ When input comes into the system that matches "I like fish", it will return with
 	* The 'random' topic
 	* Topic Flags
 		* keep
+		* nostay
 
 * The Message Object
 * The User Object
@@ -67,9 +73,11 @@ When input comes into the system that matches "I like fish", it will return with
 		- ✓ *   - 0 or more
 		- ✓ *n  - exactly n
 		- ✓ *~n - zero to n (range selector)
-	* Lemmatize input for even better matches
-	* Support Optionals and Wordnet lookups in replies
+	* ✓ Convery Reply Object to message object
+	* ✓ Break Sentences into multiple message objects
+	* ✓ Support Optionals and Wordnet lookups in replies
 	* Add helper functions for replies eg: Pluralization, Capitalize
+	* Logging Threads
 
 	## Information Retrieval
 	* ½ Concept Net Support
@@ -81,15 +89,22 @@ When input comes into the system that matches "I like fish", it will return with
 	## Dialogue Flow
 	* ✓ Topic exhaustion
 	* ✓ non-sticky topics (one time replies)
-	* Topic Gambits (reverse conversation - Bot Questions)
-	* Continuation
+	* ✓ Continuation
+	* ✓ Better Topic Redirects
 	* Weighted replies
-	* Better Topic Redirects
+	* Topic Gambits (reverse conversation - Bot Questions)
 	* Active Listening / Passive Listening
-	  - Maybe add "suggestedReply" to message stream and catch it after the dialogue exits. Could this be better done with plugins?
+	* Volly and re-serve. 
 
  ## Bigger tasks
   * Remove building topic tree from bot flow and cache results to disk
   * Front load Reply.parse regex compile to topic trees
   * Add Example client for IRC, Gabber, Slack or ?
+
+ ## Plugins
+  * Weather - http://www.openweathermap.com/API
+  * Google something
+  * Twilleo
+  * OpenCV
+
 

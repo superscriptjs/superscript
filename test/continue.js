@@ -12,13 +12,12 @@ describe('Super Script Continue System', function(){
     });
   });
 
- 	describe.only('Match and continue', function(){
+ 	describe('Match and continue', function(){
 
 	 	it("should continue", function(done) {
 	 		bot.reply("user1", "i went to highschool", function(err, reply) {
-	 			reply.should.eql("did you finish");
+	 			reply.should.eql("did you finish ?");
 	 			bot.reply("user1", "then what happened?", function(err, reply2) {
-	 				console.log("--", reply2)
 	 				reply2.should.eql("i went to university");
 	 				done();
 	 			});
