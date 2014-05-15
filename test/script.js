@@ -239,12 +239,12 @@ describe('Super Script Script Interface', function(){
 			});
 		});
 
-		// it("should not freak out if function does not exist", function(done) {
-		// 	bot.reply("user1", "custom4 function", function(err, reply) {
-		// 		reply.should.eql("");
-		// 		done();
-		// 	});
-		// });
+		it("should not freak out if function does not exist", function(done) {
+			bot.reply("user1", "custom4 function", function(err, reply) {
+				reply.should.eql("one + one = 2");
+				done();
+			});
+		});
 		
 
 	});

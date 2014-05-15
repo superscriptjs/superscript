@@ -3,3 +3,7 @@
 exports.bail = function(cb) {
 	cb(true, null);
 }
+
+exports.one = function(cb) {
+	cb(null, "one");
+}

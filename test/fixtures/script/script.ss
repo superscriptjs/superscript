@@ -83,6 +83,9 @@
 + custom3 *1
 - backup plan
 
++ custom4 *1
+- ^one() + ^one() = 2
+
 
 + I ~like basketball
 - Wordnet test one
