@@ -6,7 +6,7 @@ var qtypes 	= require("qtypes");
 
 var Message = require("../../lib/message");
 
-describe.only('Message Interface', function(){
+describe('Message Interface', function(){
 
 	var normalize, questions;
 
@@ -63,18 +63,17 @@ describe.only('Message Interface', function(){
 		var mo = new Message("what is one plus three hundred and forty-five", questions, normalize);
 		mo.clean.should.eql("what is 1 plus 345");
 		mo.numericExp.should.be.true;
-
 		done()
 	});	
 
 	it("should convert to numeric form 3", function(done){
 		var mo = new Message("five hundred thousand and three hundred and forty-five", questions, normalize);
-		console.log(mo)
 		mo.clean.should.eql("500345");
 		done()
 	});	
 
 	it("should convery to numeric form 4", function(done){
+		// This this actually done lower down in the stack. (normalizer)
 		var mo = new Message("how much is 1,000,000", questions, normalize);
 		mo.numericExp.should.be.false;
 		mo.clean.should.eql("how much is 1000000")
