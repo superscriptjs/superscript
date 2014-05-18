@@ -10,11 +10,10 @@
 + Should match single *
 - Test two should pass
 
-
 /*
-   Variable length Star
-   *2 will match exactly 2 
-   *~2 will match 0,2
+	Variable length Star
+	*2 will match exactly 2 
+	*~2 will match 0,2
 */
 // Should match it is foo bar hot out
 + It is *2 hot out
@@ -50,15 +49,6 @@
 + Do you have a clue
 - Test seven should pass
 
-// Test Multiple line output
-+ tell me a poem
-- Little Miss Muffit sat on her tuffet,\n
-^ In a nonchalant sort of way.\n
-^ With her forcefield around her,\n
-^ The Spider, the bounder,\n
-^ Is not in the picture today.
-
-
 + this reply is random
 - yes this reply is (awesome|random)
 
@@ -69,6 +59,7 @@
 // is changed to "it is ..." before trying to find a match
 + it's all good in the hood
 - normalize trigger test
+
 
 // Custom functions!
 + custom *1
@@ -86,6 +77,14 @@
 + custom4 *1
 - ^one() + ^one() = 2
 
++ custom5 *1
+- he ^plural(like) this
+
++ custom6 *1
+- he ^plural(~like) this
+
++ custom7 *1
+- he ^plural(<cap1>) this
 
 + I ~like basketball
 - Wordnet test one

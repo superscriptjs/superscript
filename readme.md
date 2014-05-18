@@ -76,7 +76,7 @@ When input comes into the system that matches "I like fish", it will return with
 	* ✓ Convery Reply Object to message object
 	* ✓ Break Sentences into multiple message objects
 	* ✓ Support Optionals and Wordnet lookups in replies
-	* Add helper functions for replies eg: Pluralization, Capitalize
+	* ✓ Add helper functions for replies eg: Pluralization, Capitalize
 	* Logging Threads
 
 	## Information Retrieval
@@ -91,7 +91,6 @@ When input comes into the system that matches "I like fish", it will return with
 	* ✓ non-sticky topics (one time replies)
 	* ✓ Continuation
 	* ✓ Better Topic Redirects
-	* Weighted replies
 	* Topic Gambits (reverse conversation - Bot Questions)
 	* Active Listening / Passive Listening
 	* Volly and re-serve. 
@@ -100,11 +99,18 @@ When input comes into the system that matches "I like fish", it will return with
   * Remove building topic tree from bot flow and cache results to disk
   * Front load Reply.parse regex compile to topic trees
   * Add Example client for IRC, Gabber, Slack or ?
+  * Group Chat interface 
+  	- reply - Message to user in channel "@user ..."
+  	- directReply - Privace message to User
+  	- replyAll - Message to channel "@everyone ..."
+  	- replyNone - Message to channel "..."
+  	- fetchUserList 
 
  ## Plugins
   * Weather - http://www.openweathermap.com/API
   * Google something
   * Twilleo
   * OpenCV
+  * iCAL Support
 
 

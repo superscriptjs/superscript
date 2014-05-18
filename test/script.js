@@ -129,7 +129,7 @@ describe('Super Script Script Interface', function(){
 
 	});
 
-	describe.only('Alternates Interface (a|b)', function(){
+	describe('Alternates Interface (a|b)', function(){
 		it("should match a or b - Not empty", function(done) {
 			bot.reply("user1", "what is it", function(err, reply) {
 				reply.should.eql("");
@@ -198,7 +198,7 @@ describe('Super Script Script Interface', function(){
 		});
 	});	
 
- 	describe.only('Replies can have Optionals too!', function(){
+ 	describe('Replies can have Optionals too!', function(){
  		it("replies with optionals", function(done) {
  			bot.reply("user1", "this reply is random", function(err, reply) {
  				["yes this reply is awesome","yes this reply is random"].should.containEql(reply)
@@ -216,7 +216,7 @@ describe('Super Script Script Interface', function(){
 
  	});
 
-	describe.only('Custom functions', function(){
+	describe('Custom functions', function(){
 		it("should call a custom function", function(done) {
 			bot.reply("user1", "custom function", function(err, reply) {
 				reply.should.eql("The Definition of function is perform duties attached to a particular office or place or function");
@@ -239,6 +239,20 @@ describe('Super Script Script Interface', function(){
 			});
 		});
 
+		it("pass a param into custom function", function(done) {
+			bot.reply("user1", "custom5 function", function(err, reply) {
+				reply.should.eql("he likes this");
+				done();
+			});
+		});
+
+		it.only("pass a param into custom function1", function(done) {
+			bot.reply("user1", "custom6 function", function(err, reply) {
+				["he cottons this","he prefers this", "he cares for this", "he loves this", "he pleases this"].should.containEql(reply)
+				done();
+			});
+		});
+
 		it("should not freak out if function does not exist", function(done) {
 			bot.reply("user1", "custom4 function", function(err, reply) {
 				reply.should.eql("one + one = 2");
@@ -246,6 +260,7 @@ describe('Super Script Script Interface', function(){
 			});
 		});
 		
+
 
 	});
 });

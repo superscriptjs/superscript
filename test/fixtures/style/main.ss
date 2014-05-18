@@ -73,19 +73,5 @@
 + it's all good in the hood two
 - normalize trigger test
 
-
-// Custom functions!
-+ custom *1
-- ^wordnetDefine()
-
-+ custom2 *1
-- ^wordnetDef()
-
-+ custom3 *1
-- ^bail()
-
-+ custom3 *1
-- backup plan
-
 + I ~like basketball
 - Wordnet test one
