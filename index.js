@@ -516,6 +516,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 }
 
 SuperScript.prototype.getUser = function(userName) {
+	debug("Fetching User", userName);
 	return Users.get(userName);
 }
 

@@ -18,8 +18,6 @@ var getSeason = function() {
 	}
 }
 
-
-
 exports.getDate = function(cb) {
 	cb(null, "The date is " + moment().format("ddd, MMMM Do "));
 }

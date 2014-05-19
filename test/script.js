@@ -246,7 +246,7 @@ describe('Super Script Script Interface', function(){
 			});
 		});
 
-		it.only("pass a param into custom function1", function(done) {
+		it("pass a param into custom function1", function(done) {
 			bot.reply("user1", "custom6 function", function(err, reply) {
 				["he cottons this","he prefers this", "he cares for this", "he loves this", "he pleases this"].should.containEql(reply)
 				done();
