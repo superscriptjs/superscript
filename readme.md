@@ -113,4 +113,5 @@ When input comes into the system that matches "I like fish", it will return with
   * OpenCV
   * iCAL Support
 
-
+ ## Bugs (Known issues)
+  * Issue with ~emohello matching wordnet

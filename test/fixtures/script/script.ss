@@ -21,7 +21,7 @@
 
 // Should match it foo hot out2
 // Should match it hot out2
-+ It is *~2 hot out2
++ It is *~2 hot out 2
 - Test three should pass
 
 
@@ -65,25 +65,25 @@
 + custom *1
 - ^wordnetDefine()
 
-+ custom2 *1
++ custom 2 *1
 - ^wordnetDef()
 
-+ custom3 *1
++ custom 3 *1
 - ^bail()
 
-+ custom3 *1
++ custom 3 *1
 - backup plan
 
-+ custom4 *1
++ custom 4 *1
 - ^one() + ^one() = 2
 
-+ custom5 *1
++ custom 5 *1
 - he ^plural(like) this
 
-+ custom6 *1
++ custom 6 *1
 - he ^plural(~like) this
 
-+ custom7 *1
++ custom 7 *1
 - he ^plural(<cap1>) this
 
 + I ~like basketball

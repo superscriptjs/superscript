@@ -21,9 +21,13 @@ var debug 	= require("debug")("Script");
 var dWarn 	= require("debug")("Script:Warning");
 
 
-function SuperScript() {
+function SuperScript(options) {
 
 	var that = this;
+	options = options || {};
+
+	this.reasoning 	= (options.reasoning === undefined) ? true : options.reasoning;
+
 	this._users    	= {}; // 'user' variables
 	this._sorted   	= {};
 	this._thats 		= {}; // Previous
@@ -407,10 +411,9 @@ SuperScript.prototype._initTopicTree = function (toplevel, topic, trigger, what)
 
 
 var messageItorHandle = function(user, system) {
-
 	return messageItor = function(msg, next) {
-		reason.internalizeMessage(msg, user, function(err, reasoned){
-			
+		var internalizeHandle = function(){
+	
 			var options = {
 				user: user,
 				type: "normal",
@@ -455,7 +458,14 @@ var messageItorHandle = function(user, system) {
 				options.type = "normal";
 				getreply(options, next);
 			}
-		});
+		}
+
+		if (system.reasoning) {
+			reason.internalizeMessage(msg, user, internalizeHandle);
+		} else {
+			internalizeHandle();
+		}
+			
 	}
 }
 
@@ -489,7 +499,8 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 		thats: that._thats,
 		plugins: that._plugins,
 		question: that.question, 
-		normalize: that.normalize
+		normalize: that.normalize,
+		reasoning: that.reasoning
 	}
 
 	var user = Users.findOrCreate(userName);

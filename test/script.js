@@ -2,9 +2,11 @@ var mocha = require("mocha");
 var should  = require("should");
 
 var script = require("../index");
-var bot = new script();
+var bot = new script({
+	reasoning: false
+});
 
-describe('Super Script Script Interface', function(){
+describe.only('Super Script Script Interface', function(){
 
  before(function(done){
     bot.loadDirectory("./test/fixtures/script", function(err, res) {
@@ -100,21 +102,21 @@ describe('Super Script Script Interface', function(){
 		});		
 
 		it("should match *~2 star - One Star", function(done) {
-			bot.reply("user1", "It is one hot out2", function(err, reply) {
+			bot.reply("user1", "It is a hot out2", function(err, reply) {
 				reply.should.eql("Test three should pass");
 				done();
 			});
 		});		
 
 		it("should match *~2 star - Two Star", function(done) {
-			bot.reply("user1", "It is one two hot out2", function(err, reply) {
+			bot.reply("user1", "It is a b hot out2", function(err, reply) {
 				reply.should.eql("Test three should pass");
 				done();
 			});
 		});		
 
 		it("should match *~2 star - Three Star (fail)", function(done) {
-			bot.reply("user1", "It is one two three four hot out2", function(err, reply) {
+			bot.reply("user1", "It is a b c d hot out2", function(err, reply) {
 				reply.should.eql("");
 				done();
 			});
@@ -225,29 +227,29 @@ describe('Super Script Script Interface', function(){
 		});
 
 		it("should warn if function is missing", function(done) {
-			bot.reply("user1", "custom2 function", function(err, reply) {
+			bot.reply("user1", "custom 2 function", function(err, reply) {
 				console.log(err, reply)
 				// reply.should.eql("");
 				done();
 			});
 		});
 
-		it("should continue if error is passed into callback", function(done) {
-			bot.reply("user1", "custom3 function", function(err, reply) {
+		it.only("should continue if error is passed into callback", function(done) {
+			bot.reply("user1", "custom 3 function", function(err, reply) {
 				reply.should.eql("backup plan");
 				done();
 			});
 		});
 
 		it("pass a param into custom function", function(done) {
-			bot.reply("user1", "custom5 function", function(err, reply) {
+			bot.reply("user1", "custom 5 function", function(err, reply) {
 				reply.should.eql("he likes this");
 				done();
 			});
 		});
 
 		it("pass a param into custom function1", function(done) {
-			bot.reply("user1", "custom6 function", function(err, reply) {
+			bot.reply("user1", "custom 6 function", function(err, reply) {
 				["he cottons this","he prefers this", "he cares for this", "he loves this", "he pleases this"].should.containEql(reply)
 				done();
 			});
