@@ -88,3 +88,6 @@
 
 + I ~like basketball
 - Wordnet test one
+
++ what is one plus one
+- It is two.

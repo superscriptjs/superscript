@@ -19,17 +19,17 @@ var getSeason = function() {
 }
 
 exports.getDate = function(cb) {
-	cb(null, "The date is " + moment().format("ddd, MMMM Do "));
+	cb(null, moment().format("ddd, MMMM Do"));
 }
 
 exports.getDateTomorrow = function(cb) {
 	var date = moment().add('d', 1).format("ddd, MMMM Do");
-	cb(null, "The date will be " + date);
+	cb(null, date);
 }
 
 exports.getSeason = function(cb) {
 	var date = moment().add('d', 1).format("ddd, MMMM Do");
-	cb(null, "The is " + getSeason());
+	cb(null, getSeason());
 }
 
 exports.getTime = function(cb) {
@@ -56,11 +56,11 @@ exports.getTimeOfDay = function(cb) {
 }
 
 exports.getDayOfWeek = function(cb) {
-	cb(null, "It is " + moment().format("dddd"));
+	cb(null, moment().format("dddd"));
 }
 
 exports.getMonth = function(cb) {
-	cb(null, "It is " + moment().format("MMMM"));
+	cb(null, moment().format("MMMM"));
 }
 
 // > object month javascript

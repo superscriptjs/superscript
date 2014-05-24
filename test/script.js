@@ -6,7 +6,7 @@ var bot = new script({
 	reasoning: false
 });
 
-describe.only('Super Script Script Interface', function(){
+describe('Super Script Script Interface', function(){
 
  before(function(done){
     bot.loadDirectory("./test/fixtures/script", function(err, res) {
@@ -234,7 +234,7 @@ describe.only('Super Script Script Interface', function(){
 			});
 		});
 
-		it.only("should continue if error is passed into callback", function(done) {
+		it("should continue if error is passed into callback", function(done) {
 			bot.reply("user1", "custom 3 function", function(err, reply) {
 				reply.should.eql("backup plan");
 				done();

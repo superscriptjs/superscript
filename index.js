@@ -460,6 +460,7 @@ var messageItorHandle = function(user, system) {
 			}
 		}
 
+		// We have an option to completly disable reasoning entirly.
 		if (system.reasoning) {
 			reason.internalizeMessage(msg, user, internalizeHandle);
 		} else {
