@@ -10,6 +10,8 @@ var getreply 			= require("./lib/getreply");
 var processTags 	= require("./lib/processtags");
 var reason 				= require("./lib/reason");
 
+var concepts 			= require("./lib/concepts");
+
 var Sort 		= require("./lib/sort");
 var Utils 	= require("./lib/utils");
 
@@ -72,21 +74,28 @@ SuperScript.prototype.loadDirectory = function(path, callback ) {
 		}
 	}
 
-	norm.loadData(function(){
-		that.normalize = norm;
 
-		var itor = function(item, next) {
-			that._loadFile(item);
-			next()
-		}
-		
-		new qtypes(function(question) {
-			async.each(toLoad, itor, function(){
-				that.question = question;
-				that.sortReplies();
-				callback(null, that);
+	var files = ['./data/oppisite_tiny.tbl'];
+	concepts.readFiles(files, function(facts) {
+		that.facts = facts;
+	
+		norm.loadData(function(){
+			that.normalize = norm;
+
+			var itor = function(item, next) {
+				that._loadFile(item);
+				next()
+			}
+			
+			new qtypes(function(question) {
+				async.each(toLoad, itor, function(){
+					that.question = question;
+					that.sortReplies();
+					callback(null, that);
+				});
 			});
 		});
+
 	});
 }
 
@@ -409,7 +418,6 @@ SuperScript.prototype._initTopicTree = function (toplevel, topic, trigger, what)
 	}
 };
 
-
 var messageItorHandle = function(user, system) {
 	return messageItor = function(msg, next) {
 		var internalizeHandle = function(){
@@ -462,7 +470,7 @@ var messageItorHandle = function(user, system) {
 
 		// We have an option to completly disable reasoning entirly.
 		if (system.reasoning) {
-			reason.internalizeMessage(msg, user, internalizeHandle);
+			reason.internalizeMessage(msg, user, system.facts, internalizeHandle);
 		} else {
 			internalizeHandle();
 		}
@@ -472,14 +480,26 @@ var messageItorHandle = function(user, system) {
 
 // This takes a message and breaks it into chucks to be passed though 
 // the sytem. We put them back together on the other end.
-var messageFactory = function(rawMsg, question, normalize) {
+var messageFactory = function(rawMsg, question, normalize, cb) {
 	// TODO - Make this a little more elegant.
 	var messageParts = rawMsg.split(".");
-	
-	return messageParts.map(function(messageChunk){
-		return new Message(messageChunk.trim(), question, normalize);	
-	});
+	messageParts = Utils.cleanArray(messageParts);
+
+	var itor = function(messageChunk, next) {
+		new Message(messageChunk.trim(), question, normalize, function(tmsg) {
+			next(null, tmsg);	
+		});
+	}
+
+	return async.mapSeries(messageParts, itor, function(err, messageArray) {
+		return cb(messageArray);
+	})
+
+	// return messageParts.map(function(messageChunk){
+	// 	return new Message(messageChunk.trim(), question, normalize);	
+	// });
 }
+
 
 // Convert msg into message object, then check for a match
 SuperScript.prototype.reply = function(userName, msg, callback) {
@@ -501,28 +521,33 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 		plugins: that._plugins,
 		question: that.question, 
 		normalize: that.normalize,
-		reasoning: that.reasoning
+		reasoning: that.reasoning,
+		facts: that.facts
 	}
 
 	var user = Users.findOrCreate(userName);
-	var messages = messageFactory(msg, that.question, that.normalize);
+	messageFactory(msg, that.question, that.normalize, function(messages) {
 
-	async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
-		var reply = "";
-		messageArray = Utils.cleanArray(messageArray);
-		
-		if (messageArray.length == 1) {
-			reply = messageArray[0];
-		} else {
-			// TODO - We will want to add some smarts on putting multiple
-			// lines back together - check for tail grammar or drop bits.
-			reply = messageArray.join(" ");
-		}
-		var replyObj = new Message(reply, system.question, system.normalize);
-		debug("Update and Reply to user '" + user.name + "'", replyObj.clean)
-		user.updateHistory(msg, replyObj);
+		async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
+			var reply = "";
+			messageArray = Utils.cleanArray(messageArray);
+			
+			if (messageArray.length == 1) {
+				reply = messageArray[0];
+			} else {
+				// TODO - We will want to add some smarts on putting multiple
+				// lines back together - check for tail grammar or drop bits.
+				reply = messageArray.join(" ");
+			}
 
-		callback(null, reply);
+
+			debug("Creating MSG from", reply)
+			new Message(reply, system.question, system.normalize, function(replyObj) {
+				debug("Update and Reply to user '" + user.name + "'", replyObj.clean)
+				user.updateHistory(messages, replyObj);
+				return callback(null, reply);
+			});
+		});
 	});
 
 }

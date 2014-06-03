@@ -1,0 +1,12 @@
+# This is for testing to make it faster
+
+table: ~opposites (^arg1 ^arg2)
+^createfact(^arg1 opposite ^arg2)
+^createfact(^arg2 opposite ^arg1)
+DATA:
+taller shorter
+longer shorter
+smile frown
+tall short
+save spend
+older younger

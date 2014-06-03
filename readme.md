@@ -82,8 +82,8 @@ When input comes into the system that matches "I like fish", it will return with
 	## Information Retrieval
 	* ½ Concept Net Support
 	* ½ Fact Triples
-	* Generic Scripted Concepts
-	* Memory
+	* ½ Generic Scripted Concepts
+	* ½ Memory
 	* Bot variables
 
 	## Dialogue Flow

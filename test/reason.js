@@ -12,7 +12,7 @@ describe('Super Script Resoning Interface', function(){
     });
   });
 
-	describe.only('Math Reasoning', function(){
+	describe('Math Reasoning', function(){
  		
  		it("should not change the numbers", function(done) {
  			bot.reply("user1", "what is one plus one", function(err, reply) {
@@ -30,7 +30,7 @@ describe('Super Script Resoning Interface', function(){
 
  		it("should evaluate math expressions 1b", function(done) {
  			bot.reply("user1", "what is one of one", function(err, reply) {
- 				reply.should.eql("I think it is 2");
+ 				reply.should.eql("I think it is 1");
  				done();
  			});
  		});
@@ -78,12 +78,45 @@ describe('Super Script Resoning Interface', function(){
 
 	});
 
-	describe.skip("Reason 2", function(){
-		it("should evaluate math expressions 4", function(done) {
-			bot.reply("user1", "how many letters in the name Bill?", function(err, reply) {
-				reply.should.eql("4");
+	describe("Reason 2 - Compare concepts", function(){
+		it("should evaluate compare concepts, 2 nouns and 2 oppisite terms", function(done) {
+			bot.reply("user1", "If John is taller than Mary, who is the shorter?", function(err, reply) {
+				reply.should.eql("Mary is shorter than John.");
 				done();
 			});
 		});
+
+		it("should evaluate compare concepts, 2 nouns and 2 non oppisite terms", function(done) {
+			bot.reply("user1", "If John is taller than Mary, who is the taller?", function(err, reply) {
+				reply.should.eql("John is taller than Mary.");
+				done();
+			});
+		});
+
+		it("should evaluate compare concepts, no need to reply yet", function(done) {
+			bot.reply("user1", "John is older than Mary, and Mary is older than Sarah.", function(err, reply) {
+				reply.should.eql("");
+				done();
+			});
+		});
+
+		it("should evaluate compare concepts, now reply", function(done) {
+			bot.reply("user1", "Who is older Sarah or Mary?", function(err, reply) {
+				reply.should.eql("Mary is older than Sarah, if memory serves.");
+				bot.reply("user1", "Who is older John or Sarah?", function(err, reply) {
+					reply.should.eql("John is older than Sarah, if memory serves.");
+					done();
+				});
+			});
+		});
+	});
+	describe.only("Reason 3 - Auto Reply", function(){
+		it("should reply to the question type", function(done) {
+			bot.reply("user1", "How much is a loaf of bread?", function(err, reply) {
+				reply.should.eql("");
+				done();
+			});
+		});
+
 	});
 });

@@ -10,7 +10,7 @@ describe('Basic Interface', function(){
 		bot.reply.should.be.Function;
 		bot.parse.should.be.Function;
 		bot.loadDirectory.should.be.Function;
-		done()
+		done();
 	});
 	
 });
