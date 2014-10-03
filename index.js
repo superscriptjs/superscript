@@ -8,12 +8,14 @@ var Users 	= require("./lib/users");
 
 var getreply 			= require("./lib/getreply");
 var processTags 	= require("./lib/processtags");
-var reason 				= require("./lib/reason");
+var reason 				= require("./lib/reason/reason");
 
 var concepts 			= require("./lib/concepts");
 
 var Sort 		= require("./lib/sort");
 var Utils 	= require("./lib/utils");
+
+var _ 			= require("underscore");
 
 var norm 		= require("node-normalizer");
 
@@ -22,11 +24,12 @@ var requireDir = require('require-dir');
 var debug 	= require("debug")("Script");
 var dWarn 	= require("debug")("Script:Warning");
 
-
 function SuperScript(options) {
 
 	var that = this;
 	options = options || {};
+	options.conceptnet = options.conceptnet || {host:'127.0.0.1', user:'root', pass:''}
+	this.cnet 		= require("conceptnet")(options.conceptnet);
 
 	this.reasoning 	= (options.reasoning === undefined) ? true : options.reasoning;
 
@@ -39,7 +42,22 @@ function SuperScript(options) {
 	this._includes = {}; // included topics
 	this._lineage  = {}; // inherited topics
 	this._plugins  = [];
+	
+	var worldData = [
+		'./data/adjectivehierarchy.top',
+		'./data/adverbhierarchy.top',
+		'./data/affect.top',
+		'./data/concepts.top',
+		'./data/names.top',
+		'./data/oppisite_tiny.tbl',
+		'./data/prepositionhierarchy.top',
+		'./data/verbhierarchy.top',
+		'./data/world/animals.tbl',
+		'./data/world/color.tbl',
+		'./data/world/basicgeography.tbl'
+	]
 
+	this._worldData = _.extend(options.worldData || {} , worldData)
 	this.normalize = null;
 	this.question  = null;
 
@@ -59,9 +77,9 @@ SuperScript.prototype.loadPlugins = function(path) {
 SuperScript.prototype.loadDirectory = function(path, callback ) {
 	
 	try {
-		var files = fs.readdirSync(path)	
+		var files = fs.readdirSync(path);
 	} catch(error) {
-		dWarn("Error Loading Topics", error)
+		dWarn("Error Loading Topics", error);
 		return callback(error, null);
 	}
 	
@@ -74,9 +92,7 @@ SuperScript.prototype.loadDirectory = function(path, callback ) {
 		}
 	}
 
-
-	var files = ['./data/oppisite_tiny.tbl'];
-	concepts.readFiles(files, function(facts) {
+	concepts.readFiles(this._worldData, function(facts) {
 		that.facts = facts;
 	
 		norm.loadData(function(){
@@ -430,7 +446,8 @@ var messageItorHandle = function(user, system) {
 
 			if (system.topics["__begin__"]) {
 				debug("Begin getreply");
-				options.message = new Message("request", system.question, system.normalize);
+				// TOOD - This needs to be callback diven
+				options.message = new Message("request", system.question, system.normalize, system.cnet, system.facts);
 				options.type = "begin";
 
 				getreply(options,  function(err, begin){
@@ -444,7 +461,7 @@ var messageItorHandle = function(user, system) {
 						getreply(options, function(err, reply2){
 							if (err) { 
 								next(err, null);
-							} else {					
+							} else {
 								reply2 = begin.replace(/\{ok\}/g, reply2);	
 								var pOptions = {
 									msg: msg, reply: reply2, 
@@ -452,7 +469,12 @@ var messageItorHandle = function(user, system) {
 									user: user, 
 									system: system
 								};
-								processTags(pOptions, next);
+								processTags(pOptions, function(err, reply){
+									new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
+										user.updateHistory(msg, replyObj);
+										return next(err, reply);
+									});
+								});
 							}
 						});
 					} else {
@@ -464,13 +486,19 @@ var messageItorHandle = function(user, system) {
 				debug("Normal getreply");
 				options.message = msg;
 				options.type = "normal";
-				getreply(options, next);
+
+				getreply(options, function(err, reply){
+					new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
+						user.updateHistory(msg, replyObj);
+						return next(err, reply);
+					});
+				});
 			}
 		}
 
 		// We have an option to completly disable reasoning entirly.
 		if (system.reasoning) {
-			reason.internalizeMessage(msg, user, system.facts, internalizeHandle);
+			reason.internalizeMessage(msg, user, system.facts, system.cnet, internalizeHandle);
 		} else {
 			internalizeHandle();
 		}
@@ -480,13 +508,13 @@ var messageItorHandle = function(user, system) {
 
 // This takes a message and breaks it into chucks to be passed though 
 // the sytem. We put them back together on the other end.
-var messageFactory = function(rawMsg, question, normalize, cb) {
-	// TODO - Make this a little more elegant.
-	var messageParts = rawMsg.split(".");
+var messageFactory = function(rawMsg, question, normalize, cnet, facts, cb) {
+	// var messageParts = rawMsg.split(".");
+	var messageParts = Utils.sentensSplit(rawMsg);
 	messageParts = Utils.cleanArray(messageParts);
 
 	var itor = function(messageChunk, next) {
-		new Message(messageChunk.trim(), question, normalize, function(tmsg) {
+		new Message(messageChunk.trim(), question, normalize, cnet, facts, function(tmsg) {
 			next(null, tmsg);	
 		});
 	}
@@ -494,12 +522,7 @@ var messageFactory = function(rawMsg, question, normalize, cb) {
 	return async.mapSeries(messageParts, itor, function(err, messageArray) {
 		return cb(messageArray);
 	})
-
-	// return messageParts.map(function(messageChunk){
-	// 	return new Message(messageChunk.trim(), question, normalize);	
-	// });
 }
-
 
 // Convert msg into message object, then check for a match
 SuperScript.prototype.reply = function(userName, msg, callback) {
@@ -522,11 +545,12 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 		question: that.question, 
 		normalize: that.normalize,
 		reasoning: that.reasoning,
-		facts: that.facts
+		facts: that.facts, 
+		cnet: that.cnet
 	}
 
 	var user = Users.findOrCreate(userName);
-	messageFactory(msg, that.question, that.normalize, function(messages) {
+	messageFactory(msg, that.question, that.normalize, that.cnet, that.facts, function(messages) {
 
 		async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
 			var reply = "";
@@ -540,13 +564,8 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 				reply = messageArray.join(" ");
 			}
 
-
-			debug("Creating MSG from", reply)
-			new Message(reply, system.question, system.normalize, function(replyObj) {
-				debug("Update and Reply to user '" + user.name + "'", replyObj.clean)
-				user.updateHistory(messages, replyObj);
-				return callback(null, reply);
-			});
+			debug("Update and Reply to user '" + user.name + "'", reply);
+			return callback(null, reply);
 		});
 	});
 

@@ -1,0 +1,27 @@
+concept: ~directionplacepreposition (aboard above across affor afore around atop back_of behind below beneath beside beyond cross down in in_back in_back_of in_between in_front_of inside 
+          inside_of near near_to on on_the_other_side_of on_the_side_of on_top_of opposite out_of outboard_of outside outside_of short_of this_side_of to_the_left_of to_the_right_of 
+          under underneath up up_against )
+concept: ~directionpreposition (~DIRECTIONPLACEPREPOSITION abaft ahead_of all_over along as_far_as at_the_heels_of by by_way_of care_of en_route_to from into left nearer nearest off 
+          off_of onto out over past right through thru to toward towards up up_and_down up_to via )
+concept: ~placepreposition (~DIRECTIONPLACEPREPOSITION about against along_the_side_of alongside amid amidst among amongst aside aside_of aslant astraddle astride at at_a_range_of at_the_back_of 
+          at_the_bottom_of at_the_top_of atwix beside besides between betwixt by chez far fornent in in_sight_of in_the_corner in_the_middle_of in_view_of mid midst near nearby next 
+          next_door_to next_to on_the_corner_of opposite over_against right_after touching upon upside within within_sight_of )
+concept: ~spacepreposition LOCATIONWORD (~DIRECTIONPREPOSITION ~PLACEPREPOSITION )
+concept: ~relationpreposition HOWWORD (a_cut_above a_la about absent according_to after_the_fashion_of against all_for along_with anent anti apart_from apropos as as_for as_from as_long_as 
+          as_per as_regards as_to as_well aside_from at_the_hand_of at_the_hands_of athwart bar bare_of barring because_of behalf but but_for by by_courtesy_of by_dint_of by_force_of 
+          by_means_of by_reason_of by_the_hand_of by_the_hands_of by_the_name_of by_virtue_of complete_with concerning considering contra contrary contrary_to counting courtesy_of cum 
+          dehors despite due due_to ex except except_for excepting excluding exclusive_of failing following for_all for_the_benefit_of forasmuch_as forby forbye give_or_take given granted 
+          having_regard_to in_accord_with in_addition in_addition_to in_advance_of in_aid_of in_bed_with in_behalf_of in_case_of in_common_with in_company_with in_connection_with in_consideration_of 
+          in_contravention_of in_course_of in_default_of in_excess_of in_face_of in_favor_of in_favour_of in_honor_of in_honour_of in_it_terms in_keeping_with in_lieu in_light_of in_line_with 
+          in_memoriam in_need_of in_peril_of in_place_of in_proportion in_reference_to in_regard_to in_relation_to in_respect_of in_search_of in_something_terms in_spite_of in_terms_of 
+          in_the_course_of in_the_face_of in_the_fashion_of in_the_grip_of in_the_light_of in_the_matter_of in_the_midst_of in_the_name_of in_the_pay_of in_the_person_of in_the_shape_of 
+          in_the_teeth_of in_the_throes_of in_token_of in_virtue_of including inclusive_of instead instead_of irrespective_of less lieu like little_short_of minus mod modulo more_like 
+          nigh nothing_short_of notwithstanding of of_the_name_of of_the_order_of on_a_level_with on_a_par_with on_a_person_'s_behalf on_account_of on_behalf_of on_her_behalf on_his_behalf 
+          on_its_behalf on_my_behalf on_my_part on_our_behalf on_pain_of on_somebody_'s_behalf on_someone_'s_behalf on_the_heels_of on_the_order_of on_the_part_of on_the_point_of on_the_score_of 
+          on_the_strength_of on_the_stroke_of on_their_behalf on_their_part on_your_behalf other_than out_of_keeping_with out_of_line_with over_and_above owing_to pace pending per plus 
+          preparatory_to previous_to pro pursuant_to qua re regarding regardless_of relative_to respecting sans save saving short_for than thanks_to thwart to_the_accompaniment_of to_the_tune_of 
+          together_with under_cover_of under_pain_of under_sentence_of under_the_heel_of unlike unto up_for upward_of upwards_of versus vice vis-a-vis with with_reference_to with_regard_to 
+          with_respect_to with_the_exception_of withal without )
+concept: ~timepreposition TIMEWORD (after around as_of as_soon_as at before between by circa close_to come depending_on during ere for from_now_on from_then_on in in_conjunction_with on once 
+          outwith past prior_to right_after since subsequent_to the_moment_that through throughout til till toward until up_before up_to up_until upon when while within )
+concept: ~prepositionroot (~RELATIONPREPOSITION ~SPACEPREPOSITION ~TIMEPREPOSITION )

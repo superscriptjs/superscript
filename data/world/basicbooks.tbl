@@ -1,0 +1,74 @@
+table: ~men (^role ^male ^kind ^item)
+
+^createfact(^item member ^kind)
+^createfact(^item write ^male)
+^addproperty(^male NOUN_MALEHUMAN )
+
+DATA:
+~poet John_Milton ~poem [Paradise_Lost Paradise_Regained]
+~poet "John Keats"  ~poem "Ode to a Nightingale"
+~poet "Samueal Colerige" (Coleridge) ~poem "The Rime of the Ancient Mariner"
+~poet "Percy Shelley"  ~poem "To a Skylark"
+~poet "Omar Khayyam" ~poem "The Rubaiyat of Omar Khayyam"
+~poet "Robert Burns" ~poem "The Address to a Mouse"
+~poet "E. E. Cummings" ~poem "I carry your heart with me"
+~poet "Robert Frost" ~poem "The road not taken"
+~poet "Oscar Wilde" ~poem "To My Wife - With a copy of my poems"
+~poet "William Wordsworth"  ~poem "I wandered lonely as a cloud"
+~poet "W.H. Auden" ~poem "Funeral Blues"
+~poet "Dylan Thomas" ~poem "Do not go gentle into that good night"
+~poet "Edgar Allan Poe"  ~poem "The Fall of the House of Usher"
+~poet "William Butler Yeats"  ~poem "Brown Penny"
+~poet "Langston Hughes" ~poem "Dream Deferred"
+
+table: ~men (^role ^male)
+^createfact(^male member ^role)
+
+DATA:
+~poet "Henrik Ibsen"
+~poet "Lord Byron"
+~poet "Ezra Pound"
+~poet "Walt Whitman"
+~poet "Christopher Marlowe"
+
+table: ~malebooks(^author ^title ^copyright ^genre)
+^addproperty(^author NOUN_MALEHUMAN )
+^createfact(^author member ~author ) 
+^createfact(^title member ~book) 
+
+^addproperty(^title NOUN_TITLE)
+^createfact(^title member ~book) 
+^createfact(^title write ^author) 
+^createfact(^genre genre ^title)
+^createfact(^copyright birth  ^title )
+
+DATA:
+"E. L. James" "50 Shades of Grey" 2011 erotic
+"Orson Scott Card" "Ender's Game" 1985 science_fiction
+"Frank Herbert" Dune 1965 science_fiction
+"Isaac Asimov" "Foundation Trilogy" 1951 science_fiction
+"Douglas Adams" "Hitch Hiker's Guide to the Galaxy" 1979 science_fiction
+"George Orwell" 1984 1949  science_fiction
+"Robert A Heinlein" "Stranger in a Strange Land" 1961 science_fiction
+"Ray Bradbury" "Fahrenheit 451" 1954 science_fiction
+"Arthur C Clarke" "2001: A Space Odyssey" 1968 science_fiction
+"Isaac Asimov" "I, Robot" 1950 science_fiction
+"William Gibson" Neuromancer 1984 science_fiction
+
+table: ~malebooks(^author ^title)
+^addproperty(^author NOUN_MALEHUMAN )
+^createfact(^author member ~author ) 
+^createfact(^title member ~book) 
+^addproperty(^title NOUN_TITLE)
+^createfact(^title member ~book) 
+^createfact(^title write ^author)  
+
+DATA:
+"William_Shakespeare" (Shakespeare) Taming_of_the_Shrew
+"William_Shakespeare" Romeo_and_Juliet
+"William_Shakespeare" "Midsummer-Night's Dream"
+"William_Shakespeare" Much_Ado_About_Nothing
+"William_Shakespeare" Hamlet 
+"William_Shakespeare" Macbeth
+"William_Shakespeare" King_Lear
+"William_Shakespeare" As_You_Like_It

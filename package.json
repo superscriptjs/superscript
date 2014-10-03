@@ -4,7 +4,7 @@
   "description": "A new type of chat script",
   "main": "index.js",
   "scripts": {
-    "test": "DEBUG='* -Utils* -Normalizer -mocha*' mocha test/ -R spec -s 500"
+    "test": "DEBUG='* -Utils* -Normalizer -mocha*' mocha test/ -R spec -s 300 -t 3000"
   },
   "author": "Rob Ellis",
   "license": "?GPLv3?",
@@ -21,9 +21,13 @@
     "pluralize": "0.0.9",
     "string": "~1.8.1",
     "expert": "~0.3.2",
-    "qtypes": "0.0.3",
-    "node-normalizer": "0.0.5",
-    "node-tense": "0.0.1"
+    "qtypes": "0.0.5",
+    "node-normalizer": "0.0.7",
+    "node-tense": "0.0.1",
+    "knex": "~0.6.3",
+    "rhyme": "0.0.3",
+    "syllablistic": "~0.1.0",
+    "roman-numerals": "~0.3.2"
   },
   "devDependencies": {
     "mocha": "~1.18.2",

@@ -1,0 +1,376 @@
+table: ~tv_show (^title)
+createfact(^title member ~tv_show)
+^addproperty(^title NOUN_TITLE)
+
+DATA:
+"Barney and Friends" 
+Bones
+"Hawaii Five-o"
+"The X Factor"
+"X Factor"
+Heroes
+Dollhouse
+"United States of Tara"
+"Family Guy"
+KYLEXY
+"My Name is Earl"
+"Prison Break"
+"Big Bang Theory"
+Simpsons
+"Ugly Betty"
+Dexter
+"Americal Idol"
+Survivor
+Terminator
+24
+"Babylon 5"
+X-Files
+"Top Model"
+"Dancing with the Stars"
+"Ally McBeal"
+"The Office"
+CSI
+"Cold Case Files"
+"Desperate Housewives"
+"Grey's Anatomy"
+"Cold Case"
+"Law and Order"
+"The Mentalist"
+"Wheel of Fortune" 
+"True Blood" 
+"Gossip Girl" 
+"Project Runway" 
+"Star Trek"
+"Prison Break"
+"One Tree Hill" 
+"Gossip Girl"
+"Saturday Night Live"
+"True Blood"
+"Grey's Anatomy"
+"Terminator: The Sarah Connor Chronicles" 
+"Family Guy" 
+"CSI: Miami" 
+Mythbusters 
+"American Idol"
+Heroes 
+Smallville
+Entourage
+NCIS 
+Weeds
+Naruto
+Supernatural 
+Dexter
+"Home Movies"
+"United States of Tara"
+Scrubs
+CSI
+"Desperate Housewives"
+"The Simpsons" 
+"Stargate Atlantis" 
+FireFly 
+"Rumpole of the Bailey"
+"How I Met Your Mother"
+"The Office"
+"Army Wives"
+"30 Rock"
+"Mad Men"  
+"Criminal Minds"
+"Nip/Tuck"
+"Gilmore Girls"
+"Family Guy"
+"Battlestar Galactica"
+"Hannah Montana" 
+Charmed
+Californication
+"CSI: NY"
+"America's Next Top Model"
+"Star Trek"
+"Star Trek Next Generation"
+"Star Trek Voyager"
+"Deep Space 9"
+DS9
+"Deep Space Nine"
+"Ugly Betty"
+"The Shield" 
+"The Closer"
+"Knight Rider"
+"Sex and the City"
+"Law and Order: Special Victims Unit"
+Reaper
+"Cold Case"
+"The O.C." 
+"Fear Factor"
+"Buffy the Vampire Slayer"
+"Monday Night Football"
+"Boston Legal" 
+"Stargate SG-1"
+"The Oprah Winfrey Show"
+"Oprah Winfrey"
+Oprah
+"My Name is Earl"
+"Kyle XY"
+"The X-Files"
+"SpongeBob SquarePants"
+Angel
+Seinfeld 
+"Power Rangers" 
+"That 70's Show"
+"Dancing with the Stars" 
+"Project Runway"
+"Biggest Loser"
+"The Big Bang Theory"
+"Gossip Girl"
+"Tw and a half men"
+"Samantha Who"
+"Boston Legal"
+"Worst week"
+"Terminator: The Sarah Connor Chronicles"
+Chuck
+Heroes
+"My own worst enemy"
+"The Hills"
+"Opportunity Knocks"
+"NCIS"
+"Biggest Loser"
+"Lincoln Heights"
+"The Mentalist"
+Privileged
+"The real housewives of Atlanta"
+"Eli Stone"
+"Without a Trace"
+"Law and Order: SVU"
+"The Rachel Zoe Project"
+"The Shield"
+"The Janice Dickinson Modeling Agency"
+"Pushing Daisies"
+"America's Next Top Model"
+Bones
+"Knight Rider"
+"Gary Unmarried"
+"Private Practice"
+"Criminal Minds"
+"Stylista"
+"Til Death"
+"Deal or No Deal"
+"Friday Night Lights"
+"Ghost Hunters"
+"Dirty Sexy Money"
+"CSI: NY"
+"Lipstick Jungle"
+"Top Design"
+"Sons of anarchy"
+"Ugly Betty"
+"Survivor: Gabon"
+Smallville
+"Hole in the Wall"
+"My Name is Earl"
+"Kath and Kim"
+"CSI"
+Supernatural
+"Kitchen Nightmares"
+"The office"
+"30 Rock"
+"Life on Mars"
+"Eleventh Hour"
+ER
+"Wife Swap"
+"Ghost Whisperer"
+"Everbody Hates Chris"
+"Are you smarter than a 5th Grader?"
+"Crusoe"
+Supernanny
+"The Ex-List"
+"Don't Forget The Lyrics"
+Sanctuary
+Numb3rs
+"The Starter Wife"
+"Saturday Night College Footbal"
+"Crime Time Saturday"
+"Dateline NBC"
+"America's Most Wanted"
+"48 Hours Mystery"
+"America's Funniest Home Videos"
+"In Harm's Way"
+"Extreme Makeover"
+"The Amazing Race"
+"Valentine"
+"The Simpsons"
+"Sunday Night Football"
+"Saturday Night Live" (SNL)
+"Desperate Housewives"
+"Cold Case"
+"The Office"
+"Family Guy"
+"Easy Money"
+"Family Guy"
+"American Dad"
+"True Blood"
+Dexter
+"The Unit"
+Entourage
+Californication
+
+
+table: ~actor(^item)
+^createfact(^item member ~actor)
+^addproperty(^item NOUN_MALEHUMAN )
+
+DATA:
+"Ben Affleck"
+"Max von Sydow"
+"Ryan Gosling"
+
+
+table: ~women (^role ^female)
+^createfact(^female member ^role)
+^addproperty(^female NOUN_FEMALEHUMAN )
+
+DATA:
+ ~actress [Sarah_Michelle_Gellar  Renee_Zellweger (Zellweger) Talia_Shire Tia_Carrere "Bette Davis"] 
+ ~actress ["Rita Hayworth" "Mylie Cyrus"  Rachel_McAdams Cameron_Diaz Rebecca_Romijin Natalie_Portman Bonnie_Hunt Monica_Bellucci Liv_Tyler]
+ ~actress [Annie_Potts Kirsten_Dunt Carrie_Fisher Jada_Pinkett Shannon_Elizabeth Halle_Berry Catherine_Zeta-Jones] 
+ ~actress [Isla_Fisher Dakota_Fanning Rene_Russo Anne_Hathaway Cate_Blanchett Sally_Field Eva_Mendes Tea_Leoni Julia_Stiles] 
+ ~actress [Kim_Bassinger Camilla_Belle Kate_Beckinsale Helen_Hunt Catherine_O'Hara Queen_Latifah Geena_Davis Rosie_O'Donnell Kathy_Bates]
+ ~actress Kate_Winslet (Winslet) 
+ ~actress [Drew_Barrymore Carmen_Electra Margot_Kidder Jessica_Alba Carla_Gugino Sandra_Bulock] 
+ ~actress [Demi_Moore Angelina_Jolie Judi_Dench Famka_Janssen Lindsay_Lohan Lea_Thompson Elizabeth_Perkins Jennifer_Anniston] 
+ ~actress [Mary_Elizabeth_Mastrantonio Lucy_Liu Jodie_Foster ("Jodi Foster") Amy_Adams Michelle_Pfeiffer Helena_Bonham_Carter Jennifer_Lopez] 
+ ~actress [Whoopi_Goldberg Glenn_Close Meg_Ryan Katherine_Heigl Elizabeth_Hurley Denise_Richards Bette_Midler Rachel_Weisz] 
+ ~actress [Diane_Keaton Nia_Long Jennifer_Lovew_Hewitt Neve_Campbell Linda_Hamilton Alicia_Silverstone Meryl_Streep Ashley_Judd] 
+ ~actress [Tara_Reid Goldie_Hawn Teri_Garr Jennifer_Tilly Sigourney_Weaver Kim_Basinger Reese_Witherspoon Angela_Basset]
+ ~actress [Laura_Dern Elisabeth_Shue Jessica_Biel Julianne_Moore Courteney_Cox Jane_Fonda Jeanne_Tripplehorn] 
+ ~actress [Jamie_Lee_Curtis Susan_Sarandon Madeleine_Stowe Kathleen_Quinlan Kirstie_Alley Madonna] 
+ ~actress [Gwyneth_Paltrow (Paltrow) Katie_Holmes Debra_Winger Kate_Hudson Kristin_Scott_Thomas Marisa_Tomei] 
+ ~actress [Valeria_Golino Naomi_Watts Elisha_Cuthbert Uma_Thuman Winona_Ryder Charlize_Theron Sharon_Stone] 
+ ~actress [Jami_Gertz Jennifer_Connelly Nancy_Travis Scarlett_Johansson Sophia_Marceau Andie_MacDowell Christina_Ricci] 
+ ~actress [Selma_Blair Diane_Lane Heather_Graham Jessica_Lange Penelope_Cruz Jennifer_Jason_Leigh Selma_Hayak] 
+ ~actress [Jane_Seymour Nicole_Kidman (Kidman) Julia_Roberts (Roberts) Keira_Knightley Elizabeth_Banks Julie_Andrews] 
+
+
+table: ~men (^role ^male)
+^createfact(^male member ^role)
+^addproperty(^male NOUN_MALEHUMAN )
+
+DATA:
+~actor [Brad_Pitt Ben_Affleck Tim_Allen  Alan_Arkin Jim_Carrey Tom_Hanks Tom_Cruise George_Clooney Russell_Crowe Johnny_Dep Jude_Law "Clark Gable" "Rock Hudson"]
+~actor [Daniel_Raddcliffe Orlando_Bloom Mike_Meyers Will_Smith Hugo_Weaving Mark_Hamill Harrison_Ford Eddie_Murphy Hugh_Jackman Tobey_Maguire]
+~actor [Tim_Allen Alan_Rickman Owen_Wilcox Billy_Dee_Williams Ian_McKellen Eliah_Wood Sean-Astin Vin_Diesel ]
+~actor [Leonardo_DiCaprio Adam_Sandler Mel_Gibson Sean_Bean Arnold_Schwarzenegge Geoffrey_Rush "John Wayne"]
+~actor [Viggio_Mortensen Rupert_Everett Vince_Vaughn Gary_Sinise Judge_Reinhold Ewan_McGregor Ralph_Fiennes]
+~actor [Joe_Pesci Chris_Rock Patrick_Steward John_Travola Jack_Black Antonio_Banderas]
+~actor [Samuel_L_Jackson Rick_Moranis Dustin_Hoffman Wil_Ferrell Tommy_Lee_Jones Jack_Nicholson]
+~actor [Morgan_Freeman Cuba_Gooding_Jr Ben_Stiler William_Defoe Bruce_Willis James_Earl_Jones]
+~actor [Macaulay_Culkin Bill_Paxton Mark_Wahlberg Joaquin_Phoenix Billy_Zane Michael_Douglas]
+~actor [Michael_Keaton Sylvester_Stallone Keanu_Reeves Bill_Murray Michael_J_Fox]
+~actor [Liam_Neeson Kevin_Costner Pierce_Brosnan Steve_Martin Chris_O'Donnell Jeff_Goldblum]
+~actor [Laurence_Fishburne Alec_Baldwin Kevin_Spacey Danny_Glover Dan_Aykroyd Denzel_Washington]
+~actor [Richard_Gere Al_Pacino Richard_Dreyfuss Sean_Connery Daniel_Stern Matthew_McConaughey]
+~actor [Nicolas_Cage Matthew_Broderick Danny_DeVito Robert_De_Niro Bill_Pullman Josh_Hartnett Gene_Hackman]
+~actor [Colin_Farrell Kurt_Russell Christopher_Loyd Ed_Harris Anthony_Hopkins Kevin_Bacon Clint_Eastwood]
+~actor [Val_Kilmer Steve_Buscemi Christopher_Walken Brenden_Fraser Hugh_Grant Benjamin_Bratt Jeremy_Irons]
+~actor [Woody_Harrelson Jeff_Daniels Christian_Bale Christian_Slater John_Malkovith Gabriel_Byrne]
+~director [Alfred_Hitchcock Steven_Spielberg Woody_Allen Peter_Jackson Martin_Scorsese]
+~director [Stanley_Kubrick Francis_Ford_Coppola John_Lounsberry John_Ford Clint_Eastwood Quentin_Tarantino Joel_Coen]
+~director [John_Carpenter Ridley_Scott Billy_Wilder Orson_Welles George_Lucas Howard_Hawks]
+~director [Ron_Howard Tim_Burton David_Lynch Ang_Lee James_Cameron David_Mamet Rob_Reiner Peter_Weir Steven_Soderbergh]
+~director [Terry_Gilliam Frank_Oz Spike_Lee Wes_Craven Robert_Zemeckis John_Huston Joss_Whedon]
+
+
+table: ~directed (^director ^title)
+^createfact(^title direct ^director)
+^addproperty(^director NOUN_MALEHUMAN )
+
+DATA:
+"J.J. Abrams" [Super_8 Star_Trek Mission_Impossible_III]
+"Alfred Hitchcock" ["Dial M for Murder"]
+"Woody Allen" ["Vicky Cristina" "Stardust Memories"]
+"Martin Scorsese" ["Cape Fear" "GoodFellas"]
+"George Romero" ["Dawn of the Dead" "Night of the Living Dead"]
+"Ron Howard" [ "Apollo 13"]
+"M. Night Shyamalan" ["The Sixth Sense"]
+"Peter Jackson" ["Lord of the Rings"]
+"John Carpenter" "Village of the Damned"
+"Steven Speilberg" ["War of the Worlds" "Minority Report" "Indiana Jones"]
+"James Cameron" ["Avatar" "Titanic" "Terminator 2 - Judgement Day" "The Terminator"]
+"George Lucas" ["Star Wars" "American Graffiti"]
+"Quentin Tarantino" ["Kill Bill" "Pulp Fiction"]
+"Francis Ford Coppola" "The Godfather"
+"Ridley Scott" "Blade Runner"
+"David Cronenberg" eXistenZ
+"Clint Eastwood" "Mystic River" 
+
+table: ~tv(^title)
+^createfact(^title member ~tv_show)
+^addproperty(^title NOUN_TITLE )
+
+DATA:
+Gossip_Girl
+
+table: ~movie(^title)
+^createfact(^title member ~movie)
+^addproperty(^title NOUN_TITLE)
+
+DATA:
+Minority_Report
+Lara_Croft
+Tomb_Raider
+"The Day After Tomorrow"
+"A Cat in Paris"
+"Extremely Loud and Incredibly Close"
+"The Separation"
+"Midnight in Paris"
+"The Artist"
+"The Notebook"
+"Dirty Dancing" 
+"Bicentennial Man" 
+"Titanic"
+"Gone With The Wind"
+"An Affair to Remember"
+"Amelie"
+"Roman Holiday"
+"Casablanca" 
+"Shakespeare in Love"
+"Ghost" 
+"When Harry Met Sally"
+"You've Got Mail"
+"My Big Fat Greek Wedding"
+"What Women Want"
+"Hitch"
+"Pretty Woman"
+"There's Something About Mary"
+"The Proposal"
+"Sex and the City"
+"Runaway Bride"
+"Knocked Up"
+"As Good as It Gets"
+"Bringing Down the House"
+"Coming to America"
+"Sweet Home Alabama"
+"My Best Friend's Wedding"
+"Sleepless in Seattle"
+"Mr. Deeds"
+"Something's Gotta Give"
+"50 First Dates"
+"The Break-Up"
+"Notting Hill"
+"You've Got Mail"
+"It's Complicated"
+"Valentine's Day"
+"How to Lose a Guy in 10 Days"
+"Just Go With It"
+"10 Things I Hate About You"
+"Footloose"
+"Something Borrowed"
+"Bridesmaids"
+"The Art of Getting By"
+"Larry Crowne"
+"Monte Carlo" 
+"Friends With Benefits" 
+"The Twilight Saga: Breaking Dawn" ("Breaking Dawn")
+"No Strings Attached"
+"The Adjustment Bureau"
+"Red Riding Hood"
+"Jane Eyre"
+"Beastly"
+"Water For Elephants"
+Cowboys_and_Aliens

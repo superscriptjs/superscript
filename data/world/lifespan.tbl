@@ -1,0 +1,162 @@
+# around 165 creatures
+ 
+table: ~xlifespan (^what  ^years )
+^createfact(^years lifespan ^what)
+^addproperty(^what NOUN NOUN_SINGULAR)
+
+DATA:
+[worker_ant ant]  0.5 
+[ant_queen queen_ant] 3 
+alligator        68
+angleworm  15 
+anole      3 
+bat                              24 
+beagle  13 
+bear                   40 
+beaver                        20 
+[worker_bee bee]  1  
+binturong             18  
+bison           30
+blackbird                   15 
+boa_constrictor          23 
+boston_terrier  13 
+box_turtle      123
+boxer 10.5  
+bull                   28 
+bulldog 7  
+bullfrog         30
+camel                 50 
+canary                 24 
+canary           22
+carp                         100 
+carp             47
+cat                    25 
+cat 15 
+catfish          60
+chicken                      14 
+chihuahua  13.5 
+[chimpanzee chimp]     40
+chinchilla                20 
+chipmunk        12
+cicada           17
+civet                           13 
+clam 400 
+cobra            28
+cockatiel                35 
+cockatoo     29 
+cocker_spaniel 12  
+corgi 13 
+cottonmouth      21
+cottontail      10
+cow                             22 
+cow 22 
+crocodile                45 
+dachshund 15.5 
+deer   26 
+[Doberman_pinscher Doberman] 10 
+dog 11 
+donkey              45 
+duck 10 
+eagle            55
+eel                 27 
+eel              55
+elephant                    70 
+elephant        69
+elk             22
+english_sparrow  23
+ferret  12 
+finch            14 
+fox                            14  
+[frog bull_frog] 3 
+gerbil          5 
+german_shepherd 11 
+giant_salamander 55
+giant_tortoise 152
+giraffe 25 
+goat                           15 
+goat 15 
+golden_retriever  12  
+goose           25 
+goose         24.3 
+Great_Dane 8.5 
+great_horned_owl 68
+green_frog       10
+grizzly_bear    32
+grouse                  14 
+guinea_pig 5 
+hamster             4 
+[hippopotamus hippo]            45 
+hog                         18  
+horse                   40  
+horse           50
+[human person] 70 
+hummingbird      8
+~insect 1
+kangaroo                  9 
+koala                     8 
+labrador_retriever 12.5 
+lion            14
+lizard      4 
+macaw                   64 
+mallard                 29 
+miniature_poodle 15 
+miniature_schnauzer 14 
+mongoose             12  
+monkey 25 
+mosquitofish      2
+mountain_lion   20
+mouse                    4  
+mouse     4
+mud_puppy        23
+muscrat                  6  
+mynah                      25 
+newt              7
+newt         3 
+opossum                  4 
+ox                          20 
+parrot           80
+parrot          30 
+parrot        104 
+pheasant                 27 
+pig 25 
+pigeon           18 
+platypus                10 
+pomeranian  15  
+poodle 12 
+porcupine                20 
+prarie_og             10 
+pug  13.5  
+quail                   6.9 
+queen_ant   15
+[queen_bee bee_queen] 5 
+[rabbit hare]                  10  
+rat             4 
+rattlesnake              22 
+[rhinoceros rhino]             40 
+rottweiler  10  
+salamander           11 
+sheep 15 
+sheepdog 13.5 
+shih_tzu 13 
+[siberian_husky husky]  12 
+snake               18 
+snake 10 
+snapping_turtle  57
+spider 1
+squirrel        16
+squirrel 14 
+swan            102
+swan    33 
+tapir                      30 
+tiger                       22 
+tiger           25
+toad             36
+toad    15 
+toucan                      20 
+turkey 5 
+turkey_buzzard  118
+turtle    123  
+wolf                        18 
+wombat                15 
+woodchuck            15 
+yorkshire_terrier 14 

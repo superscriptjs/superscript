@@ -1,0 +1,326 @@
+
+table: ~albums(^group ^album ^date ) # Store albums by group IN ORDER so 1st is first
+^addproperty(^group NOUN_HUMANGROUP  NOUN NOUN_PROPER_SINGULAR)
+^createfact(^group member ~band)
+^createfact(^album sing ^group)
+if (^date != *){^createfact(^date date ^album)}
+DATA:
+"Florence and the Machine" Lung 2010
+"Florence and the Machine" Celebrations 2011
+
+table: ~bandleader( ^group ^human)
+^addproperty(^group NOUN_HUMANGROUP NOUN NOUN_PROPER_SINGULAR )
+^addproperty(^human NOUN_HUMANNAME NOUN NOUN_PROPER_SINGULAR )
+^createfact(^human member ~musician)
+^createfact(^group member ~band)
+^createfact(^human leader ^group)
+DATA:
+U2 Bono
+Florence_and_the_Machine Florence_Welch
+The_Rolling_Stones Mick_Jagger
+Queen Freddy_Mercury
+"The Allman Brothers Band" Gregg_Allman 
+"Jethro Tull" "Ian Anderson"
+"Jefferson Airplane" "Grace Slick"
+"Earth, Wind, and Fire" "Phillip Bailey"
+"Jefferson Airplane" "Marty Balin"
+"Pink Floyd" "Syd Barrett"
+"King Crimson" "Adrian Belew"
+"Linkin Park" "Chester Bennington"
+"Dead Kennedys" "Jeffo Biafra"
+"Blue Oyster Cult" "Eric Bloom"
+"Bon Jovi" "Jon Bon Jovi"
+"U2" "Bono"
+"Clannard" "Moya Brennan"
+"Fleetwood Mac" "Lindsey Buckingham"
+"King Crimson" "Boz Burrell"
+"Talking Heads" "David Byrne"
+"Van Halen" "Gary Cherone"
+"Derek and the Dominos" "Eric Clapton"
+"The Smashing Pumpkins" "Billy Corgan"
+"The Corrs" "Andrea Corr"
+"Deep Purple" "David Coverdale"
+"REO Speedwagon" "Kevin Cronin"
+"Weezer" "Rivers Cuomo"
+"The Who" "Roger Daltrey"
+"The Kinks" "Ray Davies"
+"Iron Maiden" "Paul Day"
+"Rage Against the Machine" "Zack de la Rocha"
+"Iron Maiden" "Paul Di'Anno"
+"Iron Maiden" "Bruce Dickinson"
+"Black Sabbath" "Ronnie James Dio"
+"Counting Crows" "Adam Duritz"
+"Limp Bizkit" "Fred Durst"
+"Deep Purple" "Rod Evans"
+"Steely Dan" "Donald Fagen"
+"Creedence Clearwater Revival" "John Fogerty"
+"Van Halen" "Sammy Hagar"
+"Smash Mouth" "Steven Harwell"
+"Savage Garden" "Darren Hayes"
+"The Moody Blues" "Justin Hayward"
+"The Jimi Hendrix Experience" "Jimi Hendrix"
+"Metallica" "James Hetfield"
+"Deep Purple" "Glenn Hughes"
+"The Pretenders" "Chrissie Hynde"
+"The Isley Brothers" "Ronald Isley"
+"The Jackson Five" "Michael Jackson"
+"The Jacksons" "Michael Jackson"
+"The Rolling Stones" "Mick Jagger"
+"The Jonas Brothers" "Joe Jonas"
+"The Jonas Brothers" "Nick Jonas"
+"Big Brother and the Holding Company" "Janis Joplin"
+"SteppenWold" "John Kay"
+"Red Hot Chili Peppers" "Anthony Kiedis"
+"Dire Straits" "Mark Knopfler"
+"Destiny's Child" "Beyonce Knowles"
+"Nickelback" "Chad Kroeger"
+"Emerson, Lake and Palmer" "Greg Lake"
+"Duran Duran" "Simon LeBon"
+"Evanescence" "Amy Lee"
+"Beach Boys" "Mike Love"
+"Sex Pistols" "John Lydon"
+"Electric Light Orchestra" "Jeff Lynne"
+"The Pogues" "Shane MacGowan"
+"Dixie Chicks" "Natalie Maines"
+"Marilyn Manson" "Marilyn Manson"
+"Coldplay" "Chris Martin"
+"Dave Matthews Band" "Dave Matthes"
+"Bay City Rollers" "Les McKeown"
+"Fleetwood Mac" "Christine McVie"
+"10,000 Maniacs" "Natalie Merchant"
+"Steve Miller Band" "Steve Miller"
+"Deftones" "Chino Moreno"
+"The Doors" "Jim Morrison"
+"Fleetwood Mac" "Stevie Nicks"
+"The Cranberries" "Dolores O'Riordan"
+"Black Sabbath" "Ozzy Osbourne"
+"Barenaked Ladies" "Steven Page"
+"Foghat" "Dave Peverett"
+"Led Zeppelin" "Robert Plant"
+"Stealers Wheel" "Gerry Rafferty"
+"Ramones" "Dee Dee Ramone"
+"The Velvet Underground" "Lou Reed"
+"The Yardbirds" "Keith Relf"
+"Nine Inch Nails" "Trent Reznor"
+"The Supremes" "Diana Ross"
+"Aphrodite's Child" "Demis Roussos"
+"Hootie and the Blowfish" "Darius Rucker"
+"The Temptations" "David Ruffin"
+"Goo Goo Dolls" "John Rzeznik"
+"Jefferson Starship" "Grace Slick"
+"Jefferson Airplane" "Grace Slick"
+"The Dave Clark Five" "Dave Clark"
+"Twisted Sister" "Dee Snider"
+"E Street Band" "Bruce Springsteen"
+"Ted Nugent" "Derek St. Holmes"
+"Spinal Tap" "David St. Hubbins"
+"R.E.M." "Michael Stipe"
+"Sly and the Family Stone" "Sly Stone"
+"Four Tops" "Levi Stubbs"
+"Machbox Twenty" "Rob Thomas"
+"Everything But The Girl" "Tracey Thorn"
+"Arctic Monkeys" "Alex Turner"
+"Aerosmith" "Steven Tyler"
+"Lynrd Skynrd" "Johnny Van Zant"
+"Pearl Jam" "Eddie Vedder"
+"Stone Temple Pilots" "Scott Weiland"
+"Iron Maiden" "Dennis Wilcock"
+"The Black Eyes Peas" "Will.i.am"
+"Blind Faith" "Steve Winwood"
+"RadioHead" "Thorn Yorke"
+"Buffalo Springfield" "Neil Young"
+
+
+table: ~bands  ( ^group ^song) # bands with song they did
+^addproperty(^group NOUN_HUMANGROUP  NOUN NOUN_PROPER_SINGULAR )
+^createfact(^song sing ^group)
+^createfact(^group member ~band)
+DATA:
+ "Grateful Dead" *
+ "Metallica" "The Unforgiven III"
+ "Florence and the Machine" Lung
+ "Florence and the Machine" Celebrations
+ "Saving Abel" *
+ "Jefferson Airplane" "White Rabbit"
+ "Jefferson Starship" *
+ "Rehab" "Bartender Song"
+ "Theory of a Deadman" "Bad Girlfriend"
+ "Disturbed" "Inside the Fire"
+ "Lynyrd Skynyrd" "Sweet Home Alabama"
+ "Bon Jovi" "Livin' on a Prayer"
+ "Linkin Park" "Shadow of the Day"
+ "Red Hot Chili Peppers" "Dani California"
+ "Buckcherry" "Crazy Bitch"
+ "The Verve" "Bittersweet Symphony"
+ "Staind" "Believe"
+ "The Fray" "How to Save a Life"
+ "Queen" "Bohemian Rhapsody"
+ "Three Days Grace" "Never Too Late"
+ "Guns N' Roses" "Sweet Child O' Mine"
+ "Matchbox Twenty" "How Far We've Come"
+ "Goo Goo Dolls" "Iris"
+ "Eagles" "Hotel California"
+ "The Who" "Baba O'Riley"
+ "Oasis" "Wonderwall"
+ "Hinder" "Lips of an Angel"
+ "Led Zeppelin" "Stairway to Heaven"
+ "Kansas" "Carry On Wayward Son"
+ "Scorpions" "Rock You Like a Hurricane"
+ "Dave Matthews Band" "Crash Into Me"
+ "The Supremes"  "Where Did Our Love Go"
+ "Maroon 5" "Makes Me Wonder"
+ "Plain White T's" "Hey There Deliliah"
+ Usher "Love in This Club"
+ "Coldplay" "Viva la Vida"
+"Rogers and Hammerstein" "The King and I"
+ "Arctic Monkeys" "Whatever People Say I Am, That's What I'm"
+ "Selfish Cunt" "Shit/Fuck the Poor"
+ "Franz Ferdinand" "Take Me Out"
+ "Girls Aloud" "Sound of the Underground"
+ "British Sea Power" "Fear of Drowning"
+ "Lemon Jelly" "Lost Horizons"
+ "David Holmes" "Let's Get Killed"
+ Goldfrapp "Felt Mountain"
+ "Super Furry Animals" "Phantom Power"
+ "David Bowie"  Heathen
+ Mis-Teeq "One Night Stand"
+ "Roots Manuva" "Dreamy Days"
+ "Radiohead" "Kid A"
+ "The Libertines" "Up the Bracket"
+
+
+table: ~bands1  ( ^group)	# just bands
+^addproperty(^group NOUN_HUMANGROUP NOUN NOUN_PROPER_SINGULAR)
+^createfact(^group member ~band)
+DATA:
+[U2 Coldplay "Florence And The Machine" "Beastie Boys" "Death Cab for Cutie" "Stone Sour"]
+["Sick Puppies"  "Linkin Park" "Papa Roach" Incubus "The Black Keys" "Mumfort & Sons" Seether "Foo Fighters" "Cage the Elephant" "Sixx:A.M."]
+ "Avenged Sevenfold" 
+  ["The Rolling Stones" (Rolling_Stones) "Jay-Z" "Garth Brooks" "Bruce Springsteen" "The Kingston Trio"]
+ [ "Lifehouse" "Arctic Monkeys" "Mr Scruff" "Joss Stone" "Lone Pigeon" "Martina Topley-Bird" "Four Tet" "Robert Wyatt"]
+  "Flyleaf" 
+  "Hundred Reasons"
+  "OneRepublic" 
+  ["Nickelback" "Basement Jaxx" Sugababes "Chemical Brothers" "Dizzee Rascal" "P J Harvey"]
+  ["Apocalyptica" Spiritualized "The Cinematic Orchestra" "Rishi Rich" "Richard X" "Belle and Sebastian" "Pet Shop Boys" "Beth Gibbons"] 
+  "Shinedown" 
+  "Drowning Pool" 
+  "Papa Roach" 
+  "Demon Hunter"
+  "She Daisy"
+  "Lady Antelbellum"
+  "Trapt" 
+  "U2" 
+  "Puddle of Mudd" 
+  "The Beatles" 
+"Depeche Mode"
+"Def Leppard"
+  Rockstar
+  "Fleetwood Mac" 
+  "Pink Floyd" 
+  "Flo Rida" 
+  ["Simon and Garfunkel"  "Sex Pistols" ]
+  ["Gilbert and Sullivan"  "Charles Ives" "Vladimir Horowitz" (Horowitz) ]
+  [Led_Zeppelin   Jimi_Hendrix_Experience Van_Halen Queen ]
+   [ U2 Bob_Marley Stone_Temple_Pilots Rush Genesis]
+  [Earth_Wind_and_Fire The_Bee_Gees  The_Beach_Boys The_Who Steely_Dan AC/DC ]
+  [Aerosmith  The_Grateful_Dead Guns_'N_Roses Pearl_Jam Boston Dire_Straits King_Crimson Red_Hot_Chili_Peppers Dixie_Chicks]
+  [ The_Talking_Heads Jethro_Tul The_Band Nirvana Rage_Against_The_Machine Sly_and_the_Family_Stone The_Clash]
+  [Creedence_Clearwater_Revival Deep_Purple Duran_Duran The_Carpenters The_Pretenders Blondie Black_Sabbath Lynyrd_Skynyrd]
+   Sex_Pistols
+  [R.E.M.  Buffalo_SpringField The_Jackson_Five Blind_Faith The_Animals The_Velvet_Underground The_Kinks Radiohead Kansas]
+   Iron_Maiden 
+   LMFAO
+   [Evanescence ]
+  "O.A.R" 
+  "Spice Girls"
+  "Hit Masters"
+  
+table: ~men ( ^role ^male)
+^createfact(^male member ^role)
+^addproperty(^male NOUN_MALEHUMAN )
+
+DATA:
+
+~singer [James_Brown Bob_Dylan Chuck_Berry Stevie_Wonder Jimi_Hendrix Bruce_Springsteen Marvin_Gaye David_Bowie Buddy_Holly Bob_Marley Neil_Young ]
+~singer [Michael_Jackson Otis_Redding Frank_Zappa Eric_Clapton Johnny_Cash Van_Morrison ]
+~singer ["Paul Simon" "Art Garfunkel" "Kenny Rogers" "Chuck Berry"]
+~musician ["Arthur Sullivan" "W.S. Gilbert"  "John Coltrane" "Miles Davis" ]
+~musician ["Johann Sebastian Bach" (Bach)  Rachmaninoff "Duke Ellington" "Aaron Copland" (Copland)  "Andrew Lloyd Webber"]
+~musician ["Franz Joseph Haydn" (Haydn) Schoenberg Ravel  "Bela Bartok" (Bartok) ]
+~musician ["Wolfgang Amadeus Mozart" (Mozart) "Igor Stravinsky" (Stravinsky)  "Woodie Guthrie"]
+~musician ["Ludwig van Beethoven" (Beethoven) "Richard Rogers"  "Jackson Browne"]
+~musician ["Franz Schubert"  (Schubert) Prokofiev Shostakovich]
+~musician ["Hector Berlioz" (Berlioz) "Jack Johnson"]
+~musician ["Robert Schumann" (Schumann) "George Gershwin" (Gershwin) ]
+~musician ["Frederic Chopin" (Chopin) "Louis Armstrong" ]
+~musician ["Franz Liszt"  (Liszt)]
+~singer ["Peter_Hammill" "Lil Wayne" Akon "Chris Brown"]
+~musician ["Richard Wagner" (Wagner) ]
+~musician ["Giuseppe Verdi" (Verdi)]
+~musician ["Johannes Brahms" (Brahms)]
+~musician [Tchaikovsky "Scott Joplin" (Joplin)]
+~musician [Dvorak Puccini "Gustav Mahler" (Mahler)  "Claude Debussy" (Debussy) "Leonard Bernstein" (Bernstein)]
+~singer ["James Brown" "Buddy Holly" "Keith Richards" "Mick Jagger"]
+~singer ["Snoop Dogg"  "Jay Z"]
+~singer [Eminem  "Charlie Walker"]
+~singer ["Frank Sinatra" (Sinatra)  "Johnny Mathis" "Willie Nelson" ]
+
+table: ~women ( ^role ^female)
+^createfact(^female member ^role)
+^addproperty(^female NOUN_FEMALEHUMAN )
+DATA:
+~singer  ["Billie Holiday" "Ella Fitzgerald" "Aretha Franklin" "Diana Ross" Meiko]
+~singer  [Joni_Mitchell Patti_Smith Shania_Twain Avril_Lavigne Celine_Dion Mariah_Carey Judy_Collins]
+~singer  [Jessica_Simpson Shakira Hilary_Duff Kylie_Minogue Christina_Aguilera Gwen_Steani Kelly_Clarkson "Victoria Beckham" ("Posh Spice") ]
+
+~singer ["Britney Spears" "Lady Gaga" Adele "Whitney Houston" "Amy Winehouse" Winehouse]
+~singer Adele
+~singer "Mariah Carey" 
+~singer "Madonna"   
+~singer "Whitney Houston"   
+~singer "Janet Jackson"   
+~singer "Carole King"  
+~singer "Beyonce"  
+~singer "Mylie Cyrus" 
+~singer "Nelly Furtado"  
+~singer "Fergie" 
+~singer "Avril Lavigne"  
+~singer "Rihanna"  
+~singer "Fergie"  
+~singer "Alicia Keys" 
+~singer "Leona Lewis"  
+~singer "Mariah Carey"  
+~singer "Kate Perry" 
+~singer "Sara Bareilles"  
+~singer "Sarah Mclachlan"  
+~singer "Sara Groves"  
+~singer "Shawn Colvin"  
+~singer "Taylor Swift"
+~singer "Stevie Nicks"
+~singer "Terri Clark"
+~singer "Trisha Yearwood"
+~singer "Vanessa Carlton"
+~singer "Michelle Branch"
+~singer "Melissa Etheridge"
+~singer "Mary Chapin Carpenter"
+~singer "Mary-Chapin Carpenter"
+~singer "Martina McBride"
+~singer "Loreena McKennitt"
+~singer "Liz Phair"
+~singer "Lindsay Pagan"
+~singer "Lady Gaga"
+~singer "Kelly Clarkson"
+~singer "Joan Osborne"
+~singer "Jann Arden"
+~singer Enya
+~singer "Deana Carter"
+~singer "Colbie Cailat"
+~singer "Christina Perri"
+~singer "Chantel Kreviazuk"
+~singer "Avril Lavigne"
+~singer "Alison Kraus"
+~singer "Amanda Marshall"
+
+
+

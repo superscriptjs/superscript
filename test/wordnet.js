@@ -30,7 +30,6 @@ describe('Wordnet Interface', function(){
 		});
 	});
 
-
 	// not sure how I want to test this yet
 	// it("should refine to POS ", function(done){
 	// 	wordnet.explore("job", function(err, results){			

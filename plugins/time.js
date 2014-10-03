@@ -18,6 +18,10 @@ var getSeason = function() {
 	}
 }
 
+exports.getDOW = function(cb) {
+	cb(null, moment().format("dddd"));
+}
+
 exports.getDate = function(cb) {
 	cb(null, moment().format("ddd, MMMM Do"));
 }
@@ -60,34 +64,17 @@ exports.getDayOfWeek = function(cb) {
 }
 
 exports.getMonth = function(cb) {
-	cb(null, moment().format("MMMM"));
+	var reply = "";
+	if (this.message.words.indexOf("next") != -1) {
+		reply = moment().add('M', 1).format("MMMM");
+	} else if (this.message.words.indexOf("previous") != -1) {
+		reply = moment().subtract('M', 1).format("MMMM");
+	} else if (this.message.words.indexOf("first") != -1) {
+		reply = "January";
+	} else if (this.message.words.indexOf("last") != -1) {
+		reply = "December";
+	} else {
+		var reply = moment().format("MMMM");
+	}
+	cb(null, reply);
 }
-
-// > object month javascript
-// 	var moment = require("moment");
-	
-// 	var user = this.currentUser();
-// 	var msg = this._users[user].orig_message;
-// 	var parts = msg.split(" ");
-
-// 	var _ = require("underscore");
-
-// 	if (_.contains(parts, "next")) {
-// 		return moment().add('M', 1).format("MMMM");
-// 	} else if (_.contains(parts, "previous")) {
-// 		return moment().subtract('M', 1).format("MMMM");
-// 	} else if (_.contains(parts, "first")) {
-// 		return "January";
-// 	} else if (_.contains(parts, "last")) {
-// 		return "December";
-// 	} else {
-// 		return moment().format("MMMM");	
-// 	}
-
-// < object
-// + what month [of the year] is this
-// - It is <call>month</call>
-
-// + what is the [next] [previous] [first] [last] month [of the year]
-// - It is <call>month</call>
-

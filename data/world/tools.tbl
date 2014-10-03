@@ -1,0 +1,418 @@
+#	tool/instrument/implement/utensil/appl
+# 3 typesof functions: requirement, property, effect (bring about effect on target thing)
+# entity, role structure, behavior, function.
+# entity: real and basic things: human, device, fluid, solid, etc
+# role: role entity plays during process in which it works (functional/structure roles)
+	# functional roles: Agent, object (processed by agent) medium carries something processed
+	#  material (main source of output) product, --
+	# structur
+	# heart
+
+
+
+table: ~tool (^what  ^mechanic  ^used_to  ^object  ^advphrase  ^activity  ^agent  ^where  ^why_to )
+^createfact(^what member  ~tool)
+^createfact(^mechanic functionality ^what)
+^createfact(^used_to use ^what)
+if (^object != *) { ^createfact(^object object ^what)}
+if (^advphrase != *) { ^createfact(^advphrase adverb ^what)}
+if (^activity != *) {^createfact(^activity activity ^what)}
+if (^agent != *) { ^createfact(^agent agent ^what)}
+if (^where != *) {^createfact(^where where ^what)}
+if (^why_to != *) {^createfact(^why_to why ^what)}
+^createfact(^why_to ~tool verify)
+DATA:
+
+# function NUTRIENT - food and drink
+[~food ~beings ] nutrient nurish beings * * * * "help avoid starvation"
+[~beverage] nutrient nurish beings * * * * "help avoid dehydration"
+[~herbspice] nutrient improve taste * * * * "spice food"
+
+# function NATURAL_OBJECT - landscape
+[~scenery] natural_object provide landscape * * * * "to be appreciated as scenery"
+
+# function PLAY - plaything
+[~toy ] play provide play * * child * "to have fun"
+
+# function EMOTION -
+[~emotions] emotion provide affect * * person * "express feeling"
+
+# function NATURAL_FORCE
+[~forces] natural_force provide power * * * * "source power"
+
+# function CREATE
+[copier photocopier] create make copies * * * * "to copy text"
+[replicator] create make objects * * * * "to create an object"
+
+# function DECORATE - cover a surface to make pretty
+[paint dye crayon varnish plaster wallpaper] decorate color surfaces * * * * "make a surface pretty"
+[lipstick mascara glitter gloss eyeliner eyeshadow] decorate paint faces * * * * "make a woman pretty"
+"nail polish" decorate paint fingernails * * * * "make a woman pretty"
+[tinsel "popcorn string" "Christmas tree light" "Christmas tree ball" ornament decoration] decorate decorate "Christmas trees" * * * * "make a tree pretty"
+[jewelry ring bracelet earring nose_ring] decorate decorate bodies * * * * "decorate the body"
+
+# function CONTAIN - buildings,containing tools hold something as their primary task, and dispensing it. specify by kind of object and how or to whom dispensed
+watering_can	contain water plants * 				gardening gardener garden			"avoid plants drying out"
+[jug keg cup glass wineglass] contain hold	liquid *		drinking *	dining_room		"make liquid easier to drink"
+glue_gun	contain	dispense glue *					art	artist	studio			"paste things together"
+[bin waste_basket wastebasket garbage_can trash_can] contain hold trash *	disposal *	*		"get rid of things"
+toilet contain	hold feces	*						defecation * bathroom		"remove human waste"
+[sink wash_basin barrel bucket] contain hold water *				washing	* bathroom		"clean your hands"
+vase	contain	hold flowers *						esthetics *	dining_room	"make a pretty environment"
+[staple_gun stapler] contain hold staples *			fastening clerk	office "make it easy to join paper"
+[bag box container carton pouch sack shoulder_bag pocket basket]	contain	hold stuff	*							*	*	*	"hold arbitrary things"
+can~n contain hold food	*							cooking	* kitchen 	"contain tomatoes"
+[carton bottle jar] contain hold drink * 				drinking  * kitchen		"contain milk"
+[money_bag purse wallet   money_belt] contain hold money *	* * *			"keep money"
+[spool bobbin] contain hold thread	*			sewing seamstress * "supply thread"
+[seat_belt ] contain hold passenger *	driving passenger * "protect people from crash" 
+[pot pan casserole_dish baking_pan saucepan] contain hold food * cooking chef kitchen "hold food while heating"
+[library bookstore] contain hold books * * * * "keep books"
+[drawer closet] contain hold clothes * * * * "keep clothes"
+mailbox contain hold mail * * * * "hold mail"
+shaker contain hold spice * * * * "give out salt and pepper"
+lunch_box contain hold lunch * * * * "transport lunch"
+sand_box contain hold sand * * * * "play with sand"
+feeder contain hold food * * * * "feed birds"
+diaper contain hold excrement * * * * "avoid a mess"
+syringe contain hold medicine * * * * "treat the sick"
+[Kleenex tissue] contain hold snot * * * * "blow nose into it"
+[prison jail ] contain hold people * * * * "prevent repeated crime"
+[leyden_jar battery] contain hold electricity * * * *  "provide power"
+envelope contain hold letter * * * * "transport a letter"
+armory contain hold weapons * * * * "provide weaponry"
+[church mosque synagogue] contain hold worshipers * * * * "provide a place to worship"
+[house home apartment condo] contain hold residents  * * people * "provide a place to live"
+
+# (confine beings)
+aquarium contain	hold fish *					pets * *	"keep fish as pets"
+doghouse contain hold dogs *					pets * * "keep dogs as pets"
+kennel	contain hold animals *					pets * * "keep cats and dogs"
+[bird_cage birdcage] contain hold birds *		pets * * "keep birds as pets"
+terrarium contain hold reptiles *				pets * * "keep turtles as pets"
+cage contain hold birds	*					pets * * "keep birds as pets"
+[fire_station house home building cell prison_cell] contain hold people * * * * "protect people from outside forces"
+trap contain immobilize animals * * * * "catch an animal"
+
+# function SURFACE - photo-album doesnt dispense..
+paper surface 		hold writing *		writing	author	office	"provide a place to put writing"
+chalkboard surface	hold writing *		presentation teacher classroom "provide a place to write in chalk"
+whiteboard surface	hold writing *		presentation teacher classroom "provide a place to write in marker"
+photo_album surface	hold photos  *		scrapbooking * * "provide a place to put photos"
+saucer	surface	rest cup *				*	*	dining_room	"place to rest a cup of tea"
+book surface	hold words *			reading *	library	"read words that are recorded"
+pillow surface rest head *				sleeping * bedroom "keep head comfortable"
+[plate saucer tray] surface hold food * * * * "hold food for eating"
+umbrella surface ward_off rain *  * * * "keep dry"
+toilet_paper surface wipe ass *  * * * "clean off one's ass"
+[video videotape] surface hold images * * * * "keep images"
+parking_space surface hold cars * * * * "to store a car"
+
+# function CONDUIT -  allows something to move thru it or along it
+[pipe aqueduct] conduit move water *			city_services person * "provide drinking water"
+[track railroad_track] conduit move trains *	transport	train	outdoors		"allow trains to move"
+straw	conduit	suck liquid	*					drinking * dining_room	"drink a milkshake"
+[extension_cord cord wall_socket wall_outlet outlet socket electrical_plug]	conduit provide power	*		powering * office	"make power available"
+[driveway blacktop road street avenue roadway expressway highway path]  conduit hold cars * * * * "provide place for cars to travel"
+[door opening entrance entranceway] conduit provide access * * * * "allow entry to an area"
+
+# function MOVE Move move huge and tiny things, e.g. concentrating force tools like  hammer moves nail,  maul moves stake, or whip moves flesh.  applying physical compression to a surface. screwdriver, the force is sideways  called torque. pens deliver a fluid to a surface via compression to activate the ink cartridge. Also grabbing and twisting nuts and bolts with pliers, a glove, a wrench, etc.  Also Trucks, Rockets and Planes move larger  and particle accelerators move very small .
+parachute move fall		*		safely			sky_diving sky-diver airplane		"avoid harm to self upon landing"
+[ pry pry_bar crowbar wrecking_bar lever] move lever objects *	construction builder building_site		"remove wood"
+[hammer mallet] move	hit nails	*			construction builder building_site		"fasten wood together"
+pliers	move grip	object		*				construction builder building_site		"turn nuts"		
+screwdriver move turn screw		* 				construction builder building_site		"join wood to wood"
+fan	move	move air		*					cooling	 * building		"cool off"
+[chopstick fork tong skewer]	move	move food *						eating	* dining_room	 "eat solid food"
+spoon move	move food *							eating	*  dining_room	"eat liquid food"
+ladle move move food *							cooking chef		dining_room	"serve liquid food"
+spatula	move move food *						cooking chef kitchen "lift hot food"
+sifter move move flour *						cooking chef kitchen "unclump flour"
+[box_wrench crescent_wrench flat-nosed_pliers monkey_wrench needle-nosed_pliers open-end_wrench pipe_wrench socket_wrench] move turn objects * construction builder building_site "turn objects in a circle"
+plunger move move waste *						plumbing plumber bathroom "clear blocks in a drain"
+dustpan move move dirt * housecleaning maid * "remove dirt"
+elevator move move people * * * * "lift people up"
+[pump suction_pump] move move liquid * * * * "move liquid long distances"
+
+# function RECORD
+[camera tv_camera SLR digital_camera camcorder movie_camera] record record images * photography photographer * "capture pictures"
+[DVD_burner tape_recorder CD_burner answering_machine] record record sound * * * * "capture sound"
+[typewriter dictaphone] record record words * * * * "capture thoughts"
+seismograph record record tremors * * * * "track earthquakes"
+[EKG electrocardiograph ECG] record record heartrate * * * * "track heart behavior"
+[EEG electroencephalograph] record record brainwaves * * * * "track brain behavior"
+[diary notebook journal] record record words * * * * "write one's words"
+
+# function CLEAN
+[floss toothbrush dental_floss]	clean clean	teeth *					grooming * bathroom		"avoid tooth decay"
+rake		clean gather leaves	 *				gardening gardener garden			"make a compost pile"
+towel clean dry body	*						grooming	* bathroom "remove water after bath"
+[washcloth face_cloth] clean wash face *			grooming * bathroom "look clean"
+[paper_towel dish_towel] clean dry dishes *					cleaning * kitchen "remove water from plates"
+[towel napkin hand_towel rag] clean dry hands *						grooming * bathroom "remove water from hands"
+brush clean scrub something *					cleaning * * "remove dirt"
+[shower bidet sink tub bathtub] clean clean body * * * * "remove dirt"
+[broom mop scrub_brush] clean clean floor *  cleaning maid * "remove dirt"
+
+# function CONTROL/GUIDE activate/deactivate also hold still and grasp
+mouse	control	control	 computers *			computing *	 office			"make computers useful"
+[straight_edge ruler]	control	guide pencil *	drafting architect office			"make a straight line"
+compass	control	guide	pencil *				drafting architect	office	"draw a circle"
+[brush comb hair_brush]	control	align hair * 	grooming * bathroom "create an attractive appearance"
+level control guide installation *				construction builder building "to align things"
+[clamp holdfast  vise] control hold objects	*	carpentry carpenter workshop "keep objects immobile"
+[bridge footbridge] control guide people * * * * "provide path over obstructions like water"
+[brake handbrake] control stop motion * * * * "stop a moving vehicle"
+braces control guide teeth * * * * "adjust teeth alignment"
+suspender control hold pants * * * * "keep pants up"
+[cover lid ] control restrict items * * * * "keep stuff in"
+switch control enable power * * * * "turn something on or off"
+key control control lock * * * * "lock or unlock a door"
+handcuff control secure prisoner * * police * "restrain a criminal"
+
+# function COMMUNICATE
+[pen chalk pencil]	communicate	write words *		writing	author study			"to communicate ideas"
+[cellphone phone telephone] communicate transmit speech *		talking person *		"to converse"
+computer	communicate	surf Internet	*		researching	* office	"find out information"
+Google communicate search Internet	*	researching * office "find information"
+
+# function MEASURE Guiding and measuring include the theodolite. 
+tape_measure measure	measure	distance *			carpentry carpenter	[garage workshop]	"cut something to a particular size"
+[timer egg_timer ]	measure	measure	time *			cooking chef kitchen	"avoid overcooking"
+[clock watch]	measure	measure	time *				* * *	"know the time"
+thermometer	measure		measure	temperature	*		cooking	cook kitchen		"cook to temperature"
+[caliper gauge rule ruler] measure measure distance *				carpentry carpenter workshop "measure small distance"
+[plumb_bob level square ] measure measure angle	*					   carpentry carpenter workshop "find level to ground"
+straight_edge measure draw line	*				carpentry carpenter workshop "draw a straight line"
+
+# function MARK  show where something is
+chalk_line mark	mark boundary *			carpentry carpenter workshop "note where to cut"
+[monument landmark memorial]	mark		mark event *		* * * "celebrate an event"
+[buoy lighthouse] marker guide ships *		navigation sailor ship								"avoid crashing onto shore"
+
+# function PENETRATE (and puncture and make holes) such as the knife, scythe or sickle, are wedge-shaped implements that produce a shearing force along a narrow face. Ideally, the edge of the tool needs to be harder than the material being cut or else the blade will become dulled with repeated use. But even resilient tools will require periodic sharpening, which is the process of removing deformation wear from the edge. Also gouges and drill bits.
+scissors	penetrate cut	 paper *					art	child classroom		"shape paper pieces"
+[back_saw band_saw bandsaw table_saw saw saber_saw router chain_saw circular_saw coping_saw hack_saw hacksaw]	penetrate cut	 wood *			carpentry carpenter	 workshop		"frame a building"
+knife		penetrate cut	food *						eating	person	dining_room		"make food fit in your mouth"
+[blade jackknife switchblade rawknife drawknife paperknife penknife pocketknife] penetrate cut objects * * * * "cut things"
+[sword broadsword scythe sickle] penetrate cut	grain	*				farming	farmer	field			"harvest grain"
+cookie_cutter	penetrate cut	dough	*				cooking	cook	kitchen			"make cookies"
+[ax axe hatchet machete crosscut_saw]	penetrate	cut wood *						lumbering lumberman woods	"make lumber"
+[baller chopper cutter cleaver] penetrate cut food *			cooking chef kitchen "prepare food to eat"
+cookie_cutter penetrate cut cookie_dough *			baking chef kitchen "prepare cookies"
+corer penetrate cut fruit *							baking chef kitchen "prepare apples"
+needle penetrate puncture cloth * sewing seamstress * "sew with thread"
+grater penetrate cut cheese *							cooking chef kitchen "prepare cheese"
+[mandoline mincer peeler shredded slicer] penetrate cut food *		cooking chef kitchen "prepare food to eat"
+[snip tin_snip bolt_cutter pipe_cutter] penetrate cut metal *				*	*	* "remove a chain"
+glass_cutter penetrate cut glass *				* * *	   "make a window"
+[shear loper pruner tree_saw trimmer edge] penetrate cut branches	*	gardening gardener garden "cut plants"
+[shaver electric_razor razor] penetrate cut hair	*			grooming * bathroom "cut off whiskers"
+tile_cutter penetrate cut tile *			construction buider buiding_site "lay a bathroom floor"
+wire_stripper penetrate cut wire * wiring	electrician buiding_site "prepare wire for wiring"  
+shreader penetrate cut paper * * * * "destroy documents"
+[opener corkscrew churchkey] cut open bottle * * * * "access contents"
+[pickax pickaxe point press punch shovel spade reamer adze auger awl brace chisel digger drill driver gimlet gouge jig hoe mattock pneumatic_drill] cut bore hole * builder construction building_site "make hole in material"
+corkscrew penetrate open wine_bottle *	drinking * kitchen "get wine to drink"
+can_opener penetrate open can		*	cooking	chef kitchen "access contents of can"
+
+# function FASTEN Fastening  such as welders, rivet guns, nail guns, glue guns, glue.
+welder	fasten	fuse metal	*					plumbing plumber wall			"join pipes together"
+riveter	fasten	fuse metal	*					plumbing plumber wall			"join metal together"
+[pin button safety_pin]	fasten  close shirt	*					grooming *	*						"secure a shirt"
+[glue paste tape scotch_tape adhesive chain] fasten join objects	*		art	artist studio	 "put pictures in a photo album"
+[screw nail rivot] fasten join objects	*		construction builder building_site		"frame steel girders"
+[staple paperclip] fasten join paper * 			* clerk office "hold pieces of paper together"
+[string twine rope strap] fasten join objects *		* *	*		   "tie things together"
+thread	fasten	join fabric *				    sewing seamstress  *	"create fashion"
+clamp	fasten hold objects *					carpentry carpenter shop "to cut pipe"
+[clothespin peg] fasten hang washing *		   * maid * "hang clothes on the line"
+[stake "tent peg"] fasten tie * down			* * * "bind something to the ground"
+buckle fasten join belt * * * *		"hold up pants"
+
+# function SHAPE Shaping  such as moulds, jigs, trowels, concrete formwork, caulk, concrete. also grinding/sharpening
+mould	shape	shape clay *					art	artist	studio			"create clay objects"
+[file grinder rasp sander sanding_block sharpener sandpaper] shape smooth objects * carpentry carpenter workshop "smooth items"
+[rolling_pin cookie_cutter] shape shape dough * cooking cook kitchen "make cookies"
+
+
+# function TRANSPORT
+[wagon truck pickup ]	transport move objects	*				trucking trucker	road	"move supplies by road"
+[horse mule burro camel tricycle donkey skateboard roller_skates bicycle] transport	move people *				cycling	cyclist	outdoors "move people on land"
+[~vehicle ] transport move people	*	driving		driver	road	"move people by road"
+[boat sailboat ship canoe rowboat tug paddleboat aircraft_carrier destroyer] transport	move people	*		sailing	sailor	ocean	"move people by water"
+[aircraft blimp airplane jet] transport move people *					aviation	pilot	air		"move people by air"
+[rocket rocket_ship space_shuttle] transport move people *		rocketry astronaut outer_space "move people in space"
+[fire_truck fire_engine] transport move water * fire-fighting fireman *  "put out a fire"
+[snowshoe ski tobaggan sled sleigh] transport move people * * * * "move people through snow"
+wheelchair transport move cripple * * * * "move crippled person"
+
+# function WEAPON - weapons and munitions
+bow	weapon throw arrows *					archery	archer	outdoors	"shoot foes"
+spear weapon	pierce animals *			hunting	hunter		woods	"kill animals for food"
+[shotgun machine_gun gatling_gun gun rifle pistol revolver ]	weapon	shoot bullets *					hunting hunter	woods	"kill animals for food"
+cannon	weapon shoot cannon_balls *			warfare soldier field	"kill people"
+[landmine bomb]	weapon destroy area	*		warfare soldier * "kill people"
+[half-track tank] weapon	shoot projectiles * warfare soldier outdoors	"kill people"
+fighter_jet weapon shoot missiles	*		warfare pilot	air		"kill people"
+bomber weapon drop bombs	*				warfare pilot air		"destroy buildings"
+submarine weapon shoot torpedoes	*		warfare submariner ocean	"destroy ships"
+aircraft_carrier weapon launch airplanes *	warfare * ocean "destroy ships"
+arrow	weapon 	be ammo	* 					archery	archer	outdoors	"be used by a bow"
+blowgun weapon shoot darts *				warfare * * "kill people"
+bullet weapon be ammo *						marksmanship marksman outdoors	"be used by a gun"
+missile weapon be ammo *					warfare pilot air "be used by a fighter jet"
+[phaser blaster raygun "ray_gun" disruptor] weapon shoot beams *  warfare soldier field "kill people" 
+whip weapon hurt people *  * * * "hurt people"
+
+# function TRADE_GOODS	act as currency
+~tradegoods trade_goods facilitate exchange *		commerce businessman business		"acquire what you need"
+stamp trade_goods pay postage * * * * "mail a letter"
+
+# function TRANSMUTE chemical changes, including temperature and ignition, electrical and magnetic transformations,
+[lighter match] transmute	create	fire *		smoking	smoker	*			"light a cigarette"
+fire_extinguisher transmute	put_out	fire *		fire-fighting fireman home		"prevent damage"
+[gas gasoline diesel_fuel] transmute generate energy * * * * "power vehicles"
+generator transmute generate electricity * * * * "power homes"
+electromagnet transmute generate magnetism * * * * "lift steel"
+
+# function AMPLIFY (amplify/improve/degrade)
+telescope amplify see stars	*				astronomy astronomer observatory				"study galaxies"
+binocular amplify see *	farther				birding	 birder	 outdoors				"see birds"
+[magnifying_glass microscope] amplify see * smaller		science	 scientist laboratory				"see cells"
+periscope	amplify see * above				submarining	sailor	submarine				"see surface vessels"
+mirror	amplify see * behind					* * bathroom				"see oneself"
+night_vision_goggle amplify see * dark		warfare soldier	outdoors				"see enemies"
+[contacts glasses] amplify see * clearer		reading	* *	"read a book"
+["overhead projector" projector] amplify  display writing *			presentation presenter auditorium	"make writing visible to audiences"	
+slide_projector amplify  display pictures *	presentation presenter auditorium	"make pictures visible to audiences"	
+[lamp flashlight lantern penlight light_bulb candle light fluorescent_light pole_lamp table_lamp desk_lamp ] amplify emit light *		* * * "make things visible in the dark"
+[amplifier stethoscope hearing_aid] amplify magnify sound * * * * "make it easier to hear sound"
+[ladder step_ladder] amplify reach * higher * * * "reach high areas"
+crutch amplify walk * better * * * "walk better when injured"
+[snorkel snorkeler "gas mask" "oxygen mask" rebreather scubagear "air tank" "diving bell" regulator divingsuit scuba "diving helmet"]amplify breathe * underwater * * * "breathe underwater"
+[surfboard  flipper] amplify move * water * * * "move in water"
+[ jetpack wings parachute] amplify move * air * * * "move in air"
+ballast amplify make * steadier		sailing	*	ship	"make a vessel steadier"
+gyroscope amplify make * steadier  * * * "stop things from falling over"
+headphone amplify improve hearing * * * * "listen to music"
+blinder amplify degrade vision * * * * "keep a horse calm"
+medicine amplify heal injuries * * * * "improve the sick"
+photograph amplify assist memory * * * * "remember events of the past"
+encyclopedia amplify enhance knowledge *  * * * "provide knowledge on subjects"
+[dictionary thesaurus] amplify enhance knowledge *  * * * "provide knowledge on words"
+[dildo vibrator] amplify enhance sex * * * * "provide manual stimulation"
+
+# function EMIT_SOUND
+[~musical_instruments_string]  emit_sound make music * * musician concert_hall "create string sounds"
+[~musical_instruments_percussion]  emit_sound make music * * musician concert_hall "create percussion sounds"
+[~musical_instruments_brass]  emit_sound make music * * musician concert_hall "create brass sounds"
+[~musical_instruments_woodwind] emit_sound make music * * musician concert_hall "create woodwind sounds"
+[~alarm] emit_sound create alarm * * * * "to warn you"
+
+# function FURNITURE
+bookcase furniture	hold books	*							storage	* library	"make books accessible"
+[chest dresser armoire cabinet] furniture store clothes	*	storage * bedroom "keep clothes safe"
+[sideboard credenza hutch]	furniture	store objects	*	storage	*	dining_room	"store plates"
+[cupboard shelf] furniture hold objects *					storage * *		"display knickknacks"
+[sofa couch seat rocking_chair chair armchair stool bean_bag bench chaise_lounge love_seat ottoman recliner settee tuffet]	furniture assist sitting *		sitting * living_room "sit comfortably"
+tv_stand furniture	hold TV	 *								surface	* living_room	"put tv at a useful height"
+desk	furniture	organize writing *						surface	*	office		"provide surface and supplies for writing"
+[table coffee_table folding_table end_table] furniture	rest objects *		surface	* living_room	"eat meals on"
+nightstand furniture	rest objects	*					surface	*	bedroom	"put small items upon"
+chalkboard furniture	write	*	with_chalk				surface teacher school	"display writing"	
+monitor	furniture	display output	*						surface * 	desk	"display comnputer output"
+[cot bed sleeping_bag hammock]	furniture	assist sleeping *							sleeping person bedroom "get a sound sleep"
+[phonograph CD_player gramophone stereo radio wireless_set] furniture listen_to music	*	entertainment	* living_room "enjoy music"
+[TV television] furniture	watch	programs	*				entertainment	*	living_room "enjoy drama"
+[piano	player_piano keyboard]	furniture	create music		*		entertainment	pianist	living_room	"enjoy music"
+
+# FUNCTION FURNISHING
+rug furnishing	protect floor	*							esthetics *	living_room	"make walking soft on the feet"
+[picture wall_hanging] furnishing provide art *				esthetics *	wall		"provide pretty environment"
+sculpture furnishing provide art	*						esthetics *  living_room	"provide pretty environment"
+
+# FUNCTION APPLIANCE -- maybe disperse this to other topics
+lamp appliance	provide light	*							reading	*	living_room	"make it possible to see at night"
+[toaster oven stove microwave cooktop burner grill "gas grill" barbeque waffle_iron] appliance cook food *		*  * kitchen 	"heat one's supper"
+[fan air_conditioner] appliance cool room *				* * living_room	"cool off"
+heater	appliance heat room	*							* * living_room	"warm up"
+dishwasher appliance wash dishes *						* * kitchen	"clean plates"
+garbage_disposal appliance trash food *					* * kitchen "make food small enough to drain"
+[washer washing_machine] appliance wash clothes *		* * bathroom	"remove smell"
+dryer appliance dry clothes	*							* *	bathroom	"dry washed clothes"
+[freezer refrigerator] appliance chill food	*			* * kitchen	"prevent food from rotting"
+[compactor trash_compactor] appliance crush trash	*	* * kitchen "make trash smaller"
+[homogenizer whisk sifter dredger colander electric_mixer beater mixer blender food_processor Cuisinart] appliance mix food	*		* * kitchen "stir food together"
+humidifier appliance moisten air *						* * living_room "make air easier to breath"
+can_opener	appliance open cans	*						* * kitchen "access food inside"
+coffee_maker	appliance cook coffee *					* * kitchen "satiate coffee addiction"
+iron		appliance smooth clothes *					* * laundry "improve personal appearance"
+blow_dryer	appliance dry hair	*						* * bathroom "improve personal appearance"
+
+# ROLE 
+[cop policeman policewoman beat_cop patrolman police] role catch criminals *		governing * police_station "protect society"
+[doctor nurse physician healer] role heal sick *									healing * hospital "make people well"
+[shaman priest rabbi chaplain ] role channel god *	religion * church "domesticate people"
+[mate wife husband] role provide reproduction * * * * "have children"
+[concubine girlfriend lover gigolo prostitute] role provide sex * * * * "supply sex"
+[parent father mother] role provide protection * * * * "raise a child"
+
+
+# function CLOTHES
+[T-shirt "swimming trunks" blouse shirt halter_top sweater blouse pullover sweater sweatshirt turtleneck vest tank_top] clothes cover chest *						dressing * * "keep upper torso warm"
+[trousers trunks   kilt   tutu   bathing_suit swimsuit bikini jeans pants slacks shorts trousers dress skirt frock miniskirt ] clothes cover legs *		dressing * * "keep lower torso warm"
+[briefs pantie underpants underwear panties] clothes cover crotch *		dressing * * "protect pants"
+[glove mitten mitt] clothes cover hand *				dressing * * "keep hands warm"
+[shoe sandal high_heel socks galoshes  flipper bobbysocks ] clothes cover feet *						dressing * * "keep feet warm"
+[boot  sandal  moccasin shoe] clothes cover foot *		dressing * * "protect foot from harm"
+[hat cap hood beanie] clothes cover head *					dressing * * "protect head from cold"
+vest clothes cover shirt *						dressing * * "improve personal adornment"
+[coat jacket sweater overcoat anorak Burberry topcoat jacket ] clothes cover shirt *				dressing * * "keep body warm"
+[raincoat mackintosh ] clothes cover body * * * * "protect body from rain"
+clothes clothes cover body * * * * "cover parts of the body"
+earring clothes cover ear *	dressing * * "improve personal adornment"
+earmuff clothes cover ear *	dressing * * "keep ear warm"
+ring clothes finger ear *	dressing * * "improve personal adornment"
+scarf clothes cover neck * dressing * * "keep neck warm"
+tie clothes cover neck * dressing * * "keep neck warm"
+[mask "ski mask"   hijab] clothes cover face *	dressing * * "keep face warm"
+goggles clothes cover eyes * dressing * * "protect eyes"
+[glasses sunglasses contacts] clothes cover eyes * dressing * * "improve vision"
+[cloak cape] clothes cover back *				dressing * * "keep back warm"
+ belt clothes cover waist *		dressing * * "hold up pants"
+tuxedo  clothes cover body *		dressing * * "dress up" 
+[negligee kimono pajamas ] clothes cover body *		dressing * * "wear at bedtime" 
+apron clothes cover waist *		dressing * * "protect waist from spills during cooking" 
+barrette clothes cover hair *		dressing * * "hold hair in place" 
+handkerchief clothes cover nose *		dressing * * "clean up after sneezing" 
+
+# function COVER - non-clothing used to protect something
+helmet cover protect head *						dressing * * "protect head from harm"
+armor cover protect body *						warfare * * "protect body from harm"
+[dressing band-aid bandage] cover protect wound *		first_aid * bathroom "prevent infection"
+sheet cover protect mattress	*				sleeping * bedroom "prevent matress from excess wear"
+pillowcase cover protect pillow *				sleeping * bedroom "prevent pillow from excess wear"
+[blanket bedspread duvet] cover keep warm	*	sleeping * bedroom "sleep soundly"
+
+# function SUBSTANCE
+concrete substance make buildings *				construction mason building_site "house people"
+[soap detergent] substance clean clothes *		cleaning * laundry_room "remove dirt and grease"
+toothpaste substance clean teeth *				grooming * bathroom "prevent cavities"
+[shampoo conditioner] substance clean hair *	grooming * bathroom "remove dirt from hair"
+iodine substance sterilize wound *				first_aid * bathroom "prevent infection"
+[aspirin tylenol codeine acetominephin] substance reduce pain *			first_aid * bathroom "feel better"
+[cotton yarn wool] substance make cloth *		*		*	*		"have cloth"
+mana substance support magic * * * * "make magic"
+[coal iron] substance support construction * * * * "provide raw material"
+
+# function BODYSYSTEM
+
+[cardiovascular circulatory]  body_system flow blood * * *  * "pump blood to various parts of the body. Blood delivers oxygen, control hormones, removes carbon dioxide"
+[digestive digestion stomach] body_system digest food * * *  * "convert food into energy"
+endocrine body_system regulate body * * * * "regulate the body"
+excretory body_system remove waste  * * *  * "filter out waste from the body and excrete it"
+[immune white_blood_cell] body_system  avoid disease * * * * "protect the body from bacteria and viruses"
+[integumentary skin] body_system  contain body * * * * "holds the body together, offers protection from the sun, helps body temperature regulation, and holds nerves that respond to temperature, touch, pressure, and pain" 
+
+ 

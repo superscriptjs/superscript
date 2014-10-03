@@ -91,3 +91,21 @@
 
 + what is one plus one
 - It is two.
+
++ how many (letters|chars|characters) [are there] in [the word] *~3
+- ^wordLength(<cap2>)
+
++ what [letter] (comes|is) (after|before) *~1
+- ^letterLookup()
+
+// What is the nth letter in the alphabet?
+// What is the first letter in the alphabet?
+// What is the last letter in the alphabet?
++ what [is] [the] * letter (in|of) the [english] alphabet
+- ^letterLookup()
+
++ what [number] (comes|is) (after|before) @numbers
+- I think it is <call>next_number</call>.
+
++ ~emohello
+- Hello

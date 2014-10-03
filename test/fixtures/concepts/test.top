@@ -1,0 +1,4 @@
+concept: ~brother (bro brother male_sibling~1 )
+concept: ~family_adult_male (~BROTHER ~FATHER boyfriend brother-in-law hubby  ex-husband father-in-law fiance granddad granddaddy  grandfather grandpa grandpaw grandpop husband patriarch son-in-law stepfather uncle widower step-father scion)  
+
+concept: ~do_with_titles (~watch ~buy ~own ~like ~hear ~read)

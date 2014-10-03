@@ -228,7 +228,6 @@ describe('Super Script Script Interface', function(){
 
 		it("should warn if function is missing", function(done) {
 			bot.reply("user1", "custom 2 function", function(err, reply) {
-				console.log(err, reply)
 				// reply.should.eql("");
 				done();
 			});
@@ -261,8 +260,77 @@ describe('Super Script Script Interface', function(){
 				done();
 			});
 		});
-		
+	});
 
+	describe('Custom functions 2 - plugin related', function(){
+		it("Alpha Length 1", function(done) {
+			bot.reply("user1", "How many characters in the word socks?", function(err, reply) {
+				reply.should.eql("5");
+				done();
+			});
+		});
 
+		it("Alpha Length 2", function(done) {
+			bot.reply("user1", "How many characters in the name Bill?", function(err, reply) {
+				reply.should.eql("4");
+				done();
+			});
+		});
+
+		it("Alpha Length 3", function(done) {
+			bot.reply("user1", "How many characters in the Alphabet?", function(err, reply) {
+				reply.should.eql("26");
+				done();
+			});
+		});
+
+		it("Alpha Length 4", function(done) {
+			bot.reply("user1", "blank", function(err, reply) {
+				var u = bot.getUser("user1");
+				u.set("name", "Bill");
+				bot.reply("user1", "How many characters in my name?", function(err, reply) {
+					reply.should.eql("There are 4 letters in your name.");
+					done();
+				});
+			});
+		});
+
+		it("Alpha Lookup 1", function(done) {
+			bot.reply("user1", "What letter comes after B", function(err, reply) {
+				reply.should.eql("C");
+				done();
+			});
+		});
+
+		it("Alpha Lookup 2", function(done) {
+			bot.reply("user1", "What letter comes before Z", function(err, reply) {
+				reply.should.eql("Y");
+				done();
+			});
+		});
+
+		it("Alpha Lookup 3", function(done) {
+			bot.reply("user1", "What is the last letter in the alphabet?", function(err, reply) {
+				reply.should.eql("It is Z.");
+				done();
+			});
+		});
+
+		it("Alpha Lookup 4", function(done) {
+			bot.reply("user1", "What is the first letter of the alphabet?", function(err, reply) {
+				reply.should.eql("It is A.");
+				done();
+			});
+		});
+
+	});
+
+	describe('Emo', function(){
+		it("Emo Hellp 1", function(done) {
+			bot.reply("user1", "Hello", function(err, reply) {
+				reply.should.eql("Hello")
+				done();
+			});
+		});
 	});
 });

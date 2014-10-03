@@ -1,0 +1,622 @@
+
+
+table: ~geofact  (^relation ^area ^value ) 
+
+^createfact(^value ^relation ^area)
+^addproperty(^area   NOUN_PROPER_SINGULAR NOUN LOCATIONWORD ALWAYS_PROPER_NAME_MERGE)
+
+DATA:
+# size in square km
+area Earth 510000000
+# land: 148.94 million sq km   29.2%
+# water: 361.132 million sq km 70.8%
+area Arctic_Ocean 14000000
+area "Pacific Ocean" 155557000
+area "Atlantic Ocean" 76762000
+area "Indian Ocean" 68556000
+area "Southern Ocean" 20327000
+area "Aruba" 193
+area "Antigua and Barbuda" 442
+area "United Arab Emirates" 83600
+area "Afghanistan" 647500
+area "Algeria" 2381740
+area "Azerbaijan" 86600
+area "Albania" 28748
+area "Armenia" 29800
+area "Andorra" 468
+area "Angola" 1246700
+area "Argentina" 2766890
+area "Australia" 7686850
+area "Austria" 83870
+area "Antarctica" 14
+area "Bahrain" 665
+area "Barbados" 431
+area "Botswana" 600370
+area "Bermuda" 53
+area "Belgium" 30528
+area "Bahamas" 13940
+area "Bangladesh" 144000
+area "Belize" 22966
+area "Bosnia and Herzegovina" 51129
+area "Bolivia" 1098580
+area "Union of Myanmar" 678500
+area "Republic of Benin" 112620
+area "Belarus" 207600
+area "Brazil" 8511965
+area "Kingdom of Bhutan" 47000
+area "Bulgaria" 110910
+area "Brunei Abode of Peace" 5770
+area "Republic of Burundi" 27830
+area "Canada" 9984670
+area "Great Britain" 80823 
+area Scotland 30414
+area Wales 20779
+area England 130395
+area "Kingdom of Cambodia" 181040
+area "Republic of Chad" 1284000
+area "Democratic Socialist Republic of Sri Lanka" 65610
+area "Republic of the Congo" 342000
+area "Democratic Republic of the Congo" 2345410
+area "People_'s_Republic_of_China" 9596960
+area "Chile" 756950
+area "Cameroon" 475440
+area "Union of the Comoros" 2170
+area "Republic of Colombia" 1138910
+area "Costa Rica" 51100
+area "Central African Republic" 622984
+area "Cuba" 110860
+area "Republic of Cape Verde" 4033
+area "Cyprus" 9250
+area "Denmark" 43094
+area "Republic of Djibouti" 23000
+area "Commonwealth of Dominica" 754
+area "Dominican Republic" 48730
+area "Ecuador" 283560
+area "European Union" 4324782
+area "Egypt" 1001450
+area "Republic of Ireland" 70280
+area "Republic of Equatorial Guinea" 28051
+area "Republic of Estonia" 45226
+area "Eritrea" 121320
+area "El Salvador" 21040
+area "Ethiopia" 1127127
+area "Czech Republic" 78866
+area "Finland" 338145
+area "Fiji" 18270
+area "Federated States of Micronesia" 702
+area "Faroe Islands" 1399
+area "France" 643427
+area "Gambia" 11300
+area "Gabon" 267667
+area "Georgia" 69700
+area "Ghana" 239460
+area "Gibraltar" 6
+area "Grenada" 344
+area "Greenland" 2166086
+area "Germany" 357021
+area "Greece" 131940
+area "Guatemala" 108890
+area "Republic of Guinea" 245857
+area "Guyana" 214970
+area "Haiti" 27750
+area "Hong Kong" 1092
+area "Honduras" 112090
+area "Croatia" 56542
+area "Hungary" 93030
+area "Iceland" 103000
+area "Indonesia" 1919440
+area "India" 3287590
+area "Islamic Republic of Iran" 1648000
+area "Israel" 20770
+area "Italy" 301230
+area "Cote d'Ivoire" 322460
+area "Iraq" 437072
+area "Japan" 377835
+area "Jamaica" 10991
+area "Jordan" 92300
+area "Republic of Kenya" 582650
+area "Kyrgyzstan" 198500
+area "Democratic People's Republic of Korea" 120540
+area "Kiribati" 811
+area Republic_of_Korea 98480
+area "Kuwait" 17820
+area "Kazakhstan" 2717300
+area "Lao People's Democratic Republic" 236800
+area "Lebanon" 10400
+area "Republic of Latvia" 64589
+area "Republic of Lithuania" 65200
+area "Liberia" 111370
+area "Slovakia" 48845
+area "Principality of Liechtenstein" 160
+area "Kingdom of Lesotho" 30355
+area "Luxembourg" 2586
+area "Great Socialist People's Libyan Arab Jamahiriya" 1759540
+area "Madagascar" 587040
+area "Republic of Moldova" 33843
+area "Mongolia" 1564116
+area "Malawi" 118480
+area "Montenegro" 14026
+area "Republic of Macedonia" 25333
+area "Mali" 124000
+area "Monaco" 1
+area "Morocco" 446550
+area "Mauritius" 2040
+area "Mauritania" 1030700
+area "Malta" 316
+area "Sultanate of Oman" 212460
+area "Republic of Maldives" 300
+area "Mexico" 1972550
+area "Malaysia" 329750
+area "Mozambique" 801590
+area "Niue" 260
+area "Republic of Niger" 1267000
+area "Republic of Vanuatu" 12200
+area "Nigeria" 923768
+area "Netherlands" 41526
+area "Norway" 323802
+area "Nepal" 147181
+area "Republic of Nauru" 21
+area "Republic of Suriname" 163270
+area "Nicaragua" 129494
+area "New Zealand" 268680
+area "Paraguay" 406750
+area "Peru" 1285220
+area "Pakistan" 803940
+area "Poland" 312685
+area "Panama" 78200
+area "Portugal" 92391
+area "Independent State of Papua New Guinea" 462840
+area "Republic of Palau" 458
+area "Guinea-Bissau" 36120
+area "Qatar" 11437
+area "Serbia" 88361
+area "Romania" 237500
+area "Philippines" 300000
+area "Puerto Rico" 13790
+area "Russian Federation" 17075200
+area "Rwanda" 26338
+area "Saudi Arabia" 2149690
+area "Federation of Saint Kitts and Nevis" 261
+area "Republic of Seychelles" 455
+area "South Africa" 1219912
+area "Senegal" 196190
+area "Slovenia" 20273
+area "Sierra Leone" 71740
+area "Most Serene Republic of San Marino" 61
+area "Republic of Singapore" 692
+area "Somalia" 637657
+area "Spain" 504782
+area "Saint Lucia" 616
+area "Sudan" 2505810
+area "Sweden" 449964
+area "Syrian Arab Republic" 185180
+area "Switzerland" 41290
+area "Trinidad and Tobago" 5128
+area "Thailand" 514000
+area "Tajikistan" 143100
+area "Tonga" 748
+area "Togo" 56785
+area "Democratic Republic of Sao Tome and Principe" 1001
+area "Tunisia" 163610
+area "Democratic Republic of Timor-Leste" 15007
+area "Turkey" 780580
+area "Tuvalu" 26
+area "Republic of China" 35980
+area "Turkmenistan" 488100
+area "United Republic of Tanzania" 945087
+area "Uganda" 236040
+area "United Kingdom" 244820
+area "Ukraine" 603700
+area "United States of America" 9826630
+area "Burkina Faso" 274200
+area "Republica Oriental del Uruguay" 176220
+area "Uzbekistan" 447400
+area "Saint Vincent and the Grenadines" 389
+area "Bolivarian Republic of Venezuela" 912050
+area "Vietnam" 329560
+area Vatican_City 0
+area "Namibia" 825418
+area "Samoa" 2944
+area "Swaziland" 17363
+area "Yemen" 527970
+area "Zambia" 752614
+area "Republic of Zimbabwe" 390580
+area England 130395 
+area Scotland 78772
+area Wales 20779 
+
+diameter Mercury 3031
+diameter Venus 7521
+diameter Earth 7927
+diameter Mars 4222
+diameter Jupiter 88700
+diameter Saturn 74900
+diameter Uranus 31765
+diameter Neptune 30764
+diameter Pluto 1429
+
+# population
+population Earth 6602224175.00
+population Palestine 4148000
+population "Antigua and Barbuda" 69481
+population "Afghanistan" 31889923
+population "Algeria" 33333216
+population "Azerbaijan" 8120247
+population "Albania" 3600523
+population "Armenia" 2971650
+population "Andorra" 71822
+population "Angola" 12263596
+population "Argentina" 40301927
+population "Australia" 20434176
+population "Austria" 8199783
+population "Barbados" 280946
+population "Bermuda" 66163
+population "Belgium" 10392226
+population "Bangladesh" 150448339
+population "Belize" 294385
+population "Bosnia and Herzegovina" 4552198
+population "Bolivia" 9119152
+population "Belarus" 9724723
+population Brazil 191908598 
+population "Bulgaria" 7322858
+population "Brunei Abode of Peace" 374577
+population "Canada" 33390141
+population "Republic of Chad" 9885661
+population "People_'s_Republic_of_China" 1321851888
+population France 61538322
+population "Chile" 16284741
+population "Union of the Comoros" 711417
+population "Republic of Colombia" 44379598
+population "Costa Rica" 4133884
+population "Cuba" 11394043
+population "Republic of Cape Verde" 423613
+population "Cyprus" 788457
+population "Denmark" 5468120
+population "Republic of Djibouti" 496374
+population "Commonwealth of Dominica" 72386
+population "Dominican Republic" 9365818
+population "Ecuador" 13755680
+population "European Union" 490426060
+population "Egypt" 80335036
+population "Republic of Ireland" 4109086
+population "Republic of Equatorial Guinea" 551201
+population "Republic of Estonia" 1315912
+population "Eritrea" 4906585
+population "El Salvador" 6948073
+population "Czech Republic" 10228744
+population "Finland" 5238460
+population "Fiji" 918675
+population "Federated States of Micronesia" 107862
+population "Faroe Islands" 47511
+population "Gambia" 1688359
+population "Georgia" 4646003
+population "Gibraltar" 27967
+population "Grenada" 89971
+population "Greenland" 56344
+population "Germany" 82400996
+population "Greece" 10706290
+population "Guatemala" 12728111
+population "Republic of Guinea" 9947814
+population "Hong Kong" 6980412
+population "Croatia" 4493312
+population "Hungary" 9956108
+population "Iceland" 301931
+population "Indonesia" 234693997
+population "India" 1129866154
+population "Islamic Republic of Iran" 65397521
+population "Italy" 58147733
+population "Iraq" 27499638
+population "Japan" 127433494
+population "Jamaica" 2780132
+population "Jordan" 6053193
+population "Kyrgyzstan" 5284149
+population "Democratic People's Republic of Korea" 23301725
+population "Kiribati" 107817
+population Republic_of_Korea 49044790
+population "Kazakhstan" 15284929
+population "Lao People's Democratic Republic" 6521998
+population "Lebanon" 3925502
+population "Republic of Latvia" 2259810
+population "Republic of Lithuania" 3575439
+population "Liberia" 3195931
+population "Slovakia" 5447502
+population "Principality of Liechtenstein" 34247
+population "Luxembourg" 480222
+population "Madagascar" 19448815
+population "Republic of Moldova" 4320490
+population "Mongolia" 2951786
+population "Montenegro" 684736
+population "Republic of Macedonia" 2055915
+population "Mali" 11995402
+population "Monaco" 32671
+population "Morocco" 33757175
+population "Mauritius" 1250882
+population "Mauritania" 3270065
+population "Malta" 401880
+population "Republic of Maldives" 369031
+population "Mexico" 108700891
+population "Malaysia" 24821286
+population "Republic of Niger" 12894865
+population "Republic of Vanuatu" 211971
+population "Netherlands" 16570613
+population "Norway" 4627926
+population "Nepal" 28901790
+population "Republic of Nauru" 13528
+population "Republic of Suriname" 470784
+population "Nicaragua" 5675356
+population "New Zealand" 4115771
+population "Paraguay" 6669086
+population "Peru" 28674757
+population "Pakistan" 164741924
+population "Poland" 38518241
+population "Panama" 3242173
+population "Portugal" 10642836
+population "Independent State of Papua New Guinea" 5795887
+population "Republic of Palau" 20842
+population "Guinea-Bissau" 1472780
+population "Qatar" 907229
+population "Serbia" 10150265
+population "Romania" 22276056
+population "Philippines" 91077287
+population "Puerto Rico" 3944259
+population "Russian Federation" 141377752
+population "Federation of Saint Kitts and Nevis" 39349
+population "Republic of Seychelles" 81895
+population "Senegal" 12521851
+population "Slovenia" 2009245
+population "Sierra Leone" 6144562
+population "Most Serene Republic of San Marino" 29615
+population "Republic of Singapore" 4553009
+population "Spain" 40448191
+population "Saint Lucia" 170649
+population "Sudan" 39379358
+population "Sweden" 9031088
+population "Switzerland" 7554661
+population "Trinidad and Tobago" 1056608
+population "Tajikistan" 7076598
+population "Tonga" 116921
+population "Democratic Republic of Sao Tome and Principe" 199579
+population "Tunisia" 10276158
+population "Turkey" 71158647
+population "Tuvalu" 11992
+population "Republic of China" 22858872
+population "Turkmenistan" 5097028
+population "United Kingdom" 60776238 
+population "Ukraine" 46299862
+population "United States of America" 301139947
+population "Republica Oriental del Uruguay" 3460607
+population "Uzbekistan" 27780059
+population "Saint Vincent and the Grenadines" 118149
+population "Bolivarian Republic of Venezuela" 26023528
+population "Wales" 3004600
+population "Scotland" 5168500 
+population "Vietnam" 85262356
+population Vatican_City 821
+population "Yemen" 22230531
+# missing a bunch
+
+# population of cities
+population Tokyo 35197000
+population Mexico_City 19411000
+population New_York_City 18718000
+population Sao_Paulo 18333000
+population Jakarta 18215000
+population Mumbai (Bombay) 18196000
+population Delhi 15048000
+population Shanghai 15503000
+population Calcutta 14277000
+population Buenos_Aires 12550000
+population Dhaka 12430000
+population Los_Angeles 12550000
+population Karachi 11608000
+population Rio_de_Janeiro 11469000
+
+
+# GDP
+GDP Palestine 1500
+GDP Vatican_City 25500
+GDP Scotland 39680
+GDP Wales 30546 
+GDP England 38000
+GDP "Aruba" 21800
+GDP "Antigua and Barbuda" 10900
+GDP "United Arab Emirates" 49700
+GDP "Afghanistan" 800
+gpd "Grenada" 13600
+GDP "Algeria" 7600
+GDP "Azerbaijan" 7500
+GDP "Albania" 5700
+GDP "Armenia" 5700
+GDP "Andorra" 38800
+GDP "Angola" 4500
+GDP "Argentina" 15200
+GDP "Australia" 33300
+GDP "Austria" 34700
+GDP "Bahrain" 25600
+GDP "Barbados" 18400
+GDP "Botswana" 10900
+GDP "Bermuda" 69900
+GDP "Belgium" 33000
+GDP "Bahamas" 21600
+GDP "Bangladesh" 2300
+GDP "Belize" 8400
+GDP "Bosnia and Herzegovina" 5600
+GDP "Bolivia" 3100
+GDP "Union_of_Myanmar" 1800
+GDP "Republic_of_benin" 1100
+GDP "Belarus" 8100
+GDP "Brazil" 8800
+GDP "Kingdom_of_Bhutan" 1400
+GDP "Bulgaria" 10700
+GDP "Brunei Abode of Peace" 25600
+GDP "Republic_of_burundi" 700
+GDP "Canada" 35700
+GDP "Kingdom_of_Cambodia" 2800
+GDP "Republic_of_Chad" 1500
+GDP "Democratic Socialist Republic of Sri Lanka" 4700
+GDP "Republic of the Congo" 1400
+GDP "Democratic Republic of the Congo" 700
+GDP "People_'s_Republic_of_China" 7800
+GDP "Chile" 12600
+GDP "Cameroon" 2500
+GDP "Union_of_the_Comoros" 600
+GDP "Republic_of_Colombia" 8600
+GDP "Costa Rica" 12500
+GDP "Central African Republic" 1200
+GDP "Cuba" 4100
+GDP "Republic of Cape Verde" 6000
+GDP "Cyprus" 23000
+GDP "Denmark" 37100
+GDP "Republic_of_Djibouti" 1000
+GDP "Commonwealth_of_Dominica" 3800
+GDP "Dominican Republic" 8400
+GDP "Ecuador" 4500
+GDP "European Union" 29900
+GDP "Egypt" 4200
+GDP "Republic of Ireland" 44500
+GDP "Republic of Equatorial Guinea" 50200
+GDP "Republic_of_Estonia" 20300
+GDP "Eritrea" 1000
+GDP "El Salvador" 4900
+GDP "Ethiopia" 1000
+GDP "Czech Republic" 22000
+GDP "Finland" 33500
+GDP "Fiji" 6200
+GDP "Federated States of Micronesia" 2300
+GDP "Faroe Islands" 31000
+GDP "France" 31200
+GDP "Gambia" 2000
+GDP "Gabon" 7100
+GDP "Georgia" 3900
+GDP "Ghana" 2700
+GDP "Gibraltar" 27900
+GDP "Grenada" 3900
+GDP "Greenland" 20000
+GDP "Germany" 31900
+GDP "Greece" 24000
+GDP "Guatemala" 5000
+GDP "Republic_of_Guinea" 2100
+GDP "Guyana" 4900
+GDP "Haiti" 1800
+GDP "Hong Kong" 37300
+GDP "Honduras" 3100
+GDP "Croatia" 13400
+GDP "Hungary" 17500
+GDP "Iceland" 38000
+GDP "Indonesia" 3900
+GDP "India" 3800
+GDP "Islamic_Republic_of_Iran" 8700
+GDP "Israel" 26800
+GDP "Italy" 30200
+GDP "Cote d'Ivoire" 1600
+GDP "Iraq" 1900
+GDP "Japan" 33100
+GDP "Jamaica" 4700
+GDP "Jordan" 5100
+GDP "Republic_of_Kenya" 1200
+GDP "Kyrgyzstan" 2100
+GDP "Democratic People's Republic of Korea" 1800
+GDP "Kiribati" 2800
+GDP "Republic of Korea" 24500
+GDP "Kuwait" 23100
+GDP "Kazakhstan" 9400
+GDP "Lao_people_'s_Democratic_Republic" 2200
+GDP "Lebanon" 5900
+GDP "Republic_of_Latvia" 16000
+GDP "Republic_of_Lithuania" 15300
+GDP "Liberia" 900
+GDP "Slovakia" 18200
+GDP "Principality of Liechtenstein" 25000
+GDP "Kingdom_of_Lesotho" 2700
+GDP "Luxembourg" 71400
+GDP "Great_Socialist_People_'s_Libyan_Arab_Jamahiriya" 12300
+GDP "Madagascar" 900
+GDP "Republic_of_Moldova" 2000
+GDP "Mongolia" 2100
+GDP "Malawi" 600
+GDP "Montenegro" 3800
+GDP "Republic of Macedonia" 8300
+GDP "Mali" 1300
+GDP "Monaco" 30000
+GDP "Morocco" 4600
+GDP "Mauritius" 13700
+GDP "Mauritania" 2600
+GDP "Malta" 21300
+GDP "Sultanate_of_Oman" 14400
+GDP "Republic_of_Maldives" 3900
+GDP "Mexico" 10700
+GDP "Malaysia" 12800
+GDP "Mozambique" 1500
+GDP "Niue" 5800
+GDP "Republic_of_Niger" 1000
+GDP "Republic_of_Vanuatu" 2900
+GDP "Nigeria" 1500
+GDP "Netherlands" 32100
+GDP "Norway" 46300
+GDP "Nepal" 1500
+GDP "Republic_of_Nauru" 5000
+GDP "Republic_of_Suriname" 7100
+GDP "Nicaragua" 3100
+GDP "New zealand" 26200
+GDP "Paraguay" 4800
+GDP "Peru" 6600
+GDP "Pakistan" 2600
+GDP "Poland" 14400
+GDP "Panama" 8200
+GDP "Portugal" 19800
+GDP "Independent State of Papua New Guinea" 2700
+GDP "Republic_of_Palau" 7600
+GDP "Guinea-Bissau" 900
+GDP "Qatar" 29800
+GDP "Serbia" 4400
+GDP "Romania" 9100
+GDP "Philippines" 5000
+GDP "Puerto Rico" 19300
+GDP "Russian_Federation" 12200
+GDP "Rwanda" 1600
+GDP "Saudi Arabia" 13800
+GDP "Federation of Saint Kitts and Nevis" 8200
+GDP "Republic_of_Seychelles" 7800
+GDP "South Africa" 13300
+GDP "Senegal" 1800
+GDP "Slovenia" 23400
+GDP "Sierra Leone" 900
+GDP "Most Serene Republic of San Marino" 34100
+GDP "Republic_of_Singapore" 31400
+GDP "Somalia" 600
+GDP "Spain" 27400
+GDP "Saint Lucia" 4800
+GDP "Sudan" 2400
+GDP "Sweden" 32200
+GDP "Syrian_Arab_Fepublic" 4100
+GDP "Switzerland" 34000
+GDP "Trinidad and Tobago" 19800
+GDP "Thailand" 9200
+GDP "Tajikistan" 1300
+GDP "Tonga" 2200
+GDP "Togo" 1700
+GDP "Democratic Republic of Sao Tome and Principe" 1200
+GDP "Tunisia" 8900
+GDP "Democratic_Republic_of_Timor-Leste" 800
+GDP "Turkey" 9100
+GDP "Tuvalu" 1600
+GDP "Republic_of_China" 29600
+GDP "Turkmenistan" 8500
+GDP "United_Republic_of_Tanzania" 800
+GDP "Uganda" 1900
+GDP "United Kingdom" 31800
+GDP "Ukraine" 7800
+GDP "United States of America" 43800
+GDP "Burkina faso" 1400
+GDP "Republica_Oriental_del_Uruguay" 10900
+GDP "Uzbekistan" 2000
+GDP "Saint Cincent and the Grenadines" 3600
+GDP "Bolivarian_Republic_of_Venezuela" 7200
+GDP "Vietnam" 3100
+GDP "Namibia" 7500
+GDP "Samoa" 2100
+GDP "Swaziland" 5300
+GDP "Yemen" 1000
+GDP "Zambia" 1000
+GDP "Republic_of_Zimbabwe" 2100
+

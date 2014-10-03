@@ -1,0 +1,378 @@
+
+table: ~storeinfo (^kind )
+	CreateFact(^kind member ~store_type)
+
+	^kind = ^substitute(character ^kind ~ "")
+	CreateFact (^kind member ~store)  # w/o the ~
+
+DATA:
+~APPLIANCE_STORE ~ART_GALLERY ~AUTO_DEALER ~AUTO_PARTS_STORE \n
+~BAKERY ~BANK ~BARBER_SHOP ~BEAUTY_SALON ~BOOK_STORE ~BOUTIQUE ~BOWLING_ALLEY
+~BRIDAL_STORE ~BUSINESS_SUPPLY ~BUTCHERY
+~CAFE  ~CINEMA  ~COFFEE_SHOP  ~COIN_SHOP  ~CONFECTIONER   ~CONVENIENCE_STORE  ~CRAFT_STORE
+~dairyitems  ~DAY_CARE_CENTER  ~DELI  ~DENTIST  ~DEPARTMENT_STORE  ~DRAPER  ~DRUGSTORE  ~DRY_CLEANER
+~ELECTRONIC_ITEMS  ~FASHION  ~FASTFOOD_PLACE  ~FIRE_DEPARTMENT  ~FISHMONGER  ~FLORIST  ~FURNITURE_STORE
+~GAS_STATION  ~GIFT_SHOP
+~HAIR_SALON  ~HARDWARE_STORE  ~HEALTH_FOOD_SHOP  ~HOSPITAL  ~HOTEL
+~ICE_CREAM_STORE  ~INFORMATION_CENTER  ~INSURANCE_AGENT  ~INTERNET_CAFE
+~JEWELLER
+~LAUNDROMAT  ~LEATHER_GOODS_SHOP (luggage_shop)  ~LIBRARY  ~LINGERIE_SHOP  ~LOST_AND_FOUND  ~LUMBERYARD
+~LIQUOR_STORE (off_license)
+~MASONRY_SUPPLY_STORE  ~MECHANIC  ~MOVIE_STORE  ~MUSIC_STORE
+~NEWSAGENT   ~NURSERY
+~OPTICIAN
+~PARTY_STORE  ~PET_STORE  ~PHOTOGRAPHER  ~PHOTOSHOP  ~POLICE_STATION  ~POST_OFFICE  ~PUB
+~REAL_ESTATE  ~RESTAURANT  ~ROCK_SHOP
+~SERVICE_STATION  ~SEX_SHOP  ~SHOE_STORE  ~SMOKE_SHOP  ~SPORTING_GOODS_STORE  ~STAMP_SHOP  ~STATIONARY_STORE (STATIONER)
+~STOCK_BROKER  ~SUPERMARKET
+~TAXI  ~THRIFT_SHOP  ~TOW_SERVICE  ~TOY_STORE  ~TRAVEL_AGENCY
+
+table: temperature(^item ^temperature)
+createfact( ^item temperature ^temperature)
+DATA: 
+[ice snow ice_cube glacier ice_cream cold_pack North_Pole Antarctica Arctic_Ocean cold] cold
+[sun star volcano furnace fire desert grill oven hot_plate fry_pan burner flame rocket_engine car_engine lava flame equator hot] hot
+
+
+concept: ~wherefrom()
+concept: ~produces()
+
+table: ~source(^what ^where)
+^createfact(^where source ^what)
+^createfact(^what member ~wherefrom)
+^createfact(^where member ~produces)
+DATA:
+milk cow
+beef cow
+lamb sheep
+honey bee
+silk silk_worm
+web	spider
+hive bee
+feather bird
+nest bird
+egg bird
+bacon pig
+sausage pig
+silver mine
+gold mine
+light sun
+light lamp
+electricity battery
+electricity generator
+water faucet
+leather cow
+baby mother
+
+
+table: ~shapeof (^shape ^object)
+^createfact(^object shape ^shape)
+DATA:
+
+ rectangular [sheet window door sign picture flag parking_spot table house rug calendar  TV television electrical_outlet blackboard wall ceiling facecloth curtain] 
+ rectangular [parking_space ruler drawer rug   magazine newspaper dollar_bill  money  paper_towel towel book doormat board magazine  ladder tray monitor typewriter_paper paper]
+ rectangular [mirror ]
+ 
+ triangular [triangle pie_slice cheese_slice Toblerone_chocolate cake_slice]
+
+ square [window sign floppy_disc tile chess_board table cd_case DVD_case]
+ 
+ round [tire table record LP CD DVD saucer plate lid pie pizza rug penny dime nickel quarter]
+ 
+ spherical  [planet star moon sun Earth blueberry berry doughnut pebble rock stone  blueberry elderberry gooseberry huckleberry raspberry blackberry grape cherry ]
+ spherical [ strawberry apricot lychee plum clementine lemon tangerine lime orange tomato satsuma kiwi_fruit kiwi apple peach pear  mango pomegranate coconut   melon pineapple cantaloupe honeydew_melon watermelon ]
+ spherical  [ball beachball baseball marble apple berry strawberry blackberry orange apple peach pear plum globe bubble]
+ 
+ cylindrical [eraser pencil pipe bottle arm leg finger toe glass  pen chaulk nail crayon toilet_paper cork ]
+ cylindrical [telescope wine_bottle lamp straw human person can trash_can  garbage_can soda_can pot  saucepan pan vial toothbrush]
+ 
+ ovoid [egg head eggplant pineapple avocado]
+ 
+ pyramidal pyramid
+ 
+ prismatic [prism tent]
+ 
+ hexagonal [snowflake honeycomb crystal]
+ 
+ hemi-sphere [bowl teacup cup ]
+ 
+ hemispheric [bowl teacup cup ]
+
+ cuboid [bed refrigerator TV television DVD_player laptop modem Tivo box carton ottoman bed lumber speaker DVD_player stereo record_player power_strip cushion brick step bookcase eraser door window  ]
+ cuboid [chair sofa couch computer iphone tablet iPad smartphone cellphone monitor keyboard aquarium car automobile train taxi truck van ]
+ cuboid [cabinet bookcase desk bed mattress air_conditioner ]
+
+ 
+table: ~sellers (^seller  ^object ) 
+^createfact(^seller sell ^object)
+DATA:
+butcher meat
+jeweler jewelry
+grocer grocery
+bartender alcohol
+shoemaker shoe
+postmaster stamp
+baker pastry
+barber hair_cut
+taxi_driver ride
+travel_agent vacation
+stock_broker stock
+realtor house
+optician glasses
+insurance_agent insurance
+
+
+ concept: ~soundmaker()
+ concept: ~animalsoundsissued()
+
+table: ~soundmaker (^source  ^sound ) 
+^createfact(^source member ~soundmaker)
+^createfact(^sound sound ^source)
+^createfact(^sound member ~animalsoundsissued)
+
+DATA:
+hen cluck \n crow caw \n frog ribbit \n gun bang \n pistol bang \n laser zap \n goose honk \n horn honk
+dog "bark bark" \n cow moo \n sheep baa \n car "vroom vroom" \n clock "tick tock" \n cat meow \n ape gibber
+dog woof
+donkey bray \n bear growl \n bee buzz \n bird tweet \n chicken cheep \n cock crow \n elephant trumpet \n fly buzz
+horse whinny \n hyena laugh \n kitten mew \n lion roar \n mouse squeak \n owl hoot \n pigeon coo
+pig oink \n snake hiss \n rattlesnake hiss \n tiger growl \n turkey gobble \n wolf howl
+
+table: ~BEINGS (^being  ^location ) 
+^createfact(^being member ~BEINGS)
+^createfact(^location reside ^being)
+DATA:
+lion Africa \n tiger Africa \n gorilla Africa \n ape Africa \n monkey Africa \n elephant Africa \n zebra Africa \n
+leopard Africa \n hyena Africa \n hippopotamus Africa \n human house \n frog pond \n
+fish ocean \n coral ocean \n shark ocean \n jellyfish ocean \n starfish ocean \n oyster ocean \n clam ocean \n
+mussel ocean \n lobster ocean \n hen henhouse \n chicken henhouse \n rooster henhouse \n bird nest \n bee hive \n
+bear forest \n owl barn \n mouse field \n wolf forest \n turkey woods \n pig sty \n horse stable \n donkey stable \n
+snake grass \n rattlesnake grass \n rat walls \n beaver pond \n
+
+concept: ~newspaper()
+concept: ~airline()
+
+table: ~manmade ( ^role ^object)
+^createfact(^object member ^role)
+DATA:
+
+~videogame [Bioshock  "CounterStrike" "Counter Strike"]
+~videogame ["Grand Theft Auto IV" ]
+~videogame ["Metal Gear Solid 4: Guns of the Patriots" ]
+~videogame ["Call of Duty 4: Modern Warfare" ]
+~videogame ["Madden NFL 09" ]
+~videogame ["Heroes of Might and Magic"]
+~videogame ["Gran Turismo 5: Prologue" ]
+~videogame ["Grand Theft Auto IV: Prologue" ]
+~videogame ["Call of Duty 4: Modern Warfare" ]
+~videogame ["Madden NFL 09" ]
+~videogame ["Tom Clancy's Rainbow Six: Vegas 2" ]
+~videogame ["Army of Two" ]
+~videogame ["Super Smash Bros. Brawl"]
+~videogame ["Mario Kart" ]
+~videogame ["Wii Ply" ]
+~videogame ["Wii Fit" ]
+~videogame "Guitar Hero III: Legends of Rock" 
+
+~university ["Emory University" "Rice University" "University of Virginia"]
+~newspaper [Time Newsweek USA_Today Wall_Street_Journal The_Times Associated_Press ]
+
+table: ~items (^role ^name ^item)
+^createfact(^name member ^role)
+if (^item != * ) {^createfact(^item exemplar ^name) } # [Evanstan,ILL exemplar Northwestern]
+DATA:
+~university "University_of_Exeter"  "Exeter, England"
+~university "University_of_Hawaii"  "Honolulu, Hawai'i"
+~university "Amherst College"   "Amherst, Massachusetts"
+~university "Brown University" (Brown)   "Providence, Rhode_Island"
+~university "Carnegie Mellon University" (CMU)   "Pittsburgh, Pennsylvania"
+~university "Columbia University" (Columbia)   "New York City, New_York"
+~university "Cornell University" (Cornell)  "Ithica, New_York"
+~university "Dartmouth College" (Dartmouth)   "Hanover, New_Hampshire"
+~university "Georgetown University"   "Washington, D.C."
+~university "Harvard University" (Harvard)   "Boston, Massachusetts"
+~university "Massachusetts Institute of Technology" (MIT M.I.T.)   "Cambridge, Massachusetts"
+~university "New York University" (NYU)   "New York City, New_York"
+~university "Princeton University" (Princeton)   "Princeton, New_Jersey"
+~university "Rutgers University"    "New Brunswick, New_York"
+~university "University of Pennsylvania" (Penn)   "Philadelphia, Pennsylvania"
+~university "Williams College"    "Williamstown, Massachusetts"
+~university "Yale University" (Yale)   "New Haven, Connecticut"
+~university "California Institute of Technology" (CalTech)   "Pasadena, California"
+~university "Stanford University"   "Palo Alto, California"
+~university "University of California, Berkeley" (UCBerkeley Berkeley)   "Berkeley, California"
+~university "University of California, Los Angelese" (UCLA)   "Los Angeles, California"
+~university "University of Southern California" (USC)    "Los Angeles"
+~university "Northwestern University"   "Evanston, Illinois"
+~university "University of Chicago"   "Chicago, Illinois"
+~university "University of Michigan" (UMICH)   "Ann Arbor, Michigan"
+~university "University of Notre Dame"  "South Bend, Indiana"
+~university "College of William and Mary"  "Williamsburg, Virginia"
+~university "Duke University"   "Durham, North_Carolina"
+~university "Rensselaer Polytechnic Institute" (RPI)    * 
+# newspapers
+~newspaper Honolulu_Advertiser  Honolulu,_Hawai'i
+~newspaper Star_Bulletin   Honolulu,_Hawai'i
+~newspaper Chicago_Tribune   Chicago,_Illinois
+~newspaper Chicago_Sun-Times  Chicago,_Illinois
+~newspaper Houston_Chronicle   Houston,_Texas
+~newspaper San_Francisco_Chronicle   "San Francisco, California"
+~newspaper The_Toronto_Star   "Toronto, Canada"
+~newspaper Boston_Globe   "Boston"
+~newspaper Boston_Herald   "Boston"
+~newspaper Miami_Herald   "Miami, Florida"
+~newspaper New_York_Daily_News   "New_York_City, New York"
+~newspaper New_York_Times   "New_York_City, New York"
+~newspaper Washington_Post   "Washington, D.C."
+~newspaper "Atlanta Journal-Constitution"   Atlanta,_Georgia
+~newspaper Los_Angeles_Times   "Los Angeles, California"
+~newspaper Phildelphia_Inquirer  "Philadelphia, Pennsylvania"
+~newspaper Detroit_Free_Press   "Detroit, Michigan"
+
+# airlines
+~airline Continental    United_States_of_America
+~airline United_Airlines (UAL)    United_States_of_America
+~airline Hawaiian_Airlines    United_States_of_America
+~airline Delta   United_States_of_America
+~airline Go_Airlines   United_States_of_America
+~airline Southwest_Airlines    United_States_of_America
+~airline Alaska_Air    United_States_of_America
+~airline Northwest_Airlines   United_States_of_America
+~airline American_AIrlines   United_States_of_America
+~airline US_AIR    United_States_of_America
+~airline JetBlue   United_States_of_America
+~airline Air_New_Zealand    New_Zealand
+~airline Quantas    Australia
+~airline Swiss_Air   Switzerland
+~airline Air_France    France
+~airline Japan_Airlines (JAL)    Japan
+~airline Virgin_Airlines (Virgin_Atlantic)   "United Kingdom"
+~airline British_Airways    "United Kingdom"
+~airline Lufthansa   "Germany"
+~airline KLM    "Netherlands"
+~airline China_Airlines   People_'s_Republic_of_China
+~airline Korean_Air    Republic_of_Korea
+
+
+table: ~companies  (^company ^field)
+^createfact(^company member ~company)
+^Addproperty(^company NOUN NOUN_PROPER_SINGULAR )
+if (^field != * ) { ^createfact(^field exemplar ^company) }
+
+DATA:
+  General_Electric *
+  Berkshire_Hathaway  *
+  "Johnson and Johnson"  *
+  International_Paper  *
+  Walt_Disney  *
+  Disney *
+  Outfit7 *
+  Viacom  *
+  Walmart *
+  CVS  *
+  Lowe's  *
+  Electronic_Data_Systems (EDS)  *
+  Caterpillar  *
+  Oceanit  *
+  "Ford Motor Company" (Ford) automobile
+  "General Motors" (GM) automobile
+  "Toyota" automobile
+  "Nissan Motors" (Nissan) automobile
+  Mazda automobile
+  Kia automobile
+  Hyundai automobile
+  "Honda Motors" (Honda) automobile
+  Merck drugs
+  Pfizer drugs
+  Bayer drugs
+  Lush cosmetics
+  "Mac Cosmetics" cosmetic
+  "Sephora" cosmetic
+  Origins cosmetic
+  "The Body Shop" cosmetic
+  "Barnes and Noble" book
+  "Borders" books
+  "General Nutrition Center" (GNC) vitamin
+  "Amazon.com" (Amazon) book
+  "Victoria's Secret" lingerie
+  Phillip_Morris tobacco
+  Dell_Computer (Dell) computer
+  Hewlett-Packard (HP) computer
+  Microsoft computer
+  "International Business Machines" (IBM) computer
+  Apple_Computer  computer
+  Lockheed_Martin aircraft
+  Boeing aircraft
+  Motorola communication
+  Lucent_Technologies communication
+  Cisco_Systems communication
+  AOL_Time_Warner (AOL Time_Warner) Internet
+  Google Internet
+  Yahoo Internet
+  United_States_Postal_Service (USPS) "mail"
+  United_Parcel_Service (UPS) "mail"
+  Federal_Express (FEDEX) "mail"
+  Foodland grocery
+  Albertson's grocery
+  "Whole Foods" grocery
+  Kroger grocery
+  Safeway grocery
+  New_York_Life_Insurance (New_York_Life) insurance
+  AllState insurance
+  "Metropolitan Life" (MetLife) insurance
+  "United States Automobile Association" (USAA) insurance
+  Sprint telephone
+  SBC_Communications telephone
+  Verizon telephone
+  Quest telephone
+  TMobile telephone
+  "AT&T" telephone
+  Expedia travel
+  Orbitz travel
+  Priceline travel
+  Sony videogame
+  Nintendo videogame
+  Avatar_Reality videogame
+  Sears_Roebuck (Sears) "department store"
+  KMart "department store"
+  Wal-Mart "department store"
+  Target "department store"
+  Nordstrom ("Nordstrom Rack") "department store"
+  Costco "department store"
+  "Bloomingdale's" "department store"
+  "Radio Shack" electronic
+  "LensCrafters" eyeglass
+  "Brookstone's" "tech gift"
+  "Sharper Image" "tech gift"
+  "JCPenney" ("J.C. Penney" "JC Penny" "JC Penney" "JCPenny") "department store"
+  Macy "department store"
+  Shirokia "department store"
+  American_Express "credit card"
+  Mastercard "credit card"
+  Visa "credit card"
+  Pacific_Gas_and_Electric ("PG&E") energy
+  Exxon_Mobil energy
+  Enron energy
+  Conoco energy
+  "Hawai'n Electric" (HECO) energy
+  Coca-Cola (Coke) "soft drink"
+  Pepsi-Cola (Pepsi PepsiCo) "soft drink"
+  Wachovia bank
+  "Bank of America" (BOA) bank
+  "Merrill Lynch" bank
+  "JPMorgan Chase" bank
+  "State Street Corporation" bank
+  "Capital One" bank
+  SunTrust bank
+  "FleetBoston" bank
+  "Wells Fargo" bank
+  HSBC bank
+  "Washington Mutual" bank
+  "Central Pacific Bank" bank
+  "U.S. Bancorp" bank
+  "Comerica" bank
+  "Countrywide" bank
+  "American Savings" bank
+  "Bank of Hawaii" (BOH) bank
+  "Citibank" (Citi Citigroup) bank
+  "Electronic Arts" videogame

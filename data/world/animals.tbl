@@ -1,0 +1,139 @@
+
+
+table: ~adultchild(^child ^adult)
+^createfact(^child child ^adult)
+^addproperty(^child NOUN NOUN_SINGULAR)
+^addproperty(^adult NOUN NOUN_SINGULAR)
+
+DATA:
+calf cow
+puppy dog
+kitten cat
+hatchling alligator
+cub bear
+larva [bee insect]
+[chick hatchling] bird
+[chick hatchling] chicken
+piglet [boar pig]
+caterpillar butterfly
+fawn deer 
+colt [donkey horse]
+foal [donkey horse]
+duckling duck
+eaglet eagle
+maggot fly
+kid goat
+gosling goose
+[baby infant toddler] human
+[baby infant toddler] person
+joey [koala kangaroo]
+cub [tiger leopard lion]
+bunny rabbit
+lamb sheep
+larva termite
+tadpole toad
+larva wasp
+
+table: ~lcthings1 (^relation ^animal ^unit)
+^createfact(^animal isa ~animals)
+^createfact(^unit ^relation ^animal)
+^addproperty(^animal NOUN NOUN_SINGULAR)
+
+DATA:
+ male  bear  boar
+ female  bear  sow
+ child  bear  cub
+
+ male  horse  stallion
+ female  horse  mare
+ child  horse  foal
+
+ male  fox  reynard
+ female  fox  vixen
+ child  fox  cub
+
+ male  duck   drake
+ female  duck  duck
+ child  duck  duckling
+
+ male  hawk  tercel
+ female  hawk  hen
+ child  hawk  eyas
+
+ male  tiger  tiger
+ female  tiger  tigress
+ child  tiger  cub
+
+ male  alligator  bull
+ female  alligator  cow
+ child  alligator  hatchling
+
+ male cow bull
+ female cow cow
+
+ male  dog  dog
+ female  dog  bitch
+ child  dog  puppy
+
+ male  red_deer  stag
+ female  red_deer  hind
+ child  red_deer  fawn
+
+ male  swan  cob
+ female  swan  pen
+ child  swan  cygnet
+
+ group  wolf pack
+ group  fox skulk
+ group  goat trip
+ group  crow murder
+ group  toad knot
+ group  bat colony
+ group  gorilla band
+ group  caterpillar army
+ group  fish school
+ group  jellyfish smack
+ group  lion pride
+ group  mouse harvest
+ group  mole labor
+ group  goose gaggle
+ group  kangaroo mob
+ group  whale pod
+ group  owl parliament
+ group  rhinoceros crash
+
+# concept: ~animal_homes ()
+
+table: ~lcthings1 (^animal ^home)
+^createfact(^home member ~animal_homes)
+^createfact(^home habitat ^animal)
+^addproperty(^animal NOUN NOUN_SINGULAR)
+^addproperty(^home NOUN NOUN_SINGULAR)
+
+DATA:
+rabbit hutch
+~bird [nest birdhouse birdcage bird-house aviary]
+chicken coop
+~fishes [aquarium fish_tank ]
+[snake lizard turtle] terrarium
+[snake lizard turtle] vivarium 
+sea_horse aquarium
+~dog_breeds [dog-house doghouse kennel]
+dog doghouse
+dog kennel
+lion den
+[beaver otter] lodge
+ant anthill
+bat cave
+[lion tiger bear wolf] den
+bee hive
+[vulture eagle] eyrie
+[fox cat] lair
+[cow cattle steer] barn
+horse stable
+mole burrow
+pig sty
+sheep pen
+spider web
+termite mound
+wasp nest

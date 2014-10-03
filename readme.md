@@ -77,13 +77,13 @@ When input comes into the system that matches "I like fish", it will return with
 	* ✓ Break Sentences into multiple message objects
 	* ✓ Support Optionals and Wordnet lookups in replies
 	* ✓ Add helper functions for replies eg: Pluralization, Capitalize
-	* Logging Threads
+	* ✓ Logging Threads / Transcripts
 
 	## Information Retrieval
-	* ½ Concept Net Support
-	* ½ Fact Triples
-	* ½ Generic Scripted Concepts
-	* ½ Memory
+	* ✓ Concept Net Support
+	* ✓ Fact Triples
+	* ✓ Generic Scripted Concepts
+	* ✓ Memory
 	* Bot variables
 
 	## Dialogue Flow
@@ -93,12 +93,14 @@ When input comes into the system that matches "I like fish", it will return with
 	* ✓ Better Topic Redirects
 	* Topic Gambits (reverse conversation - Bot Questions)
 	* Active Listening / Passive Listening
-	* Volly and re-serve. 
+	* Volley and re-serve.
+		- ✓ Volley support, keep track of who dropped the ball
+		- ✓ Rally support, keep track of how well the thread is going.
 
  ## Bigger tasks
+  * ✓ Add popular names to aid when NNP is NN http://www.behindthename.com/top/lists/ud/1980
   * Remove building topic tree from bot flow and cache results to disk
   * Front load Reply.parse regex compile to topic trees
-  * Add Example client for IRC, Gabber, Slack or ?
   * Group Chat interface 
   	- reply - Message to user in channel "@user ..."
   	- directReply - Privace message to User
@@ -114,4 +116,4 @@ When input comes into the system that matches "I like fish", it will return with
   * iCAL Support
 
  ## Bugs (Known issues)
-  * Issue with ~emohello matching wordnet
+  * None

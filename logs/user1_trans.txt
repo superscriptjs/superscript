@@ -1,0 +1,25 @@
+Wed Jul 02 2014 23:39:17 GMT-0700 (PDT) (user) Where would I find pants ? 
+Wed Jul 02 2014 23:39:19 GMT-0700 (PDT) (bot) How about in a department store. 
+Wed Jul 02 2014 23:40:06 GMT-0700 (PDT) (user) what is your favorite color 
+Wed Jul 02 2014 23:40:09 GMT-0700 (PDT) (bot) I'm not ready to talk about myself yet :) 
+Wed Jul 02 2014 23:49:01 GMT-0700 (PDT) (user) what is your favorite color 
+Wed Jul 02 2014 23:49:03 GMT-0700 (PDT) (bot) It is blue-green in color. 
+Thu Jul 03 2014 00:06:21 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:06:24 GMT-0700 (PDT) (bot) It is blue-green in color. 
+Thu Jul 03 2014 00:07:04 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:07:42 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:07:44 GMT-0700 (PDT) (bot) red 
+Thu Jul 03 2014 00:09:18 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:09:20 GMT-0700 (PDT) (bot) red 
+Thu Jul 03 2014 00:17:37 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:17:39 GMT-0700 (PDT) (bot) red 
+Thu Jul 03 2014 00:29:54 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:29:56 GMT-0700 (PDT) (bot) red 
+Thu Jul 03 2014 00:31:59 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:32:01 GMT-0700 (PDT) (bot) red 
+Thu Jul 03 2014 00:32:52 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:32:54 GMT-0700 (PDT) (bot) red 
+Thu Jul 03 2014 00:34:19 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:34:21 GMT-0700 (PDT) (bot) red 
+Thu Jul 03 2014 00:35:01 GMT-0700 (PDT) (user) what is your favorite color 
+Thu Jul 03 2014 00:35:03 GMT-0700 (PDT) (bot) red 

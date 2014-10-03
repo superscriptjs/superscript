@@ -1,0 +1,44 @@
+
+
+table: madeof(^ingredient ^item)
+createfact(^ingredient constituent ^item)
+^addproperty(^ingredient NOUN NOUN_SINGULAR)
+createfact(^ingredient member ~material)
+
+DATA:
+plastic [pill_jar phone cellphone doll]
+rubber [ball eraser hose ]
+concrete [sidewalk building]
+plaster [wall ceiling]
+wood [~furniture oar desk chair sofa bed house bookcase door table hatstand mousetrap rattrap]
+glass [window TV television monitor jar drinking_glass glass vase mirror carafe lightbulb bulb]
+cloth [sheet pillowcase ~clothes curtain sofa hat]
+wool [sweater blanket rug throw]
+ceramic [cup mug plate saucer vase teacup]
+leather [shoe belt jacket]
+paper [book magazine newspaper paperback]
+brick [fireplace]
+leather [jacket chair sofa wallet coinpurse belt]
+foam [mattress pillow]
+
+# metals
+metal [car automobile  TV stereo nail staple truck pot pan saucepan spoon fork knife]
+aluminum [siding pan pot saucepan]
+steel [skyscraper car automobile truck]
+copper [pipe penny]
+gold [jewelry tooth_filling crown]
+silver [dime flatware spoon mirror]
+nickel [nickel]
+
+electronic_component [ modem router phone cellphone television stereo iPhone iPad iPod radio TV  ]
+chemical [pill medicine ~CHEMICALS ~CLEANING_SUBSTANCES  ~EXPLOSIVE ~FERTILIZER ~harmful_substance]
+
+diamond [ring pendant jewelry]
+chitin [~insects]
+flesh [cat human person ~MAMMALS ~fishes ~bird]
+cellulose [plant ~plants rose tree ~GRAINS ]
+water [body person ice_cube ~scenery_water_bodies]
+air [cloud]
+plasma [sun star nova supernova]
+rock [meteor planet Earth]
+dirt [Earth]
