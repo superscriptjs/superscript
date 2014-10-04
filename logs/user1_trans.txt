@@ -23,3 +23,136 @@ Thu Jul 03 2014 00:34:19 GMT-0700 (PDT) (user) what is your favorite color
 Thu Jul 03 2014 00:34:21 GMT-0700 (PDT) (bot) red 
 Thu Jul 03 2014 00:35:01 GMT-0700 (PDT) (user) what is your favorite color 
 Thu Jul 03 2014 00:35:03 GMT-0700 (PDT) (bot) red 
+Fri Oct 03 2014 22:51:17 GMT-0700 (PDT) (user) what is your favorite color 
+Fri Oct 03 2014 22:51:19 GMT-0700 (PDT) (bot) red 
+Fri Oct 03 2014 22:51:17 GMT-0700 (PDT) (user) what is your favorite color 
+Fri Oct 03 2014 22:51:19 GMT-0700 (PDT) (bot) red 
+Fri Oct 03 2014 22:56:25 GMT-0700 (PDT) (user) what is your favorite color 
+Fri Oct 03 2014 22:56:27 GMT-0700 (PDT) (bot) red 
+Fri Oct 03 2014 22:56:25 GMT-0700 (PDT) (user) what is your favorite color 
+Fri Oct 03 2014 22:56:27 GMT-0700 (PDT) (bot) red 
+Fri Oct 03 2014 22:58:44 GMT-0700 (PDT) (user) My parents are John and Susan . 
+Fri Oct 03 2014 22:58:46 GMT-0700 (PDT) (bot) Yep. 
+Fri Oct 03 2014 22:58:46 GMT-0700 (PDT) (user) What is my dads name ? 
+Fri Oct 03 2014 22:59:13 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 22:59:13 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 22:59:13 GMT-0700 (PDT) (bot) I think it is 16 
+Fri Oct 03 2014 22:59:15 GMT-0700 (PDT) (user) What is 50 percent of 40 ? 
+Fri Oct 03 2014 22:59:15 GMT-0700 (PDT) (user) What is 50 percent of 40 ? 
+Fri Oct 03 2014 22:59:15 GMT-0700 (PDT) (bot) I think it is 20 
+Fri Oct 03 2014 22:59:16 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 22:59:17 GMT-0700 (PDT) (user) What comes next in the sequence : 2 4 6 8 10 12 ? 
+Fri Oct 03 2014 22:59:16 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 22:59:17 GMT-0700 (PDT) (bot) I think it is 4 
+Fri Oct 03 2014 22:59:17 GMT-0700 (PDT) (user) What comes next in the sequence : 1 2 4 8 16 ? 
+Fri Oct 03 2014 22:59:17 GMT-0700 (PDT) (user) What comes next in the sequence : 2 4 6 8 10 12 ? 
+Fri Oct 03 2014 22:59:18 GMT-0700 (PDT) (bot) I think it is 14 
+Fri Oct 03 2014 22:59:17 GMT-0700 (PDT) (user) What comes next in the sequence : 1 2 4 8 16 ? 
+Fri Oct 03 2014 22:59:18 GMT-0700 (PDT) (bot) I think it is 32 
+Fri Oct 03 2014 22:59:18 GMT-0700 (PDT) (user) If John is taller than Mary , who is the shorter ? 
+Fri Oct 03 2014 22:59:19 GMT-0700 (PDT) (bot) mary is short than john. 
+Fri Oct 03 2014 22:59:18 GMT-0700 (PDT) (user) If John is taller than Mary , who is the shorter ? 
+Fri Oct 03 2014 22:59:19 GMT-0700 (PDT) (bot) mary is short than john. 
+Fri Oct 03 2014 22:59:18 GMT-0700 (PDT) (user) Something random that sits in memory . 
+Fri Oct 03 2014 22:59:19 GMT-0700 (PDT) (bot) Sure. 
+Fri Oct 03 2014 22:59:19 GMT-0700 (PDT) (user) Something random that sits in memory . 
+Fri Oct 03 2014 22:59:20 GMT-0700 (PDT) (bot) Sure. 
+Fri Oct 03 2014 23:01:08 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 23:01:08 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 23:01:08 GMT-0700 (PDT) (bot) I think it is 16 
+Fri Oct 03 2014 23:01:10 GMT-0700 (PDT) (user) What is 50 percent of 40 ? 
+Fri Oct 03 2014 23:01:10 GMT-0700 (PDT) (user) What is 50 percent of 40 ? 
+Fri Oct 03 2014 23:01:10 GMT-0700 (PDT) (bot) I think it is 20 
+Fri Oct 03 2014 23:01:12 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 23:01:12 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 23:01:12 GMT-0700 (PDT) (bot) I think it is 4 
+Fri Oct 03 2014 23:01:13 GMT-0700 (PDT) (user) What comes next in the sequence : 2 4 6 8 10 12 ? 
+Fri Oct 03 2014 23:01:13 GMT-0700 (PDT) (user) What comes next in the sequence : 2 4 6 8 10 12 ? 
+Fri Oct 03 2014 23:01:13 GMT-0700 (PDT) (bot) I think it is 14 
+Fri Oct 03 2014 23:01:13 GMT-0700 (PDT) (user) What comes next in the sequence : 1 2 4 8 16 ? 
+Fri Oct 03 2014 23:02:34 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 23:02:34 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 23:02:34 GMT-0700 (PDT) (bot) I think it is 16 
+Fri Oct 03 2014 23:02:36 GMT-0700 (PDT) (user) What is 50 percent of 40 ? 
+Fri Oct 03 2014 23:02:36 GMT-0700 (PDT) (user) What is 50 percent of 40 ? 
+Fri Oct 03 2014 23:02:36 GMT-0700 (PDT) (bot) I think it is 20 
+Fri Oct 03 2014 23:02:38 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 23:02:38 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 23:02:38 GMT-0700 (PDT) (bot) I think it is 20 
+Fri Oct 03 2014 23:02:38 GMT-0700 (PDT) (user) What comes next in the sequence : 2 4 6 8 10 12 ? 
+Fri Oct 03 2014 23:10:03 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 23:10:03 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 23:10:03 GMT-0700 (PDT) (bot) I think it is 16 
+Fri Oct 03 2014 23:10:04 GMT-0700 (PDT) (user) what is 7 / 3 ? 
+Fri Oct 03 2014 23:10:04 GMT-0700 (PDT) (user) what is 7 / 3 ? 
+Fri Oct 03 2014 23:10:04 GMT-0700 (PDT) (user) what is 7 / 3 ? 
+Fri Oct 03 2014 23:10:04 GMT-0700 (PDT) (bot) I think it is 2.33 
+Fri Oct 03 2014 23:10:04 GMT-0700 (PDT) (user) what is 7 / 3 ? 
+Fri Oct 03 2014 23:10:05 GMT-0700 (PDT) (bot) I think it is 2.33 
+Fri Oct 03 2014 23:10:06 GMT-0700 (PDT) (user) what is 20 % of 120 
+Fri Oct 03 2014 23:10:06 GMT-0700 (PDT) (user) what is 20 % of 120 
+Fri Oct 03 2014 23:10:06 GMT-0700 (PDT) (bot) I think it is 24 
+Fri Oct 03 2014 23:10:06 GMT-0700 (PDT) (user) what is half of 8 ? 
+Fri Oct 03 2014 23:10:07 GMT-0700 (PDT) (user) What is the Roman Numeral for 100 ? 
+Fri Oct 03 2014 23:10:06 GMT-0700 (PDT) (user) what is half of 8 ? 
+Fri Oct 03 2014 23:10:07 GMT-0700 (PDT) (bot) I think it is 4 
+Fri Oct 03 2014 23:10:08 GMT-0700 (PDT) (user) What is 255 in hex ? 
+Fri Oct 03 2014 23:10:08 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 23:15:25 GMT-0700 (PDT) (user) what is one plus one 
+Fri Oct 03 2014 23:15:27 GMT-0700 (PDT) (bot) I think it is 2 
+Fri Oct 03 2014 23:16:54 GMT-0700 (PDT) (user) what is one plus one 
+Fri Oct 03 2014 23:16:56 GMT-0700 (PDT) (bot) I think it is 2 
+Fri Oct 03 2014 23:17:13 GMT-0700 (PDT) (user) what is one plus one 
+Fri Oct 03 2014 23:17:15 GMT-0700 (PDT) (bot) I think it is 2 
+Fri Oct 03 2014 23:17:16 GMT-0700 (PDT) (user) what is 1 + 1 
+Fri Oct 03 2014 23:17:16 GMT-0700 (PDT) (bot) I think it is 2 
+Fri Oct 03 2014 23:17:16 GMT-0700 (PDT) (user) what is one of one 
+Fri Oct 03 2014 23:17:17 GMT-0700 (PDT) (bot) I think it is 1 
+Fri Oct 03 2014 23:17:17 GMT-0700 (PDT) (user) What is 4 + 2 - 1 ? 
+Fri Oct 03 2014 23:17:17 GMT-0700 (PDT) (bot) I think it is 5 
+Fri Oct 03 2014 23:17:17 GMT-0700 (PDT) (user) what is half of two times 16 
+Fri Oct 03 2014 23:17:18 GMT-0700 (PDT) (bot) I think it is 16 
+Fri Oct 03 2014 23:17:18 GMT-0700 (PDT) (user) What is seven multiplied by six ? 
+Fri Oct 03 2014 23:17:19 GMT-0700 (PDT) (bot) I think it is 42 
+Fri Oct 03 2014 23:17:19 GMT-0700 (PDT) (user) what is two thousand and fifty plus one hundred and 5 ? 
+Fri Oct 03 2014 23:17:19 GMT-0700 (PDT) (bot) I think it is 2155 
+Fri Oct 03 2014 23:17:19 GMT-0700 (PDT) (user) what is 7 / 3 ? 
+Fri Oct 03 2014 23:17:20 GMT-0700 (PDT) (bot) I think it is 2.33 
+Fri Oct 03 2014 23:17:20 GMT-0700 (PDT) (user) What is 7 divided by 0 ? 
+Fri Oct 03 2014 23:17:20 GMT-0700 (PDT) (bot) I think it is Infinity 
+Fri Oct 03 2014 23:17:21 GMT-0700 (PDT) (user) what is 20 % of 120 
+Fri Oct 03 2014 23:17:21 GMT-0700 (PDT) (bot) I think it is 24 
+Fri Oct 03 2014 23:17:21 GMT-0700 (PDT) (user) What is 50 percent of 40 ? 
+Fri Oct 03 2014 23:17:21 GMT-0700 (PDT) (bot) I think it is 20 
+Fri Oct 03 2014 23:17:22 GMT-0700 (PDT) (user) what is ten plus ten 
+Fri Oct 03 2014 23:17:22 GMT-0700 (PDT) (bot) I think it is 20 
+Fri Oct 03 2014 23:17:22 GMT-0700 (PDT) (user) plus ten more 
+Fri Oct 03 2014 23:17:23 GMT-0700 (PDT) (bot) I think it is 30 
+Fri Oct 03 2014 23:17:23 GMT-0700 (PDT) (user) minus 5 
+Fri Oct 03 2014 23:17:23 GMT-0700 (PDT) (bot) I think it is 25 
+Fri Oct 03 2014 23:17:23 GMT-0700 (PDT) (user) what is half of 8 ? 
+Fri Oct 03 2014 23:17:24 GMT-0700 (PDT) (bot) I think it is 4 
+Fri Oct 03 2014 23:17:24 GMT-0700 (PDT) (user) What is the Roman Numeral for 100 ? 
+Fri Oct 03 2014 23:17:25 GMT-0700 (PDT) (user) What is 255 in hex ? 
+Fri Oct 03 2014 23:17:25 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 23:17:25 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Fri Oct 03 2014 23:17:25 GMT-0700 (PDT) (bot) I think it is 3 
+Fri Oct 03 2014 23:17:26 GMT-0700 (PDT) (user) What comes next in the sequence : 2 4 6 8 10 12 ? 
+Fri Oct 03 2014 23:19:10 GMT-0700 (PDT) (user) what is one plus one 
+Fri Oct 03 2014 23:19:12 GMT-0700 (PDT) (bot) I think it is 2 
+Fri Oct 03 2014 23:21:18 GMT-0700 (PDT) (user) what is 1 + 1 
+Fri Oct 03 2014 23:21:20 GMT-0700 (PDT) (bot) I think it is 2 
+Fri Oct 03 2014 23:21:44 GMT-0700 (PDT) (user) what is one of one 
+Fri Oct 03 2014 23:21:46 GMT-0700 (PDT) (bot) I think it is 1 
+Fri Oct 03 2014 23:22:06 GMT-0700 (PDT) (user) What is 4 + 2 - 1 ? 
+Fri Oct 03 2014 23:22:08 GMT-0700 (PDT) (bot) I think it is 5 
+Fri Oct 03 2014 23:22:46 GMT-0700 (PDT) (user) what is ten plus ten 
+Fri Oct 03 2014 23:22:48 GMT-0700 (PDT) (bot) I think it is 20 
+Fri Oct 03 2014 23:22:48 GMT-0700 (PDT) (user) plus ten more 
+Fri Oct 03 2014 23:22:48 GMT-0700 (PDT) (bot) I think it is 30 
+Fri Oct 03 2014 23:22:49 GMT-0700 (PDT) (user) minus 5 
+Fri Oct 03 2014 23:22:49 GMT-0700 (PDT) (bot) I think it is 25 
+Fri Oct 03 2014 23:23:27 GMT-0700 (PDT) (user) What is the Roman Numeral for 100 ? 
+Fri Oct 03 2014 23:27:02 GMT-0700 (PDT) (user) What is the Roman Numeral for 100 ? 
+Fri Oct 03 2014 23:30:27 GMT-0700 (PDT) (user) What is the Roman Numeral for 100 ? 
+Fri Oct 03 2014 23:31:54 GMT-0700 (PDT) (user) What is 7 in binary ? 

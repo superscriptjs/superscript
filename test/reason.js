@@ -24,7 +24,7 @@ describe('Super Script Resoning Interface', function(){
  		
  		it("should not change the numbers", function(done) {
  			bot.reply("user1", "what is one plus one", function(err, reply) {
- 				reply.should.eql("It is two.");
+ 				reply.should.eql("I think it is 2");
  				done();
  			});
  		});
@@ -128,7 +128,7 @@ describe('Super Script Resoning Interface', function(){
  			});
  		});
 
- 		it("should evaluate special case 2", function(done) {
+ 		it.only("should evaluate special case 2", function(done) {
  			bot.reply("user1", "What is 7 in binary?", function(err, reply) {
  				reply.should.eql("I think it is 111");
  				done();
@@ -438,7 +438,7 @@ describe('Super Script Resoning Interface', function(){
 			});
 		});
 
-		it.only("should resolve reason 1f - concept support", function(done) {
+		it("should resolve reason 1f - concept support", function(done) {
 			bot.reply("user1", "what is your favorite color", function(err, reply) {
 				reply.should.containEql("red");
 				done();
