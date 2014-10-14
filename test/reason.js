@@ -128,7 +128,7 @@ describe('Super Script Resoning Interface', function(){
  			});
  		});
 
- 		it.only("should evaluate special case 2", function(done) {
+ 		it("should evaluate special case 2", function(done) {
  			bot.reply("user1", "What is 7 in binary?", function(err, reply) {
  				reply.should.eql("I think it is 111");
  				done();
@@ -399,6 +399,36 @@ describe('Super Script Resoning Interface', function(){
 		});
 
 	});
+
+	describe.only("Things that belong to the user", function(){
+		it("should save knowledge", function(done) {
+			bot.reply("user1", "Hello, my name is Adam.", function(err, reply) {
+				reply.should.containEql("Nice to meet you, Adam");
+				bot.reply("user1", "My name is Adam.", function(err, reply1) {
+					reply1.should.containEql("I know, you already told me your name.");
+					done();
+				});
+			});
+		});
+
+		// Slightly more complex
+		it("should save knowledge A", function(done) {
+			bot.reply("user1", "What is your name?", function(err, reply) {
+				reply.should.containEql("My name is Brit.");
+				done();
+			});
+		});
+
+		it.skip("should save knowledge B", function(done) {
+			bot.reply("user1", "Hello, my name is Adam, what is your name?", function(err, reply) {
+				reply.should.containEql("Sure. Nice to meet you, Adam. My name is Brit.");
+				done();
+			});
+		});
+		
+
+	});
+
 
 	describe("Concept Resolution", function(){
 		// We need concepts

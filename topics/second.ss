@@ -1,18 +1,18 @@
 // This is a comment
 > topic weather
 
-	H This is another file
-	R Reply with this
-	R Or this 
+  H This is another file
+  R Reply with this
+  R Or this 
 
-	> topic rain
+  > topic rain
 
-		H Do you like the rain
-		R Yes
-		R No
-		R Sometimes
-	
-	< topic
+    H Do you like the rain
+    R Yes
+    R No
+    R Sometimes
+  
+  < topic
 
 
 < topic

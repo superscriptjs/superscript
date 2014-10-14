@@ -2,7 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 
 var script = require("../index");
-var bot = new script();
+var bot = new script({reasoning : false});
 
 describe('Super Script Style', function(){
 
@@ -23,7 +23,7 @@ describe('Super Script Style', function(){
 	});
 
 
-	describe('Normalize Trigger', function(){
+	describe.only('Normalize Trigger', function(){
 		it("should be expanded before trying to match", function(done){
 			bot.reply("user1", "it is all good in the hood", function(err, reply) {
 				reply.should.eql("normalize trigger test");

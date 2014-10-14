@@ -156,3 +156,479 @@ Fri Oct 03 2014 23:23:27 GMT-0700 (PDT) (user) What is the Roman Numeral for 100
 Fri Oct 03 2014 23:27:02 GMT-0700 (PDT) (user) What is the Roman Numeral for 100 ? 
 Fri Oct 03 2014 23:30:27 GMT-0700 (PDT) (user) What is the Roman Numeral for 100 ? 
 Fri Oct 03 2014 23:31:54 GMT-0700 (PDT) (user) What is 7 in binary ? 
+Sat Oct 04 2014 22:30:10 GMT-0700 (PDT) (user) What is 7 in binary ? 
+Sat Oct 04 2014 22:35:29 GMT-0700 (PDT) (user) What is 7 in binary ? 
+Sun Oct 05 2014 09:18:32 GMT-0700 (PDT) (user) This is a test 
+Sun Oct 05 2014 09:18:33 GMT-0700 (PDT) (bot) Test should pass one 
+Sun Oct 05 2014 09:18:34 GMT-0700 (PDT) (user) Should match single star 
+Sun Oct 05 2014 09:18:34 GMT-0700 (PDT) (bot) Test two should pass 
+Sun Oct 05 2014 09:18:35 GMT-0700 (PDT) (user) Should match single 
+Sun Oct 05 2014 09:18:35 GMT-0700 (PDT) (bot) Test two should pass 
+Sun Oct 05 2014 09:18:35 GMT-0700 (PDT) (user) Should match single star two 
+Sun Oct 05 2014 09:18:36 GMT-0700 (PDT) (bot) Test two should pass 
+Sun Oct 05 2014 09:18:36 GMT-0700 (PDT) (user) connect the win 
+Sun Oct 05 2014 09:18:37 GMT-0700 (PDT) (bot) Test should pass 
+Sun Oct 05 2014 09:18:37 GMT-0700 (PDT) (user) It is hot out 
+Sun Oct 05 2014 09:18:38 GMT-0700 (PDT) (user) It is one hot out 
+Sun Oct 05 2014 09:18:38 GMT-0700 (PDT) (user) It is one two hot out 
+Sun Oct 05 2014 09:18:39 GMT-0700 (PDT) (bot) Test three should pass 
+Sun Oct 05 2014 09:18:39 GMT-0700 (PDT) (user) It is one two three hot out 
+Sun Oct 05 2014 09:18:40 GMT-0700 (PDT) (user) define love 
+Sun Oct 05 2014 09:18:40 GMT-0700 (PDT) (bot) Test endstar should pass 
+Sun Oct 05 2014 09:18:41 GMT-0700 (PDT) (user) It is hot out 2 
+Sun Oct 05 2014 09:18:41 GMT-0700 (PDT) (bot) Test three should pass 
+Sun Oct 05 2014 09:18:41 GMT-0700 (PDT) (user) It is a hot out 2 
+Sun Oct 05 2014 09:18:42 GMT-0700 (PDT) (bot) Test three should pass 
+Sun Oct 05 2014 09:18:42 GMT-0700 (PDT) (user) It is a b hot out 2 
+Sun Oct 05 2014 09:18:43 GMT-0700 (PDT) (bot) Test three should pass 
+Sun Oct 05 2014 09:18:43 GMT-0700 (PDT) (user) It is a b c d hot out 2 
+Sun Oct 05 2014 09:18:44 GMT-0700 (PDT) (user) It is foo bar cold out 
+Sun Oct 05 2014 09:18:44 GMT-0700 (PDT) (bot) Two star result foo bar 
+Sun Oct 05 2014 09:18:44 GMT-0700 (PDT) (user) what is it 
+Sun Oct 05 2014 09:18:45 GMT-0700 (PDT) (user) what day is it 
+Sun Oct 05 2014 09:18:46 GMT-0700 (PDT) (bot) Test four should pass 
+Sun Oct 05 2014 09:18:46 GMT-0700 (PDT) (user) what week is it 
+Sun Oct 05 2014 09:18:46 GMT-0700 (PDT) (bot) Test four should pass 
+Sun Oct 05 2014 09:18:47 GMT-0700 (PDT) (user) i have a car 
+Sun Oct 05 2014 09:18:47 GMT-0700 (PDT) (bot) Test five should pass 
+Sun Oct 05 2014 09:18:47 GMT-0700 (PDT) (user) i have a red car 
+Sun Oct 05 2014 09:18:48 GMT-0700 (PDT) (bot) Test five should pass 
+Sun Oct 05 2014 09:18:48 GMT-0700 (PDT) (user) i have a blue car 
+Sun Oct 05 2014 09:18:49 GMT-0700 (PDT) (bot) Test five should pass 
+Sun Oct 05 2014 09:18:49 GMT-0700 (PDT) (user) i have a green car 
+Sun Oct 05 2014 09:18:50 GMT-0700 (PDT) (bot) Test five should pass 
+Sun Oct 05 2014 09:18:50 GMT-0700 (PDT) (user) i have a black car 
+Sun Oct 05 2014 09:18:51 GMT-0700 (PDT) (user) I love basketball 
+Sun Oct 05 2014 09:18:51 GMT-0700 (PDT) (bot) Wordnet test one 
+Sun Oct 05 2014 09:18:51 GMT-0700 (PDT) (user) this reply is random 
+Sun Oct 05 2014 09:18:52 GMT-0700 (PDT) (bot) yes this reply is awesome 
+Sun Oct 05 2014 09:18:52 GMT-0700 (PDT) (user) reply with wordnet 
+Sun Oct 05 2014 09:18:53 GMT-0700 (PDT) (bot) i cotton people 
+Sun Oct 05 2014 09:18:53 GMT-0700 (PDT) (user) custom function 
+Sun Oct 05 2014 09:18:54 GMT-0700 (PDT) (bot) The Definition of function is perform duties attached to a particular office or place or function 
+Sun Oct 05 2014 09:18:54 GMT-0700 (PDT) (user) custom 2 function 
+Sun Oct 05 2014 09:18:55 GMT-0700 (PDT) (bot) ^wordnetDef() 
+Sun Oct 05 2014 09:18:55 GMT-0700 (PDT) (user) custom 3 function 
+Sun Oct 05 2014 09:18:56 GMT-0700 (PDT) (bot) backup plan 
+Sun Oct 05 2014 09:18:56 GMT-0700 (PDT) (user) custom 5 function 
+Sun Oct 05 2014 09:18:57 GMT-0700 (PDT) (bot) he likes this 
+Sun Oct 05 2014 09:18:57 GMT-0700 (PDT) (user) custom 6 function 
+Sun Oct 05 2014 09:18:58 GMT-0700 (PDT) (bot) he cottons this 
+Sun Oct 05 2014 09:18:58 GMT-0700 (PDT) (user) custom 4 function 
+Sun Oct 05 2014 09:18:59 GMT-0700 (PDT) (bot) one + one = 2 
+Sun Oct 05 2014 09:18:59 GMT-0700 (PDT) (user) How many characters in the word socks ? 
+Sun Oct 05 2014 09:18:59 GMT-0700 (PDT) (bot) 5 
+Sun Oct 05 2014 09:19:00 GMT-0700 (PDT) (user) How many characters in the name Bill ? 
+Sun Oct 05 2014 09:19:00 GMT-0700 (PDT) (bot) 4 
+Sun Oct 05 2014 09:19:01 GMT-0700 (PDT) (user) How many characters in the Alphabet ? 
+Sun Oct 05 2014 09:19:01 GMT-0700 (PDT) (bot) 26 
+Sun Oct 05 2014 09:19:01 GMT-0700 (PDT) (user) blank 
+Sun Oct 05 2014 09:19:02 GMT-0700 (PDT) (user) How many characters in my name ? 
+Sun Oct 05 2014 09:19:03 GMT-0700 (PDT) (bot) There are 4 letters in your name. 
+Sun Oct 05 2014 09:19:03 GMT-0700 (PDT) (user) What letter comes after B 
+Sun Oct 05 2014 09:19:03 GMT-0700 (PDT) (bot) C 
+Sun Oct 05 2014 09:19:04 GMT-0700 (PDT) (user) What letter comes before Z 
+Sun Oct 05 2014 09:19:04 GMT-0700 (PDT) (bot) Y 
+Sun Oct 05 2014 09:19:05 GMT-0700 (PDT) (user) What is the last letter in the alphabet ? 
+Sun Oct 05 2014 09:19:05 GMT-0700 (PDT) (bot) It is Z. 
+Sun Oct 05 2014 09:19:05 GMT-0700 (PDT) (user) What is the first letter of the alphabet ? 
+Sun Oct 05 2014 09:19:06 GMT-0700 (PDT) (bot) It is A. 
+Sun Oct 05 2014 09:19:06 GMT-0700 (PDT) (user) Hello 
+Sun Oct 05 2014 09:19:07 GMT-0700 (PDT) (bot) Hello 
+Sun Oct 05 2014 09:19:30 GMT-0700 (PDT) (user) tell me a poem 
+Sun Oct 05 2014 09:19:31 GMT-0700 (PDT) (bot) Little Miss Muffit sat on her tuffet,
+In a nonchalant sort of way.
+With her forcefield around her,
+The Spider, the bounder,
+Is not in the picture today. 
+Sun Oct 05 2014 09:19:31 GMT-0700 (PDT) (user) it is all good in the hood 
+Sun Oct 05 2014 09:19:32 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 09:19:32 GMT-0700 (PDT) (user) it ' s all good in the hood two 
+Sun Oct 05 2014 09:19:33 GMT-0700 (PDT) (bot) Sure. 
+Sun Oct 05 2014 09:19:33 GMT-0700 (PDT) (user) this is all capitals 
+Sun Oct 05 2014 09:19:33 GMT-0700 (PDT) (bot) Test six should pass 
+Sun Oct 05 2014 09:19:34 GMT-0700 (PDT) (user) this IS ALL capitals 
+Sun Oct 05 2014 09:19:34 GMT-0700 (PDT) (bot) Test six should pass 
+Sun Oct 05 2014 09:19:35 GMT-0700 (PDT) (user) Do you have a clue ? 
+Sun Oct 05 2014 09:19:35 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:19:35 GMT-0700 (PDT) (user) Do you have a clue ? 
+Sun Oct 05 2014 09:19:35 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:19:36 GMT-0700 (PDT) (user) Do you have a cause 
+Sun Oct 05 2014 09:19:36 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:19:36 GMT-0700 (PDT) (user) Do you have a cause 
+Sun Oct 05 2014 09:19:36 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:19:37 GMT-0700 (PDT) (user) Do you have a condition 
+Sun Oct 05 2014 09:19:37 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:19:37 GMT-0700 (PDT) (user) Do you have a condition 
+Sun Oct 05 2014 09:19:37 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:19:38 GMT-0700 (PDT) (user) My name is Bill . 
+Sun Oct 05 2014 09:19:38 GMT-0700 (PDT) (bot) I'm not ready to talk about myself yet :) 
+Sun Oct 05 2014 09:19:38 GMT-0700 (PDT) (user) What is your name ? 
+Sun Oct 05 2014 09:19:39 GMT-0700 (PDT) (bot) My name is jane. 
+Sun Oct 05 2014 09:19:38 GMT-0700 (PDT) (user) What is your name ? 
+Sun Oct 05 2014 09:19:39 GMT-0700 (PDT) (bot) My name is jane. 
+Sun Oct 05 2014 09:23:58 GMT-0700 (PDT) (user) Do you have a condition 
+Sun Oct 05 2014 09:24:00 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:23:58 GMT-0700 (PDT) (user) Do you have a condition 
+Sun Oct 05 2014 09:24:00 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:24:32 GMT-0700 (PDT) (user) Do you have a condition 
+Sun Oct 05 2014 09:24:33 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:24:32 GMT-0700 (PDT) (user) Do you have a condition 
+Sun Oct 05 2014 09:24:33 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:28:42 GMT-0700 (PDT) (user) Do you have a condition 
+Sun Oct 05 2014 09:28:44 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:29:14 GMT-0700 (PDT) (user) tell me a poem 
+Sun Oct 05 2014 09:29:15 GMT-0700 (PDT) (bot) Little Miss Muffit sat on her tuffet,
+In a nonchalant sort of way.
+With her forcefield around her,
+The Spider, the bounder,
+Is not in the picture today. 
+Sun Oct 05 2014 09:29:16 GMT-0700 (PDT) (user) it is all good in the hood 
+Sun Oct 05 2014 09:29:16 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 09:29:16 GMT-0700 (PDT) (user) it ' s all good in the hood two 
+Sun Oct 05 2014 09:29:17 GMT-0700 (PDT) (user) this is all capitals 
+Sun Oct 05 2014 09:29:17 GMT-0700 (PDT) (bot) Test six should pass 
+Sun Oct 05 2014 09:29:17 GMT-0700 (PDT) (user) this IS ALL capitals 
+Sun Oct 05 2014 09:29:18 GMT-0700 (PDT) (bot) Test six should pass 
+Sun Oct 05 2014 09:29:18 GMT-0700 (PDT) (user) Do you have a clue ? 
+Sun Oct 05 2014 09:29:19 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:29:19 GMT-0700 (PDT) (user) Do you have a cause 
+Sun Oct 05 2014 09:29:19 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:29:20 GMT-0700 (PDT) (user) Do you have a condition 
+Sun Oct 05 2014 09:29:20 GMT-0700 (PDT) (bot) Test seven should pass 
+Sun Oct 05 2014 09:29:20 GMT-0700 (PDT) (user) My name is Bill . 
+Sun Oct 05 2014 09:29:21 GMT-0700 (PDT) (user) What is your name ? 
+Sun Oct 05 2014 09:29:21 GMT-0700 (PDT) (bot) My name is jane. 
+Sun Oct 05 2014 09:30:44 GMT-0700 (PDT) (user) it ' s all good in the hood two 
+Sun Oct 05 2014 09:39:27 GMT-0700 (PDT) (user) it is all good in the hood 
+Sun Oct 05 2014 09:39:28 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 09:39:28 GMT-0700 (PDT) (user) it ' s all good in the hood two 
+Sun Oct 05 2014 09:45:03 GMT-0700 (PDT) (user) it is all good in the hood 
+Sun Oct 05 2014 09:45:04 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 09:45:04 GMT-0700 (PDT) (user) it ' s all good in the hood two 
+Sun Oct 05 2014 09:47:33 GMT-0700 (PDT) (user) it is all good in the hood 
+Sun Oct 05 2014 09:47:34 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 09:47:34 GMT-0700 (PDT) (user) it ' s all good in the hood two 
+Sun Oct 05 2014 09:49:35 GMT-0700 (PDT) (user) it is all good in the hood 
+Sun Oct 05 2014 09:49:36 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 09:49:37 GMT-0700 (PDT) (user) it's all good in the hood two 
+Sun Oct 05 2014 09:49:37 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 09:54:18 GMT-0700 (PDT) (user) it is all good in the hood 
+Sun Oct 05 2014 09:54:20 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 09:54:20 GMT-0700 (PDT) (user) it is all good in the hood two 
+Sun Oct 05 2014 09:54:21 GMT-0700 (PDT) (bot) normalize trigger test 
+Sun Oct 05 2014 20:32:57 GMT-0700 (PDT) (user) What is 7 in binary 
+Sun Oct 05 2014 20:56:05 GMT-0700 (PDT) (user) What is 7 in binary 
+Sun Oct 05 2014 20:56:06 GMT-0700 (PDT) (bot) I think it is 111 
+Sun Oct 05 2014 20:58:00 GMT-0700 (PDT) (user) what is one plus one 
+Sun Oct 05 2014 20:58:01 GMT-0700 (PDT) (bot) I think it is 2 
+Sun Oct 05 2014 20:58:01 GMT-0700 (PDT) (user) what is 1 + 1 
+Sun Oct 05 2014 20:58:02 GMT-0700 (PDT) (bot) I think it is 2 
+Sun Oct 05 2014 20:58:02 GMT-0700 (PDT) (user) what is one of one 
+Sun Oct 05 2014 20:58:02 GMT-0700 (PDT) (bot) I think it is 1 
+Sun Oct 05 2014 20:58:03 GMT-0700 (PDT) (user) What is 4 + 2 - 1 
+Sun Oct 05 2014 20:58:03 GMT-0700 (PDT) (bot) I think it is 5 
+Sun Oct 05 2014 20:58:03 GMT-0700 (PDT) (user) what is half of two times 16 
+Sun Oct 05 2014 20:58:04 GMT-0700 (PDT) (bot) I think it is 16 
+Sun Oct 05 2014 20:58:04 GMT-0700 (PDT) (user) What is seven multiplied by six 
+Sun Oct 05 2014 20:58:04 GMT-0700 (PDT) (bot) I think it is 42 
+Sun Oct 05 2014 20:58:05 GMT-0700 (PDT) (user) what is two thousand and fifty plus one hundred and 5 
+Sun Oct 05 2014 20:58:05 GMT-0700 (PDT) (bot) I think it is 2155 
+Sun Oct 05 2014 20:58:05 GMT-0700 (PDT) (user) what is 7 / 3 
+Sun Oct 05 2014 20:58:06 GMT-0700 (PDT) (bot) I think it is 2.33 
+Sun Oct 05 2014 20:58:06 GMT-0700 (PDT) (user) What is 7 divided by 0 
+Sun Oct 05 2014 20:58:06 GMT-0700 (PDT) (bot) I think it is Infinity 
+Sun Oct 05 2014 20:58:07 GMT-0700 (PDT) (user) what is 20 % of 120 
+Sun Oct 05 2014 20:58:07 GMT-0700 (PDT) (bot) I think it is 24 
+Sun Oct 05 2014 20:58:07 GMT-0700 (PDT) (user) What is 50 percent of 40 
+Sun Oct 05 2014 20:58:08 GMT-0700 (PDT) (bot) I think it is 20 
+Sun Oct 05 2014 20:58:08 GMT-0700 (PDT) (user) what is ten plus ten 
+Sun Oct 05 2014 20:58:08 GMT-0700 (PDT) (bot) I think it is 20 
+Sun Oct 05 2014 20:58:09 GMT-0700 (PDT) (user) plus ten more 
+Sun Oct 05 2014 20:58:09 GMT-0700 (PDT) (bot) I think it is 30 
+Sun Oct 05 2014 20:58:09 GMT-0700 (PDT) (user) minus 5 
+Sun Oct 05 2014 20:58:10 GMT-0700 (PDT) (bot) I think it is 25 
+Sun Oct 05 2014 20:58:10 GMT-0700 (PDT) (user) what is half of 8 
+Sun Oct 05 2014 20:58:10 GMT-0700 (PDT) (bot) I think it is 4 
+Sun Oct 05 2014 20:58:11 GMT-0700 (PDT) (user) What is the Roman Numeral for 100 
+Sun Oct 05 2014 20:58:11 GMT-0700 (PDT) (bot) I think it is C 
+Sun Oct 05 2014 20:58:11 GMT-0700 (PDT) (user) What is 7 in binary 
+Sun Oct 05 2014 20:58:12 GMT-0700 (PDT) (bot) I think it is 111 
+Sun Oct 05 2014 20:58:12 GMT-0700 (PDT) (user) What is 255 in hex 
+Sun Oct 05 2014 20:58:12 GMT-0700 (PDT) (bot) I think it is ff 
+Sun Oct 05 2014 20:58:13 GMT-0700 (PDT) (user) What number is missing : 1 2 ? 4 5 
+Sun Oct 05 2014 20:58:13 GMT-0700 (PDT) (bot) I think it is 3 
+Sun Oct 05 2014 20:58:13 GMT-0700 (PDT) (user) What comes next in the sequence : 2 4 6 8 10 12 
+Sun Oct 05 2014 20:58:14 GMT-0700 (PDT) (bot) I think it is 14 
+Sun Oct 05 2014 20:58:14 GMT-0700 (PDT) (user) What comes next in the sequence : 1 2 4 8 16 
+Sun Oct 05 2014 20:58:14 GMT-0700 (PDT) (bot) I think it is 32 
+Sun Oct 05 2014 20:58:15 GMT-0700 (PDT) (user) If John is taller than Mary , who is the shorter 
+Sun Oct 05 2014 20:58:15 GMT-0700 (PDT) (bot) mary is short than john. 
+Sun Oct 05 2014 20:58:18 GMT-0700 (PDT) (user) Something random that sits in memory 
+Sun Oct 05 2014 20:58:18 GMT-0700 (PDT) (bot) John is your undefined. 
+Sun Oct 05 2014 20:58:19 GMT-0700 (PDT) (user) A loaf of bread cost 4.50 now 
+Sun Oct 05 2014 20:58:19 GMT-0700 (PDT) (bot) I think it is 18 
+Sun Oct 05 2014 20:58:19 GMT-0700 (PDT) (user) How much is a loaf of bread 
+Sun Oct 05 2014 20:58:20 GMT-0700 (PDT) (bot) It is 4.50. 
+Sun Oct 05 2014 20:58:20 GMT-0700 (PDT) (user) My birthday is next month 
+Sun Oct 05 2014 20:58:20 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:21 GMT-0700 (PDT) (user) When is my birthday 
+Sun Oct 05 2014 20:58:21 GMT-0700 (PDT) (bot) It is in November. 
+Sun Oct 05 2014 20:58:22 GMT-0700 (PDT) (user) It is 300 miles from here to Kamloops 
+Sun Oct 05 2014 20:58:22 GMT-0700 (PDT) (bot) Yep. 
+Sun Oct 05 2014 20:58:22 GMT-0700 (PDT) (user) How far is it to Kamloops 
+Sun Oct 05 2014 20:58:23 GMT-0700 (PDT) (bot) 300 
+Sun Oct 05 2014 20:58:23 GMT-0700 (PDT) (user) My daughters name is Sydney 
+Sun Oct 05 2014 20:58:23 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:24 GMT-0700 (PDT) (user) My brothers name is Dustin 
+Sun Oct 05 2014 20:58:24 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:24 GMT-0700 (PDT) (user) What is my daughters name 
+Sun Oct 05 2014 20:58:25 GMT-0700 (PDT) (bot) Sydney 
+Sun Oct 05 2014 20:58:25 GMT-0700 (PDT) (user) What is my brothers name 
+Sun Oct 05 2014 20:58:25 GMT-0700 (PDT) (bot) Dustin 
+Sun Oct 05 2014 20:58:26 GMT-0700 (PDT) (user) My friends names are Steve and Heather 
+Sun Oct 05 2014 20:58:26 GMT-0700 (PDT) (bot) Sure. 
+Sun Oct 05 2014 20:58:26 GMT-0700 (PDT) (user) Who is my best friend 
+Sun Oct 05 2014 20:58:27 GMT-0700 (PDT) (bot) Steve? 
+Sun Oct 05 2014 20:58:27 GMT-0700 (PDT) (user) What is a hammer 
+Sun Oct 05 2014 20:58:27 GMT-0700 (PDT) (user) My favorite car is a Tesla 
+Sun Oct 05 2014 20:58:28 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:28 GMT-0700 (PDT) (user) What is it 
+Sun Oct 05 2014 20:58:28 GMT-0700 (PDT) (bot) car 
+Sun Oct 05 2014 20:58:28 GMT-0700 (PDT) (user) My brother is turning 30 next week 
+Sun Oct 05 2014 20:58:29 GMT-0700 (PDT) (bot) Yep. 
+Sun Oct 05 2014 20:58:29 GMT-0700 (PDT) (user) How old is he 
+Sun Oct 05 2014 20:58:30 GMT-0700 (PDT) (bot) he is 30 
+Sun Oct 05 2014 20:58:30 GMT-0700 (PDT) (user) who was he 
+Sun Oct 05 2014 20:58:30 GMT-0700 (PDT) (user) I have a brother called Stuart . 
+Sun Oct 05 2014 20:58:31 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:31 GMT-0700 (PDT) (user) Who is Stuart 
+Sun Oct 05 2014 20:58:31 GMT-0700 (PDT) (bot) Stuart is your brother. 
+Sun Oct 05 2014 20:58:31 GMT-0700 (PDT) (user) My mother is called Janet . 
+Sun Oct 05 2014 20:58:32 GMT-0700 (PDT) (bot) Yep. 
+Sun Oct 05 2014 20:58:32 GMT-0700 (PDT) (user) What is her name 
+Sun Oct 05 2014 20:58:32 GMT-0700 (PDT) (bot) Steve? 
+Sun Oct 05 2014 20:58:33 GMT-0700 (PDT) (user) My uncle is called George . 
+Sun Oct 05 2014 20:58:33 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:33 GMT-0700 (PDT) (user) Who is George 
+Sun Oct 05 2014 20:58:34 GMT-0700 (PDT) (bot) George is your uncle. 
+Sun Oct 05 2014 20:58:34 GMT-0700 (PDT) (user) I like to play football . 
+Sun Oct 05 2014 20:58:35 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:34 GMT-0700 (PDT) (user) What do I like to do 
+Sun Oct 05 2014 20:58:35 GMT-0700 (PDT) (bot) play football. 
+Sun Oct 05 2014 20:58:35 GMT-0700 (PDT) (user) I have a pear and an apple . 
+Sun Oct 05 2014 20:58:36 GMT-0700 (PDT) (bot) Sure. 
+Sun Oct 05 2014 20:58:36 GMT-0700 (PDT) (user) What do I have 
+Sun Oct 05 2014 20:58:36 GMT-0700 (PDT) (bot) You have a pear and an apple. 
+Sun Oct 05 2014 20:58:37 GMT-0700 (PDT) (user) I am wearing a green shirt . 
+Sun Oct 05 2014 20:58:37 GMT-0700 (PDT) (bot) Sure. 
+Sun Oct 05 2014 20:58:37 GMT-0700 (PDT) (user) What am I wearing 
+Sun Oct 05 2014 20:58:37 GMT-0700 (PDT) (bot) a shirt. 
+Sun Oct 05 2014 20:58:38 GMT-0700 (PDT) (user) I have a dog called Rover . 
+Sun Oct 05 2014 20:58:39 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:38 GMT-0700 (PDT) (user) What is my dog called 
+Sun Oct 05 2014 20:58:39 GMT-0700 (PDT) (bot) I'm not sure. 
+Sun Oct 05 2014 20:58:39 GMT-0700 (PDT) (user) I am 42 years old . 
+Sun Oct 05 2014 20:58:40 GMT-0700 (PDT) (bot) Sure. 
+Sun Oct 05 2014 20:58:39 GMT-0700 (PDT) (user) How old am I 
+Sun Oct 05 2014 20:58:40 GMT-0700 (PDT) (bot) You are 42 
+Sun Oct 05 2014 20:58:40 GMT-0700 (PDT) (user) all good-o ? 
+Sun Oct 05 2014 20:58:41 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:41 GMT-0700 (PDT) (user) My parents are John and Susan . 
+Sun Oct 05 2014 20:58:42 GMT-0700 (PDT) (bot) Sure. 
+Sun Oct 05 2014 20:58:41 GMT-0700 (PDT) (user) What is my mother called 
+Sun Oct 05 2014 20:58:42 GMT-0700 (PDT) (bot) Janet 
+Sun Oct 05 2014 20:58:42 GMT-0700 (PDT) (user) My kids names are Jack and Janice . 
+Sun Oct 05 2014 20:58:43 GMT-0700 (PDT) (bot) Yep. 
+Sun Oct 05 2014 20:58:43 GMT-0700 (PDT) (user) Who is my daughter 
+Sun Oct 05 2014 20:58:43 GMT-0700 (PDT) (bot) undefined is your daughter. 
+Sun Oct 05 2014 20:58:43 GMT-0700 (PDT) (user) My parents are John and Susan . 
+Sun Oct 05 2014 20:58:44 GMT-0700 (PDT) (bot) Yep. 
+Sun Oct 05 2014 20:58:44 GMT-0700 (PDT) (user) What is my dads name 
+Sun Oct 05 2014 20:58:44 GMT-0700 (PDT) (bot) undefined is your name. 
+Sun Oct 05 2014 20:58:45 GMT-0700 (PDT) (user) My parents are John and Susan . 
+Sun Oct 05 2014 20:58:45 GMT-0700 (PDT) (bot) Okay. 
+Sun Oct 05 2014 20:58:45 GMT-0700 (PDT) (user) Who are my parents 
+Sun Oct 05 2014 20:58:46 GMT-0700 (PDT) (bot) John? 
+Sun Oct 05 2014 20:58:46 GMT-0700 (PDT) (user) Where would I find pants 
+Sun Oct 05 2014 20:58:46 GMT-0700 (PDT) (bot) How about in a department store. 
+Sun Oct 05 2014 20:58:47 GMT-0700 (PDT) (user) what is your favorite color 
+Sun Oct 05 2014 20:58:47 GMT-0700 (PDT) (bot) red 
+Sat Oct 11 2014 11:16:31 GMT-0700 (PDT) (user) what is one plus one 
+Sat Oct 11 2014 11:16:32 GMT-0700 (PDT) (bot) I think it is 2 
+Sat Oct 11 2014 11:16:33 GMT-0700 (PDT) (user) what is 1 + 1 
+Sat Oct 11 2014 11:16:33 GMT-0700 (PDT) (bot) I think it is 2 
+Sat Oct 11 2014 11:16:33 GMT-0700 (PDT) (user) what is one of one 
+Sat Oct 11 2014 11:16:33 GMT-0700 (PDT) (bot) I think it is 1 
+Sat Oct 11 2014 11:16:34 GMT-0700 (PDT) (user) What is 4 + 2 - 1 
+Sat Oct 11 2014 11:16:34 GMT-0700 (PDT) (bot) I think it is 5 
+Sat Oct 11 2014 11:16:35 GMT-0700 (PDT) (user) what is half of two times 16 
+Sat Oct 11 2014 11:16:35 GMT-0700 (PDT) (bot) I think it is 16 
+Sat Oct 11 2014 11:16:35 GMT-0700 (PDT) (user) What is seven multiplied by six 
+Sat Oct 11 2014 11:16:36 GMT-0700 (PDT) (bot) I think it is 42 
+Sat Oct 11 2014 11:16:36 GMT-0700 (PDT) (user) what is two thousand and fifty plus one hundred and 5 
+Sat Oct 11 2014 11:16:36 GMT-0700 (PDT) (bot) I think it is 2155 
+Sat Oct 11 2014 11:16:37 GMT-0700 (PDT) (user) what is 7 / 3 
+Sat Oct 11 2014 11:16:37 GMT-0700 (PDT) (bot) I think it is 2.33 
+Sat Oct 11 2014 11:16:37 GMT-0700 (PDT) (user) What is 7 divided by 0 
+Sat Oct 11 2014 11:16:38 GMT-0700 (PDT) (bot) I think it is Infinity 
+Sat Oct 11 2014 11:16:38 GMT-0700 (PDT) (user) what is 20 % of 120 
+Sat Oct 11 2014 11:16:38 GMT-0700 (PDT) (bot) I think it is 24 
+Sat Oct 11 2014 11:16:39 GMT-0700 (PDT) (user) What is 50 percent of 40 
+Sat Oct 11 2014 11:16:39 GMT-0700 (PDT) (bot) I think it is 20 
+Sat Oct 11 2014 11:16:39 GMT-0700 (PDT) (user) what is ten plus ten 
+Sat Oct 11 2014 11:16:40 GMT-0700 (PDT) (bot) I think it is 20 
+Sat Oct 11 2014 11:16:40 GMT-0700 (PDT) (user) plus ten more 
+Sat Oct 11 2014 11:16:41 GMT-0700 (PDT) (bot) I think it is 30 
+Sat Oct 11 2014 11:16:41 GMT-0700 (PDT) (user) minus 5 
+Sat Oct 11 2014 11:16:41 GMT-0700 (PDT) (bot) I think it is 25 
+Sat Oct 11 2014 11:17:02 GMT-0700 (PDT) (user) new capture love wordnet 
+Sat Oct 11 2014 11:17:04 GMT-0700 (PDT) (bot) capture test love 
+Mon Oct 13 2014 13:52:30 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 13:52:32 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 14:07:51 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:07:52 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 14:07:53 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 14:07:53 GMT-0700 (PDT) (bot) I'm not ready to talk about myself yet :) 
+Mon Oct 13 2014 14:27:24 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:27:25 GMT-0700 (PDT) (bot) Hi Adam 
+Mon Oct 13 2014 14:37:02 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:37:04 GMT-0700 (PDT) (bot) Nice to meet you, Adam 
+Mon Oct 13 2014 14:39:37 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:39:39 GMT-0700 (PDT) (bot) Nice to meet you, Adam 
+Mon Oct 13 2014 14:39:39 GMT-0700 (PDT) (user) My name is Adam 
+Mon Oct 13 2014 14:39:39 GMT-0700 (PDT) (bot) Nice to meet you, Adam 
+Mon Oct 13 2014 14:41:52 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:41:53 GMT-0700 (PDT) (bot) Nice to meet you, Adam 
+Mon Oct 13 2014 14:41:53 GMT-0700 (PDT) (user) My name is Adam 
+Mon Oct 13 2014 14:41:54 GMT-0700 (PDT) (bot) Nice to meet you, Adam 
+Mon Oct 13 2014 14:47:16 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:47:18 GMT-0700 (PDT) (bot) Nice to meet you, Adam 
+Mon Oct 13 2014 14:47:18 GMT-0700 (PDT) (user) My name is Adam 
+Mon Oct 13 2014 14:47:19 GMT-0700 (PDT) (bot) I know Adam you already told me your name. 
+Mon Oct 13 2014 14:50:34 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:50:35 GMT-0700 (PDT) (bot) I know, you already told me your name. 
+Mon Oct 13 2014 14:51:12 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:51:13 GMT-0700 (PDT) (bot) I know, you already told me your name. 
+Mon Oct 13 2014 14:51:47 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 14:51:48 GMT-0700 (PDT) (bot) Nice to meet you, Adam 
+Mon Oct 13 2014 14:51:49 GMT-0700 (PDT) (user) My name is Adam 
+Mon Oct 13 2014 14:51:49 GMT-0700 (PDT) (bot) I know, you already told me your name. 
+Mon Oct 13 2014 14:54:30 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 14:54:31 GMT-0700 (PDT) (bot) I'm not ready to talk about myself yet :) 
+Mon Oct 13 2014 15:02:42 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 15:02:43 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 15:05:57 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 15:05:58 GMT-0700 (PDT) (bot) I'm not ready to talk about myself yet :) 
+Mon Oct 13 2014 15:23:45 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 15:23:46 GMT-0700 (PDT) (bot) I'm not ready to talk about myself yet :) 
+Mon Oct 13 2014 15:24:52 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 15:24:53 GMT-0700 (PDT) (bot) I'm not ready to talk about myself yet :) 
+Mon Oct 13 2014 15:29:26 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 15:29:28 GMT-0700 (PDT) (bot) It is Brit!I'm not ready to talk about myself yet :) 
+Mon Oct 13 2014 15:30:27 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 15:30:28 GMT-0700 (PDT) (bot) It is Brit! I'm not ready to talk about myself yet :) 
+Mon Oct 13 2014 15:32:07 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 15:32:08 GMT-0700 (PDT) (bot) It is Brit! 
+Mon Oct 13 2014 15:32:45 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 15:32:46 GMT-0700 (PDT) (bot) It is Brit! 
+Mon Oct 13 2014 15:33:05 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 15:33:06 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 15:36:33 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 15:36:34 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 15:42:15 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 15:42:16 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 15:55:10 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 15:55:11 GMT-0700 (PDT) (bot) Okay. Nice to meet you, Adam. 
+Mon Oct 13 2014 15:55:11 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 15:55:12 GMT-0700 (PDT) (bot) Adam 
+Mon Oct 13 2014 16:13:13 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:13:15 GMT-0700 (PDT) (bot) Okay. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:16:14 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:16:16 GMT-0700 (PDT) (bot) Yep. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:16:16 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 16:16:16 GMT-0700 (PDT) (bot) Adam 
+Mon Oct 13 2014 16:19:21 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:19:23 GMT-0700 (PDT) (bot) Yep. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:19:22 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 16:19:23 GMT-0700 (PDT) (bot) Adam 
+Mon Oct 13 2014 16:19:47 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:19:49 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:19:48 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 16:19:49 GMT-0700 (PDT) (bot) Adam 
+Mon Oct 13 2014 16:21:42 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:21:44 GMT-0700 (PDT) (bot) Okay. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:21:44 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 16:21:44 GMT-0700 (PDT) (bot) Adam 
+Mon Oct 13 2014 16:28:18 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:28:20 GMT-0700 (PDT) (bot) Yep. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:28:19 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 16:33:58 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:33:59 GMT-0700 (PDT) (bot) Yep. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:33:59 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 16:36:14 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:36:15 GMT-0700 (PDT) (bot) Yep. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:36:15 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 16:36:56 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:36:57 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:36:57 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 16:39:09 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 16:39:10 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 16:39:10 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 17:31:17 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 17:31:19 GMT-0700 (PDT) (bot) Yep. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:31:19 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 17:32:34 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 17:32:36 GMT-0700 (PDT) (bot) Okay. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:32:36 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 17:32:36 GMT-0700 (PDT) (bot) My name is Brit 
+Mon Oct 13 2014 17:33:06 GMT-0700 (PDT) (user) ~emohello , my name is Adam . 
+Mon Oct 13 2014 17:33:08 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:33:08 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 17:33:08 GMT-0700 (PDT) (bot) My name is Brit 
+Mon Oct 13 2014 17:36:31 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 17:36:32 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 17:39:19 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 17:39:20 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 17:40:13 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 17:40:14 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 17:42:43 GMT-0700 (PDT) (user) ~emohello , 
+Mon Oct 13 2014 17:42:45 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 17:42:44 GMT-0700 (PDT) (user) my name is Adam , 
+Mon Oct 13 2014 17:42:45 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:42:44 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 17:42:45 GMT-0700 (PDT) (bot) My name is Brit. 
+Mon Oct 13 2014 17:46:09 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 17:46:10 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 17:48:32 GMT-0700 (PDT) (user) ~emohello , my name is Adam , what is your name 
+Mon Oct 13 2014 17:48:33 GMT-0700 (PDT) (bot) Nice to meet you, Adam. 
+Mon Oct 13 2014 17:49:49 GMT-0700 (PDT) (user) ~emohello , my name is Adam , 
+Mon Oct 13 2014 17:49:50 GMT-0700 (PDT) (bot) Okay. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:49:50 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 17:49:50 GMT-0700 (PDT) (bot) My name is Brit. 
+Mon Oct 13 2014 17:53:25 GMT-0700 (PDT) (user) ~emohello , my name is Adam , 
+Mon Oct 13 2014 17:53:27 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:53:26 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 17:53:27 GMT-0700 (PDT) (bot) My name is Brit. 
+Mon Oct 13 2014 17:54:04 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 17:54:05 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:54:06 GMT-0700 (PDT) (user) My name is Adam 
+Mon Oct 13 2014 17:54:06 GMT-0700 (PDT) (bot) Sure. I know, you already told me your name. 
+Mon Oct 13 2014 17:54:06 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 17:54:07 GMT-0700 (PDT) (bot) My name is Brit. 
+Mon Oct 13 2014 17:54:07 GMT-0700 (PDT) (user) ~emohello , my name is Adam , 
+Mon Oct 13 2014 17:54:08 GMT-0700 (PDT) (bot) Yep. I know, you already told me your name. 
+Mon Oct 13 2014 17:54:07 GMT-0700 (PDT) (user) what is your name 
+Mon Oct 13 2014 17:54:08 GMT-0700 (PDT) (bot) My name is Brit. 
+Mon Oct 13 2014 17:55:12 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 17:55:13 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:55:14 GMT-0700 (PDT) (user) My name is Adam 
+Mon Oct 13 2014 17:55:14 GMT-0700 (PDT) (bot) Okay. I know, you already told me your name. 
+Mon Oct 13 2014 17:55:15 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 17:55:15 GMT-0700 (PDT) (bot) My name is Brit. 
+Mon Oct 13 2014 17:55:35 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Mon Oct 13 2014 17:55:36 GMT-0700 (PDT) (bot) Sure. Nice to meet you, Adam. 
+Mon Oct 13 2014 17:55:37 GMT-0700 (PDT) (user) My name is Adam 
+Mon Oct 13 2014 17:55:37 GMT-0700 (PDT) (bot) Yep. I know, you already told me your name. 
+Mon Oct 13 2014 17:55:37 GMT-0700 (PDT) (user) What is your name 
+Mon Oct 13 2014 17:55:38 GMT-0700 (PDT) (bot) My name is Brit. 

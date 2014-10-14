@@ -4,7 +4,7 @@
   "description": "A new type of chat script",
   "main": "index.js",
   "scripts": {
-    "test": "DEBUG='* -Utils* -Normalizer -mocha*' mocha test/reason -R spec -s 300 -t 7000"
+    "test": "DEBUG='* -Utils* -Normalizer -GetReply -ProcessTags -Dict -ConceptNet -Message -Concept -FactSystem -mocha*' mocha test/reason -R spec -s 300 -t 15000"
   },
   "author": "Rob Ellis",
   "license": "?GPLv3?",
