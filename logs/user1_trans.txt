@@ -632,3 +632,244 @@ Mon Oct 13 2014 17:55:37 GMT-0700 (PDT) (user) My name is Adam
 Mon Oct 13 2014 17:55:37 GMT-0700 (PDT) (bot) Yep. I know, you already told me your name. 
 Mon Oct 13 2014 17:55:37 GMT-0700 (PDT) (user) What is your name 
 Mon Oct 13 2014 17:55:38 GMT-0700 (PDT) (bot) My name is Brit. 
+Mon Oct 13 2014 17:57:49 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 17:57:50 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 17:57:50 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 17:57:51 GMT-0700 (PDT) (bot) Lake Ontario or Fraser River? 
+Mon Oct 13 2014 19:01:34 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 19:01:35 GMT-0700 (PDT) (bot) Lake Ontario or Fraser River? 
+Mon Oct 13 2014 19:07:49 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 19:07:50 GMT-0700 (PDT) (bot) Lake Ontario or Fraser River? 
+Mon Oct 13 2014 19:08:09 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 19:08:10 GMT-0700 (PDT) (bot) Lake Ontario or Fraser River? 
+Mon Oct 13 2014 19:14:12 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 19:14:13 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 19:52:59 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 19:53:01 GMT-0700 (PDT) (bot) I live in abbotsford 
+Mon Oct 13 2014 19:54:22 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 19:54:23 GMT-0700 (PDT) (bot) I live in vancouver 
+Mon Oct 13 2014 19:56:00 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 19:56:01 GMT-0700 (PDT) (bot) I live in 
+Mon Oct 13 2014 19:59:21 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 19:59:22 GMT-0700 (PDT) (bot) I've lived all over. 
+Mon Oct 13 2014 20:01:28 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:01:29 GMT-0700 (PDT) (bot) I live in VANCOUVER 
+Mon Oct 13 2014 20:04:51 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:04:52 GMT-0700 (PDT) (bot) I live in Vancouver 
+Mon Oct 13 2014 20:05:12 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:05:13 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:11:27 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:11:28 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 20:11:28 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:11:28 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:13:51 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:13:53 GMT-0700 (PDT) (bot) Sure. 
+Mon Oct 13 2014 20:13:53 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:13:53 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:21:34 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:21:36 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 20:21:35 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:21:36 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:21:37 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 20:21:37 GMT-0700 (PDT) (bot) Lake Ontario or Fraser River? 
+Mon Oct 13 2014 20:34:08 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:34:10 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 20:34:09 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:34:10 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:35:04 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:35:05 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 20:35:05 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:35:06 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:35:06 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 20:35:06 GMT-0700 (PDT) (bot) You can almost live anywhere. 
+Mon Oct 13 2014 20:36:55 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:36:57 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 20:36:57 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:36:57 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:36:58 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 20:36:58 GMT-0700 (PDT) (bot) You can almost live anywhere. 
+Mon Oct 13 2014 20:39:19 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:39:21 GMT-0700 (PDT) (bot) Sure. 
+Mon Oct 13 2014 20:39:20 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:39:21 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:41:53 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:41:55 GMT-0700 (PDT) (bot) Sure. 
+Mon Oct 13 2014 20:41:54 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:41:55 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:42:46 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:42:47 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 20:42:47 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:42:47 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:42:48 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 20:54:37 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:54:38 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 20:54:38 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:54:39 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:56:40 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:56:41 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 20:56:41 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:56:42 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:57:44 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:57:45 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 20:57:45 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:57:45 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:57:46 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 20:57:46 GMT-0700 (PDT) (bot) In Exeter,UK 
+Mon Oct 13 2014 20:58:05 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 20:58:07 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 20:58:07 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 20:58:07 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 20:58:08 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 20:58:08 GMT-0700 (PDT) (bot) In Exeter, UK 
+Mon Oct 13 2014 21:02:56 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 21:02:58 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 21:02:57 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 21:02:58 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 21:03:28 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 21:03:30 GMT-0700 (PDT) (bot) Sure. 
+Mon Oct 13 2014 21:03:30 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 21:03:30 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 21:03:31 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 21:03:31 GMT-0700 (PDT) (bot) In Exeter, UK. 
+Mon Oct 13 2014 21:06:02 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 21:06:04 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 21:06:04 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 21:06:04 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 21:06:05 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 21:06:05 GMT-0700 (PDT) (bot) In Exeter, UK. 
+Mon Oct 13 2014 21:07:07 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 21:07:09 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 21:07:08 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 21:07:09 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 21:07:09 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 21:07:10 GMT-0700 (PDT) (bot) In Exeter, UK. 
+Mon Oct 13 2014 21:07:42 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 21:07:44 GMT-0700 (PDT) (bot) Sure. 
+Mon Oct 13 2014 21:07:44 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 21:07:44 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 21:08:04 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 21:08:05 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 21:08:05 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 21:08:06 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 21:08:51 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 21:08:52 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 21:08:52 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 21:08:53 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 21:08:53 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 21:08:53 GMT-0700 (PDT) (bot) In Exeter, UK. 
+Mon Oct 13 2014 21:09:10 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Mon Oct 13 2014 21:09:12 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 21:09:11 GMT-0700 (PDT) (user) Where do you live 
+Mon Oct 13 2014 21:09:12 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Mon Oct 13 2014 21:09:12 GMT-0700 (PDT) (user) Where do I live 
+Mon Oct 13 2014 21:09:13 GMT-0700 (PDT) (bot) In Exeter, UK. 
+Mon Oct 13 2014 21:13:15 GMT-0700 (PDT) (user) I like to listen to music and play football . 
+Mon Oct 13 2014 21:13:16 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 21:13:16 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 21:13:16 GMT-0700 (PDT) (bot) I'm not sure. 
+Mon Oct 13 2014 21:20:19 GMT-0700 (PDT) (user) I like to listen to music and play football . 
+Mon Oct 13 2014 21:20:21 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 21:20:20 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 21:20:21 GMT-0700 (PDT) (bot) I'm not sure. 
+Mon Oct 13 2014 21:30:44 GMT-0700 (PDT) (user) I like to listen to music and play football . 
+Mon Oct 13 2014 21:30:45 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 21:30:45 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 21:42:34 GMT-0700 (PDT) (user) Do you have any toes 
+Mon Oct 13 2014 21:43:33 GMT-0700 (PDT) (user) Do you have a running shoe 
+Mon Oct 13 2014 21:43:34 GMT-0700 (PDT) (bot) I don't own one. 
+Mon Oct 13 2014 21:46:19 GMT-0700 (PDT) (user) Do you have a running shoe 
+Mon Oct 13 2014 21:46:20 GMT-0700 (PDT) (bot) I don't (own|have) one. 
+Mon Oct 13 2014 21:50:03 GMT-0700 (PDT) (user) Do you have a running shoe 
+Mon Oct 13 2014 21:50:04 GMT-0700 (PDT) (bot) I don't own one. 
+Mon Oct 13 2014 21:50:39 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 21:53:08 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 21:53:09 GMT-0700 (PDT) (bot) I'm not sure. 
+Mon Oct 13 2014 21:55:21 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 21:55:22 GMT-0700 (PDT) (bot) I'm not sure. 
+Mon Oct 13 2014 21:58:07 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 21:58:08 GMT-0700 (PDT) (bot) I'm not sure. I do have hobby 
+Mon Oct 13 2014 22:05:50 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 22:05:51 GMT-0700 (PDT) (bot) I like Running. 
+Mon Oct 13 2014 22:07:20 GMT-0700 (PDT) (user) I like to listen to music and play football . 
+Mon Oct 13 2014 22:07:21 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 22:07:21 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 22:07:22 GMT-0700 (PDT) (bot) I like Running. 
+Mon Oct 13 2014 22:14:14 GMT-0700 (PDT) (user) I like to listen to music and play football . 
+Mon Oct 13 2014 22:14:16 GMT-0700 (PDT) (bot) Sure. 
+Mon Oct 13 2014 22:14:15 GMT-0700 (PDT) (user) Do you have any hobbies 
+Mon Oct 13 2014 22:14:16 GMT-0700 (PDT) (bot) I like Running. 
+Mon Oct 13 2014 22:16:35 GMT-0700 (PDT) (user) The car couldn’t fit into the parking space because it was too small . 
+Mon Oct 13 2014 22:16:37 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 22:16:37 GMT-0700 (PDT) (user) What was too small 
+Mon Oct 13 2014 22:45:09 GMT-0700 (PDT) (user) The car couldn’t fit into the parking space because it was too small . 
+Mon Oct 13 2014 22:45:12 GMT-0700 (PDT) (bot) Okay. 
+Mon Oct 13 2014 22:45:11 GMT-0700 (PDT) (user) What was too small 
+Mon Oct 13 2014 22:45:13 GMT-0700 (PDT) (bot) a car, a couldn’t and a space. 
+Mon Oct 13 2014 22:48:48 GMT-0700 (PDT) (user) The car could not fit into the parking space because it was too small . 
+Mon Oct 13 2014 22:48:50 GMT-0700 (PDT) (bot) Sure. 
+Mon Oct 13 2014 22:48:50 GMT-0700 (PDT) (user) What was too small 
+Mon Oct 13 2014 22:48:51 GMT-0700 (PDT) (bot) a car and a space. 
+Mon Oct 13 2014 22:58:07 GMT-0700 (PDT) (user) The car could not fit into the parking space because it was too small . 
+Mon Oct 13 2014 22:58:09 GMT-0700 (PDT) (bot) Yep. 
+Mon Oct 13 2014 22:58:08 GMT-0700 (PDT) (user) What was too small 
+Mon Oct 13 2014 22:58:09 GMT-0700 (PDT) (bot) The space was too small. 
+Mon Oct 13 2014 22:59:21 GMT-0700 (PDT) (user) The car could not fit into the parking space because it was too small . 
+Mon Oct 13 2014 22:59:23 GMT-0700 (PDT) (bot) Sure. 
+Mon Oct 13 2014 22:59:22 GMT-0700 (PDT) (user) What was too small 
+Mon Oct 13 2014 22:59:23 GMT-0700 (PDT) (bot) The space was too small. 
+Mon Oct 13 2014 23:36:10 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:25:29 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:28:37 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:28:39 GMT-0700 (PDT) (bot) Spades is a card game. 
+Tue Oct 14 2014 00:30:40 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:30:41 GMT-0700 (PDT) (bot) Spades is a card game. 
+Tue Oct 14 2014 00:31:35 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:31:37 GMT-0700 (PDT) (bot) a spade can be used for digging 
+Tue Oct 14 2014 00:32:58 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:32:59 GMT-0700 (PDT) (bot) a spade can be used for digging 
+Tue Oct 14 2014 00:37:10 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:37:12 GMT-0700 (PDT) (bot) a spade can be used for digging 
+Tue Oct 14 2014 00:40:29 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:40:30 GMT-0700 (PDT) (bot) A spade can be used for digging. 
+Tue Oct 14 2014 00:41:32 GMT-0700 (PDT) (user) ~emohello , my name is Adam 
+Tue Oct 14 2014 00:41:33 GMT-0700 (PDT) (bot) Yep. Nice to meet you, Adam. 
+Tue Oct 14 2014 00:41:34 GMT-0700 (PDT) (user) My name is Adam 
+Tue Oct 14 2014 00:41:34 GMT-0700 (PDT) (bot) Yep. I know, you already told me your name. 
+Tue Oct 14 2014 00:41:34 GMT-0700 (PDT) (user) What is your name 
+Tue Oct 14 2014 00:41:35 GMT-0700 (PDT) (bot) My name is Brit. 
+Tue Oct 14 2014 00:41:35 GMT-0700 (PDT) (user) I live in Exeter in the UK . 
+Tue Oct 14 2014 00:41:36 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 14 2014 00:41:35 GMT-0700 (PDT) (user) Where do you live 
+Tue Oct 14 2014 00:41:36 GMT-0700 (PDT) (bot) I live in Vancouver. 
+Tue Oct 14 2014 00:41:36 GMT-0700 (PDT) (user) Where do I live 
+Tue Oct 14 2014 00:41:37 GMT-0700 (PDT) (bot) In Exeter, UK. 
+Tue Oct 14 2014 00:41:37 GMT-0700 (PDT) (user) I like to listen to music and play football . 
+Tue Oct 14 2014 00:41:38 GMT-0700 (PDT) (bot) Sure. 
+Tue Oct 14 2014 00:41:37 GMT-0700 (PDT) (user) Do you have any hobbies 
+Tue Oct 14 2014 00:41:38 GMT-0700 (PDT) (bot) I like Running. 
+Tue Oct 14 2014 00:41:39 GMT-0700 (PDT) (user) The car could not fit into the parking space because it was too small . 
+Tue Oct 14 2014 00:41:39 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 14 2014 00:41:39 GMT-0700 (PDT) (user) What was too small 
+Tue Oct 14 2014 00:41:40 GMT-0700 (PDT) (bot) The space was too small. 
+Tue Oct 14 2014 00:41:40 GMT-0700 (PDT) (user) What would I do with a spade ? 
+Tue Oct 14 2014 00:41:40 GMT-0700 (PDT) (bot) A spade can be used for digging. 
+Tue Oct 14 2014 00:43:34 GMT-0700 (PDT) (user) My parents are John and Susan . 
+Tue Oct 14 2014 00:43:35 GMT-0700 (PDT) (bot) Okay. 
+Tue Oct 14 2014 00:43:35 GMT-0700 (PDT) (user) What is my mother called 
+Tue Oct 14 2014 00:43:36 GMT-0700 (PDT) (bot) Susan 
+Tue Oct 14 2014 00:43:36 GMT-0700 (PDT) (user) My kids names are Jack and Janice . 
+Tue Oct 14 2014 00:43:37 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 14 2014 00:43:36 GMT-0700 (PDT) (user) Who is my daughter 
+Tue Oct 14 2014 00:43:37 GMT-0700 (PDT) (bot) Janice 
+Tue Oct 14 2014 00:43:37 GMT-0700 (PDT) (user) My parents are John and Susan . 
+Tue Oct 14 2014 00:43:38 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 14 2014 00:43:38 GMT-0700 (PDT) (user) What is my dads name 
+Tue Oct 14 2014 00:43:38 GMT-0700 (PDT) (bot) Jack? 
+Tue Oct 14 2014 00:43:39 GMT-0700 (PDT) (user) My parents are John and Susan . 
+Tue Oct 14 2014 00:43:39 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 14 2014 00:43:39 GMT-0700 (PDT) (user) Who are my parents 
+Tue Oct 14 2014 00:43:40 GMT-0700 (PDT) (bot) John? 
+Tue Oct 14 2014 00:43:40 GMT-0700 (PDT) (user) Where would I find pants 
+Tue Oct 14 2014 00:43:40 GMT-0700 (PDT) (bot) How about in a department store. 
+Tue Oct 14 2014 00:43:41 GMT-0700 (PDT) (user) what is your favorite color 
+Tue Oct 14 2014 00:43:41 GMT-0700 (PDT) (bot) It is blue-green in color. red 

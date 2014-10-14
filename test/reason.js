@@ -400,7 +400,7 @@ describe('Super Script Resoning Interface', function(){
 
 	});
 
-	describe.only("Things that belong to the user", function(){
+	describe("Loebner 2014 Screener", function(){
 		it("should save knowledge", function(done) {
 			bot.reply("user1", "Hello, my name is Adam.", function(err, reply) {
 				reply.should.containEql("Nice to meet you, Adam");
@@ -412,25 +412,68 @@ describe('Super Script Resoning Interface', function(){
 		});
 
 		// Slightly more complex
-		it("should save knowledge A", function(done) {
+		it("Loebner 1 A", function(done) {
 			bot.reply("user1", "What is your name?", function(err, reply) {
 				reply.should.containEql("My name is Brit.");
 				done();
 			});
 		});
 
-		it.skip("should save knowledge B", function(done) {
+		it.skip("Loebner 1 B", function(done) {
+			// From Loebner 2014 Q1
 			bot.reply("user1", "Hello, my name is Adam, what is your name?", function(err, reply) {
 				reply.should.containEql("Sure. Nice to meet you, Adam. My name is Brit.");
 				done();
 			});
 		});
 		
+		it("Loebner 2 + 9", function(done) {
+			// From Loebner 2014
+			// Q2.
+			bot.reply("user1", "I live in Exeter in the UK. Where do you live?", function(err, reply) {
+				reply.should.endWith("Vancouver.");
+				// Follow up Q9.
+				bot.reply("user1", "Where do I live?", function(err, reply3) {
+					reply3.should.containEql("In Exeter, UK");
+					done();
+				});
+			});
+		});
+
+		it("Loebner 3", function(done) {
+			// From Loebner 2014
+			// Q3.
+			// I like to listen to music and play football. Do you have any hobbies?
+			bot.reply("user1", "I like to listen to music and play football. Do you have any hobbies?", function(err, reply) {
+				reply.should.endWith("I like Running.")
+				done();
+			});
+		});
+
+		it("Loebner 6", function(done) {
+			// From Loebner 2014
+			// Q6.
+			// The car couldn’t fit into the parking space because it was too small. What was too small?
+			bot.reply("user1", "The car couldn't fit into the parking space because it was too small. What was too small?", function(err, reply) {
+				reply.should.endWith("The space was too small.")
+				done();
+			});
+		});
+
+		it("Loebner 16", function(done) {
+			// From Loebner 2014
+			// Q16.
+			// What would I do with a spade? 
+			bot.reply("user1", "What would I do with a spade? ", function(err, reply) {
+				reply.should.endWith("A spade can be used for digging.")
+				done();
+			});
+		});
+
 
 	});
 
-
-	describe("Concept Resolution", function(){
+	describe.only("Concept Resolution", function(){
 		// We need concepts
 		it("should resolve reason 1a - concept support", function(done) {
 			bot.reply("user1", "My parents are John and Susan. What is my mother called?", function(err, reply) {

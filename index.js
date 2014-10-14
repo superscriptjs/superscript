@@ -44,6 +44,7 @@ function SuperScript(options) {
   this._plugins  = [];
   
   var worldData = [
+    './data/bot.tbl',
     './data/adjectivehierarchy.top',
     './data/adverbhierarchy.top',
     './data/affect.top',

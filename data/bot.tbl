@@ -1,0 +1,7 @@
+table: ~botvars (^arg1 ^arg2)
+^createfact(^arg1 botProp ^arg2)
+
+DATA:
+name Brit
+live Vancouver
+hobby Running
