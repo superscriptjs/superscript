@@ -24,14 +24,16 @@ describe('Concept Interface', function(){
 	});
 
 
-	it.only("should find cloths", function(done){
+	it.only("should find meals", function(done){
 		// var x = concept.query("direct_sv","jeans", "isa");
 		// console.log(x);
 		// done();
-		concept.highLevelLookup("pants", function(err, hlc) {
+		concept.highLevelLookup("breakfast", function(err, hlc) {
 			console.log(hlc)
 			// hlc[0].hlc.should.have.length(2);
-			// concept.query("direct_sv","bro", "isa").should.containEql("brother");
+			// var x = concept.query("direct_sv","breakfast", "isa")
+			var x = concept.query("direct_sv","meal", "example")
+			console.log(x)
 			done();
 		});
 	});

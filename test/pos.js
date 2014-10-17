@@ -4,7 +4,7 @@ var should  = require("should");
 var script = require("../index");
 var bot = new script();
 
-describe('Super Script POS Matching', function(){
+describe.only('Super Script POS Matching', function(){
 
  before(function(done){
     bot.loadDirectory("./test/fixtures", function(err, res) {

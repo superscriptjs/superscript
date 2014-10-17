@@ -126,7 +126,7 @@ concept: ~bedroom_items  NOUN NOUN_SINGULAR(bed bedspread blanket box_spring bru
 concept: ~being_conduit (border door entrance entranceway exit opening passage path )
 concept: ~beings (~ANIMALS ~FAIRYTALE_CHARACTERS ~GROUPS ~INTELLIGENT_BEING )
 concept: ~beer (beer stout Guinness Coors Miller_Lite lager "a coldie" "Foster's" "Lion Nathan" "West End" )
-concept: ~beverage (!drink ~ALCOHOLIC_BEVERAGE ~caffinated_drinks ~JUICE_DRINKS ~MILK_DRINKS ~SOFTDRINKS ~WATER_DRINKS milkshake cream milk water )
+concept: ~beverage (~ALCOHOLIC_BEVERAGE ~caffinated_drinks ~JUICE_DRINKS ~MILK_DRINKS ~SOFTDRINKS ~WATER_DRINKS milkshake cream milk water )
 concept: ~bioarmor (biohazard_suit hazmat_suit spacesuit )
 concept: ~biome (biome~1 )
 concept: ~bird (bird_family~1 bird~1 blue_jay bluebird chicken crow duck eagle finch game_bird~1 goose hawk ostrich owl parrot partridge peacock pelican penguin pigeon raven roadrunner robin rooster sparrow stork turkey vulture woodpecker wren young_bird~1 )
@@ -215,6 +215,7 @@ concept: ~cocktail (Alabama_Slammer Anejo_Highball Bay_Breeze Bellini Black_Russ
 concept: ~coffee_shop (bun coffee coffee_shop hot_chocolate tea )
 concept: ~coin_shop (coin coin_shop paper_money )
 concept: ~coffees (cappuccino coffee espresso iced_coffee latte "cup of joe" "cup of jo") 
+concept: ~hot_drinks (~coffees hot_chocolate tea)
 concept: ~college (~UNIVERSITY bachelors college degree freshman graduate junior Masters PhD postgraduate senior sophomore undergrad undergraduate university )
 concept: ~color_words (color hue shade )
 concept: ~colors (~BLACK ~BLUE ~BROWN ~GRAY ~GREEN ~METALLIC ~ORANGE ~PURPLE ~RED ~WHITE ~YELLOW transparent )
@@ -409,7 +410,7 @@ concept: ~florist (~FLOWERS bouquet floral_arrangement florist )
 concept: ~flowers NOUN NOUN_SINGULAR(bluebell camelia flower~2 forget-me-not gardenia hibiscus hydrangea iris lilac lily peony poppy rose roses sunflower tulip violet )
 concept: ~fnfactotum (color metrology number person quality time_period )
 concept: ~focus (about among any background base center clue concentrate concern detail distract feature focus from general issue local main major matter mental natural nature of purpose random social subject that these this those to topic within )
-concept: ~food NOUN NOUN_SINGULAR(!bite ~BAKED_GOODS ~BREAKFAST_ITEMS ~CANDY ~CHEESES ~DELI ~DESSERT ~FOODGROUP ~FRUIT ~LUNCH_ITEMS ~MEAT ~SNACKGROUP ~VEGETABLE acai_berry acorn_jelly acorn_squash aduki 
+concept: ~food NOUN NOUN_SINGULAR(~BAKED_GOODS ~BREAKFAST_ITEMS ~CANDY ~CHEESES ~DELI ~DESSERT ~FOODGROUP ~FRUIT ~LUNCH_ITEMS ~MEAT ~SNACKGROUP ~VEGETABLE acai_berry acorn_jelly acorn_squash aduki 
 agar albumen allspice almond almond_oil amazon_tree_grape ambrosia antipasto appetizer apple apple_chips apple_gourd apple_pie applesauce apricot areca_nut argan_oil artichoke 
 ash_gourd asparagus asparagus_bean asparagus_lettuce au_jus aubergine avocado azuki azuki_bean bagel beef beet burger butter candy canned_food~1n casserole cereal~2n cheese~1 
 chicken chili clover cocoa coconut corn croissant crouton custard dill donut egg fiber~4n fish flour~1 food_product~1 food~3n french_fries fries frozen_yogurt fudge fungus 
@@ -616,7 +617,7 @@ concept: ~loud (bang bark bedlam blare boom brawl bray chime clamor clap crash d
 concept: ~luggage (briefcase flight_bag footlocker knapsack luggage suitcase )
 concept: ~luggage_shop (~LUGGAGE luggage_shop )
 concept: ~lumberyard (lumber lumberyard lumber~1n nail plank screw wood )
-concept: ~lunch_items (bologna cheese cold_cuts ham hero ketchup mustard peanut_butter potato_chips sandwich soup salad )
+concept: ~lunch_items (bologna cheese cold_cuts ham ketchup mustard peanut_butter potato_chips sandwich soup salad )
 concept: ~magazine NOUN NOUN_PROPER_SINGULAR (~MAGAZINES_FOR_MEN ~MAGAZINES_FOR_WOMEN Consumers_Reports Ebony Newsweek PC_Magazine PC_Today Popular_Mechanics Scientific_American WIRED )
 concept: ~magazines_for_men NOUN NOUN_PROPER_SINGULAR (FHM Juggs Maxim Penthouse Playboy )
 concept: ~magazines_for_women NOUN NOUN_PROPER_SINGULAR (Cosmopolitan Elle Entertainment_Weekly Family_Circle Glamour Good_Housekeeping Harper_'s_Bazaar House_Beautiful InStyle Ladies_Home_Journal 
@@ -637,7 +638,7 @@ concept: ~math_field (~math_subjects chaos fractal  number_theory set_theory sim
 concept: ~math_subjects ( algebra arithmetic calculus combinatorics computers computer_science differential_equation econometrics geometry group_theory information_science logic math mathematics numbers statistics topology trig trigonometry )
 concept: ~mathematica (additive arithmetic asymptote asymptotic asymptotically average bilinear bivariate correlate correlational correlative covalent decreasing_monotonic increasing_monotonic inverse linear median modal monotone monotonic multinomial nonlinear nonmonotonic optimization parabola parabolic polynomial progression satisfying series )
 concept: ~mathematician (mathematician )
-concept: ~meal (breakfast brunch dinner lunch luncheon meal snack supper )
+concept: ~meal (breakfast brunch dinner lunch luncheon snack supper )
 concept: ~meaningless_praise_words (admirable amazing best certified champion choice darling decadent deluxe desirable distinctive elite exceptional extraordinaire extraordinary fabulous 
 famous fantastic fascinating favorable favorite finest funny grand great heavenly hi-tech ideal impressive infamous ingenious inspiring irresistible lovely luxurious luxury 
 magnificent mighty miracle miraculous ostentatious perfect persuasive popular powerful practical preeminent preferable preferred premium pretentious prime prize-winning prize_winning 
@@ -890,7 +891,7 @@ concept: ~religious_buildings NOUN  NOUN_SINGULAR(abbey cathedral church minaret
 concept: ~religious_groups NOUN  NOUN_SINGULAR(congregation fellowship )
 concept: ~religious_leaders NOUN  NOUN_SINGULAR(~RELIGIOUS_LEADER bishop Brother Buddha chaplain Christ clergy cleric Dalai_Lama god Holy_Order Jesus_Christ Krishna Mohammed Monseigneur mullah nun Pope priest rabbi Rev Revd Reverend Reverend_Father Satan vicar Vishnu )
 concept: ~result (happen result outcome)
-concept: ~religious_sect NOUN  NOUN_SINGULAR(!order agnostic Anglican Anglicanism atheism atheist Baha'i Baptist Buddhism Buddhist Calvinism Catholic Catholicism Christian Christianity Church_of_Christ disciple~1n Episcopal faith~3n faith~4n Hindu Hinduism Islam Jehovah_'s_Witness Jehovah_Witness Jew Jewish Judaism Lutheran Mormon Mormonism pagan Paganism Pentecostal Protestant Reformed_Church Russian_Orthodox Seventh-Day_Adventist Shinto Shism Sunnism Swedenborgian Swedenborgism Tao Taoism Taoist Unitarian United_Church_of_Christ )
+concept: ~religious_sect NOUN  NOUN_SINGULAR(agnostic Anglican Anglicanism atheism atheist Baha'i Baptist Buddhism Buddhist Calvinism Catholic Catholicism Christian Christianity Church_of_Christ disciple~1n Episcopal faith~3n faith~4n Hindu Hinduism Islam Jehovah_'s_Witness Jehovah_Witness Jew Jewish Judaism Lutheran Mormon Mormonism pagan Paganism Pentecostal Protestant Reformed_Church Russian_Orthodox Seventh-Day_Adventist Shinto Shism Sunnism Swedenborgian Swedenborgism Tao Taoism Taoist Unitarian United_Church_of_Christ )
 concept: ~reptiles NOUN  NOUN_SINGULAR(~DINOSAUR amphibian_family~1 amphibian~1 anaconda boa iguana rattlesnake reptile_family~1 reptile~1n snake )
 concept: ~restaurant (~FOOD breakfast dine dinner eat lunch restaurant )
 concept: ~rideable (~ANIMALS ~VEHICLE )

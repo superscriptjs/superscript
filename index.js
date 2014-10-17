@@ -222,9 +222,8 @@ SuperScript.prototype.parse = function(fileName, code) {
     cmd  = line.substring(0, 1);
     line = Utils.trim(line.substring(1));
 
-
     // Reset the %Previous state if this is a new +Trigger.
-    if (cmd == 'H' || cmd == '+') {
+    if (cmd == 'H' || cmd == '+' || cmd == '?') {
       isThat = "";
     }
 
@@ -247,7 +246,7 @@ SuperScript.prototype.parse = function(fileName, code) {
         }
 
         // If the current command is a +, see if the following is a %.
-        if (cmd == 'H' || cmd == '+') {
+        if (cmd == 'H' || cmd == '+' || cmd == '?') {
           if (lookCmd == '%') {
             isThat = lookahead;
             break;
@@ -318,7 +317,6 @@ SuperScript.prototype.parse = function(fileName, code) {
 
           if (!this._topicFlags[topic]) {
             this._topicFlags[topic] = [];
-
           }
 
           this._topicFlags[topic] = this._topicFlags[topic].concat(flags);
@@ -357,15 +355,38 @@ SuperScript.prototype.parse = function(fileName, code) {
         }
         continue;
       case "H":
+      case "?":
       case "+":
         debug("Trigger Found", line);
         line = that.normalize.clean(line);
-        
-        if (isThat.length > 0) {
-          this._initTopicTree('thats', topic, isThat, line);
-        } else {
-          this._initTopicTree('topics', topic, line);
+        var qSubType = false;
+        var nextSym = line.substring(0,1);
+        if (nextSym == ":") {          
+          // http://rubular.com/r/6ftUG3BONO
+          var sp = line.indexOf(" ");
+          var cd = line.substring(0, sp);
+          line = Utils.trim(line.substring(sp));
+          var p = cd.split(":");
+          for (var i = 0; i < p.length; i++) {
+            if (p[i].length == 2) { 
+              qSubType = p[i];
+            }
+          }
         }
+      
+
+        var trigOptions = {
+          isQuestion : (cmd === "?") ? true : false,
+          qType : false,
+          qSubType : qSubType
+        }
+
+        if (isThat.length > 0) {
+          this._initTopicTree('thats', topic, isThat, line, trigOptions);
+        } else {
+          this._initTopicTree('topics', topic, line, trigOptions);
+        }
+
         ontrig = line;
         repcnt = 0;
         concnt = 0;
@@ -406,13 +427,15 @@ SuperScript.prototype.parse = function(fileName, code) {
 }
 
 
-SuperScript.prototype._initTopicTree = function (toplevel, topic, trigger, what) {
+SuperScript.prototype._initTopicTree = function (toplevel, topic, trigger, what, options) {
   if (toplevel == "topics") {
+
     if (!this._topics[topic]) {
       this._topics[topic] = {};
     }
     if (!this._topics[topic][trigger]) {
       this._topics[topic][trigger] = {
+        'options': what,
         'reply':     {},
         'condition': {},
         'redirect':  undefined
@@ -455,6 +478,7 @@ var messageItorHandle = function(user, system) {
           // Okay to continue?
           if (begin.indexOf("{ok}") > -1) {
             debug("Normal getreply");
+
 
             options.message = msg;
             options.type = "normal";
@@ -512,7 +536,6 @@ var messageFactory = function(rawMsg, question, normalize, cnet, facts, cb) {
 
   rawMsg = normalize.clean(rawMsg).trim();
   var messageParts = Utils.sentenceSplit(rawMsg);
-
   messageParts = Utils.cleanArray(messageParts);
 
   var itor = function(messageChunk, next) {

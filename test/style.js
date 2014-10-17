@@ -19,7 +19,7 @@ describe('Super Script Style', function(){
 				reply.should.eql("Little Miss Muffit sat on her tuffet,\nIn a nonchalant sort of way.\nWith her forcefield around her,\nThe Spider, the bounder,\nIs not in the picture today.");
 				done();
 			});
-		});		
+		});
 	});
 
 
