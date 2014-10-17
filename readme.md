@@ -84,7 +84,7 @@ When input comes into the system that matches "I like fish", it will return with
 	* ✓ Fact Triples
 	* ✓ Generic Scripted Concepts
 	* ✓ Memory
-	* Bot variables
+	* ✓ Bot variables
 
 	## Dialogue Flow
 	* ✓ Topic exhaustion
