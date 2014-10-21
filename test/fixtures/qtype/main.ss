@@ -4,4 +4,10 @@
 - Down the hall on the left
 
 ?:YN *
-- yes
+- a
+
+?:HUM *
+- b
+
+?:NUM *
+- c

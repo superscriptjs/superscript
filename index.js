@@ -1,26 +1,18 @@
 var fs      = require("fs");
 var rl      = require("readline");
 var async   = require("async");
-
 var qtypes  = require("qtypes");
 var Message = require("./lib/message");
 var Users   = require("./lib/users");
-
 var getreply      = require("./lib/getreply");
 var processTags   = require("./lib/processtags");
 var reason        = require("./lib/reason/reason");
-
 var concepts      = require("./lib/concepts");
-
 var Sort    = require("./lib/sort");
 var Utils   = require("./lib/utils");
-
 var _       = require("underscore");
-
 var norm    = require("node-normalizer");
-
 var requireDir = require('require-dir');
-
 var debug   = require("debug")("Script");
 var dWarn   = require("debug")("Script:Warning");
 
@@ -96,7 +88,7 @@ SuperScript.prototype.loadDirectory = function(path, callback ) {
   concepts.readFiles(this._worldData, function(facts) {
     that.facts = facts;
   
-    norm.loadData(function(){
+    norm.loadData(function() {
       that.normalize = norm;
 
       var itor = function(item, next) {
