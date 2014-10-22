@@ -99,8 +99,8 @@ When input comes into the system that matches "I like fish", it will return with
 
  ## Bigger tasks
   * ✓ Add popular names to aid when NNP is NN http://www.behindthename.com/top/lists/ud/1980
-  * Remove building topic tree from bot flow and cache results to disk
-  * Front load Reply.parse regex compile to topic trees
+  * ✓ Remove building topic tree from bot flow and cache results to disk
+  * ✓ Front load Reply.parse regex compile to topic trees
   * Group Chat interface 
   	- reply - Message to user in channel "@user ..."
   	- directReply - Privace message to User

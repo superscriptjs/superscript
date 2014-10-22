@@ -1200,3 +1200,704 @@ Fri Oct 17 2014 23:59:24 GMT-0700 (PDT) (user) Do you like to clean
 Fri Oct 17 2014 23:59:35 GMT-0700 (PDT) (bot) c 
 Fri Oct 17 2014 23:59:41 GMT-0700 (PDT) (user) Who can clean the house 
 Fri Oct 17 2014 23:59:45 GMT-0700 (PDT) (user) How fast can you clean 
+Tue Oct 21 2014 01:50:53 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 01:50:54 GMT-0700 (PDT) (bot) Sure. 
+Tue Oct 21 2014 01:50:55 GMT-0700 (PDT) (user) new capture interface two 
+Tue Oct 21 2014 01:50:55 GMT-0700 (PDT) (bot) Sure. 
+Tue Oct 21 2014 01:50:55 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 01:50:55 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 21 2014 01:50:56 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 01:50:56 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 21 2014 01:50:57 GMT-0700 (PDT) (user) new capture love wordnet 
+Tue Oct 21 2014 01:50:57 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 21 2014 01:50:57 GMT-0700 (PDT) (user) new capture system is great 
+Tue Oct 21 2014 01:50:57 GMT-0700 (PDT) (bot) Sure. 
+Tue Oct 21 2014 01:50:58 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 01:50:58 GMT-0700 (PDT) (bot) Okay. 
+Tue Oct 21 2014 01:50:58 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 01:50:59 GMT-0700 (PDT) (bot) Sure. 
+Tue Oct 21 2014 12:08:11 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 12:08:13 GMT-0700 (PDT) (bot) Okay. 
+Tue Oct 21 2014 13:05:37 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 13:05:38 GMT-0700 (PDT) (bot) Sure. 
+Tue Oct 21 2014 13:32:07 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 13:32:08 GMT-0700 (PDT) (bot) Okay. 
+Tue Oct 21 2014 13:33:46 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 13:33:47 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 13:35:18 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 13:35:19 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 13:35:20 GMT-0700 (PDT) (user) new capture interface two 
+Tue Oct 21 2014 13:35:20 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 13:35:20 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 13:35:21 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 13:35:21 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 13:35:21 GMT-0700 (PDT) (bot) Sure. 
+Tue Oct 21 2014 13:35:22 GMT-0700 (PDT) (user) new capture love wordnet 
+Tue Oct 21 2014 13:35:22 GMT-0700 (PDT) (bot) capture test love 
+Tue Oct 21 2014 13:35:23 GMT-0700 (PDT) (user) new capture system is great 
+Tue Oct 21 2014 13:35:23 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 13:35:23 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 13:35:23 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 13:35:24 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 13:35:24 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 21 2014 13:47:41 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 13:47:42 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 13:48:04 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 13:48:05 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 13:48:05 GMT-0700 (PDT) (user) new capture interface two 
+Tue Oct 21 2014 13:48:06 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 13:48:06 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 13:48:06 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 13:48:07 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 13:48:07 GMT-0700 (PDT) (bot) Okay. 
+Tue Oct 21 2014 13:48:08 GMT-0700 (PDT) (user) new capture love wordnet 
+Tue Oct 21 2014 13:48:08 GMT-0700 (PDT) (bot) capture test love 
+Tue Oct 21 2014 13:48:08 GMT-0700 (PDT) (user) new capture system is great 
+Tue Oct 21 2014 13:48:09 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 13:48:09 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 13:48:10 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 13:48:10 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 13:48:11 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 21 2014 14:02:00 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:02:01 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:02:02 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:02:02 GMT-0700 (PDT) (bot) Okay. 
+Tue Oct 21 2014 14:08:50 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:08:51 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:08:51 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:08:52 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:14:49 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:14:50 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:14:50 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:14:51 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:16:05 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:16:06 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:16:07 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:16:07 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:25:11 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:25:12 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:25:12 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:25:12 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:26:17 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:26:18 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:26:18 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:26:18 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:28:23 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:28:24 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:28:24 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:28:25 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:29:45 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:29:46 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:29:46 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:29:46 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:32:09 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:32:10 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:32:11 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:32:11 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:32:29 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:32:30 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:32:30 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:32:30 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:34:01 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:34:03 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:34:03 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:34:03 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:36:06 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:36:07 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:36:08 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:36:08 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:37:18 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:37:19 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:37:20 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:37:20 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:38:25 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:38:27 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:38:27 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:38:27 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:45:46 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:45:47 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:45:47 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:45:48 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:49:40 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:49:41 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:49:41 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:49:41 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:50:26 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:50:28 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:50:28 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:50:28 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:52:21 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:52:22 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:52:23 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:52:23 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:53:42 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:53:43 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:53:44 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:53:44 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:54:32 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:54:33 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:54:34 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:54:34 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:57:26 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:57:27 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:57:27 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:57:27 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 14:58:54 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:58:55 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 14:58:55 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 14:58:56 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 15:00:50 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:00:51 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 15:00:51 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:00:52 GMT-0700 (PDT) (bot) Don't repeat what I say. 
+Tue Oct 21 2014 15:04:06 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:04:07 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 15:04:08 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:04:08 GMT-0700 (PDT) (bot) Don't repeat what I say. 
+Tue Oct 21 2014 15:05:13 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:05:14 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 15:05:15 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:05:15 GMT-0700 (PDT) (bot) Don't repeat what I say. 
+Tue Oct 21 2014 15:07:58 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 15:07:59 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:07:59 GMT-0700 (PDT) (user) new capture interface two 
+Tue Oct 21 2014 15:08:00 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:08:00 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:08:00 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:08:01 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:08:01 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:08:02 GMT-0700 (PDT) (user) new capture love wordnet 
+Tue Oct 21 2014 15:08:02 GMT-0700 (PDT) (bot) capture test love 
+Tue Oct 21 2014 15:08:02 GMT-0700 (PDT) (user) new capture system is great 
+Tue Oct 21 2014 15:08:03 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:08:03 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:08:03 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 15:08:04 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:08:04 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 15:11:35 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 15:11:37 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:11:37 GMT-0700 (PDT) (user) new capture interface two 
+Tue Oct 21 2014 15:11:37 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:11:38 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:11:38 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:11:38 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:11:39 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:11:39 GMT-0700 (PDT) (user) new capture love wordnet 
+Tue Oct 21 2014 15:11:39 GMT-0700 (PDT) (bot) capture test love 
+Tue Oct 21 2014 15:11:40 GMT-0700 (PDT) (user) new capture system is great 
+Tue Oct 21 2014 15:11:40 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:11:55 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 15:11:56 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:11:56 GMT-0700 (PDT) (user) new capture interface two 
+Tue Oct 21 2014 15:11:56 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:11:57 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:11:57 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:11:58 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:11:58 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:11:58 GMT-0700 (PDT) (user) new capture love wordnet 
+Tue Oct 21 2014 15:11:58 GMT-0700 (PDT) (bot) capture test love 
+Tue Oct 21 2014 15:11:59 GMT-0700 (PDT) (user) new capture system is great 
+Tue Oct 21 2014 15:11:59 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:11:59 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:12:00 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 15:12:00 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:12:01 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 15:12:26 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:12:27 GMT-0700 (PDT) (bot) capture input 
+Tue Oct 21 2014 15:12:28 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:12:28 GMT-0700 (PDT) (bot) Don't repeat what I say. 
+Tue Oct 21 2014 15:14:08 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 15:14:09 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:14:10 GMT-0700 (PDT) (user) new capture interface two 
+Tue Oct 21 2014 15:14:10 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:14:10 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:14:11 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:14:11 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:14:11 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:14:12 GMT-0700 (PDT) (user) new capture love wordnet 
+Tue Oct 21 2014 15:14:12 GMT-0700 (PDT) (bot) capture test love 
+Tue Oct 21 2014 15:14:13 GMT-0700 (PDT) (user) new capture system is great 
+Tue Oct 21 2014 15:14:13 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:14:13 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:14:14 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 15:14:14 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:14:14 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 15:36:22 GMT-0700 (PDT) (user) new capture interface 
+Tue Oct 21 2014 15:36:23 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:36:23 GMT-0700 (PDT) (user) new capture interface two 
+Tue Oct 21 2014 15:36:24 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:36:24 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:36:24 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:36:25 GMT-0700 (PDT) (user) new capture interface three 
+Tue Oct 21 2014 15:36:25 GMT-0700 (PDT) (bot) capture test interface 
+Tue Oct 21 2014 15:36:26 GMT-0700 (PDT) (user) new capture love wordnet 
+Tue Oct 21 2014 15:36:26 GMT-0700 (PDT) (bot) capture test love 
+Tue Oct 21 2014 15:36:26 GMT-0700 (PDT) (user) new capture system is great 
+Tue Oct 21 2014 15:36:26 GMT-0700 (PDT) (bot) capture test undefined 
+Tue Oct 21 2014 15:36:27 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:36:27 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 15:36:28 GMT-0700 (PDT) (user) capture input 
+Tue Oct 21 2014 15:36:28 GMT-0700 (PDT) (bot) [object Object] 
+Tue Oct 21 2014 16:11:52 GMT-0700 (PDT) (user) I went to highschool 
+Tue Oct 21 2014 16:11:53 GMT-0700 (PDT) (bot) i went to university 
+Tue Oct 21 2014 16:11:54 GMT-0700 (PDT) (user) I like to travel 
+Tue Oct 21 2014 16:11:54 GMT-0700 (PDT) (bot) have you been to Madird? 
+Tue Oct 21 2014 16:11:55 GMT-0700 (PDT) (user) ~yes it is the capital of spain 
+Tue Oct 21 2014 16:11:55 GMT-0700 (PDT) (bot) Madird is amazing. 
+Tue Oct 21 2014 16:11:55 GMT-0700 (PDT) (user) I like to travel 
+Tue Oct 21 2014 16:11:56 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 21 2014 16:13:34 GMT-0700 (PDT) (user) I went to highschool 
+Tue Oct 21 2014 16:13:35 GMT-0700 (PDT) (bot) i went to university 
+Tue Oct 21 2014 16:13:35 GMT-0700 (PDT) (user) I like to travel 
+Tue Oct 21 2014 16:13:35 GMT-0700 (PDT) (bot) have you been to Madird? 
+Tue Oct 21 2014 16:13:36 GMT-0700 (PDT) (user) ~yes it is the capital of spain 
+Tue Oct 21 2014 16:13:36 GMT-0700 (PDT) (bot) Madird is amazing. 
+Tue Oct 21 2014 16:13:36 GMT-0700 (PDT) (user) I like to travel 
+Tue Oct 21 2014 16:13:37 GMT-0700 (PDT) (bot) Yep. 
+Tue Oct 21 2014 16:14:00 GMT-0700 (PDT) (user) I went to highschool 
+Tue Oct 21 2014 16:14:01 GMT-0700 (PDT) (bot) i went to university 
+Tue Oct 21 2014 16:14:01 GMT-0700 (PDT) (user) I like to travel 
+Tue Oct 21 2014 16:14:02 GMT-0700 (PDT) (bot) have you been to Madird? 
+Tue Oct 21 2014 16:14:02 GMT-0700 (PDT) (user) I like to travel 
+Tue Oct 21 2014 16:14:02 GMT-0700 (PDT) (bot) have you been to Madird? 
+Tue Oct 21 2014 16:41:01 GMT-0700 (PDT) (user) This is a test 
+Tue Oct 21 2014 16:41:02 GMT-0700 (PDT) (bot) Test should pass one 
+Tue Oct 21 2014 16:41:03 GMT-0700 (PDT) (user) Should match single star 
+Tue Oct 21 2014 16:41:03 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 16:41:04 GMT-0700 (PDT) (user) Should match single 
+Tue Oct 21 2014 16:41:04 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 16:41:05 GMT-0700 (PDT) (user) Should match single star two 
+Tue Oct 21 2014 16:41:05 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 16:41:05 GMT-0700 (PDT) (user) connect the win 
+Tue Oct 21 2014 16:41:06 GMT-0700 (PDT) (bot) Test should pass 
+Tue Oct 21 2014 16:41:06 GMT-0700 (PDT) (user) It is hot out 
+Tue Oct 21 2014 16:41:06 GMT-0700 (PDT) (user) It is one hot out 
+Tue Oct 21 2014 16:41:07 GMT-0700 (PDT) (user) It is one two hot out 
+Tue Oct 21 2014 16:41:07 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 16:41:08 GMT-0700 (PDT) (user) It is one two three hot out 
+Tue Oct 21 2014 16:41:08 GMT-0700 (PDT) (user) define love 
+Tue Oct 21 2014 16:41:08 GMT-0700 (PDT) (bot) Test endstar should pass 
+Tue Oct 21 2014 16:41:09 GMT-0700 (PDT) (user) It is hot out 2 
+Tue Oct 21 2014 16:41:09 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 16:41:09 GMT-0700 (PDT) (user) It is a hot out 2 
+Tue Oct 21 2014 16:41:10 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 16:41:10 GMT-0700 (PDT) (user) It is a b hot out 2 
+Tue Oct 21 2014 16:41:10 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 16:41:11 GMT-0700 (PDT) (user) It is a b c d hot out 2 
+Tue Oct 21 2014 16:41:11 GMT-0700 (PDT) (user) It is foo bar cold out 
+Tue Oct 21 2014 16:41:12 GMT-0700 (PDT) (bot) Two star result foo bar 
+Tue Oct 21 2014 16:41:12 GMT-0700 (PDT) (user) what is it 
+Tue Oct 21 2014 16:41:12 GMT-0700 (PDT) (user) what day is it 
+Tue Oct 21 2014 16:41:13 GMT-0700 (PDT) (bot) Test four should pass 
+Tue Oct 21 2014 16:41:13 GMT-0700 (PDT) (user) what week is it 
+Tue Oct 21 2014 16:41:13 GMT-0700 (PDT) (bot) Test four should pass 
+Tue Oct 21 2014 16:41:14 GMT-0700 (PDT) (user) I have a car 
+Tue Oct 21 2014 16:41:14 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 16:41:14 GMT-0700 (PDT) (user) I have a red car 
+Tue Oct 21 2014 16:41:15 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 16:41:15 GMT-0700 (PDT) (user) I have a blue car 
+Tue Oct 21 2014 16:41:15 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 16:41:16 GMT-0700 (PDT) (user) I have a green car 
+Tue Oct 21 2014 16:41:16 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 16:41:16 GMT-0700 (PDT) (user) I have a black car 
+Tue Oct 21 2014 16:41:17 GMT-0700 (PDT) (user) I love basketball 
+Tue Oct 21 2014 16:41:17 GMT-0700 (PDT) (bot) Wordnet test one 
+Tue Oct 21 2014 16:41:18 GMT-0700 (PDT) (user) this reply is random 
+Tue Oct 21 2014 16:41:18 GMT-0700 (PDT) (bot) yes this reply is random 
+Tue Oct 21 2014 16:41:18 GMT-0700 (PDT) (user) reply with wordnet 
+Tue Oct 21 2014 16:41:19 GMT-0700 (PDT) (bot) i cotton people 
+Tue Oct 21 2014 16:41:19 GMT-0700 (PDT) (user) custom function 
+Tue Oct 21 2014 16:41:20 GMT-0700 (PDT) (bot) The Definition of function is perform duties attached to a particular office or place or function 
+Tue Oct 21 2014 16:41:20 GMT-0700 (PDT) (user) custom 2 function 
+Tue Oct 21 2014 16:41:20 GMT-0700 (PDT) (bot) ^wordnetDef() 
+Tue Oct 21 2014 16:41:21 GMT-0700 (PDT) (user) custom 3 function 
+Tue Oct 21 2014 16:41:21 GMT-0700 (PDT) (bot) backup plan 
+Tue Oct 21 2014 16:41:21 GMT-0700 (PDT) (user) custom 5 function 
+Tue Oct 21 2014 16:41:22 GMT-0700 (PDT) (bot) he likes this 
+Tue Oct 21 2014 16:41:22 GMT-0700 (PDT) (user) custom 6 function 
+Tue Oct 21 2014 16:41:23 GMT-0700 (PDT) (bot) he cares for this 
+Tue Oct 21 2014 16:41:23 GMT-0700 (PDT) (user) custom 4 function 
+Tue Oct 21 2014 16:41:23 GMT-0700 (PDT) (bot) one + one = 2 
+Tue Oct 21 2014 16:41:24 GMT-0700 (PDT) (user) How many characters in the word socks 
+Tue Oct 21 2014 16:41:24 GMT-0700 (PDT) (bot) 5 
+Tue Oct 21 2014 16:41:25 GMT-0700 (PDT) (user) How many characters in the name Bill 
+Tue Oct 21 2014 16:41:25 GMT-0700 (PDT) (bot) 4 
+Tue Oct 21 2014 16:41:25 GMT-0700 (PDT) (user) How many characters in the Alphabet 
+Tue Oct 21 2014 16:41:25 GMT-0700 (PDT) (bot) 26 
+Tue Oct 21 2014 16:41:26 GMT-0700 (PDT) (user) blank 
+Tue Oct 21 2014 16:41:26 GMT-0700 (PDT) (user) How many characters in my name 
+Tue Oct 21 2014 16:41:27 GMT-0700 (PDT) (bot) There are 4 letters in your name. 
+Tue Oct 21 2014 16:41:27 GMT-0700 (PDT) (user) What letter comes after B 
+Tue Oct 21 2014 16:41:27 GMT-0700 (PDT) (bot) C 
+Tue Oct 21 2014 16:41:28 GMT-0700 (PDT) (user) What letter comes before Z 
+Tue Oct 21 2014 16:41:28 GMT-0700 (PDT) (bot) Y 
+Tue Oct 21 2014 16:41:28 GMT-0700 (PDT) (user) What is the last letter in the alphabet 
+Tue Oct 21 2014 16:41:29 GMT-0700 (PDT) (bot) It is Z. 
+Tue Oct 21 2014 16:41:29 GMT-0700 (PDT) (user) What is the first letter of the alphabet 
+Tue Oct 21 2014 16:41:29 GMT-0700 (PDT) (bot) It is A. 
+Tue Oct 21 2014 16:41:30 GMT-0700 (PDT) (user) ~emohello 
+Tue Oct 21 2014 16:41:30 GMT-0700 (PDT) (bot) Hello 
+Tue Oct 21 2014 19:10:59 GMT-0700 (PDT) (user) it is all good in the hood 
+Tue Oct 21 2014 19:11:01 GMT-0700 (PDT) (bot) normalize trigger test 
+Tue Oct 21 2014 19:11:01 GMT-0700 (PDT) (user) it is all good in the hood two 
+Tue Oct 21 2014 19:11:02 GMT-0700 (PDT) (bot) normalize trigger test 
+Tue Oct 21 2014 19:11:38 GMT-0700 (PDT) (user) tell me a poem 
+Tue Oct 21 2014 19:11:39 GMT-0700 (PDT) (bot) Little Miss Muffit sat on her tuffet, 
+Tue Oct 21 2014 19:11:40 GMT-0700 (PDT) (user) it is all good in the hood 
+Tue Oct 21 2014 19:11:40 GMT-0700 (PDT) (bot) normalize trigger test 
+Tue Oct 21 2014 19:11:41 GMT-0700 (PDT) (user) it is all good in the hood two 
+Tue Oct 21 2014 19:11:41 GMT-0700 (PDT) (bot) normalize trigger test 
+Tue Oct 21 2014 19:11:41 GMT-0700 (PDT) (user) this is all capitals 
+Tue Oct 21 2014 19:11:42 GMT-0700 (PDT) (bot) Test six should pass 
+Tue Oct 21 2014 19:11:42 GMT-0700 (PDT) (user) this IS ALL capitals 
+Tue Oct 21 2014 19:11:42 GMT-0700 (PDT) (bot) Test six should pass 
+Tue Oct 21 2014 19:11:43 GMT-0700 (PDT) (user) Do you have a clue 
+Tue Oct 21 2014 19:11:43 GMT-0700 (PDT) (bot) Test seven should pass 
+Tue Oct 21 2014 19:11:43 GMT-0700 (PDT) (user) Do you have a cause 
+Tue Oct 21 2014 19:11:44 GMT-0700 (PDT) (bot) Test seven should pass 
+Tue Oct 21 2014 19:11:44 GMT-0700 (PDT) (user) Do you have a condition 
+Tue Oct 21 2014 19:11:44 GMT-0700 (PDT) (bot) Test seven should pass 
+Tue Oct 21 2014 19:11:45 GMT-0700 (PDT) (user) My name is Bill . 
+Tue Oct 21 2014 19:11:45 GMT-0700 (PDT) (user) What is your name 
+Tue Oct 21 2014 19:11:45 GMT-0700 (PDT) (bot) My name is jane. 
+Tue Oct 21 2014 19:21:31 GMT-0700 (PDT) (user) tell me a poem 
+Tue Oct 21 2014 19:21:32 GMT-0700 (PDT) (bot) Little Miss Muffit sat on her tuffet, 
+Tue Oct 21 2014 19:22:56 GMT-0700 (PDT) (user) tell me a poem 
+Tue Oct 21 2014 19:22:57 GMT-0700 (PDT) (bot) Little Miss Muffit sat on her tuffet, 
+Tue Oct 21 2014 19:27:26 GMT-0700 (PDT) (user) tell me a poem 
+Tue Oct 21 2014 19:27:27 GMT-0700 (PDT) (bot) Little Miss Muffit sat on her tuffet,
+In a nonchalant sort of way.
+With her forcefield around her,
+The Spider, the bounder,
+Is not in the picture today. 
+Tue Oct 21 2014 19:52:48 GMT-0700 (PDT) (user) tell me a poem 
+Tue Oct 21 2014 19:52:49 GMT-0700 (PDT) (bot) Little Miss Muffit sat on her tuffet,
+In a nonchalant sort of way.
+With her forcefield around her,
+The Spider, the bounder,
+Is not in the picture today. 
+Tue Oct 21 2014 20:11:55 GMT-0700 (PDT) (user) This is a test 
+Tue Oct 21 2014 20:11:56 GMT-0700 (PDT) (bot) Test should pass one 
+Tue Oct 21 2014 20:11:57 GMT-0700 (PDT) (user) Should match single star 
+Tue Oct 21 2014 20:11:57 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 20:11:58 GMT-0700 (PDT) (user) Should match single 
+Tue Oct 21 2014 20:11:58 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 20:11:58 GMT-0700 (PDT) (user) Should match single star two 
+Tue Oct 21 2014 20:11:58 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 20:11:59 GMT-0700 (PDT) (user) connect the win 
+Tue Oct 21 2014 20:11:59 GMT-0700 (PDT) (bot) Test should pass 
+Tue Oct 21 2014 20:12:00 GMT-0700 (PDT) (user) It is hot out 
+Tue Oct 21 2014 20:12:00 GMT-0700 (PDT) (user) It is one hot out 
+Tue Oct 21 2014 20:12:00 GMT-0700 (PDT) (user) It is one two hot out 
+Tue Oct 21 2014 20:12:01 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 20:12:01 GMT-0700 (PDT) (user) It is one two three hot out 
+Tue Oct 21 2014 20:12:01 GMT-0700 (PDT) (user) define love 
+Tue Oct 21 2014 20:12:02 GMT-0700 (PDT) (bot) Test endstar should pass 
+Tue Oct 21 2014 20:12:02 GMT-0700 (PDT) (user) It is hot out 2 
+Tue Oct 21 2014 20:12:02 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 20:12:03 GMT-0700 (PDT) (user) It is a hot out 2 
+Tue Oct 21 2014 20:12:03 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 20:12:03 GMT-0700 (PDT) (user) It is a b hot out 2 
+Tue Oct 21 2014 20:12:04 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 20:12:04 GMT-0700 (PDT) (user) It is a b c d hot out 2 
+Tue Oct 21 2014 20:12:04 GMT-0700 (PDT) (user) It is foo bar cold out 
+Tue Oct 21 2014 20:12:05 GMT-0700 (PDT) (bot) Two star result foo bar 
+Tue Oct 21 2014 20:12:05 GMT-0700 (PDT) (user) what is it 
+Tue Oct 21 2014 20:12:06 GMT-0700 (PDT) (user) what day is it 
+Tue Oct 21 2014 20:12:06 GMT-0700 (PDT) (bot) Test four should pass 
+Tue Oct 21 2014 20:12:06 GMT-0700 (PDT) (user) what week is it 
+Tue Oct 21 2014 20:12:06 GMT-0700 (PDT) (bot) Test four should pass 
+Tue Oct 21 2014 20:12:07 GMT-0700 (PDT) (user) I have a car 
+Tue Oct 21 2014 20:12:07 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 20:12:08 GMT-0700 (PDT) (user) I have a red car 
+Tue Oct 21 2014 20:12:08 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 20:12:08 GMT-0700 (PDT) (user) I have a blue car 
+Tue Oct 21 2014 20:12:08 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 20:12:09 GMT-0700 (PDT) (user) I have a green car 
+Tue Oct 21 2014 20:12:09 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 20:12:10 GMT-0700 (PDT) (user) I have a black car 
+Tue Oct 21 2014 20:12:10 GMT-0700 (PDT) (user) I love basketball 
+Tue Oct 21 2014 20:12:10 GMT-0700 (PDT) (bot) Wordnet test one 
+Tue Oct 21 2014 20:12:10 GMT-0700 (PDT) (user) this reply is random 
+Tue Oct 21 2014 20:12:11 GMT-0700 (PDT) (bot) yes this reply is random 
+Tue Oct 21 2014 20:12:11 GMT-0700 (PDT) (user) reply with wordnet 
+Tue Oct 21 2014 20:12:12 GMT-0700 (PDT) (bot) i please people 
+Tue Oct 21 2014 20:12:12 GMT-0700 (PDT) (user) custom function 
+Tue Oct 21 2014 20:12:12 GMT-0700 (PDT) (bot) The Definition of function is perform duties attached to a particular office or place or function 
+Tue Oct 21 2014 20:12:13 GMT-0700 (PDT) (user) custom 2 function 
+Tue Oct 21 2014 20:12:13 GMT-0700 (PDT) (bot) ^wordnetDef() 
+Tue Oct 21 2014 20:12:14 GMT-0700 (PDT) (user) custom 3 function 
+Tue Oct 21 2014 20:12:14 GMT-0700 (PDT) (bot) backup plan 
+Tue Oct 21 2014 20:12:14 GMT-0700 (PDT) (user) custom 5 function 
+Tue Oct 21 2014 20:12:14 GMT-0700 (PDT) (bot) he likes this 
+Tue Oct 21 2014 20:12:15 GMT-0700 (PDT) (user) custom 6 function 
+Tue Oct 21 2014 20:12:15 GMT-0700 (PDT) (bot) he prefers this 
+Tue Oct 21 2014 20:12:16 GMT-0700 (PDT) (user) custom 4 function 
+Tue Oct 21 2014 20:12:16 GMT-0700 (PDT) (bot) one + one = 2 
+Tue Oct 21 2014 20:12:16 GMT-0700 (PDT) (user) How many characters in the word socks 
+Tue Oct 21 2014 20:12:17 GMT-0700 (PDT) (bot) 5 
+Tue Oct 21 2014 20:12:17 GMT-0700 (PDT) (user) How many characters in the name Bill 
+Tue Oct 21 2014 20:12:17 GMT-0700 (PDT) (bot) 4 
+Tue Oct 21 2014 20:12:18 GMT-0700 (PDT) (user) How many characters in the Alphabet 
+Tue Oct 21 2014 20:12:18 GMT-0700 (PDT) (bot) 26 
+Tue Oct 21 2014 20:12:18 GMT-0700 (PDT) (user) blank 
+Tue Oct 21 2014 20:12:19 GMT-0700 (PDT) (user) How many characters in my name 
+Tue Oct 21 2014 20:12:19 GMT-0700 (PDT) (bot) There are 4 letters in your name. 
+Tue Oct 21 2014 20:12:19 GMT-0700 (PDT) (user) What letter comes after B 
+Tue Oct 21 2014 20:12:20 GMT-0700 (PDT) (bot) C 
+Tue Oct 21 2014 20:12:20 GMT-0700 (PDT) (user) What letter comes before Z 
+Tue Oct 21 2014 20:12:20 GMT-0700 (PDT) (bot) Y 
+Tue Oct 21 2014 20:12:21 GMT-0700 (PDT) (user) What is the last letter in the alphabet 
+Tue Oct 21 2014 20:12:21 GMT-0700 (PDT) (bot) It is Z. 
+Tue Oct 21 2014 20:12:21 GMT-0700 (PDT) (user) What is the first letter of the alphabet 
+Tue Oct 21 2014 20:12:22 GMT-0700 (PDT) (bot) It is A. 
+Tue Oct 21 2014 20:12:22 GMT-0700 (PDT) (user) ~emohello 
+Tue Oct 21 2014 20:12:22 GMT-0700 (PDT) (bot) Hello 
+Tue Oct 21 2014 20:12:32 GMT-0700 (PDT) (user) This is a test 
+Tue Oct 21 2014 20:12:33 GMT-0700 (PDT) (bot) Test should pass one 
+Tue Oct 21 2014 20:12:34 GMT-0700 (PDT) (user) Should match single star 
+Tue Oct 21 2014 20:12:34 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 20:12:34 GMT-0700 (PDT) (user) Should match single 
+Tue Oct 21 2014 20:12:35 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 20:12:35 GMT-0700 (PDT) (user) Should match single star two 
+Tue Oct 21 2014 20:12:35 GMT-0700 (PDT) (bot) Test two should pass 
+Tue Oct 21 2014 20:12:36 GMT-0700 (PDT) (user) connect the win 
+Tue Oct 21 2014 20:12:36 GMT-0700 (PDT) (bot) Test should pass 
+Tue Oct 21 2014 20:12:36 GMT-0700 (PDT) (user) It is hot out 
+Tue Oct 21 2014 20:12:37 GMT-0700 (PDT) (user) It is one hot out 
+Tue Oct 21 2014 20:12:37 GMT-0700 (PDT) (user) It is one two hot out 
+Tue Oct 21 2014 20:12:37 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 20:12:38 GMT-0700 (PDT) (user) It is one two three hot out 
+Tue Oct 21 2014 20:12:38 GMT-0700 (PDT) (user) define love 
+Tue Oct 21 2014 20:12:38 GMT-0700 (PDT) (bot) Test endstar should pass 
+Tue Oct 21 2014 20:12:39 GMT-0700 (PDT) (user) It is hot out 2 
+Tue Oct 21 2014 20:12:39 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 20:12:40 GMT-0700 (PDT) (user) It is a hot out 2 
+Tue Oct 21 2014 20:12:40 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 20:12:40 GMT-0700 (PDT) (user) It is a b hot out 2 
+Tue Oct 21 2014 20:12:40 GMT-0700 (PDT) (bot) Test three should pass 
+Tue Oct 21 2014 20:12:41 GMT-0700 (PDT) (user) It is a b c d hot out 2 
+Tue Oct 21 2014 20:12:41 GMT-0700 (PDT) (user) It is foo bar cold out 
+Tue Oct 21 2014 20:12:42 GMT-0700 (PDT) (bot) Two star result foo bar 
+Tue Oct 21 2014 20:12:42 GMT-0700 (PDT) (user) what is it 
+Tue Oct 21 2014 20:12:42 GMT-0700 (PDT) (user) what day is it 
+Tue Oct 21 2014 20:12:42 GMT-0700 (PDT) (bot) Test four should pass 
+Tue Oct 21 2014 20:12:43 GMT-0700 (PDT) (user) what week is it 
+Tue Oct 21 2014 20:12:43 GMT-0700 (PDT) (bot) Test four should pass 
+Tue Oct 21 2014 20:12:44 GMT-0700 (PDT) (user) I have a car 
+Tue Oct 21 2014 20:12:44 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 20:12:44 GMT-0700 (PDT) (user) I have a red car 
+Tue Oct 21 2014 20:12:44 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 20:12:45 GMT-0700 (PDT) (user) I have a blue car 
+Tue Oct 21 2014 20:12:45 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 20:12:46 GMT-0700 (PDT) (user) I have a green car 
+Tue Oct 21 2014 20:12:46 GMT-0700 (PDT) (bot) Test five should pass 
+Tue Oct 21 2014 20:12:46 GMT-0700 (PDT) (user) I have a black car 
+Tue Oct 21 2014 20:12:47 GMT-0700 (PDT) (user) I love basketball 
+Tue Oct 21 2014 20:12:47 GMT-0700 (PDT) (bot) Wordnet test one 
+Tue Oct 21 2014 20:12:47 GMT-0700 (PDT) (user) this reply is random 
+Tue Oct 21 2014 20:12:48 GMT-0700 (PDT) (bot) yes this reply is random 
+Tue Oct 21 2014 20:12:48 GMT-0700 (PDT) (user) reply with wordnet 
+Tue Oct 21 2014 20:12:48 GMT-0700 (PDT) (bot) i prefer people 
+Tue Oct 21 2014 20:12:49 GMT-0700 (PDT) (user) custom function 
+Tue Oct 21 2014 20:12:49 GMT-0700 (PDT) (bot) The Definition of function is perform duties attached to a particular office or place or function 
+Tue Oct 21 2014 20:12:50 GMT-0700 (PDT) (user) custom 2 function 
+Tue Oct 21 2014 20:12:50 GMT-0700 (PDT) (bot) ^wordnetDef() 
+Tue Oct 21 2014 20:12:50 GMT-0700 (PDT) (user) custom 3 function 
+Tue Oct 21 2014 20:12:51 GMT-0700 (PDT) (bot) backup plan 
+Tue Oct 21 2014 20:12:51 GMT-0700 (PDT) (user) custom 5 function 
+Tue Oct 21 2014 20:12:51 GMT-0700 (PDT) (bot) he likes this 
+Tue Oct 21 2014 20:12:52 GMT-0700 (PDT) (user) custom 6 function 
+Tue Oct 21 2014 20:12:52 GMT-0700 (PDT) (bot) he pleases this 
+Tue Oct 21 2014 20:12:52 GMT-0700 (PDT) (user) custom 4 function 
+Tue Oct 21 2014 20:12:53 GMT-0700 (PDT) (bot) one + one = 2 
+Tue Oct 21 2014 20:12:53 GMT-0700 (PDT) (user) How many characters in the word socks 
+Tue Oct 21 2014 20:12:53 GMT-0700 (PDT) (bot) 5 
+Tue Oct 21 2014 20:12:54 GMT-0700 (PDT) (user) How many characters in the name Bill 
+Tue Oct 21 2014 20:12:54 GMT-0700 (PDT) (bot) 4 
+Tue Oct 21 2014 20:12:54 GMT-0700 (PDT) (user) How many characters in the Alphabet 
+Tue Oct 21 2014 20:12:55 GMT-0700 (PDT) (bot) 26 
+Tue Oct 21 2014 20:12:55 GMT-0700 (PDT) (user) blank 
+Tue Oct 21 2014 20:12:55 GMT-0700 (PDT) (user) How many characters in my name 
+Tue Oct 21 2014 20:12:56 GMT-0700 (PDT) (bot) There are 4 letters in your name. 
+Tue Oct 21 2014 20:12:56 GMT-0700 (PDT) (user) What letter comes after B 
+Tue Oct 21 2014 20:12:57 GMT-0700 (PDT) (bot) C 
+Tue Oct 21 2014 20:12:57 GMT-0700 (PDT) (user) What letter comes before Z 
+Tue Oct 21 2014 20:12:57 GMT-0700 (PDT) (bot) Y 
+Tue Oct 21 2014 20:12:58 GMT-0700 (PDT) (user) What is the last letter in the alphabet 
+Tue Oct 21 2014 20:12:58 GMT-0700 (PDT) (bot) It is Z. 
+Tue Oct 21 2014 20:12:58 GMT-0700 (PDT) (user) What is the first letter of the alphabet 
+Tue Oct 21 2014 20:12:59 GMT-0700 (PDT) (bot) It is A. 
+Tue Oct 21 2014 20:12:59 GMT-0700 (PDT) (user) ~emohello 
+Tue Oct 21 2014 20:12:59 GMT-0700 (PDT) (bot) Hello 
+Tue Oct 21 2014 21:13:52 GMT-0700 (PDT) (user) can you make phone calls for me 
+Tue Oct 21 2014 21:13:53 GMT-0700 (PDT) (bot) reply with this 
+Tue Oct 21 2014 21:30:02 GMT-0700 (PDT) (user) can you make phone calls for me 
+Tue Oct 21 2014 21:30:03 GMT-0700 (PDT) (bot) reply with this 
+Tue Oct 21 2014 21:31:15 GMT-0700 (PDT) (user) can you make phone calls for me 
+Tue Oct 21 2014 21:31:16 GMT-0700 (PDT) (bot) reply with this 
+Tue Oct 21 2014 21:31:35 GMT-0700 (PDT) (user) can you make phone calls for me 
+Tue Oct 21 2014 21:31:36 GMT-0700 (PDT) (bot) reply with this 
+Tue Oct 21 2014 22:08:54 GMT-0700 (PDT) (user) can you make phone calls for me 
+Tue Oct 21 2014 22:09:29 GMT-0700 (PDT) (user) can you make phone calls for me 
+Tue Oct 21 2014 22:10:09 GMT-0700 (PDT) (user) can you make phone calls for me 
+Tue Oct 21 2014 22:10:39 GMT-0700 (PDT) (user) can you make phone calls for me 
+Tue Oct 21 2014 22:44:01 GMT-0700 (PDT) (user) Do you like to clean 
+Tue Oct 21 2014 22:44:02 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:44:03 GMT-0700 (PDT) (user) Who can clean the house 
+Tue Oct 21 2014 22:44:03 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:44:03 GMT-0700 (PDT) (user) How fast can you clean 
+Tue Oct 21 2014 22:44:04 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:53:43 GMT-0700 (PDT) (user) Do you like to clean 
+Tue Oct 21 2014 22:53:44 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:53:44 GMT-0700 (PDT) (user) Who can clean the house 
+Tue Oct 21 2014 22:53:45 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:53:45 GMT-0700 (PDT) (user) How fast can you clean 
+Tue Oct 21 2014 22:53:46 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:54:48 GMT-0700 (PDT) (user) Do you like to clean 
+Tue Oct 21 2014 22:54:49 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:54:50 GMT-0700 (PDT) (user) Who can clean the house 
+Tue Oct 21 2014 22:54:50 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:54:50 GMT-0700 (PDT) (user) How fast can you clean 
+Tue Oct 21 2014 22:54:50 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:55:27 GMT-0700 (PDT) (user) Do you like to clean 
+Tue Oct 21 2014 22:55:28 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:55:28 GMT-0700 (PDT) (user) Who can clean the house 
+Tue Oct 21 2014 22:55:28 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:55:29 GMT-0700 (PDT) (user) How fast can you clean 
+Tue Oct 21 2014 22:55:29 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:58:53 GMT-0700 (PDT) (user) Do you like to clean 
+Tue Oct 21 2014 22:58:55 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:58:55 GMT-0700 (PDT) (user) Who can clean the house 
+Tue Oct 21 2014 22:58:55 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 22:58:56 GMT-0700 (PDT) (user) How fast can you clean 
+Tue Oct 21 2014 22:58:56 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 23:00:38 GMT-0700 (PDT) (user) Do you like to clean 
+Tue Oct 21 2014 23:00:39 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 23:00:40 GMT-0700 (PDT) (user) Who can clean the house 
+Tue Oct 21 2014 23:00:40 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 23:00:40 GMT-0700 (PDT) (user) How fast can you clean 
+Tue Oct 21 2014 23:00:41 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 23:02:02 GMT-0700 (PDT) (user) Do you like to clean 
+Tue Oct 21 2014 23:02:03 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 23:02:03 GMT-0700 (PDT) (user) Who can clean the house 
+Tue Oct 21 2014 23:02:04 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 23:02:04 GMT-0700 (PDT) (user) How fast can you clean 
+Tue Oct 21 2014 23:02:04 GMT-0700 (PDT) (bot) c 
+Tue Oct 21 2014 23:05:13 GMT-0700 (PDT) (user) Do you like to clean 
+Tue Oct 21 2014 23:05:14 GMT-0700 (PDT) (bot) a 
+Tue Oct 21 2014 23:05:15 GMT-0700 (PDT) (user) Who can clean the house 
+Tue Oct 21 2014 23:05:15 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 09:48:26 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 09:48:27 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:48:27 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 09:48:27 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:48:28 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 09:48:28 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:50:58 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 09:50:59 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:50:59 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 09:50:59 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:51:00 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 09:51:00 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:52:02 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 09:52:03 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:52:04 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 09:52:04 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:52:04 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 09:52:05 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:52:27 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 09:52:28 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:52:28 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 09:52:28 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:52:29 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 09:52:29 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:54:07 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 09:54:08 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:54:09 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 09:54:09 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:54:09 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 09:54:09 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 09:55:36 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 09:55:37 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 09:55:37 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 09:55:37 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 09:55:38 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 09:55:38 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 10:08:40 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 10:08:41 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 10:08:41 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 10:08:42 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:10:13 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:12:50 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:13:30 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:15:52 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:54:02 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:54:03 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 10:54:36 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:54:37 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 10:55:25 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:56:15 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:58:43 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:59:14 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 10:59:44 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:01:43 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:15:47 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:17:15 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:18:22 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:18:23 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 11:18:48 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 11:18:49 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 11:18:49 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 11:18:50 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 11:18:50 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:18:50 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 11:19:12 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:19:13 GMT-0700 (PDT) (user) My mom cleans the bathroom 
+Wed Oct 22 2014 11:19:13 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 11:19:13 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 11:19:14 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 11:19:14 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 11:19:14 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:19:15 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 11:19:43 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:21:55 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:26:26 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:26:28 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 11:28:52 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:28:53 GMT-0700 (PDT) (bot) Down the hall on the left 
+Wed Oct 22 2014 11:29:07 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:29:08 GMT-0700 (PDT) (bot) Down the hall on the left 
+Wed Oct 22 2014 11:29:08 GMT-0700 (PDT) (user) My mom cleans the bathroom 
+Wed Oct 22 2014 11:29:09 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 11:29:09 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 11:29:09 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 11:29:10 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 11:29:10 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:29:11 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 11:29:57 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:29:58 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 11:30:40 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:30:42 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 11:34:34 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:34:35 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 11:34:45 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:34:46 GMT-0700 (PDT) (user) My mom cleans the bathroom 
+Wed Oct 22 2014 11:34:47 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 11:34:47 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 11:34:47 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 11:34:48 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 11:34:48 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:34:48 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 11:35:09 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:36:45 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:36:46 GMT-0700 (PDT) (bot) Down the hall on the left 
+Wed Oct 22 2014 11:36:58 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 11:36:59 GMT-0700 (PDT) (bot) Down the hall on the left 
+Wed Oct 22 2014 11:36:59 GMT-0700 (PDT) (user) My mom cleans the bathroom 
+Wed Oct 22 2014 11:36:59 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 11:37:00 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 11:37:00 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 11:37:00 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 11:37:01 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 11:37:01 GMT-0700 (PDT) (bot) c 

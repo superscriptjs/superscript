@@ -54,7 +54,7 @@
 /*
 	NoStay Flag Test
  	The nostay flag means the topic will change automatically back 
- 	to the previous one after sayingt the gambit.
+ 	to the previous one after saying the gambit.
 */
 > topic:nostay nostay
 	+ i am going to stay and go

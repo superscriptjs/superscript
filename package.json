@@ -19,7 +19,7 @@
     "knex": "~0.6.3",
     "moment": "~2.6.0",
     "natural": "~0.1.27",
-    "node-normalizer": "0.0.7",
+    "node-normalizer": "0.0.8",
     "node-tense": "0.0.1",
     "pluralize": "0.0.9",
     "pos": "~0.1.5",
