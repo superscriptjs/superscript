@@ -1901,3 +1901,114 @@ Wed Oct 22 2014 11:37:00 GMT-0700 (PDT) (user) Who can clean the house
 Wed Oct 22 2014 11:37:00 GMT-0700 (PDT) (bot) b 
 Wed Oct 22 2014 11:37:01 GMT-0700 (PDT) (user) How fast can you clean 
 Wed Oct 22 2014 11:37:01 GMT-0700 (PDT) (bot) c 
+Wed Oct 22 2014 11:46:46 GMT-0700 (PDT) (user) This is a test 
+Wed Oct 22 2014 11:46:47 GMT-0700 (PDT) (bot) Test should pass one 
+Wed Oct 22 2014 11:46:47 GMT-0700 (PDT) (user) Should match single star 
+Wed Oct 22 2014 11:46:48 GMT-0700 (PDT) (bot) Test two should pass 
+Wed Oct 22 2014 11:46:48 GMT-0700 (PDT) (user) Should match single 
+Wed Oct 22 2014 11:46:48 GMT-0700 (PDT) (bot) Test two should pass 
+Wed Oct 22 2014 11:46:49 GMT-0700 (PDT) (user) Should match single star two 
+Wed Oct 22 2014 11:46:49 GMT-0700 (PDT) (bot) Test two should pass 
+Wed Oct 22 2014 11:46:49 GMT-0700 (PDT) (user) connect the win 
+Wed Oct 22 2014 11:46:50 GMT-0700 (PDT) (bot) Test should pass 
+Wed Oct 22 2014 11:46:50 GMT-0700 (PDT) (user) It is hot out 
+Wed Oct 22 2014 11:46:51 GMT-0700 (PDT) (user) It is one hot out 
+Wed Oct 22 2014 11:46:51 GMT-0700 (PDT) (user) It is one two hot out 
+Wed Oct 22 2014 11:46:51 GMT-0700 (PDT) (bot) Test three should pass 
+Wed Oct 22 2014 11:46:52 GMT-0700 (PDT) (user) It is one two three hot out 
+Wed Oct 22 2014 11:46:52 GMT-0700 (PDT) (user) define love 
+Wed Oct 22 2014 11:46:52 GMT-0700 (PDT) (bot) Test endstar should pass 
+Wed Oct 22 2014 11:46:53 GMT-0700 (PDT) (user) It is hot out 2 
+Wed Oct 22 2014 11:46:53 GMT-0700 (PDT) (bot) Test three should pass 
+Wed Oct 22 2014 11:46:53 GMT-0700 (PDT) (user) It is a hot out 2 
+Wed Oct 22 2014 11:46:54 GMT-0700 (PDT) (bot) Test three should pass 
+Wed Oct 22 2014 11:46:54 GMT-0700 (PDT) (user) It is a b hot out 2 
+Wed Oct 22 2014 11:46:54 GMT-0700 (PDT) (bot) Test three should pass 
+Wed Oct 22 2014 11:46:55 GMT-0700 (PDT) (user) It is a b c d hot out 2 
+Wed Oct 22 2014 11:46:55 GMT-0700 (PDT) (user) It is foo bar cold out 
+Wed Oct 22 2014 11:46:55 GMT-0700 (PDT) (bot) Two star result foo bar 
+Wed Oct 22 2014 11:46:56 GMT-0700 (PDT) (user) what is it 
+Wed Oct 22 2014 11:46:56 GMT-0700 (PDT) (user) what day is it 
+Wed Oct 22 2014 11:46:56 GMT-0700 (PDT) (bot) Test four should pass 
+Wed Oct 22 2014 11:46:57 GMT-0700 (PDT) (user) what week is it 
+Wed Oct 22 2014 11:46:57 GMT-0700 (PDT) (bot) Test four should pass 
+Wed Oct 22 2014 11:46:58 GMT-0700 (PDT) (user) I have a car 
+Wed Oct 22 2014 11:46:58 GMT-0700 (PDT) (bot) Test five should pass 
+Wed Oct 22 2014 11:46:58 GMT-0700 (PDT) (user) I have a red car 
+Wed Oct 22 2014 11:46:58 GMT-0700 (PDT) (bot) Test five should pass 
+Wed Oct 22 2014 11:46:59 GMT-0700 (PDT) (user) I have a blue car 
+Wed Oct 22 2014 11:46:59 GMT-0700 (PDT) (bot) Test five should pass 
+Wed Oct 22 2014 11:47:00 GMT-0700 (PDT) (user) I have a green car 
+Wed Oct 22 2014 11:47:00 GMT-0700 (PDT) (bot) Test five should pass 
+Wed Oct 22 2014 11:47:00 GMT-0700 (PDT) (user) I have a black car 
+Wed Oct 22 2014 11:47:01 GMT-0700 (PDT) (user) I love basketball 
+Wed Oct 22 2014 11:47:01 GMT-0700 (PDT) (bot) Wordnet test one 
+Wed Oct 22 2014 11:47:01 GMT-0700 (PDT) (user) this reply is random 
+Wed Oct 22 2014 11:47:02 GMT-0700 (PDT) (bot) yes this reply is random 
+Wed Oct 22 2014 11:47:02 GMT-0700 (PDT) (user) reply with wordnet 
+Wed Oct 22 2014 11:47:02 GMT-0700 (PDT) (bot) i cotton people 
+Wed Oct 22 2014 11:47:03 GMT-0700 (PDT) (user) custom function 
+Wed Oct 22 2014 11:47:03 GMT-0700 (PDT) (bot) The Definition of function is perform duties attached to a particular office or place or function 
+Wed Oct 22 2014 11:47:04 GMT-0700 (PDT) (user) custom 2 function 
+Wed Oct 22 2014 11:47:04 GMT-0700 (PDT) (bot) ^wordnetDef() 
+Wed Oct 22 2014 11:47:04 GMT-0700 (PDT) (user) custom 3 function 
+Wed Oct 22 2014 11:47:05 GMT-0700 (PDT) (bot) backup plan 
+Wed Oct 22 2014 11:47:05 GMT-0700 (PDT) (user) custom 5 function 
+Wed Oct 22 2014 11:47:05 GMT-0700 (PDT) (bot) he likes this 
+Wed Oct 22 2014 11:47:06 GMT-0700 (PDT) (user) custom 6 function 
+Wed Oct 22 2014 11:47:06 GMT-0700 (PDT) (bot) he cottons this 
+Wed Oct 22 2014 11:47:07 GMT-0700 (PDT) (user) custom 4 function 
+Wed Oct 22 2014 11:47:07 GMT-0700 (PDT) (bot) one + one = 2 
+Wed Oct 22 2014 11:47:08 GMT-0700 (PDT) (user) How many characters in the word socks 
+Wed Oct 22 2014 11:47:08 GMT-0700 (PDT) (bot) 5 
+Wed Oct 22 2014 11:47:08 GMT-0700 (PDT) (user) How many characters in the name Bill 
+Wed Oct 22 2014 11:47:09 GMT-0700 (PDT) (bot) 4 
+Wed Oct 22 2014 11:47:09 GMT-0700 (PDT) (user) How many characters in the Alphabet 
+Wed Oct 22 2014 11:47:09 GMT-0700 (PDT) (bot) 26 
+Wed Oct 22 2014 11:47:09 GMT-0700 (PDT) (user) blank 
+Wed Oct 22 2014 11:47:10 GMT-0700 (PDT) (user) How many characters in my name 
+Wed Oct 22 2014 11:47:10 GMT-0700 (PDT) (bot) There are 4 letters in your name. 
+Wed Oct 22 2014 11:47:11 GMT-0700 (PDT) (user) What letter comes after B 
+Wed Oct 22 2014 11:47:11 GMT-0700 (PDT) (bot) C 
+Wed Oct 22 2014 11:47:11 GMT-0700 (PDT) (user) What letter comes before Z 
+Wed Oct 22 2014 11:47:11 GMT-0700 (PDT) (bot) Y 
+Wed Oct 22 2014 11:47:12 GMT-0700 (PDT) (user) What is the last letter in the alphabet 
+Wed Oct 22 2014 11:47:12 GMT-0700 (PDT) (bot) It is Z. 
+Wed Oct 22 2014 11:47:13 GMT-0700 (PDT) (user) What is the first letter of the alphabet 
+Wed Oct 22 2014 11:47:13 GMT-0700 (PDT) (bot) It is A. 
+Wed Oct 22 2014 11:47:13 GMT-0700 (PDT) (user) ~emohello 
+Wed Oct 22 2014 11:47:13 GMT-0700 (PDT) (bot) Hello 
+Wed Oct 22 2014 12:34:02 GMT-0700 (PDT) (user) new capture interface 
+Wed Oct 22 2014 12:34:03 GMT-0700 (PDT) (bot) capture test interface 
+Wed Oct 22 2014 12:34:04 GMT-0700 (PDT) (user) new capture interface two 
+Wed Oct 22 2014 12:34:04 GMT-0700 (PDT) (bot) capture test undefined 
+Wed Oct 22 2014 12:34:05 GMT-0700 (PDT) (user) new capture interface three 
+Wed Oct 22 2014 12:34:05 GMT-0700 (PDT) (bot) capture test interface 
+Wed Oct 22 2014 12:34:06 GMT-0700 (PDT) (user) new capture interface three 
+Wed Oct 22 2014 12:34:06 GMT-0700 (PDT) (bot) Okay. 
+Wed Oct 22 2014 12:34:07 GMT-0700 (PDT) (user) new capture love wordnet 
+Wed Oct 22 2014 12:34:07 GMT-0700 (PDT) (bot) capture test love 
+Wed Oct 22 2014 12:34:08 GMT-0700 (PDT) (user) new capture system is great 
+Wed Oct 22 2014 12:34:08 GMT-0700 (PDT) (bot) capture test undefined 
+Wed Oct 22 2014 12:34:09 GMT-0700 (PDT) (user) capture input 
+Wed Oct 22 2014 12:34:09 GMT-0700 (PDT) (bot) [object Object] 
+Wed Oct 22 2014 12:34:09 GMT-0700 (PDT) (user) capture input 
+Wed Oct 22 2014 12:34:10 GMT-0700 (PDT) (bot) Okay. 
+Wed Oct 22 2014 14:10:02 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 14:10:03 GMT-0700 (PDT) (bot) Down the hall on the left 
+Wed Oct 22 2014 14:10:04 GMT-0700 (PDT) (user) My mom cleans the bathroom 
+Wed Oct 22 2014 14:10:04 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 14:10:05 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 14:10:05 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 14:10:05 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 14:10:06 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 14:10:06 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 14:11:14 GMT-0700 (PDT) (user) which way to the bathroom 
+Wed Oct 22 2014 14:11:15 GMT-0700 (PDT) (bot) Down the hall on the left 
+Wed Oct 22 2014 14:11:16 GMT-0700 (PDT) (user) My mom cleans the bathroom 
+Wed Oct 22 2014 14:11:16 GMT-0700 (PDT) (user) Do you like to clean 
+Wed Oct 22 2014 14:11:17 GMT-0700 (PDT) (bot) a 
+Wed Oct 22 2014 14:11:17 GMT-0700 (PDT) (user) Who can clean the house 
+Wed Oct 22 2014 14:11:17 GMT-0700 (PDT) (bot) b 
+Wed Oct 22 2014 14:11:18 GMT-0700 (PDT) (user) How fast can you clean 
+Wed Oct 22 2014 14:11:18 GMT-0700 (PDT) (bot) c 

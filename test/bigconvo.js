@@ -5,7 +5,7 @@ var parse = require("../lib/parse");
 var script = require("../index");
 var bot;
 
-describe('Super Script Script Interface', function(){
+describe.skip('Super Script Script Interface', function(){
 
  before(function(done){
   fs.exists('./test/fixtures/cache/bigconvo.json', function (exists) {

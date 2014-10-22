@@ -9,21 +9,20 @@ var bot;
 describe('Super Script Capture System', function(){
 
   before(function(done){
-    fs.exists('./capture.json', function (exists) {
+    fs.exists('./test/fixtures/cache/capture.json', function (exists) {
       if (!exists ) {
-        parse.loadDirectory('./test/fixtures', function(err, result){
-          fs.writeFile('./capture.json', JSON.stringify(result), function (err) {
+        parse.loadDirectory('./test/fixtures/capture', function(err, result){
+          fs.writeFile('./test/fixtures/cache/capture.json', JSON.stringify(result), function (err) {
             if (err) throw err;
-            new script('./capture.json', null, function(err, botx) {
+            new script('./test/fixtures/cache/capture.json', null, function(err, botx) {
               bot = botx;
               done();
             });
-            
           });
         });
       } else {
         console.log("Loading Cached Script");
-        new script('./capture.json', null, function(err, botx) {
+        new script('./test/fixtures/cache/capture.json', null, function(err, botx) {
           bot = botx;
           done();
         });

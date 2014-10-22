@@ -7,27 +7,27 @@ var bot;
 
 describe('Super Script QType Matching', function(){
 
- before(function(done){
-  fs.exists('./test/fixtures/cache/qtype.json', function (exists) {
-    if (!exists ) {
-      parse.loadDirectory('./test/fixtures/qtype', function(err, result){
-        fs.writeFile('./test/fixtures/cache/qtype.json', JSON.stringify(result), function (err) {
-          if (err) throw err;
-          new script('./test/fixtures/cache/qtype.json', { reasoning: false }, function(err, botx) {
-            bot = botx;
-            done();
-          });           
+  before(function(done){
+    fs.exists('./test/fixtures/cache/qtype.json', function (exists) {
+      if (!exists ) {
+        parse.loadDirectory('./test/fixtures/qtype', function(err, result){
+          fs.writeFile('./test/fixtures/cache/qtype.json', JSON.stringify(result), function (err) {
+            if (err) throw err;
+            new script('./test/fixtures/cache/qtype.json', { reasoning: false }, function(err, botx) {
+              bot = botx;
+              done();
+            });           
+          });
         });
-      });
-    } else {
-      console.log("Loading Cached Script");
-      new script('./test/fixtures/cache/qtype.json', { reasoning: false }, function(err, botx) {
-        bot = botx;
-        done();
-      });
-    }
+      } else {
+        console.log("Loading Cached Script");
+        new script('./test/fixtures/cache/qtype.json', { reasoning: false }, function(err, botx) {
+          bot = botx;
+          done();
+        });
+      }
+    });
   });
- });
 
   describe('Simple Question Matching (qSubType)', function(){
     it("should reply to simple string", function(done) {
