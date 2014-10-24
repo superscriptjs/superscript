@@ -1,13 +1,13 @@
 {
   "name": "superscript",
   "version": "0.0.1",
-  "description": "A new type of chat script",
+  "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
-    "test": "DEBUG='* -Utils* -Normalizer -Dict  -ProcessTags  -ConceptNet -Concept -FactSystem -mocha*' mocha test/qtype -R spec -s 300 -t 15000"
+    "test": "DEBUG='* -Utils* -Normalizer -Dict  -ProcessTags  -ConceptNet -Concept -FactSystem -mocha*' mocha test -R spec -s 300 -t 5000"
   },
   "author": "Rob Ellis",
-  "license": "?GPLv3?",
+  "license": "MIT",
   "dependencies": {
     "WNdb": "~3.1.1",
     "async": "~0.7.0",
