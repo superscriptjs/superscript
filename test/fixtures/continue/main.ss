@@ -1,5 +1,5 @@
 /*
-	Continuation dialogue.
+  Continuation dialogue.
 
 */
 
@@ -13,10 +13,10 @@
 
 + i like to travel
 - have you been to Madird?
-	+ ~yes *
-	% have you been to Madird?
-	- Madird is amazing.
+  + ~yes *
+  % have you been to Madird?
+  - Madird is amazing.
 
-	+ ~no *
-	% have you been to Madird?
-	- Madird is my favorite city.
+  + ~no *
+  % have you been to Madird?
+  - Madird is my favorite city.

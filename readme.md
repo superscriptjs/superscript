@@ -59,7 +59,6 @@ When input comes into the system that matches "I like fish", it will return with
 	* Topic Flags
 		* keep
 		* nostay
-
 * The Message Object
 * The User Object
 

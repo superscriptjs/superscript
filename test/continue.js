@@ -9,12 +9,12 @@ var bot;
 describe('Super Script Continue System', function(){
 
   before(function(done){
-   fs.exists('./continue.json', function (exists) {
+   fs.exists('./test/fixtures/cache/continue.json', function (exists) {
      if (!exists ) {
        parse.loadDirectory('./test/fixtures/continue', function(err, result){
-         fs.writeFile('./continue.json', JSON.stringify(result), function (err) {
+         fs.writeFile('./test/fixtures/cache/continue.json', JSON.stringify(result), function (err) {
            if (err) throw err;
-           new script('./continue.json', null, function(err, botx) {
+           new script('./test/fixtures/cache/continue.json', null, function(err, botx) {
              bot = botx;
              done();
            });           
@@ -22,7 +22,7 @@ describe('Super Script Continue System', function(){
        });
      } else {
        console.log("Loading Cached Script");
-       new script('./continue.json', null, function(err, botx) {
+       new script('./test/fixtures/cache/continue.json', null, function(err, botx) {
          bot = botx;
          done();
        });
