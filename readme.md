@@ -120,6 +120,7 @@ When input comes into the system that matches "I like fish", it will return with
 
  ## Todo's ahead of launch
   * Get tests cleaned up to new API - Not passing
+  * Continue and Convo need to be fixed.
   * Fix options, make worddata smart 
   * Get Lineage and Includes working and add test.
   * Move Reason logic to plugs
