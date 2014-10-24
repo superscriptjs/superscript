@@ -109,6 +109,7 @@ When input comes into the system that matches "I like fish", it will return with
 
  ## Plugins
   * Weather - http://www.openweathermap.com/API
+    - http://api.openweathermap.org/data/2.5/find?q=Vancouver&type=like&mode=json
   * Google something
   * Twilleo
   * OpenCV
@@ -116,3 +117,12 @@ When input comes into the system that matches "I like fish", it will return with
 
  ## Bugs (Known issues)
   * None
+
+ ## Todo's ahead of launch
+  * Get tests cleaned up to new API - Not passing
+  * Fix options, make worddata smart 
+  * Get Lineage and Includes working and add test.
+  * Move Reason logic to plugs
+  * Create a blessed plugin or internal plug folder
+  * Fix Plugin error call next
+  * Write Docs
