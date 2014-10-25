@@ -51,6 +51,8 @@ function SuperScript(botScript, options, callback) {
   this.question  = null;
 
   this.loadPlugins("./plugins");
+  this.loadPlugins(process.cwd() + "/plugins");
+  
 
   var data = JSON.parse(fs.readFileSync(botScript,'utf8'));
   this._sorted      = data.gSorted;
@@ -66,7 +68,7 @@ function SuperScript(botScript, options, callback) {
     norm.loadData(function() {
       that.normalize = norm;
       new qtypes(function(question) {
-        debug("QUestions Loaded");
+        debug("Questions Loaded");
         that.question = question;
         debug("System Loaded, waiting for replies");
         callback(null, that);
@@ -223,6 +225,7 @@ SuperScript.prototype.loadPlugins = function(path) {
 
   for (var file in plugins) {
     for (var func in plugins[file]) {
+      debug("Loading Plugin", path, func)
       this._plugins[func] = plugins[file][func];
     }
   }

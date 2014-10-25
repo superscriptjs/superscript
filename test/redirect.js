@@ -76,6 +76,4 @@ describe('Super Script Redirects', function(){
       });
     });
   });
-
-
 });

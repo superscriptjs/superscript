@@ -3,6 +3,7 @@
 
 */
 
+> topic:keep random
 
 + i went to highschool
 - did you finish ?
@@ -20,3 +21,5 @@
   + ~no *
   % have you been to Madird?
   - Madird is my favorite city.
+
+< topic

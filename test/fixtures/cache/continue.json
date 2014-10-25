@@ -1,0 +1,82 @@
+{
+  "gTopicFlags": {
+    "random": ["keep"]
+  },
+  "gTopics": {
+    "random": {
+      "ad53f011": {
+        "trigger": "I went to highschool",
+        "options": {
+          "isQuestion": false,
+          "qType": false,
+          "qSubType": false
+        },
+        "reply": {
+          "490cc193": "did you finish ?"
+        }
+      },
+      "78db61ce": {
+        "trigger": "I like to travel",
+        "options": {
+          "isQuestion": false,
+          "qType": false,
+          "qSubType": false
+        },
+        "reply": {
+          "7726c127": "have you been to Madird?"
+        }
+      }
+    }
+  },
+  "gPrevTopics": {
+    "random": {
+      "490cc193": {
+        "9b9265b": {
+          "trigger": "(?:.*?)",
+          "reply": {
+            "0": "i went to university"
+          }
+        }
+      },
+      "7726c127": {
+        "605873e0": {
+          "trigger": "~yes(?:.*)",
+          "reply": {
+            "0": "Madird is amazing."
+          }
+        },
+        "568d48ea": {
+          "trigger": "~no(?:.*)",
+          "reply": {
+            "0": "Madird is my favorite city."
+          }
+        }
+      }
+    }
+  },
+  "gSorted": {
+    "topics": {
+      "random": [
+        "ad53f011",
+        "78db61ce"
+      ]
+    },
+    "thats": {
+      "random": [
+        "490cc193",
+        "7726c127"
+      ]
+    },
+    "that_trig": {
+      "random": {
+        "490cc193": [
+          "9b9265b"
+        ],
+        "7726c127": [
+          "605873e0",
+          "568d48ea"
+        ]
+      }
+    }
+  }
+}

@@ -16,7 +16,6 @@
     "crc": "^3.0.0",
     "debug": "~0.8.0",
     "expert": "~0.3.2",
-    "knex": "~0.6.3",
     "moment": "~2.6.0",
     "natural": "~0.1.27",
     "node-normalizer": "0.0.8",

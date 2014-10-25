@@ -10,7 +10,7 @@ describe('Super Script Conversation', function(){
 
 
   before(function(done){
-   fs.exists('./test/fixtures/cache/convo.json', function (exists) {
+    fs.exists('./test/fixtures/cache/convo.json', function (exists) {
      if (!exists ) {
        parse.loadDirectory('./test/fixtures/convo', function(err, result){
          fs.writeFile('./test/fixtures/cache/convo.json', JSON.stringify(result), function (err) {
@@ -28,16 +28,14 @@ describe('Super Script Conversation', function(){
          done();
        });
      }
-   });
- });
-
+    });
+  });
 
   describe('Volley', function(){
     
     it("should have volley", function(done) {
       bot.reply("user1", "Can you skip rope?", function(err, reply) {
         bot.getUser("user1").volley.should.eql(0);
-        // console.log(bot.getUser("user1"))
         done();
       });
     });

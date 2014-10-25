@@ -17,8 +17,8 @@ program
   .parse(process.argv);
 
 if (program.output) console.log(' parse topics');
-console.log(' - %s ', program.output);
-console.log(' - %s ', program.path);
+// console.log(' - %s ', program.output);
+// console.log(' - %s ', program.path);
 
 fs.exists(program.output, function (exists) {
   if (!exists || program.force === true) {

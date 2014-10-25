@@ -35,95 +35,97 @@ When input comes into the system that matches "I like fish", it will return with
 ## Documentation
 * What is this thing
 * Triggers
-	* Basic rules
-	* Wildcards
-		* Variable Length Wildcards
-		* Exact Length Wildcards
-		* Open Eneded Catch alls
-	* Alternate words in triggers
-	* Optional Words in triggers
-	* Captureing Data Back
-	* Special Matches
-		* Question Types
-		* POS Input
-	* Wordnet Expansion
+  * Basic rules
+  * Wildcards
+    * Variable Length Wildcards
+    * Exact Length Wildcards
+    * Open Eneded Catch alls
+  * Alternate words in triggers
+  * Optional Words in triggers
+  * Captureing Data Back
+  * Special Matches
+    * Question Types
+    * Answer Types
+  * Wordnet Expansion
 * Replies
-	* Custom Functions and Plugins
-		* Date Time Functions
-		* Wordnet Functions
-	* Reasoning with ConceptNet
+  * Custom Functions and Plugins
+    * Date Time Functions
+    * Wordnet Functions
+  * Reasoning with ConceptNet
 * Working with Topics
-	* What is a topic
-	* The '__begin__' topic
-	* The 'random' topic
-	* Topic Flags
-		* keep
-		* nostay
+  * What is a topic
+  * The '__begin__' topic
+  * The 'random' topic
+  * Topic Flags
+    * keep
+    * nostay
 * The Message Object
 * The User Object
 
 # Roadmap
-	## General Scripting
-	* ✓ Normalize rules for better matches
-	* ✓ Custom Functions
-	* ✓ Match input on QuestionType
-	* ✓ Match input on POS
-	* ✓ Adopt chatscript style wildcards 
-		- ✓ *   - 0 or more
-		- ✓ *n  - exactly n
-		- ✓ *~n - zero to n (range selector)
-	* ✓ Convery Reply Object to message object
-	* ✓ Break Sentences into multiple message objects
-	* ✓ Support Optionals and Wordnet lookups in replies
-	* ✓ Add helper functions for replies eg: Pluralization, Capitalize
-	* ✓ Logging Threads / Transcripts
+  ## General Scripting
+  * ✓ Normalize rules for better matches
+  * ✓ Custom Functions
+  * ✓ Match input on QuestionType
+  * ✓ Match input on POS
+  * ✓ Adopt chatscript style wildcards 
+    - ✓ *   - 0 or more
+    - ✓ *n  - exactly n
+    - ✓ *~n - zero to n (range selector)
+  * ✓ Convert Reply Object to message object
+  * ✓ Break Sentences into multiple message objects
+  * ✓ Support Optionals and Wordnet lookups in replies
+  * ✓ Add helper functions for replies eg: Pluralization, Capitalize
+  * ✓ Logging Threads / Transcripts
 
-	## Information Retrieval
-	* ✓ Concept Net Support
-	* ✓ Fact Triples
-	* ✓ Generic Scripted Concepts
-	* ✓ Memory
-	* ✓ Bot variables
+  ## Information Retrieval
+  * ✓ Concept Net Support
+  * ✓ Fact Triples
+  * ✓ Generic Scripted Concepts
+  * ✓ Memory
+  * ✓ Bot variables
 
-	## Dialogue Flow
-	* ✓ Topic exhaustion
-	* ✓ non-sticky topics (one time replies)
-	* ✓ Continuation
-	* ✓ Better Topic Redirects
-	* Topic Gambits (reverse conversation - Bot Questions)
-	* Active Listening / Passive Listening
-	* Volley and re-serve.
-		- ✓ Volley support, keep track of who dropped the ball
-		- ✓ Rally support, keep track of how well the thread is going.
+  ## Dialogue Flow
+  * ✓ Topic exhaustion
+  * ✓ non-sticky topics (one time replies)
+  * ✓ Continuation
+  * ✓ Better Topic Redirects
+  * Topic Gambits (reverse conversation - Bot Questions)
+  * Active Listening / Passive Listening
+  * Volley and re-serve.
+    - ✓ Volley support, keep track of who dropped the ball
+    - ✓ Rally support, keep track of how well the thread is going.
 
  ## Bigger tasks
   * ✓ Add popular names to aid when NNP is NN http://www.behindthename.com/top/lists/ud/1980
   * ✓ Remove building topic tree from bot flow and cache results to disk
   * ✓ Front load Reply.parse regex compile to topic trees
-  * Group Chat interface 
-  	- reply - Message to user in channel "@user ..."
-  	- directReply - Privace message to User
-  	- replyAll - Message to channel "@everyone ..."
-  	- replyNone - Message to channel "..."
-  	- fetchUserList 
+  * Change Expert.js to LevelDB GraphDB ? 
+  * Group Chat interface (This should be another project / layer up)
+    - reply - Message to user in channel "@user ..."
+    - directReply - Privace message to User
+    - replyAll - Message to channel "@everyone ..."
+    - replyNone - Message to channel "..."
+    - fetchUserList 
 
- ## Plugins
-  * Weather - http://www.openweathermap.com/API
+ ## Plugin Ideas
+  * ✓ Weather (Brit)
+    - http://www.openweathermap.com/API
     - http://api.openweathermap.org/data/2.5/find?q=Vancouver&type=like&mode=json
-  * Google something
-  * Twilleo
+  * Google something 
+  * twilio.com
   * OpenCV
   * iCAL Support
 
  ## Bugs (Known issues)
-  * None
+  * Still Alpha, everything is unstable.
+  * Report them. Provide a failing test please.
 
  ## Todo's ahead of launch
-  * Get tests cleaned up to new API - Not passing
-  * Continue and Convo need to be fixed.
-  * Fix options, make worddata smart 
+  * Continue need to be fixed.
   * Get Lineage and Includes working and add test.
-  * Move Reason logic to plugs
+  * Fix options, make world data smarter
+  * Move Reason logic to plugins
   * Create a blessed plugin or internal plug folder
   * Fix Plugin error call next
   * Write Docs
