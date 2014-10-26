@@ -109,7 +109,6 @@ exports.wordLength = function(cap, cb) {
           reply = "There are "+ v[0].length +" letters in your " + lookup + "."
         } else {
           reply = "I don't know";
-          // reply = "I think there is about 10 characters. :)";
         }
       } else if (parts[0] == "this" && parts.length == 2) {
         // this phrase, this sentence

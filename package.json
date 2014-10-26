@@ -4,7 +4,7 @@
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
-    "test": "DEBUG='* -Utils* -Normalizer -Dict  -ProcessTags  -ConceptNet -Concept -FactSystem -mocha*' mocha test -R spec -s 300 -t 5000"
+    "test": "mocha test -R spec -s 300 -t 10000"
   },
   "author": "Rob Ellis",
   "license": "MIT",

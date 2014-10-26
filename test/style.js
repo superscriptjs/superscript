@@ -29,7 +29,7 @@ describe('Super Script Style', function(){
     });
   });
 
-  describe.only('Wrapping lines', function(){
+  describe('Wrapping lines', function(){
     it("should continue onto the next line", function(done){
       bot.reply("user1", "tell me a poem", function(err, reply) {
         reply.should.eql("Little Miss Muffit sat on her tuffet,\nIn a nonchalant sort of way.\nWith her forcefield around her,\nThe Spider, the bounder,\nIs not in the picture today.");
