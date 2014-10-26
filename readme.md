@@ -126,4 +126,3 @@ When input comes into the system that matches "I like fish", it will return with
   * Move Reason logic to plugins
   * Create a blessed plugin or internal plug folder
   * Fix Plugin error call next
-  * Write Docs
