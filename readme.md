@@ -2,6 +2,8 @@
 
 SuperScript is a dialog system + bot engine for creating human-like conversation chat bots. It exposes an expressive script for crafting dialogue and features text-expansion using wordnet and Information Retreaval and extraction using ConceptNet. 
 
+SuperScript is based off of a fork of RiveScript with idiom brought in from ChatScript. Without the work of Noah Petherbridge and Bruce Wilcox, this project would not be possible. 
+
 ## What comes in the box
 * Dialog Engine
 * Multi-User Platform for easy intergration with Group Chat systems
@@ -16,7 +18,7 @@ When input comes into the system we convert the input into a message object. The
 
 ## Install
 
-    npm install superscript
+    
 
 ## Examples
 
@@ -67,7 +69,7 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ Normalize rules for better matches
   * ✓ Custom Functions
   * ✓ Match input on QuestionType
-  * ✓ Match input on POS
+  * ✓ Match input on AnswerType
   * ✓ Adopt chatscript style wildcards 
     - ✓ *   - 0 or more
     - ✓ *n  - exactly n
@@ -120,9 +122,3 @@ When input comes into the system that matches "I like fish", it will return with
  ## Bugs (Known issues)
   * Still Alpha, everything is unstable.
   * Report them. Provide a failing test please.
-
- ## Todo's ahead of launch
-  * Fix options, make world data smarter
-  * Move Reason logic to plugins
-  * Create a blessed plugin or internal plug folder
-  * Fix Plugin error call next
