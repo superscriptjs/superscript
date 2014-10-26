@@ -60,8 +60,8 @@ function SuperScript(botScript, options, callback) {
   this._topics      = data.gTopics;
   this._topicFlags  = data.gTopicFlags;
 
-  // this._includes = {}; // included topics
-  // this._lineage  = {}; // inherited topics
+  this._includes = data.gIncludes;
+  this._lineage  = data.gLineage;
 
   concepts.readFiles(this._worldData, function(facts) {
     that.facts = facts;
@@ -184,6 +184,8 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     sorted: that._sorted, 
     topics: that._topics, 
     thats: that._thats,
+    includes: that._includes,
+    lineage: that._lineage,
 
     plugins: that._plugins,
     question: that.question, 
@@ -197,6 +199,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
   messageFactory(msg, that.question, that.normalize, that.cnet, that.facts, function(messages) {
 
     async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
+      
       var reply = "";
       messageArray = Utils.cleanArray(messageArray);
       
@@ -209,10 +212,9 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
       }
 
       debug("Update and Reply to user '" + user.name + "'", reply);
-      return callback(null, reply);
+      return callback(err, reply);
     });
   });
-
 }
 
 SuperScript.prototype.getUser = function(userName) {

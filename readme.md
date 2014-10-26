@@ -122,8 +122,6 @@ When input comes into the system that matches "I like fish", it will return with
   * Report them. Provide a failing test please.
 
  ## Todo's ahead of launch
-  * Continue need to be fixed.
-  * Get Lineage and Includes working and add test.
   * Fix options, make world data smarter
   * Move Reason logic to plugins
   * Create a blessed plugin or internal plug folder

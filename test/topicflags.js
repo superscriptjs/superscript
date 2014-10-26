@@ -13,12 +13,12 @@ describe('Super Script Topics', function(){
 
 
   before(function(done){
-    fs.exists('./test/fixtures/cache/topics.json', function (exists) {
+    fs.exists('./test/fixtures/cache/topicflags.json', function (exists) {
       if (!exists ) {
         parse.loadDirectory('./test/fixtures/topics', function(err, result){
-          fs.writeFile('./test/fixtures/cache/topics.json', JSON.stringify(result), function (err) {
+          fs.writeFile('./test/fixtures/cache/topicflags.json', JSON.stringify(result), function (err) {
             if (err) throw err;
-            new script('./test/fixtures/cache/topics.json', { reasoning: false }, function(err, botx) {
+            new script('./test/fixtures/cache/topicflags.json', { reasoning: false }, function(err, botx) {
               bot = botx;
               done();
             });           
@@ -26,7 +26,7 @@ describe('Super Script Topics', function(){
         });
       } else {
         console.log("Loading Cached Script");
-        new script('./test/fixtures/cache/topics.json', { reasoning: false }, function(err, botx) {
+        new script('./test/fixtures/cache/topicflags.json', { reasoning: false }, function(err, botx) {
           bot = botx;
           done();
         });
