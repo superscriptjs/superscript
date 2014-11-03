@@ -254,6 +254,8 @@ SuperScript.prototype.loadPlugins = function(path) {
 var firstReplyTime = Utils.getRandomInt(3000, 10000);
 var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
 
+// This is really the difference between a personal assistant and
+// a full blown conversation engine.
 //
 // This function is fired every 500ms
 // We check to see who is connected to the bot, and what conversations

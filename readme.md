@@ -54,6 +54,9 @@ When input comes into the system that matches "I like fish", it will return with
     * Date Time Functions
     * Wordnet Functions
   * Reasoning with ConceptNet
+* Chating out of turn
+  * "*" command and how it works
+  * "*:1" special modifiers for first thing said
 * Working with Topics
   * What is a topic
   * The '__begin__' topic
@@ -79,8 +82,10 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ Support Optionals and Wordnet lookups in replies
   * ✓ Add helper functions for replies eg: Pluralization, Capitalize
   * ✓ Logging Threads / Transcripts
+  * ✓ Need a way for the bot to reply with something
+  * Reply level "topic" style flags. Keep, Erase, etc.
 
-  ## Information Retrieval
+  ## Information Retrieval (Review)
   * ✓ Concept Net Support
   * ✓ Fact Triples
   * ✓ Generic Scripted Concepts
@@ -92,17 +97,18 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ non-sticky topics (one time replies)
   * ✓ Continuation
   * ✓ Better Topic Redirects
-  * Topic Gambits (reverse conversation - Bot Questions)
-  * Active Listening / Passive Listening
-  * Volley and re-serve.
+  * ✓ Topic Gambits (reverse conversation - Bot Questions)
+  * ✓ Volley and re-serve.
     - ✓ Volley support, keep track of who dropped the ball
     - ✓ Rally support, keep track of how well the thread is going.
+  * Active Listening / Passive Listening
 
  ## Bigger tasks
-  * ✓ Add popular names to aid when NNP is NN http://www.behindthename.com/top/lists/ud/1980
+  * ✓ Add popular names to aid when NNP is NN 
+      - http://www.behindthename.com/top/lists/ud/1980
   * ✓ Remove building topic tree from bot flow and cache results to disk
   * ✓ Front load Reply.parse regex compile to topic trees
-  * Change Expert.js to LevelDB GraphDB ? 
+  *   (WIP) Change Expert.js to LevelDB GraphDB ? 
   * Group Chat interface (This should be another project / layer up)
     - reply - Message to user in channel "@user ..."
     - directReply - Privace message to User
