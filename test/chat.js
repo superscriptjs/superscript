@@ -33,12 +33,11 @@ describe('Super Script Chat - Bot topics', function(){
   });
   
 
-  describe.only('Chat commands', function(){
+  describe('Chat commands', function(){
     it("Should talk ", function(done) {
       
       bot.on("message", function(userName, botReply) {
         botReply.should.not.be.empty;
-        console.log("REPLY", userName, botReply);
         done();
       });
       

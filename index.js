@@ -96,11 +96,13 @@ var messageItorHandle = function(user, system) {
       if (system.topics["__begin__"]) {
         debug("Begin getreply");
         
-        new Message("request", system.question, system.normalize, system.cnet, system.facts, function(err, messageObj){
+        new Message("request", system.question, system.normalize, system.cnet, system.facts, function(messageObj){
           options.message = messageObj;
           options.type = "begin";
 
           getreply(options,  function(err, begin) {
+
+            debug("---", begin);
             // Okay to continue?
             if (begin.indexOf("{ok}") > -1) {
               debug("Normal getreply");
