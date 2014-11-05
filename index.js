@@ -96,44 +96,41 @@ var messageItorHandle = function(user, system) {
       if (system.topics["__begin__"]) {
         debug("Begin getreply");
         
-        new Message("request", system.question, system.normalize, system.cnet, system.facts, function(messageObj){
-          options.message = messageObj;
-          options.type = "begin";
+        options.message = {clean: "request", qtype: "SYSTEM:sys" }
+        options.type = "begin";
 
-          getreply(options,  function(err, begin) {
+        getreply(options,  function(err, begin) {
 
-            debug("---", begin);
-            // Okay to continue?
-            if (begin.indexOf("{ok}") > -1) {
-              debug("Normal getreply");
+          // Okay to continue?
+          if (begin.indexOf("{ok}") > -1) {
+            debug("Normal getreply");
 
-              options.message = msg;
-              options.type = "normal";
+            options.message = msg;
+            options.type = "normal";
 
-              getreply(options, function(err, reply2){
-                if (err) { 
-                  next(err, null);
-                } else {
-                  reply2 = begin.replace(/\{ok\}/g, reply2);  
-                  var pOptions = {
-                    msg: msg, reply: reply2, 
-                    stars: [], botstars:[],
-                    user: user, 
-                    system: system
-                  };
-                  processTags(pOptions, function(err, reply){
-                    new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
-                      user.updateHistory(msg, replyObj);
-                      return next(err, reply);
-                    });
+            getreply(options, function(err, reply2){
+              if (err) { 
+                next(err, null);
+              } else {
+                reply2 = begin.replace(/\{ok\}/g, reply2);  
+                var pOptions = {
+                  msg: msg, reply: reply2, 
+                  stars: [], botstars:[],
+                  user: user, 
+                  system: system
+                };
+                processTags(pOptions, function(err, reply){
+                  new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
+                    user.updateHistory(msg, replyObj);
+                    return next(err, reply);
                   });
-                }
-              });
-            } else {
-              next(err, begin);
-            }
-          });
-        });        
+                });
+              }
+            });
+          } else {
+            next(err, begin);
+          }
+        });
       } else {
         debug("Normal getreply");
         options.message = msg;
