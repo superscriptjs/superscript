@@ -37,8 +37,6 @@
 	- dry topic test pass
 < topic
 
-
-
 /*
 	Keep Flag Test
 	We use the keep flag to allow us to reuse the gambit over and over

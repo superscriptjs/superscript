@@ -52,7 +52,6 @@ describe('Super Script Topics Structure', function(){
 
         });
       });
-
     });
   });
 
