@@ -9,7 +9,7 @@ var bot;
 
 
 // Testing topics that include and mixin other topics.
-describe.only('Super Script Topic Hooks', function(){
+describe('Super Script Topic Hooks', function(){
 
   before(function(done){
     fs.exists('./test/fixtures/cache/topichooks.json', function (exists) {
