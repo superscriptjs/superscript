@@ -341,7 +341,7 @@ describe('Super Script Script Interface', function(){
   });
 
   describe('Emo', function(){
-    it("Emo Hellp 1", function(done) {
+    it("Emo Hello 1", function(done) {
       bot.reply("user1", "Hello", function(err, reply) {
         reply.should.eql("Hello")
         done();

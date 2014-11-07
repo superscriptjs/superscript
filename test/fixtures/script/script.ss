@@ -71,7 +71,7 @@
 + custom 3 *1
 - ^bail()
 
-+ custom 3 *1
++ custom 3 function
 - backup plan
 
 + custom 4 *1

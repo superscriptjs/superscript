@@ -54,7 +54,7 @@ When input comes into the system that matches "I like fish", it will return with
     * Date Time Functions
     * Wordnet Functions
   * Reasoning with ConceptNet
-* Chating out of turn
+* From Personal Assistant to best friend
   * "*" command and how it works
   * "*:1" special modifiers for first thing said
 * Working with Topics
@@ -65,6 +65,8 @@ When input comes into the system that matches "I like fish", it will return with
     * keep
     * nostay
   * Topic before and after hooks
+    * The 'pre' topic
+    * The 'post' topic
 * The Message Object
 * The User Object
 
@@ -86,12 +88,14 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ Need a way for the bot to reply with something
   * Reply level "topic" style flags. Keep, Erase, etc.
 
+
   ## Information Retrieval (Review)
   * ✓ Concept Net Support
   * ✓ Fact Triples
   * ✓ Generic Scripted Concepts
   * ✓ Memory
   * ✓ Bot variables
+  * Memory that presists users data
 
   ## Dialogue Flow
   * ✓ Topic exhaustion
@@ -103,6 +107,9 @@ When input comes into the system that matches "I like fish", it will return with
     - ✓ Volley support, keep track of who dropped the ball
     - ✓ Rally support, keep track of how well the thread is going.
   * Active Listening / Passive Listening
+  * Remove Begin topic
+  * Assign a starting topic
+
 
  ## Bigger tasks
   * ✓ Add popular names to aid when NNP is NN 
@@ -110,6 +117,7 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ Remove building topic tree from bot flow and cache results to disk
   * ✓ Front load Reply.parse regex compile to topic trees
   *   (WIP) Change Expert.js to LevelDB GraphDB ? 
+  *   Move Reasoning to Brit / Plugins
   * Group Chat interface (This should be another project / layer up)
     - reply - Message to user in channel "@user ..."
     - directReply - Privace message to User
