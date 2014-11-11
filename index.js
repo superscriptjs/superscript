@@ -30,26 +30,11 @@ function SuperScript(botScript, options, callback) {
   options.conceptnet = options.conceptnet || {host:'127.0.0.1', user:'root', pass:''}
   
   this.cnet = require("conceptnet")(options.conceptnet);
-  this.reasoning  = (options.reasoning === undefined) ? true : options.reasoning;
+  // this.reasoning  = (options.reasoning === undefined) ? true : options.reasoning;
+  this.reasoning  = false;
   this._plugins = [];
 
-  // TODO - Read in the data folder
-  var worldData = [
-    // './data/bot.tbl',
-    // './data/adjectivehierarchy.top',
-    // './data/adverbhierarchy.top',
-    // './data/affect.top',
-    // './data/concepts.top',
-    // './data/names.top',
-    // './data/oppisite_tiny.tbl',
-    // './data/prepositionhierarchy.top',
-    // './data/verbhierarchy.top',
-    // './data/world/animals.tbl',
-    // './data/world/color.tbl',
-    // './data/world/basicgeography.tbl'
-  ];
 
-  this._worldData = _.extend(options.worldData || {} , worldData);
   this.normalize = null;
   this.question  = null;
 
@@ -67,18 +52,14 @@ function SuperScript(botScript, options, callback) {
   this._includes = data.gIncludes;
   this._lineage  = data.gLineage;
 
-  
-
-  concepts.readFiles(this._worldData, function(facts) {
-    that.facts = facts;
-    norm.loadData(function() {
-      that.normalize = norm;
-      new qtypes(function(question) {
-        debug("Questions Loaded");
-        that.question = question;
-        debug("System Loaded, waiting for replies");
-        callback(null, that);
-      });
+  this.facts = options.factSystem;
+  norm.loadData(function() {
+    that.normalize = norm;
+    new qtypes(function(question) {
+      debug("Questions Loaded");
+      that.question = question;
+      debug("System Loaded, waiting for replies");
+      callback(null, that);
     });
   });
 }

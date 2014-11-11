@@ -50,6 +50,8 @@ When input comes into the system that matches "I like fish", it will return with
     * Answer Types
   * Wordnet Expansion
 * Replies
+  * Reply flag {keep} 
+  * Reply redirect {@redirect=} 
   * Custom Functions and Plugins
     * Date Time Functions
     * Wordnet Functions
@@ -86,7 +88,7 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ Add helper functions for replies eg: Pluralization, Capitalize
   * ✓ Logging Threads / Transcripts
   * ✓ Need a way for the bot to reply with something
-  * Reply level "topic" style flags. Keep, Erase, etc.
+  * ✓ Reply level "topic" style flags {Keep}
 
 
   ## Information Retrieval (Review)

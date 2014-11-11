@@ -15,7 +15,7 @@ var data = [
 
 var bot;
 
-describe('Super Script Resoning Interface', function(){
+describe.skip('Super Script Resoning Interface', function(){
 
   before(function(done){
     fs.exists('./test/fixtures/cache/reason.json', function (exists) {

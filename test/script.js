@@ -40,21 +40,21 @@ describe('Super Script Script Interface', function(){
 
     it("should match single star", function(done) {
       bot.reply("user1", "Should match single star", function(err, reply) {
-        reply.should.eql("Test two should pass");
+        ["pass 1", "pass 2", "pass 3"].should.containEql(reply);
         done();
       });
     });
 
     it("should allow empty star - new behaviour", function(done) {
       bot.reply("user1", "Should match single", function(err, reply) {
-        reply.should.eql("Test two should pass");
+        ["pass 1", "pass 2", "pass 3"].should.containEql(reply);
         done();
       });
     });
 
     it("should match double star", function(done) {
       bot.reply("user1", "Should match single star two", function(err, reply) {
-        reply.should.eql("Test two should pass");
+        ["pass 1", "pass 2", "pass 3"].should.containEql(reply);
         done();
       });
     });   
@@ -100,6 +100,29 @@ describe('Super Script Script Interface', function(){
 
   });
 
+
+  describe('Replies can be repeated accross triggers', function(){
+    it("Should pass", function(done) {
+      bot.reply("user1", "trigger one", function(err, reply) {
+        reply.should.eql("generic reply");
+        bot.reply("user1", "trigger two", function(err, reply) {
+          reply.should.eql("generic reply");
+          done();
+        });
+      });
+    });   
+
+    // We exausted this reply in the last test.
+    // NB: this test will fail if run on its own.
+    it("Should pass 2", function(done) {
+      bot.reply("user1", "trigger one", function(err, reply) {
+        reply.should.eql("");
+        done();
+      });
+    });  
+
+  });
+
   describe('Variable length star interface *~n', function(){
 
     it("should match *~2 star - End case", function(done) {
@@ -111,21 +134,21 @@ describe('Super Script Script Interface', function(){
 
     it("should match *~2 star - Zero Star", function(done) {
       bot.reply("user1", "It is hot out2", function(err, reply) {
-        reply.should.eql("Test three should pass");
+        ["pass 1","pass 2","pass 3"].should.containEql(reply);
         done();
       });
     });   
 
     it("should match *~2 star - One Star", function(done) {
       bot.reply("user1", "It is a hot out2", function(err, reply) {
-        reply.should.eql("Test three should pass");
+        ["pass 1","pass 2","pass 3"].should.containEql(reply);
         done();
       });
     });   
 
     it("should match *~2 star - Two Star", function(done) {
       bot.reply("user1", "It is a b hot out2", function(err, reply) {
-        reply.should.eql("Test three should pass");
+        ["pass 1","pass 2","pass 3"].should.containEql(reply);
         done();
       });
     });   
@@ -206,14 +229,22 @@ describe('Super Script Script Interface', function(){
     });
   });
 
-  describe('Expand with WordNet', function(){
+  describe('Expand with WordNet', function() {
     it("should reply to simple string", function(done) {
       bot.reply("user1", "I love basketball", function(err, reply) {
         reply.should.eql("Wordnet test one");
         done();
       });
     });
-  }); 
+
+    it("should expand user-defined concepts too", function(done) {
+      bot.reply("user1", "I love professional basketball", function(err, reply) {
+        reply.should.eql("Term expanded");
+        done();
+      });
+    });
+
+  });
 
   describe('Replies can have Optionals too!', function(){
     it("replies with optionals", function(done) {
@@ -225,7 +256,6 @@ describe('Super Script Script Interface', function(){
 
     it("replies with wordnet", function(done) {
       bot.reply("user1", "reply with wordnet", function(err, reply) {
-        
         ["i cotton people","i prefer people", "i care for people", "i love people", "i please people"].should.containEql(reply)
         done();
       });
@@ -237,13 +267,6 @@ describe('Super Script Script Interface', function(){
     it("should call a custom function", function(done) {
       bot.reply("user1", "custom function", function(err, reply) {
         reply.should.eql("The Definition of function is perform duties attached to a particular office or place or function");
-        done();
-      });
-    });
-
-    it("should warn if function is missing", function(done) {
-      bot.reply("user1", "custom 2 function", function(err, reply) {
-        // reply.should.eql("");
         done();
       });
     });
@@ -276,6 +299,38 @@ describe('Super Script Script Interface', function(){
       });
     });
   });
+
+
+  describe('Reply Flags', function() {
+
+    it("Keep Flag", function(done) {
+      bot.reply("user1", "reply flags", function(err, reply) {
+        ["say one thing","say something else"].should.containEql(reply);
+        bot.reply("user1", "reply flags", function(err, reply) {
+          ["say one thing","say something else"].should.containEql(reply);
+          
+          bot.reply("user1", "reply flags", function(err, reply) {
+            ["say something else"].should.containEql(reply);
+            done();
+          });
+
+        });
+        
+      });
+    });
+
+    it("Keep Flag 2", function(done) {
+      bot.reply("user1", "reply flags 2", function(err, reply) {
+        reply.should.eql("keep this");
+        bot.reply("user1", "reply flags 2", function(err, reply) {
+          reply.should.eql("keep this");
+          done();
+        });
+      });
+    });
+
+  });
+
 
   describe('Custom functions 2 - plugin related', function(){
     it("Alpha Length 1", function(done) {
@@ -340,7 +395,7 @@ describe('Super Script Script Interface', function(){
 
   });
 
-  describe('Emo', function(){
+  describe('Emo reply', function(){
     it("Emo Hello 1", function(done) {
       bot.reply("user1", "Hello", function(err, reply) {
         reply.should.eql("Hello")
