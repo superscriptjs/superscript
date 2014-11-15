@@ -22,12 +22,9 @@ exports.after = function(done) {
     });
   }
 
-
   bot.facts.db.close(function(){
     async.each(['./factsystem', './systemDB'], itor,  done);
-  });
-  
-  
+  });  
 }
 
 exports.before = function(file) {
