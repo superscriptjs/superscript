@@ -1,8 +1,9 @@
 var mocha = require("mocha");
 var should  = require("should");
 var fs = require("fs");
-var parse = require("../lib/parse");
+var parse = require("../lib/parse")();
 var script = require("../index");
+var rmdir = require("rmdir");
 var bot;
 
 describe('Super Script Style', function(){
@@ -100,4 +101,9 @@ describe('Super Script Style', function(){
       });
     });
   });
+
+  after(function(done){
+    rmdir("./systemDB", done);
+  });
+
 });

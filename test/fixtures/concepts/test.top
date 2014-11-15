@@ -2,3 +2,14 @@ concept: ~brother (bro brother male_sibling~1 )
 concept: ~family_adult_male (~BROTHER ~FATHER boyfriend brother-in-law hubby  ex-husband father-in-law fiance granddad granddaddy  grandfather grandpa grandpaw grandpop husband patriarch son-in-law stepfather uncle widower step-father scion)  
 
 concept: ~do_with_titles (~watch ~buy ~own ~like ~hear ~read)
+
+concept: ~sports_ball (badminton ball baseball basketball billiards bocce bocce_ball boules bowl bowling cricket croquet field_hockey football golf handball hardball hockey hurling juggling lacrosse netball paddle_ball paintball Ping-Pong polo pool racquetball rugby soccer softball squash stickball tennis tetherball volleyball )
+
+
+concept: ~extensions (and but although yet still) 
+concept: ~than (then than)
+concept: ~propername (tom mary)
+
+
+concept: ~adjectives (tall short )
+

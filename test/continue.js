@@ -2,7 +2,7 @@ var fs = require("fs");
 
 var mocha = require("mocha");
 var should  = require("should");
-var parse = require("../lib/parse");
+var parse = require("../lib/parse")();
 var script = require("../index");
 var bot;
 

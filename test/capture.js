@@ -3,7 +3,7 @@ var should  = require("should");
 var fs = require("fs");
 
 var script = require("../index");
-var parse = require("../lib/parse");
+var parse = require("../lib/parse")();
 var bot;
 
 describe('Super Script Capture System', function(){

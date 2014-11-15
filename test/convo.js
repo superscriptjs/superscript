@@ -1,7 +1,7 @@
 var mocha = require("mocha");
 var should  = require("should");
 var fs = require("fs");
-var parse = require("../lib/parse");
+var parse = require("../lib/parse")();
 
 var script = require("../index");
 var bot;

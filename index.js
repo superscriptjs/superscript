@@ -15,6 +15,7 @@ var norm    = require("node-normalizer");
 var requireDir = require('require-dir');
 var debug   = require("debug")("Script");
 var dWarn   = require("debug")("Script:Warning");
+var facts = require("sfacts");
 
 function SuperScript(botScript, options, callback) {
 
@@ -52,7 +53,13 @@ function SuperScript(botScript, options, callback) {
   this._includes = data.gIncludes;
   this._lineage  = data.gLineage;
 
-  this.facts = options.factSystem;
+  if (options.factSystem) {
+    this.facts = options.factSystem;
+  } else {
+    // We need to create a db to user store stuff.
+    this.facts = facts.create("systemDB");
+  }
+
   norm.loadData(function() {
     that.normalize = norm;
     new qtypes(function(question) {
@@ -184,7 +191,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     cnet: that.cnet
   }
 
-  var user = Users.findOrCreate(userName);
+  var user = Users.findOrCreate(userName, that.facts);
   messageFactory(msg, that.question, that.normalize, that.cnet, that.facts, function(messages) {
     async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
       
@@ -207,7 +214,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
 
 SuperScript.prototype.userConnect = function(userName) {
   debug("Connecting User", userName);
-  return Users.connect(userName);
+  return Users.connect(userName, this.facts);
 }
 
 SuperScript.prototype.userDisconnect = function(userName) {

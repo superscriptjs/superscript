@@ -94,30 +94,40 @@ exports.wordLength = function(cap, cb) {
     var parts = cap.split(" ");
 
     if (parts.length == 1) {
-      reply = cap.length; 
+      reply = cap.length;
+      cb(null, reply);
     } else {
       if (parts[0].toLowerCase() == "the" && parts.length == 3) {
         // name bill, word bill
         reply = parts.pop().length;
+        cb(null, reply);
       } else if (parts[0] == "the" && parts[1].toLowerCase() == "alphabet") {
         reply = 26;
+        cb(null, reply);
       } else if (parts[0] == "my" && parts.length == 2) {
         // Varible lookup
         var lookup = parts[1];
-        var v = this.user.get(lookup);
-        if (v != -1 && v.length) {
-          reply = "There are "+ v[0].length +" letters in your " + lookup + "."
-        } else {
-          reply = "I don't know";
-        }
+
+        
+
+        this.user.get(lookup, function(e,v){
+
+          if (v != -1 && v.length) {
+            cb(null, "There are "+ v.length +" letters in your " + lookup + ".");
+          } else {
+            cb(null, "I don't know");
+          }
+        });
       } else if (parts[0] == "this" && parts.length == 2) {
         // this phrase, this sentence
         reply = "That phrase has " + this.message.raw.length + " characters. I think.";
+        cb(null, reply);
       } else {
         reply = "I think there is about 10 characters. :)";
+        cb(null, reply);
       }
     }
-    cb(null, reply);
+    
   } else {
     cap(true,"");
   }

@@ -1,29 +1,43 @@
 var mocha = require("mocha");
 var fs = require("fs");
 var should  = require("should");
-var parse = require("../lib/parse");
 var script = require("../index");
+var rmdir = require("rmdir");
+var sfact = require("sfacts");
 var bot;
 
-describe('Super Script Script Interface', function(){
+var bootstrap = function(cb) {  
+  sfact.load(['./test/fixtures/concepts/test.top'], 'factsystem', function(err, db){
+    cb(null, db);
+  });
+}
+
+describe.only('SuperScript Scripting Interface', function(){
 
  before(function(done){
   fs.exists('./test/fixtures/cache/script.json', function (exists) {
-    if (!exists ) {
-      parse.loadDirectory('./test/fixtures/script', function(err, result){
-        fs.writeFile('./test/fixtures/cache/script.json', JSON.stringify(result), function (err) {
-          if (err) throw err;
-          new script('./test/fixtures/cache/script.json', { reasoning: false }, function(err, botx) {
-            bot = botx;
-            done();
-          });           
+    if (!exists) {
+      bootstrap(function(err, facts) {
+        
+        var parse = require("../lib/parse")(facts);
+        parse.loadDirectory('./test/fixtures/script', function(err, result){
+          fs.writeFile('./test/fixtures/cache/script.json', JSON.stringify(result), function (err) {
+            if (err) throw err;
+            new script('./test/fixtures/cache/script.json', { factSystem: facts }, function(err, botx) {
+              bot = botx;
+              done();
+            });
+          });
         });
       });
     } else {
       console.log("Loading Cached Script");
-      new script('./test/fixtures/cache/script.json', { reasoning: false }, function(err, botx) {
-        bot = botx;
-        done();
+      bootstrap(function(err, facts){
+        
+        new script('./test/fixtures/cache/script.json', { factSystem: facts }, function(err, botx) {
+          bot = botx;
+          done();
+        });
       });
     }
   });
@@ -231,14 +245,14 @@ describe('Super Script Script Interface', function(){
 
   describe('Expand with WordNet', function() {
     it("should reply to simple string", function(done) {
-      bot.reply("user1", "I love basketball", function(err, reply) {
+      bot.reply("user1", "I love hockey", function(err, reply) {
         reply.should.eql("Wordnet test one");
         done();
       });
     });
 
     it("should expand user-defined concepts too", function(done) {
-      bot.reply("user1", "I love professional basketball", function(err, reply) {
+      bot.reply("user1", "I love basketball", function(err, reply) {
         reply.should.eql("Term expanded");
         done();
       });
@@ -260,7 +274,6 @@ describe('Super Script Script Interface', function(){
         done();
       });
     });
-
   });
 
   describe('Custom functions', function(){
@@ -395,6 +408,36 @@ describe('Super Script Script Interface', function(){
 
   });
 
+  describe('Custom functions 3 - user fact system', function(){
+    it("Should save and recall 1", function(done) {
+      bot.reply("user1", "My name is Bob", function(err, reply) {
+        reply.should.eql("Hi Bob");
+        var u1 = bot.getUser("user1");
+        u1.get("name", function(err, res){
+          res.should.eql("Bob");
+          done();
+        });
+      });
+    });
+
+    it("Should save and recall 2", function(done) {
+      bot.reply("user2", "My name is Ken", function(err, reply) {
+        reply.should.eql("Hi Ken");
+        var u1 = bot.getUser("user1");
+        var u2 = bot.getUser("user2");
+        u1.get("name", function(err, res){
+          res.should.eql("Bob");
+          u2.get("name", function(err, res){
+            res.should.eql("Ken");
+            done();
+          });
+        });
+
+      });
+    });
+
+  });
+
   describe('Emo reply', function(){
     it("Emo Hello 1", function(done) {
       bot.reply("user1", "Hello", function(err, reply) {
@@ -402,6 +445,10 @@ describe('Super Script Script Interface', function(){
         done();
       });
     });
+  });
+
+  after(function(done){
+    rmdir("./factsystem", done);
   });
 
 });

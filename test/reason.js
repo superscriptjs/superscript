@@ -1,39 +1,43 @@
 var mocha = require("mocha");
 var should  = require("should");
+var sfact = require("sfacts");
 
 var script = require("../index");
-var parse = require("../lib/parse");
-
 var fs = require("fs");
-
-var data = [
-  './data/names.top', 
-  './data/affect.top', 
-  './data/adverbhierarchy.top', 
-  './data/verbhierarchy.top',
-  './data/concepts.top'];
-
 var bot;
 
-describe.skip('Super Script Resoning Interface', function(){
+var bootstrap = function(cb) {
+  sfact.load(['./test/fixtures/concepts/test.top'], 'factsystem', function(err, db){
+    cb(null, sfact.explore("factsystem"));
+  });
+}
+
+describe('Super Script Resoning Interface', function(){
 
   before(function(done){
     fs.exists('./test/fixtures/cache/reason.json', function (exists) {
-      if (!exists ) {
-        parse.loadDirectory('./test/fixtures/reason', function(err, result){
-          fs.writeFile('./test/fixtures/cache/reason.json', JSON.stringify(result), function (err) {
-            if (err) throw err;
-            new script('./test/fixtures/cache/reason.json', {worldData: data}, function(err, botx) {
-              bot = botx;
-              done();
-            });           
+      if ( exists ) {
+        bootstrap(function(err, facts) {  
+
+          var parse = require("../lib/parse")(facts);
+          parse.loadDirectory('./test/fixtures/reason', function(err, result){
+            fs.writeFile('./test/fixtures/cache/reason.json', JSON.stringify(result), function (err) {
+              if (err) throw err;
+              new script('./test/fixtures/cache/reason.json', { factSystem: facts }, function(err, botx) {
+                bot = botx;
+                done();
+              });
+            });
           });
         });
       } else {
         console.log("Loading Cached Script");
-        new script('./test/fixtures/cache/reason.json', {worldData: data}, function(err, botx) {
-          bot = botx;
-          done();
+        bootstrap(function(err, facts) {  
+          var parse = require("../lib/parse")(facts);
+          new script('./test/fixtures/cache/reason.json', { factSystem: facts }, function(err, botx) {
+            bot = botx;
+            done();
+          });
         });
       }
     });
@@ -48,35 +52,35 @@ describe.skip('Super Script Resoning Interface', function(){
       });
     });
 
-    it("should evaluate math expressions 1", function(done) {
+    it("should evaluate math expressions - numeric add", function(done) {
       bot.reply("user1", "what is 1 + 1", function(err, reply) {
         reply.should.eql("I think it is 2");
         done();
       });
     });
 
-    it("should evaluate math expressions 1b", function(done) {
+    it("should evaluate math expressions - string to numeric add", function(done) {
       bot.reply("user1", "what is one of one", function(err, reply) {
         reply.should.eql("I think it is 1");
         done();
       });
     });
 
-    it("should evaluate math expressions 1c", function(done) {
+    it("should evaluate math expressions - complex expression 1", function(done) {
       bot.reply("user1", "What is 4+2-1?", function(err, reply) {
         reply.should.eql("I think it is 5");
         done();
       });
     });
 
-    it("should evaluate math expressions 2", function(done) {
+    it("should evaluate math expressions - string with 'half of'", function(done) {
       bot.reply("user1", "what is half of two times 16", function(err, reply) {
         reply.should.eql("I think it is 16");
         done();
       });
     });
 
-    it("should evaluate math expressions 2b", function(done) {
+    it("should evaluate math expressions - string long form", function(done) {
       bot.reply("user1", "What is seven multiplied by six?", function(err, reply) {
         reply.should.eql("I think it is 42");
         done();
@@ -84,45 +88,45 @@ describe.skip('Super Script Resoning Interface', function(){
     });
 
 
-    it("should evaluate math expressions 3", function(done) {
+    it("should evaluate math expressions - string long form two", function(done) {
       bot.reply("user1", "what is two thousand and fifty plus one hundred and 5?", function(err, reply) {
         reply.should.eql("I think it is 2155");
         done();
       });
     });
 
-    it("should evaluate math expressions 4 - Round 2 places", function(done) {
+    it("should evaluate math expressions - Round 2 places", function(done) {
       bot.reply("user1", "what is 7/3?", function(err, reply) {
         reply.should.eql("I think it is 2.33");
         done();
       });
     });
 
-    it("should evaluate math expressions 4b - Divide by Zero", function(done) {
+    it("should evaluate math expressions - Divide by Zero", function(done) {
       bot.reply("user1", "What is 7 divided by 0?", function(err, reply) {
         reply.should.eql("I think it is Infinity");
         done();
       });
     });
-    
 
-    it("should evaluate math expressions 5 - Percent", function(done) {
+    it("should evaluate math expressions - Percent expression 1", function(done) {
       bot.reply("user1", "what is 20% of 120", function(err, reply) {
         reply.should.eql("I think it is 24");
         done();
       });
     });
 
-    it("should evaluate math expressions 5b - Percent", function(done) {
+    it("should evaluate math expressions - Percent expression 2", function(done) {
       bot.reply("user1", "What is 50 percent of 40?", function(err, reply) {
         reply.should.eql("I think it is 20");
         done();
       });
     });
 
-    it("should evaluate math expressions 6 - Memory", function(done) {
+    it("should evaluate math expressions - Memory (half fact)", function(done) {
       bot.reply("user1", "what is ten plus ten", function(err, reply) {
         reply.should.eql("I think it is 20");
+
         bot.reply("user1", "plus ten more", function(err, reply) {
           reply.should.eql("I think it is 30");
           bot.reply("user1", "minus 5", function(err, reply) {
@@ -132,50 +136,47 @@ describe.skip('Super Script Resoning Interface', function(){
         });
       });
     });
+  });
 
-    it("should evaluate math expressions 7 - Percent", function(done) {
-      bot.reply("user1", "what is half of 8?", function(err, reply) {
-        reply.should.eql("I think it is 4");
-        done();
-      });
-    });
 
-    it("should evaluate special case 1", function(done) {
+  describe('Numeric Other', function(){
+
+    it("should evaluate special case - roman numeral", function(done) {
       bot.reply("user1", "What is the Roman Numeral for 100?", function(err, reply) {
         reply.should.eql("I think it is C");
         done();
       });
     });
 
-    it("should evaluate special case 2", function(done) {
+    it("should evaluate special case - binary", function(done) {
       bot.reply("user1", "What is 7 in binary?", function(err, reply) {
         reply.should.eql("I think it is 111");
         done();
       });
     });
 
-    it("should evaluate special case 2b", function(done) {
+    it("should evaluate special case - hexd", function(done) {
       bot.reply("user1", "What is 255 in hex?", function(err, reply) {
         reply.should.eql("I think it is ff");
         done();
       });
     });
 
-    it("should evaluate special case 3", function(done) {
+    it("should evaluate special case - sequence simple", function(done) {
       bot.reply("user1", "What number is missing: 1 2 ? 4 5", function(err, reply) {
         reply.should.eql("I think it is 3");
         done();
       });
     });
 
-    it("should evaluate special case 3b", function(done) {
+    it("should evaluate special case - sequence linear", function(done) {
       bot.reply("user1", "What comes next in the sequence: 2 4 6 8 10 12?", function(err, reply) {
         reply.should.eql("I think it is 14");
         done();
       });
     });
 
-    it("should evaluate special case 3c", function(done) {
+    it("should evaluate special case - sequence geo", function(done) {
       bot.reply("user1", "What comes next in the sequence: 1 2 4 8 16?", function(err, reply) {
         reply.should.eql("I think it is 32");
         done();
@@ -185,10 +186,17 @@ describe.skip('Super Script Resoning Interface', function(){
   });
 
   // These are not working right now.
-  describe.skip("Reason 2 - Compare concepts", function(){
-    it("should evaluate compare concepts, 2 nouns and 2 oppisite terms", function(done) {
-      bot.reply("user1", "If John is taller than Mary, who is the shorter?", function(err, reply) {
-        reply.should.eql("mary is shorter than john.");
+  describe("Reason 2 - Compare concepts", function(){
+
+  // Tom is more tall than Mary
+  // Tom is taller than Mary and Tom is shorter than Joan.
+  // Tom is less tall than Mary
+  // Tom is taller than harry but shorter than Joan.
+  // If John is taller than Mary, who is the taller
+
+    it("should create fact from message", function(done){
+      bot.reply("user1", "Tom is more tall than Mary", function(err, reply) {
+
         done();
       });
     });
@@ -196,6 +204,13 @@ describe.skip('Super Script Resoning Interface', function(){
     it("should evaluate compare concepts, 2 nouns and 2 non oppisite terms", function(done) {
       bot.reply("user1", "If John is taller than Mary, who is the taller?", function(err, reply) {
         reply.should.eql("john is taller than mary.");
+        done();
+      });
+    });
+
+    it("should evaluate compare concepts, 2 nouns and 2 oppisite terms", function(done) {
+      bot.reply("user1", "If John is taller than Mary, who is the shorter?", function(err, reply) {
+        reply.should.eql("mary is shorter than john.");
         done();
       });
     });
@@ -251,7 +266,7 @@ describe.skip('Super Script Resoning Interface', function(){
 
   });
 
-  describe("Reason 3 - Auto Reply", function(){
+  describe.skip("Reason 3 - Auto Reply", function(){
     it("should analize statment 1", function(done) {
       bot.reply("user1", "Something random that sits in memory.", function(err, reply) {
         // This hits the statement flow and is filled with some random gambit
@@ -421,7 +436,7 @@ describe.skip('Super Script Resoning Interface', function(){
 
   });
 
-  describe("Loebner 2014 Screener", function(){
+  describe.skip("Loebner 2014 Screener", function(){
     it("should save knowledge", function(done) {
       bot.reply("user1", "Hello, my name is Adam.", function(err, reply) {
         reply.should.containEql("Nice to meet you, Adam");
@@ -511,7 +526,7 @@ describe.skip('Super Script Resoning Interface', function(){
 
   });
 
-  describe("Concept Resolution", function(){
+  describe.skip("Concept Resolution", function(){
     // We need concepts
     it("should resolve reason 1a - concept support", function(done) {
       bot.reply("user1", "My parents are John and Susan. What is my mother called?", function(err, reply) {
@@ -557,4 +572,9 @@ describe.skip('Super Script Resoning Interface', function(){
     });
 
   });
+
+  after(function(done){
+    rmdir("./factsystem", done);
+  });
+
 });

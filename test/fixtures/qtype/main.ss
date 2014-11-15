@@ -9,3 +9,7 @@
 
 ?:NUM *
 - c
+
+// Fine grained types
+?:HUM:ind *
+- a

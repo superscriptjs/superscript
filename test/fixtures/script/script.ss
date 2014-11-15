@@ -108,11 +108,14 @@
 	+ custom 7 *1
 	- he ^plural(<cap1>) this
 
-	+ I ~like basketball
+
+	// We pull in wordnet and system facts
+	+ I ~like hockey
 	- Wordnet test one
 
-	+ I love ~sport
+	+ I love ~SPORTS_BALL
 	- Term expanded
+
 
 	+ what is one plus one
 	- It is two.
@@ -134,4 +137,9 @@
 
 	+ ~emohello
 	- Hello
+
+// This will save the name to the internal fact system for this user.
+	+ My name is *1
+	- ^save(name, <cap1>) Hi <cap1>
+
 < topic
