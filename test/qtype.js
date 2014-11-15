@@ -1,44 +1,10 @@
 var mocha = require("mocha");
 var should  = require("should");
-var fs = require("fs");
-var sfact = require("sfacts");
-var script = require("../index");
-var bot;
-
-var bootstrap = function(cb) {
-  sfact.load(['./test/fixtures/concepts/test.top'], 'factsystem', function(err, db){
-    cb(null, sfact.explore("factsystem"));
-  });
-}
+var help = require("./helpers");
 
 describe('Super Script QType Matching', function(){
 
-  before(function(done){
-    fs.exists('./test/fixtures/cache/qtype.json', function (exists) {
-      if (!exists) {
-        bootstrap(function(err, facts) {
-          var parse = require("../lib/parse")(facts);
-          parse.loadDirectory('./test/fixtures/qtype', function(err, result){
-            fs.writeFile('./test/fixtures/cache/qtype.json', JSON.stringify(result), function (err) {
-              if (err) throw err;
-              new script('./test/fixtures/cache/qtype.json', { factSystem: facts }, function(err, botx) {
-                bot = botx;
-                done();
-              });
-            });           
-          });
-        });
-      } else {
-        console.log("Loading Cached Script");
-        bootstrap(function(err, facts) {
-          new script('./test/fixtures/cache/qtype.json', { factSystem: facts }, function(err, botx) {
-            bot = botx;
-            done();
-          });
-        });
-      }
-    });
-  });
+  before(help.before("qtype"));
 
   describe('Simple Question Matching (qSubType)', function(){
     it("should reply to simple string", function(done) {
@@ -89,8 +55,6 @@ describe('Super Script QType Matching', function(){
     });
   });
 
-  after(function(done){
-    rmdir("./factsystem", done);
-  });
+  after(help.after);
 
 });

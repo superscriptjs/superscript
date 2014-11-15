@@ -1,47 +1,11 @@
 var mocha = require("mocha");
-var fs = require("fs");
 var should  = require("should");
-var script = require("../index");
-var rmdir = require("rmdir");
-var sfact = require("sfacts");
-var bot;
+var help = require("./helpers");
 
-var bootstrap = function(cb) {  
-  sfact.load(['./test/fixtures/concepts/test.top'], 'factsystem', function(err, db){
-    cb(null, db);
-  });
-}
 
-describe.only('SuperScript Scripting Interface', function(){
+describe('SuperScript Scripting Interface', function(){
 
- before(function(done){
-  fs.exists('./test/fixtures/cache/script.json', function (exists) {
-    if (!exists) {
-      bootstrap(function(err, facts) {
-        
-        var parse = require("../lib/parse")(facts);
-        parse.loadDirectory('./test/fixtures/script', function(err, result){
-          fs.writeFile('./test/fixtures/cache/script.json', JSON.stringify(result), function (err) {
-            if (err) throw err;
-            new script('./test/fixtures/cache/script.json', { factSystem: facts }, function(err, botx) {
-              bot = botx;
-              done();
-            });
-          });
-        });
-      });
-    } else {
-      console.log("Loading Cached Script");
-      bootstrap(function(err, facts){
-        
-        new script('./test/fixtures/cache/script.json', { factSystem: facts }, function(err, botx) {
-          bot = botx;
-          done();
-        });
-      });
-    }
-  });
- });
+  before(help.before("script"));
 
   describe('Simple star Interface *', function(){
 
@@ -245,7 +209,7 @@ describe.only('SuperScript Scripting Interface', function(){
 
   describe('Expand with WordNet', function() {
     it("should reply to simple string", function(done) {
-      bot.reply("user1", "I love hockey", function(err, reply) {
+      bot.reply("user1", "I love shoes", function(err, reply) {
         reply.should.eql("Wordnet test one");
         done();
       });
@@ -321,12 +285,11 @@ describe.only('SuperScript Scripting Interface', function(){
         ["say one thing","say something else"].should.containEql(reply);
         bot.reply("user1", "reply flags", function(err, reply) {
           ["say one thing","say something else"].should.containEql(reply);
-          
-          bot.reply("user1", "reply flags", function(err, reply) {
-            ["say something else"].should.containEql(reply);
+          // third time
+          bot.reply("user1", "reply flags", function(err, reply3) {
+            reply3.should.eql("say something else");
             done();
           });
-
         });
         
       });
@@ -447,8 +410,6 @@ describe.only('SuperScript Scripting Interface', function(){
     });
   });
 
-  after(function(done){
-    rmdir("./factsystem", done);
-  });
+  after(help.after);
 
 });

@@ -1,47 +1,11 @@
 var mocha = require("mocha");
-var fs = require("fs");
 var should  = require("should");
-var script = require("../index");
-var rmdir = require("rmdir");
-var sfact = require("sfacts");
-var bot;
-
-var bootstrap = function(cb) {  
-  sfact.load(['./test/fixtures/concepts/test.top'], 'factsystem', function(err, db){
-    cb(null, db);
-  });
-}
+var help = require("./helpers");
 
 describe('SuperScript substitution Interface', function(){
 
- before(function(done){
-  fs.exists('./test/fixtures/cache/substitution.json', function (exists) {
-    if (exists) {
-      bootstrap(function(err, facts) {
-        
-        var parse = require("../lib/parse")(facts);
-        parse.loadDirectory('./test/fixtures/substitution', function(err, result){
-          fs.writeFile('./test/fixtures/cache/substitution.json', JSON.stringify(result), function (err) {
-            if (err) throw err;
-            new script('./test/fixtures/cache/substitution.json', { factSystem: facts }, function(err, botx) {
-              bot = botx;
-              done();
-            });
-          });
-        });
-      });
-    } else {
-      console.log("Loading Cached Script");
-      bootstrap(function(err, facts){
-        new script('./test/fixtures/cache/substitution.json', { factSystem: facts }, function(err, botx) {
-          bot = botx;
-          done();
-        });
-      });
-    }
-  });
- });
-
+  before(help.before("substitution"));
+ 
   describe('Message Subs', function(){
     it("name subsitution", function(done) {
       bot.reply("user1", "Rob is here", function(err, reply) {
@@ -80,8 +44,6 @@ describe('SuperScript substitution Interface', function(){
     });
   });  
 
-  after(function(done){
-    rmdir("./factsystem", done);
-  });
+  after(help.after);
 
 });

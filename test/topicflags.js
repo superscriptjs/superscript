@@ -1,38 +1,10 @@
 var mocha = require("mocha");
 var should  = require("should");
+var help = require("./helpers");
 
-var fs = require("fs");
-var parse = require("../lib/parse")();
-
-var script = require("../index");
-var bot;
-
-
-// We have a bug some replies in non-keep can change the topic
 describe('Super Script Topics', function(){
 
-
-  before(function(done){
-    fs.exists('./test/fixtures/cache/topicflags.json', function (exists) {
-      if (!exists ) {
-        parse.loadDirectory('./test/fixtures/topics', function(err, result){
-          fs.writeFile('./test/fixtures/cache/topicflags.json', JSON.stringify(result), function (err) {
-            if (err) throw err;
-            new script('./test/fixtures/cache/topicflags.json', { reasoning: false }, function(err, botx) {
-              bot = botx;
-              done();
-            });           
-          });
-        });
-      } else {
-        console.log("Loading Cached Script");
-        new script('./test/fixtures/cache/topicflags.json', { reasoning: false }, function(err, botx) {
-          bot = botx;
-          done();
-        });
-      }
-    });
-  });
+  before(help.before("topicflags"));
 
   describe('Topics - NoStay', function(){
     // "i am going to stay and go"
@@ -138,4 +110,5 @@ describe('Super Script Topics', function(){
 
   });
 
+  after(help.after);
 });

@@ -1,34 +1,10 @@
-var fs = require("fs");
-
 var mocha = require("mocha");
 var should  = require("should");
-var parse = require("../lib/parse")();
-var script = require("../index");
-var bot;
+var help = require("./helpers");
 
 describe('Super Script Continue System', function(){
 
-  before(function(done){
-   fs.exists('./test/fixtures/cache/continue.json', function (exists) {
-     if (!exists ) {
-       parse.loadDirectory('./test/fixtures/continue', function(err, result){
-         fs.writeFile('./test/fixtures/cache/continue.json', JSON.stringify(result), function (err) {
-           if (err) throw err;
-           new script('./test/fixtures/cache/continue.json', null, function(err, botx) {
-             bot = botx;
-             done();
-           });           
-         });
-       });
-     } else {
-       console.log("Loading Cached Script");
-       new script('./test/fixtures/cache/continue.json', null, function(err, botx) {
-         bot = botx;
-         done();
-       });
-     }
-   });
-  });
+  before(help.before("continue"));
 
   describe('Match and continue', function(){
 
@@ -63,4 +39,6 @@ describe('Super Script Continue System', function(){
     });
 
   });
+
+  after(help.after);
 });

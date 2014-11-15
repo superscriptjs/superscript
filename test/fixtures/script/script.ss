@@ -110,7 +110,7 @@
 
 
 	// We pull in wordnet and system facts
-	+ I ~like hockey
+	+ I ~like shoe
 	- Wordnet test one
 
 	+ I love ~SPORTS_BALL

@@ -1,48 +1,11 @@
 var mocha = require("mocha");
 var should  = require("should");
-var sfact = require("sfacts");
-
-var script = require("../index");
-var fs = require("fs");
-var bot;
-
-var bootstrap = function(cb) {
-  sfact.load(['./test/fixtures/concepts/test.top'], 'factsystem', function(err, db){
-    cb(null, sfact.explore("factsystem"));
-  });
-}
+var help = require("./helpers");
 
 describe('Super Script Resoning Interface', function(){
 
-  before(function(done){
-    fs.exists('./test/fixtures/cache/reason.json', function (exists) {
-      if ( exists ) {
-        bootstrap(function(err, facts) {  
-
-          var parse = require("../lib/parse")(facts);
-          parse.loadDirectory('./test/fixtures/reason', function(err, result){
-            fs.writeFile('./test/fixtures/cache/reason.json', JSON.stringify(result), function (err) {
-              if (err) throw err;
-              new script('./test/fixtures/cache/reason.json', { factSystem: facts }, function(err, botx) {
-                bot = botx;
-                done();
-              });
-            });
-          });
-        });
-      } else {
-        console.log("Loading Cached Script");
-        bootstrap(function(err, facts) {  
-          var parse = require("../lib/parse")(facts);
-          new script('./test/fixtures/cache/reason.json', { factSystem: facts }, function(err, botx) {
-            bot = botx;
-            done();
-          });
-        });
-      }
-    });
-  });
-
+  before(help.before("reason"));
+  
   describe('Math Reasoning', function(){
     
     it("should not change the numbers", function(done) {
@@ -573,8 +536,6 @@ describe('Super Script Resoning Interface', function(){
 
   });
 
-  after(function(done){
-    rmdir("./factsystem", done);
-  });
+  after(help.after);
 
 });
