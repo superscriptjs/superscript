@@ -149,7 +149,7 @@ describe('Super Script Resoning Interface', function(){
   });
 
   // These are not working right now.
-  describe("Reason 2 - Compare concepts", function(){
+  describe.only("Reason 2 - Compare concepts", function(){
 
   // Tom is more tall than Mary
   // Tom is less tall than Mary
@@ -218,6 +218,17 @@ describe('Super Script Resoning Interface', function(){
         done();
       });
     });
+
+    it("should be able to match 6 - least tall", function(done){
+      bot.reply("user1", "Tom is taller then Harry", function(err, reply) {
+        bot.reply("user1", "Of Tom and Harry, who is least tall?", function(err, reply) {
+          reply.should.eql("Harry is shorter.");
+          done();
+        });
+      });
+    });
+
+    
 
     it("should evaluate compare concepts, no need to reply yet", function(done) {
       bot.reply("user1", "John is older than Mary, and Mary is older than Sarah.", function(err, reply) {
