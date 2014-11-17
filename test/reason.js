@@ -152,28 +152,69 @@ describe('Super Script Resoning Interface', function(){
   describe("Reason 2 - Compare concepts", function(){
 
   // Tom is more tall than Mary
-  // Tom is taller than Mary and Tom is shorter than Joan.
   // Tom is less tall than Mary
+  // Tom is taller than Mary and Tom is shorter than Joan.
   // Tom is taller than harry but shorter than Joan.
   // If John is taller than Mary, who is the taller
 
-    it("should create fact from message", function(done){
+    it("should be able to match 1", function(done){
       bot.reply("user1", "Tom is more tall than Mary", function(err, reply) {
+        gFacts.db.get({ subject: "tom"}, function(e,r){
+          r[0].predicate.should.eql("tall");
+          r[0].object.should.eql("mary");
+          done();
+        });
+      });
+    });
 
+    it("should be able to match 2", function(done){
+      bot.reply("user1", "Tom is taller than Mary and Tom is shorter than Joan.", function(err, reply) {
+        reply.should.eql("");
+        gFacts.db.get({ subject: "tom", predicate: 'tall'}, function(e,r){
+          r[0].object.should.eql("mary");
+          done();
+        });
+      });
+    });
+
+    it("should be able to match 3 - non opposite adjectives", function(done){
+      bot.reply("user1", "If John is taller than Mary, who is the taller", function(err, reply) {
+        reply.should.eql("John is taller than Mary.");
         done();
       });
     });
 
-    it("should evaluate compare concepts, 2 nouns and 2 non oppisite terms", function(done) {
-      bot.reply("user1", "If John is taller than Mary, who is the taller?", function(err, reply) {
-        reply.should.eql("john is taller than mary.");
+    it("should be able to match 3b - non-opposite adjectives", function(done){
+      bot.reply("user1", "If John is shorter than Mary, who is the shorter", function(err, reply) {
+        reply.should.eql("John is shorter than Mary.");
         done();
       });
     });
 
-    it("should evaluate compare concepts, 2 nouns and 2 oppisite terms", function(done) {
-      bot.reply("user1", "If John is taller than Mary, who is the shorter?", function(err, reply) {
-        reply.should.eql("mary is shorter than john.");
+    it("should be able to match 4 - opposite adjectives", function(done){
+      bot.reply("user1", "If Jerry is taller than Jenny, who is the shorter", function(err, reply) {
+        reply.should.eql("Jenny is shorter than Jerry.");
+        done();
+      });
+    });
+
+    it("should be able to match 4b - miss adjectives", function(done){
+      bot.reply("user1", "If John is shorter than Mary, who is the fatter", function(err, reply) {
+        reply.should.eql("Those things don't make sense to compare.");
+        done();
+      });
+    });
+
+    it("should be able to match 5a - YN", function(done){
+      bot.reply("user1", "Jim is shorter than Roger. Do you know who is shorter?", function(err, reply) {
+        reply.should.eql("Yes, Jim is shorter.");
+        done();
+      });
+    });
+
+    it("should be able to match 5b - YN", function(done){
+      bot.reply("user1", "Jim is shorter than Roger. Do you know who is taller?", function(err, reply) {
+        reply.should.eql("Yes, Roger is taller.");
         done();
       });
     });
@@ -181,16 +222,16 @@ describe('Super Script Resoning Interface', function(){
     it("should evaluate compare concepts, no need to reply yet", function(done) {
       bot.reply("user1", "John is older than Mary, and Mary is older than Sarah.", function(err, reply) {
         reply.should.eql("");
-        done();
-      });
-    });
-
-    it("should evaluate compare concepts, now reply", function(done) {
-      bot.reply("user1", "Who is older Sarah or Mary?", function(err, reply) {
-        reply.should.eql("mary is older than sarah, if memory serves.");
-        bot.reply("user1", "Who is older John or Sarah?", function(err, reply) {
-          reply.should.eql("john is older than sarah, if memory serves.");
-          done();
+        gFacts.db.get({ subject: "john", predicate: 'old'}, function(e,r){
+          r[0].object.should.eql("mary");
+          
+          bot.reply("user1", "Who is older Sarah or Mary?", function(err, reply) {
+            reply.should.eql("Mary is older than Sarah.");
+            bot.reply("user1", "Who is older John or Sarah?", function(err, reply) {
+              reply.should.eql("John is older than Sarah.");
+              done();
+            });
+          });
         });
       });
     });
@@ -199,22 +240,25 @@ describe('Super Script Resoning Interface', function(){
     it("should evaluate compare", function(done){
       bot.reply("user1", "John is older than Mary, and Mary is older than Sarah.", function(err, reply) {
         bot.reply("user1", "Which of them is the oldest?", function(err, reply) {
-          reply.should.eql("John is the oldest");
-          bot.reply("user1", "Travis is now older then John.", function(err, reply) {
-            bot.reply("user1", "Which of them is the oldest?", function(err, reply) {
-              reply.should.eql("Travis is the oldest");
-              done();
-            }); 
-          });
+          reply.should.eql("John is the oldest.");
+          done();
         });
       });
     });
 
-    //John is taller than Mary and Mary is taller than Sue. Who is shorter, John or Sue?
+    it("should evaluate compare 2a", function(done){
+      bot.reply("user1", "John is younger than Mary, and Mary is older than Sarah.", function(err, reply) {
+        bot.reply("user1", "Which of them is the oldest?", function(err, reply) {
+          reply.should.eql("Mary is the oldest.");
+          done();
+        });
+      });
+    });
+
     it("should evaluate compare 2", function(done){
       bot.reply("user1", "John is taller than Mary and Mary is taller than Sue.", function(err, reply) {
         bot.reply("user1", "Who is shorter, John or Sue?", function(err, reply) {
-          reply.should.eql("sue is shorter than john, if memory serves.");
+          reply.should.eql("Sue is shorter than John.");
           done();
         });
       });
@@ -222,7 +266,7 @@ describe('Super Script Resoning Interface', function(){
 
     it("should evaluate compare 3", function(done) {
       bot.reply("user1", "Jane is older than Janet. Who is the youngest?", function(err, reply) {
-        reply.should.containEql("janet");
+        reply.should.eql("Janet is the youngest.");
         done();
       });
     });

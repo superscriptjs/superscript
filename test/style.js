@@ -67,6 +67,15 @@ describe('Super Script Style', function(){
         done();
       });
     });
+
+    it("should removed bursted commas", function(done){
+      bot.reply("user1", "John is older than Mary, and Mary is older than Sarah", function(err, reply) {
+        reply.should.eql("Test eight should pass");
+        done();
+      });
+    });
+
+
   });
 
   describe("chunk message", function(){

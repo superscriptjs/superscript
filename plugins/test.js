@@ -7,3 +7,7 @@ exports.bail = function(cb) {
 exports.one = function(cb) {
 	cb(null, "one");
 }
+
+exports.num = function(n, cb) {
+	cb(null, n);
+}

@@ -7,7 +7,6 @@ var Message = require("./lib/message");
 var Users   = require("./lib/users");
 var getreply      = require("./lib/getreply");
 var processTags   = require("./lib/processtags");
-var reason        = require("./lib/reason/reason");
 var concepts      = require("./lib/concepts");
 var Utils   = require("./lib/utils");
 var _       = require("underscore");
@@ -31,8 +30,6 @@ function SuperScript(botScript, options, callback) {
   options.conceptnet = options.conceptnet || {host:'127.0.0.1', user:'root', pass:''}
   
   this.cnet = require("conceptnet")(options.conceptnet);
-  // this.reasoning  = (options.reasoning === undefined) ? true : options.reasoning;
-  this.reasoning  = false;
   this._plugins = [];
 
 
@@ -133,12 +130,9 @@ var messageItorHandle = function(user, system) {
       }
     }
 
-    // We have an option to completly disable reasoning entirly.
-    if (system.reasoning) {
-      reason.internalizeMessage(msg, user, system.facts, system.cnet, internalizeHandle);
-    } else {
-      internalizeHandle();
-    }
+
+    internalizeHandle();
+
   }
 }
 
@@ -186,7 +180,6 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     plugins: that._plugins,
     question: that.question, 
     normalize: that.normalize,
-    reasoning: that.reasoning,
     facts: that.facts, 
     cnet: that.cnet
   }
@@ -274,7 +267,6 @@ SuperScript.prototype.check = function() {
       plugins: that._plugins,
       question: that.question, 
       normalize: that.normalize,
-      reasoning: that.reasoning,
       facts: that.facts, 
       cnet: that.cnet
     }

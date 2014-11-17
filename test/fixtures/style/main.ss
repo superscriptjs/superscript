@@ -55,6 +55,8 @@
 + Do you have a condition
 - Test seven should pass
 
++ John is older than Mary and Mary is older than Sarah
+- Test eight should pass
 
 // Test Multiple line output
 + tell me a poem

@@ -4,9 +4,14 @@ var fs = require("fs");
 var rmdir = require("rmdir");
 var async = require("async");
 
-exports.bootstrap = bootstrap= function(cb) {  
-  sfact.load(['./test/fixtures/concepts/test.top'], 'factsystem', function(err, db){
-    cb(null, db);
+var data = [
+  './test/fixtures/concepts/test.top', 
+  './test/fixtures/concepts/opp.tbl'];
+
+exports.bootstrap = bootstrap = function(cb) {
+  sfact.load(data, 'factsystem', function(err, facts){
+    gFacts = facts;
+    cb(null, facts);
   });
 }
 

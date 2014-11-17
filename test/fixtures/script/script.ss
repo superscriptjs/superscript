@@ -108,6 +108,9 @@
 	+ custom 7 *1
 	- he ^plural(<cap1>) this
 
+	+ custom 8 *1
+	- ^num(4) + ^num(3) = 7
+
 
 	// We pull in wordnet and system facts
 	+ I ~like shoe
