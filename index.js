@@ -253,7 +253,6 @@ SuperScript.prototype.check = function() {
   var users = Users.getOnline();
   var currentTimestamp = (new Date()).getTime();
   
-
   var sendMessage = function(message, user, cb) {
 
     var system = {
