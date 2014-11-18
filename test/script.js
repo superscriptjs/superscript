@@ -1,7 +1,7 @@
 var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
-
+var async = require("async");
 
 describe('SuperScript Scripting Interface', function(){
 
@@ -402,8 +402,26 @@ describe('SuperScript Scripting Interface', function(){
             done();
           });
         });
+      }); 
+    });
 
+    it("Should save and recall 3", function(done) {
+      
+      var it = function(i,n) {
+        var user = bot.getUser("user" + i);
+        user.memory.create("k1","isa","v"+i, false, function(){
+          n();
+        });
+      }
+      
+      async.each([1,2], it, function(){
+        var user = bot.getUser("user1");
+        user.memory.db.get({'predicate':'isa'}, function(e,r){
+          r.should.have.length(1)
+          done()
+        });
       });
+    
     });
 
   });
