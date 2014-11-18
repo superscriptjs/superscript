@@ -150,7 +150,7 @@ describe('Super Script Resoning Interface', function(){
 
   });
 
-  describe.only("Reason 2 - Compare concepts", function(){
+  describe("Reason 2 - Compare concepts", function(){
 
   // Tom is more tall than Mary
   // Tom is less tall than Mary
