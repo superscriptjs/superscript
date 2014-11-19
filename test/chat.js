@@ -2,7 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe.only('Super Script Chat - Bot topics', function(){
+describe('Super Script Chat - Bot topics', function(){
 
   before(help.before("chat"));
 
