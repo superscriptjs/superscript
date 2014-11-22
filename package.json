@@ -11,8 +11,6 @@
   "dependencies": {
     "WNdb": "~3.1.1",
     "async": "~0.7.0",
-    "string": "~1.8.1",
-    "underscore": "~1.6.0",
     "async-replace": "0.0.2",
     "commander": "^2.4.0",
     "crc": "^3.0.0",
@@ -27,7 +25,10 @@
     "require-dir": "~0.1.0",
     "rhyme": "0.0.3",
     "roman-numerals": "~0.3.2",
-    "syllablistic": "~0.1.0"
+    "sfacts": "0.0.3",
+    "string": "~1.8.1",
+    "syllablistic": "~0.1.0",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "blanket": "~1.1.6",
