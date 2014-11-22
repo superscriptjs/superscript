@@ -14,7 +14,7 @@ SuperScript is based off of a fork of RiveScript with idiom brought in from Chat
 
 The message pipeline contains many steps, and varies from other implemetations.
 
-When input comes into the system we convert the input into a message object. The message object contains multiple purmatuations of the origional object and has been analyzed for parts of speach and question classification. The message is first handled by the reasoning system, before being sent to the dialog engine for processing.
+When input comes into the system we convert the input into a message object. The message object contains multiple purmatuations of the origional object and has been analyzed for parts of speach and question classification. The message is then sent to the dialog engine for output matching and processing.
 
 ## Install
 
@@ -73,6 +73,7 @@ When input comes into the system that matches "I like fish", it will return with
 * The User Object
 
 # Roadmap
+
   ## General Scripting
   * ✓ Normalize rules for better matches
   * ✓ Custom Functions
@@ -115,8 +116,8 @@ When input comes into the system that matches "I like fish", it will return with
       - http://www.behindthename.com/top/lists/ud/1980
   * ✓ Remove building topic tree from bot flow and cache results to disk
   * ✓ Front load Reply.parse regex compile to topic trees
-  *   (WIP) Change Expert.js to LevelDB GraphDB ? 
-  *   Move Reasoning to Brit / Plugins
+  * ✓ Change Expert.js to LevelDB GraphDB ? 
+  * ✓ Move Reasoning to Brit / Plugins
   * Group Chat interface (This should be another project / layer up)
     - reply - Message to user in channel "@user ..."
     - directReply - Privace message to User
