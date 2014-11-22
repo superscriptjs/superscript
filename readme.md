@@ -18,7 +18,7 @@ When input comes into the system we convert the input into a message object. The
 
 ## Install
 
-    
+    npm install superscript
 
 ## Examples
 
@@ -91,13 +91,11 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ Reply level "topic" style flags {Keep}
 
 
-  ## Information Retrieval (Review)
+  ## Information Retrieval
   * ✓ Concept Net Support
   * ✓ Fact Triples
   * ✓ Generic Scripted Concepts
-  * ✓ Memory
-  * ✓ Bot variables
-  * Memory that presists users data
+  * ✓ Memory that presists users data (LevelDB via sfacts)
 
   ## Dialogue Flow
   * ✓ Topic exhaustion
@@ -108,7 +106,6 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ Volley and re-serve.
     - ✓ Volley support, keep track of who dropped the ball
     - ✓ Rally support, keep track of how well the thread is going.
-  * Active Listening / Passive Listening
   * Remove Begin topic
   * Assign a starting topic
 
@@ -127,15 +124,7 @@ When input comes into the system that matches "I like fish", it will return with
     - replyNone - Message to channel "..."
     - fetchUserList 
 
- ## Plugin Ideas
-  * ✓ Weather (Brit)
-    - http://www.openweathermap.com/API
-    - http://api.openweathermap.org/data/2.5/find?q=Vancouver&type=like&mode=json
-  * Google something 
-  * twilio.com
-  * OpenCV
-  * iCAL Support
 
- ## Bugs (Known issues)
+# Bugs (Known issues)
   * Still Alpha, everything is unstable.
   * Report them. Provide a failing test please.

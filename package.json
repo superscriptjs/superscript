@@ -6,6 +6,10 @@
   "scripts": {
     "test": "mocha test -R spec -s 1700 -t 20000"
   },
+  "repositories": {
+    "type":"git",
+    "url":"https://github.com/silentrob/superscript"
+  },
   "author": "Rob Ellis",
   "license": "MIT",
   "dependencies": {
