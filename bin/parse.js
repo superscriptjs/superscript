@@ -5,9 +5,8 @@
  */
 
 var program = require('commander');
-var parse = require("../lib/parse");
-var fs = require("fs");
 
+var fs = require("fs");
 
 program
   .version('0.0.1')
@@ -16,10 +15,9 @@ program
   .option('-f, --force [type]', 'Force Save if output file already exists', false)
   .parse(process.argv);
 
-if (program.output) console.log(' parse topics');
-// console.log(' - %s ', program.output);
-// console.log(' - %s ', program.path);
+if (program.output) console.log('parse topics');
 
+var parse = require("../lib/parse")();
 fs.exists(program.output, function (exists) {
   if (!exists || program.force === true) {
     parse.loadDirectory(program.path, function(err, result){
@@ -32,4 +30,3 @@ fs.exists(program.output, function (exists) {
     console.log("File", program.output, "already exists, remove file first or use -f to force save.");
   }
 });
-

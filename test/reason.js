@@ -298,12 +298,6 @@ describe('Super Script Resoning Interface', function(){
   });
 
   describe.skip("Reason 3 - Auto Reply", function(){
-    it("should analize statment 1", function(done) {
-      bot.reply("user1", "Something random that sits in memory.", function(err, reply) {
-        // This hits the statement flow and is filled with some random gambit
-        done();
-      });
-    });
 
     // Money
     it("should analize and reply", function(done) {
@@ -467,7 +461,7 @@ describe('Super Script Resoning Interface', function(){
 
   });
 
-  describe.skip("Loebner 2014 Screener", function(){
+  describe.only("Loebner 2014 Screener", function(){
     it("should save knowledge", function(done) {
       bot.reply("user1", "Hello, my name is Adam.", function(err, reply) {
         reply.should.containEql("Nice to meet you, Adam");
@@ -542,7 +536,7 @@ describe('Super Script Resoning Interface', function(){
     });
 
     // TODO - Auto aquire favorites. 
-    it("Loebner Q4", function(done) {
+    it.skip("Loebner Q4", function(done) {
       bot.reply("user1", "What is your favourite television program? ", function(err, reply) {
         done();
       });
