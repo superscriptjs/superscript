@@ -7,7 +7,6 @@ var Message = require("./lib/message");
 var Users   = require("./lib/users");
 var getreply      = require("./lib/getreply");
 var processTags   = require("./lib/processtags");
-var concepts      = require("./lib/concepts");
 var Utils   = require("./lib/utils");
 var _       = require("underscore");
 var norm    = require("node-normalizer");
