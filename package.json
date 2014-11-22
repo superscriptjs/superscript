@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,8 @@
     "sfacts": "0.0.3",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "node-lemmer":"grachev/node-lemmer"
   },
   "devDependencies": {
     "blanket": "~1.1.6",
