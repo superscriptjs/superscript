@@ -72,9 +72,10 @@ When input comes into the system that matches "I like fish", it will return with
 * The Message Object
 * The User Object
 
-# Roadmap
+## Roadmap
 
-  ## General Scripting
+  ### General Scripting
+
   * ✓ Normalize rules for better matches
   * ✓ Custom Functions
   * ✓ Match input on QuestionType
@@ -92,13 +93,15 @@ When input comes into the system that matches "I like fish", it will return with
   * ✓ Reply level "topic" style flags {Keep}
 
 
-  ## Information Retrieval
+  ### Information Retrieval
+
   * ✓ Concept Net Support
   * ✓ Fact Triples
   * ✓ Generic Scripted Concepts
   * ✓ Memory that presists users data (LevelDB via sfacts)
 
-  ## Dialogue Flow
+  ### Dialogue Flow
+
   * ✓ Topic exhaustion
   * ✓ non-sticky topics (one time replies)
   * ✓ Continuation
@@ -126,6 +129,6 @@ When input comes into the system that matches "I like fish", it will return with
     - fetchUserList 
 
 
-# Bugs (Known issues)
+## Bugs (Known issues)
   * Still Alpha, everything is unstable.
   * Report them. Provide a failing test please.
