@@ -33,7 +33,8 @@
     "string": "~1.8.1",
     "syllablistic": "~0.1.0",
     "underscore": "~1.6.0",
-    "node-lemmer":"grachev/node-lemmer"
+    "node-lemmer":"grachev/node-lemmer",
+    "conceptnet": "silentrob/conceptnet"
   },
   "devDependencies": {
     "blanket": "~1.1.6",
