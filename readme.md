@@ -74,8 +74,6 @@ When input comes into the system that matches "I like fish", it will return with
 
 ## Roadmap
 
-  ### General Scripting
-
   * ✓ Normalize rules for better matches
   * ✓ Custom Functions
   * ✓ Match input on QuestionType
