@@ -34,6 +34,7 @@ When input comes into the system that matches "I like fish", it will return with
 * dialog engine
 * custom functions 
 * expressive syntax
+* well tested
 * real knug-fu action grip
 
 ## Documentation
