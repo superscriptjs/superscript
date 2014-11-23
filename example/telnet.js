@@ -30,9 +30,6 @@ var botHandle = function(err, bot) {
       soc.write("\nBot> " + reply + "\n");
       soc.write("You> ");
 
-      // Log it for the server terminal to see!
-      debug("[" + soc.name + "] " + message);
-      debug("[Bot] " + reply + "\n");
     });
   }
 
