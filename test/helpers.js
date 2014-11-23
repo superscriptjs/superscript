@@ -4,6 +4,7 @@ var fs = require("fs");
 var rmdir = require("rmdir");
 var async = require("async");
 
+
 var data = [
   './test/fixtures/concepts/test.top', 
   './test/fixtures/concepts/opp.tbl'];
@@ -44,6 +45,7 @@ exports.before = function(file) {
             fs.writeFile('./test/fixtures/cache/'+ file +'.json', JSON.stringify(result), function (err) {
               new script('./test/fixtures/cache/'+ file +'.json', { factSystem: facts }, function(err, botx) {
                 bot = botx;
+                bot.setMaxListeners(0);
                 done();
               });
             });
@@ -55,6 +57,7 @@ exports.before = function(file) {
         bootstrap(function(err, facts){
          new script('./test/fixtures/cache/'+ file +'.json', { factSystem: facts }, function(err, botx) {
            bot = botx;
+           bot.setMaxListeners(0);
            done();
          });
         });

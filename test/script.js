@@ -4,7 +4,6 @@ var help = require("./helpers");
 var async = require("async");
 
 describe.only('SuperScript Scripting Interface', function(){
-
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){

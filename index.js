@@ -1,6 +1,7 @@
 var fs      = require("fs");
 var util    = require("util");
-var EventEmitter = require('events').EventEmitter;
+var events = require('events');
+var EventEmitter = events.EventEmitter;
 var async   = require("async");
 var qtypes  = require("qtypes");
 var Message = require("./lib/message");
@@ -15,6 +16,7 @@ var debug   = require("debug")("Script");
 var dWarn   = require("debug")("Script:Warning");
 var facts = require("sfacts");
 
+
 function SuperScript(botScript, options, callback) {
 
   if (!botScript) {
@@ -24,13 +26,14 @@ function SuperScript(botScript, options, callback) {
 
   EventEmitter.call(this);
 
+  this.setMaxListeners(0);
+
   var that = this;
   options = options || {};
   options.conceptnet = options.conceptnet || {host:'127.0.0.1', user:'root', pass:''}
   
   this.cnet = require("conceptnet")(options.conceptnet);
   this._plugins = [];
-
 
   this.normalize = null;
   this.question  = null;
