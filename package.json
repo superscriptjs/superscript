@@ -22,7 +22,7 @@
     "moment": "~2.6.0",
     "natural": "~0.1.27",
     "node-normalizer": "0.0.8",
-    "node-tense": "0.0.1",
+    "node-tense": "0.0.3",
     "pluralize": "0.0.9",
     "pos": "~0.1.5",
     "qtypes": "0.0.5",

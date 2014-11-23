@@ -26,8 +26,6 @@ function SuperScript(botScript, options, callback) {
 
   EventEmitter.call(this);
 
-  this.setMaxListeners(0);
-
   var that = this;
   options = options || {};
   options.conceptnet = options.conceptnet || {host:'127.0.0.1', user:'root', pass:''}
