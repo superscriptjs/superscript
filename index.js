@@ -38,6 +38,7 @@ function SuperScript(botScript, options, callback) {
 
   this.intervalId = setInterval(this.check.bind(this), 500);
 
+  Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
   
