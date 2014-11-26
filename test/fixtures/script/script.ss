@@ -1,5 +1,8 @@
 > topic random
 
+	+ * bone *
+	- {keep} win 1
+
 	// Simple Test
 	+ This is a test
 	- Test should pass one

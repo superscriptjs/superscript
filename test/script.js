@@ -43,6 +43,37 @@ describe.only('SuperScript Scripting Interface', function(){
       });
     });
 
+
+    it("leading star", function(done) {
+      bot.reply("user1", "my bone", function(err, reply) {
+        reply.should.eql("win 1");
+        done();
+      });
+    });
+
+    it("trailing star", function(done) {
+      bot.reply("user1", "bone thug", function(err, reply) {
+        reply.should.eql("win 1");
+        done();
+      });
+    });
+
+    it("star star", function(done) {
+      bot.reply("user1", "my bone thug", function(err, reply) {
+        reply.should.eql("win 1");
+        done();
+      });
+    });
+
+    it("star star empty", function(done) {
+      bot.reply("user1", "bone", function(err, reply) {
+        reply.should.eql("win 1");
+        done();
+      });
+    });
+
+
+
   });
 
   describe('Exact length star interface *n', function(){
