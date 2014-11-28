@@ -461,7 +461,7 @@ describe('Super Script Resoning Interface', function(){
 
   });
 
-  describe.only("Loebner 2014 Screener", function(){
+  describe("Loebner 2014 Screener", function(){
     it("should save knowledge", function(done) {
       bot.reply("user1", "Hello, my name is Adam.", function(err, reply) {
         reply.should.containEql("Nice to meet you, Adam");

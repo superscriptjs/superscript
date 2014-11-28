@@ -10,6 +10,7 @@
 + *
 % did you finish ?
 - i went to university
+- what was it like?
 
 
 + i like to travel
@@ -21,5 +22,12 @@
   + ~no *
   % have you been to Madird?
   - Madird is my favorite city.
+
+
++ something random
+- What is your favorite color?
+  + *1
+  % What is your favorite color?
+  - <cap> is mine too.
 
 < topic
