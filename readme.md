@@ -19,7 +19,7 @@ SuperScript is based off of a fork of RiveScript with idiom brought in from Chat
 
 ## Documentation 
 
-Visit [superscruptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript.
+Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript.
 
 ## Bugs (Known issues)
   * Still Alpha, everything is unstable.
