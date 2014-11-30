@@ -26,8 +26,14 @@
 
 + something random
 - What is your favorite color?
-  + *1
-  % What is your favorite color?
-  - <cap> is mine too.
+  
+% What is your favorite color?
++ *1
+- <cap> is mine too.
+
+% What is your favorite color?
++ (blue|green)
+- I hate that color.
+
 
 < topic

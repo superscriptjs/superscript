@@ -38,10 +38,19 @@ describe.only('Super Script Continue System', function(){
       });
     });
 
-    it("should continue 4 - no", function(done) {
+    it("should continue 4 - A", function(done) {
       bot.reply("user1", "something random", function(err, reply) {
         bot.reply("user1", "red", function(err, reply2) {
           reply2.should.eql("red is mine too.");
+          done();
+        });
+      });
+    });
+
+    it("should continue 4 - B", function(done) {
+      bot.reply("user1", "something random", function(err, reply) {
+        bot.reply("user1", "blue", function(err, reply2) {
+          reply2.should.eql("I hate that color.");
           done();
         });
       });
