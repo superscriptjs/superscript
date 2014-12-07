@@ -2,6 +2,7 @@
 
 var net             = require("net");
 var superscript     = require("superscript");
+var debug           = require("debug")("telnetserver");
 
 var options = {};
 var sockets = [];
