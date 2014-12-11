@@ -2,7 +2,6 @@
 
 var net             = require("net");
 var superscript     = require("superscript");
-var debug           = require("debug")("telnetserver");
 
 var options = {};
 var sockets = [];
@@ -10,9 +9,7 @@ var sockets = [];
 var botHandle = function(err, bot) {
     
   var receiveData = function(socket, bot, data) {
-
     // Handle incoming messages.
-    debug("Message", data.toString('hex',0,data.length));
     var message = "" + data;
 
     message = message.replace(/[\x0D\x0A]/g, "");
