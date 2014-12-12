@@ -16,3 +16,7 @@ exports.changetopic = function(n,cb) {
 	this.user.setTopic(n);
 	cb(null, "");
 }
+
+exports.changefunctionreply = function(newtopic,cb) {
+	cb(null, "{topic="+ newtopic + "}");
+}

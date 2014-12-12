@@ -144,6 +144,9 @@
 	+ call function with new topic
 	- ^changetopic(fish)
 
+	+ reply with a new topic from function
+	- ^changefunctionreply(fish)
+
 // This will save the name to the internal fact system for this user.
 	+ My name is *1
 	- ^save(name, <cap1>) Hi <cap1>

@@ -456,7 +456,7 @@ describe('SuperScript Scripting Interface', function(){
 
   });
 
-  describe('Custom functions 4 - user topic change', function(){
+  describe.only('Custom functions 4 - user topic change', function(){
     it("Change topic", function(done) {
       bot.reply("user3", "call function with new topic", function(err, reply) {
         var user = bot.getUser("user3");
@@ -467,16 +467,18 @@ describe('SuperScript Scripting Interface', function(){
         });
       });
     });
-  });
 
-  // describe.only('Simple Filter', function(){
-  //   it("This should work", function(done) {
-  //     bot.reply("user1", "Hello", function(err, reply) {
-  //       reply.should.eql("Hello")
-  //       done();
-  //     });
-  //   });
-  // });
+    it("Change topic 2", function(done) {
+      bot.reply("user4", "reply with a new topic from function", function(err, reply) {
+        var user = bot.getUser("user4");
+        user.currentTopic.should.eql("fish");
+        bot.reply("user4", "i like fish", function(err, reply) {
+          reply.should.eql("me too");
+          done();
+        });
+      });
+    });
+  });
 
 
   describe('Emo reply', function(){
