@@ -27,7 +27,25 @@ describe('Super Script Topics Structure', function(){
         });
       });
     });
+
+    it("testing include & inherits 2", function(done){
+      
+      // We should be in random and switch to test2.
+      bot.reply("user1", "change top topic 4 ", function(err, reply){
+        reply.should.eql("going to 4");
+        bot.getUser("user1").currentTopic.should.eql("test4");
+        
+        bot.reply("user1", "this is test3", function(err, reply){
+          reply.should.eql("not accessible");
+          done();
+
+        });
+
+      });
+    });
   });
+
+
 
   after(help.after);
 });
