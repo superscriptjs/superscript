@@ -138,14 +138,19 @@
 	+ what [is] [the] * letter (in|of) the [english] alphabet
 	- ^letterLookup()
 
-	+ what [number] (comes|is) (after|before) @numbers
-	- I think it is <call>next_number</call>.
-
 	+ ~emohello
 	- Hello
+
+	+ call function with new topic
+	- ^changetopic(fish)
 
 // This will save the name to the internal fact system for this user.
 	+ My name is *1
 	- ^save(name, <cap1>) Hi <cap1>
 
+< topic
+
+> topic fish
+	+ I like fish
+	- me too
 < topic

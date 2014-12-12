@@ -456,6 +456,29 @@ describe('SuperScript Scripting Interface', function(){
 
   });
 
+  describe.only('Custom functions 4 - user topic change', function(){
+    it("Change topic", function(done) {
+      bot.reply("user3", "call function with new topic", function(err, reply) {
+        var user = bot.getUser("user3");
+        user.currentTopic.should.eql("fish");
+        bot.reply("user3", "i like fish", function(err, reply) {
+          reply.should.eql("me too");
+          done();
+        });
+      });
+    });
+  });
+
+  // describe.only('Simple Filter', function(){
+  //   it("This should work", function(done) {
+  //     bot.reply("user1", "Hello", function(err, reply) {
+  //       reply.should.eql("Hello")
+  //       done();
+  //     });
+  //   });
+  // });
+
+
   describe('Emo reply', function(){
     it("Emo Hello 1", function(done) {
       bot.reply("user1", "Hello", function(err, reply) {
