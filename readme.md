@@ -21,7 +21,13 @@ SuperScript is based off of a fork of RiveScript with idiom brought in from Chat
 
 Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript.
 
+### Further Reading
+
+* [Introducing SuperScript](https://medium.com/@rob_ellis/superscript-ce40e9720bef) on Medium
+* [Creating a Chatbot](https://medium.com/@rob_ellis/creating-a-chat-bot-42861e6a2acd) on Medium
+* [Full Documentation](http://superscriptjs.com/documentation/scripting)
+* Follow [@rob_ellis](https://twitter.com/rob_ellis)
+
 ## Bugs (Known issues)
   * Still Alpha, everything is unstable.
   * Report them. Provide a failing test please.
-
