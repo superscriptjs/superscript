@@ -24,7 +24,13 @@ if (!program.args[0]) {
 
 var botName = program.args[0];
 var botPath = path.join(process.cwd(), path.sep, botName);
+var ssRoot = path.join(__dirname, "../");
 console.log("Creating %s bot with a %s client.", program.args[0], program.client);
+
+function write(path, str, mode) {
+  fs.writeFileSync(path, str, { mode: mode || 0666 });
+  console.log('   \x1b[36mcreate\x1b[0m : ' + path);
+}
 
 // Creating the path for your bot.
 fs.mkdir(botPath, function(err, res){
@@ -42,6 +48,25 @@ fs.mkdir(botPath, function(err, res){
   
   // TODO: Pull out plugins that have dialogue and move them to the new bot.
   
-  fs.createReadStream("clients" + path.sep + program.client + '.js').pipe(fs.createWriteStream(botPath + path.sep + 'server.js'));
+  fs.createReadStream(ssRoot + path.sep + "clients" + path.sep + program.client + '.js').pipe(fs.createWriteStream(botPath + path.sep + 'server.js'));
 
+  // package.json
+  var pkg = {
+      name: botName
+    , version: '0.0.0'
+    , private: true
+    , dependencies: {
+       'superscript': 'latest'
+      ,'debug': '~2.0.0'
+    }
+  }
+
+  if (program.client == "slack") {
+    pkg.dependencies['slack-client'] = '~1.2.2'; 
+  }
+
+  var firstRule = "+ ~emohello [*~2]\n- Hi!\n- Hi, how are you?\n- How are you?\n- Hello\n- Howdy\n- Ola"
+   
+  write(path.join(botPath, path.sep, 'package.json'), JSON.stringify(pkg, null, 2));
+  write(path.join(botPath, path.sep, 'topics', path.sep, 'main.ss'), firstRule);
 });

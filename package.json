@@ -17,7 +17,7 @@
   "bin": {
     "parse": "bin/parse.js",
     "init": "bin/init.js"
-  }
+  },
   "author": "Rob Ellis",
   "licenses": [{
      "type": "MIT",
