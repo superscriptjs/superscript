@@ -23,6 +23,7 @@ Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how t
 
 * [Introducing SuperScript](https://medium.com/@rob_ellis/superscript-ce40e9720bef) on Medium
 * [Creating a Chatbot](https://medium.com/@rob_ellis/creating-a-chat-bot-42861e6a2acd) on Medium
+* [Custom Slack chatbot tutorial](https://medium.com/@rob_ellis/slack-superscript-rise-of-the-bots-bba8506a043c) on Medium
 * [Full Documentation](http://superscriptjs.com/documentation/scripting)
 * Follow [@rob_ellis](https://twitter.com/rob_ellis)
 
