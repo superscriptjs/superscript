@@ -57,6 +57,7 @@ fs.mkdir(botPath, function(err, res){
     , private: true
     , dependencies: {
        'superscript': 'latest'
+      , 'sfacts':'latest'
       ,'debug': '~2.0.0'
     }
   }
