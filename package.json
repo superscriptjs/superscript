@@ -7,8 +7,8 @@
     "test": "mocha test -R spec -s 1700 -t 20000"
   },
   "repository": {
-    "type":"git",
-    "url":"https://github.com/silentrob/superscript"
+    "type": "git",
+    "url": "https://github.com/silentrob/superscript"
   },
   "homepage": "http://superscriptjs.com",
   "bugs": {
@@ -19,11 +19,12 @@
     "init": "bin/init.js"
   },
   "author": "Rob Ellis",
-  "licenses": [{
-     "type": "MIT",
-     "url": "https://raw.github.com/silentrob/superscript/master/LICENSE"
-   }],
-
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/silentrob/superscript/master/LICENSE"
+    }
+  ],
   "dependencies": {
     "WNdb": "~3.1.1",
     "async": "~0.7.0",
@@ -37,7 +38,7 @@
     "node-tense": "0.0.4",
     "pluralize": "0.0.9",
     "pos": "~0.1.5",
-    "qtypes": "0.0.5",
+    "qtypes": "0.0.7",
     "require-dir": "~0.1.0",
     "rhyme": "0.0.3",
     "roman-numerals": "~0.3.2",
@@ -45,11 +46,12 @@
     "string": "~1.8.1",
     "syllablistic": "~0.1.0",
     "underscore": "~1.6.0",
-    "node-lemmer":"grachev/node-lemmer",
+    "node-lemmer": "grachev/node-lemmer",
     "conceptnet": "silentrob/conceptnet"
   },
   "devDependencies": {
     "blanket": "~1.1.6",
+    "mkdirp": "^0.5.0",
     "mocha": "~1.18.2",
     "rmdir": "^1.0.4",
     "should": "~3.3.1"

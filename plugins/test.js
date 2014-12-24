@@ -20,3 +20,14 @@ exports.changetopic = function(n,cb) {
 exports.changefunctionreply = function(newtopic,cb) {
 	cb(null, "{topic="+ newtopic + "}");
 }
+
+exports.hasName = function(bool, cb) {
+	this.user.get('name', function(e,name){
+		if (name !== null) {
+			cb(null, (bool == "true") ? true : false)
+		} else {
+			// We have no name
+			cb(null, (bool == "false") ? true : false)
+		}
+	});
+}

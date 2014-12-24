@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -319,6 +319,7 @@ describe('SuperScript Scripting Interface', function(){
 
     it("Keep Flag", function(done) {
       bot.reply("user1", "reply flags", function(err, reply) {
+
         ["say one thing","say something else"].should.containEql(reply);
         bot.reply("user1", "reply flags", function(err, reply) {
           ["say one thing","say something else"].should.containEql(reply);
@@ -453,10 +454,9 @@ describe('SuperScript Scripting Interface', function(){
       });
     
     });
-
   });
 
-  describe.only('Custom functions 4 - user topic change', function(){
+  describe('Custom functions 4 - user topic change', function(){
     it("Change topic", function(done) {
       bot.reply("user3", "call function with new topic", function(err, reply) {
         var user = bot.getUser("user3");

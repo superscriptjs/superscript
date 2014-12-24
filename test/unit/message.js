@@ -34,7 +34,7 @@ describe('Message Interface', function(){
      });
    });
 
-  it.only("should parse names and nouns from message 1", function(done){
+  it("should parse names and nouns from message 1", function(done){
     new Message("Rob Ellis and Heather know Ashley, Brooklyn and Sydney.", questions, normalize, cnet, concept, function(mo){
       mo.names.should.be.instanceof(Array).and.have.lengthOf(5);
       mo.nouns.should.be.instanceof(Array).and.have.lengthOf(6);

@@ -462,7 +462,7 @@ describe('Super Script Resoning Interface', function(){
   });
 
   describe("Loebner 2014 Screener", function(){
-    it("should save knowledge", function(done) {
+    it.only("should save knowledge", function(done) {
       bot.reply("user1", "Hello, my name is Adam.", function(err, reply) {
         reply.should.containEql("Nice to meet you, Adam");
         bot.reply("user1", "My name is Adam.", function(err, reply1) {
