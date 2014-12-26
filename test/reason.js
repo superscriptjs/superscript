@@ -462,9 +462,9 @@ describe('Super Script Resoning Interface', function(){
   });
 
   describe("Loebner 2014 Screener", function(){
-    it.only("should save knowledge", function(done) {
+    it("should save knowledge", function(done) {
       bot.reply("user1", "Hello, my name is Adam.", function(err, reply) {
-        reply.should.containEql("Nice to meet you, Adam");
+        reply.should.containEql("Nice to meet you, Adam.");
         bot.reply("user1", "My name is Adam.", function(err, reply1) {
           reply1.should.containEql("I know, you already told me your name.");
           done();
@@ -480,9 +480,9 @@ describe('Super Script Resoning Interface', function(){
       });
     });
 
-    it.skip("Loebner Q1.B", function(done) {
+    it("Loebner Q1.B", function(done) {
       bot.reply("user1", "Hello, my name is Adam, what is your name?", function(err, reply) {
-        reply.should.containEql("Sure. Nice to meet you, Adam. My name is Brit.");
+        reply.should.containEql("I know, you already told me your name. My name is Brit.");
         done();
       });
     });
@@ -495,13 +495,6 @@ describe('Super Script Resoning Interface', function(){
           reply3.should.containEql("In Exeter, UK");
           done();
         });
-      });
-    });
-
-    it("Loebner Q3", function(done) {
-      bot.reply("user1", "I like to listen to music and play football. Do you have any hobbies?", function(err, reply) {
-        reply.should.endWith("I like Running.")
-        done();
       });
     });
 
@@ -518,7 +511,6 @@ describe('Super Script Resoning Interface', function(){
         done();
       });
     });
-
   
     it("Loebner Q7 A", function(done) {
       bot.reply("user1", "Which drink do you prefer, coffee, tea or hot chocolate?", function(err, reply) {
@@ -535,8 +527,21 @@ describe('Super Script Resoning Interface', function(){
       });
     });
 
+    it("Loebner Q7 C", function(done) {
+      bot.reply("user1", "What do you prefer, sand, tea or rocks?", function(err, reply) {
+        reply.should.match(/sand|tea|rocks/);
+        done();
+      });
+    });
+
+    it("Loebner Q7 D", function(done) {
+      bot.reply("user1", "What do you prefer, hot chocolate or french fries?", function(err, reply) {
+        reply.should.match(/hot chocolate|french fries/i);
+        done();
+      });
+    });
     // TODO - Auto aquire favorites. 
-    it.skip("Loebner Q4", function(done) {
+    it("Loebner Q4", function(done) {
       bot.reply("user1", "What is your favourite television program? ", function(err, reply) {
         done();
       });
@@ -548,6 +553,14 @@ describe('Super Script Resoning Interface', function(){
         done();
       });
     });
+
+    it("Loebner Q3", function(done) {
+      bot.reply("user1", "I like to listen to music and play football. Do you have any hobbies?", function(err, reply) {
+        reply.should.endWith("I like Running.")
+        done();
+      });
+    });
+
 
   });
 

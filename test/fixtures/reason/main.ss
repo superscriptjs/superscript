@@ -38,6 +38,27 @@
 - ^resolveAdjective() 
 
 + * my name is <name>
-- {^hasName(false)} ^save(name,<cap1>) Nice to meet you, <cap1>
+- {^hasName(false)} ^save(name,<cap1>) Nice to meet you, <cap1>.
 - {^hasName(true)} I know, you already told me your name.
 
+?:WH * name *
+- My name is Brit.
+
+?:WH * you live
+- I live in Vancouver.
+
+?:WH * i live
+- ^findLoc()
+
++ I live *
+- Do you like it there?
+
+// What was too small?
+?:WH * <adjective>
+- ^tooAdjective()
+
+?:WH * i do with a *
+- ^usedFor()
+
+?:CH * prefer *
+- ^makeChoice()

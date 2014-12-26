@@ -50,6 +50,7 @@ function SuperScript(botScript, options, callback) {
 
   this._includes = data.gIncludes;
   this._lineage  = data.gLineage;
+  this.scope = _.extend(options.scope || {});
 
   if (options.factSystem) {
     this.facts = options.factSystem;
@@ -182,7 +183,8 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     question: that.question, 
     normalize: that.normalize,
     facts: that.facts, 
-    cnet: that.cnet
+    cnet: that.cnet,
+    scope: that.scope
   }
 
   var user = Users.findOrCreate(userName, that.facts);
