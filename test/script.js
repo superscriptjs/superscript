@@ -411,9 +411,9 @@ describe.only('SuperScript Scripting Interface', function(){
 
   describe('Custom functions 3 - user fact system', function(){
     it("Should save and recall 1", function(done) {
-      bot.reply("user1", "My name is Bob", function(err, reply) {
+      bot.reply("userX", "My name is Bob", function(err, reply) {
         reply.should.eql("Hi Bob");
-        var u1 = bot.getUser("user1");
+        var u1 = bot.getUser("userX");
         u1.get("name", function(err, res){
           res.should.eql("Bob");
           done();
@@ -424,7 +424,7 @@ describe.only('SuperScript Scripting Interface', function(){
     it("Should save and recall 2", function(done) {
       bot.reply("user2", "My name is Ken", function(err, reply) {
         reply.should.eql("Hi Ken");
-        var u1 = bot.getUser("user1");
+        var u1 = bot.getUser("userX");
         var u2 = bot.getUser("user2");
         u1.get("name", function(err, res){
           res.should.eql("Bob");
