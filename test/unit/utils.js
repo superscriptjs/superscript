@@ -1,7 +1,7 @@
 
 var mocha = require("mocha");
 var should  = require("should");
-
+var _ = require("underscore");
 
 var Utils = require("../../lib/utils");
 

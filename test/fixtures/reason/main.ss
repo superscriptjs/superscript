@@ -65,3 +65,6 @@
 
 ?:NUM:money *
 - ^findMoney()
+
+?:NUM:date * birthday
+- ^findDate()

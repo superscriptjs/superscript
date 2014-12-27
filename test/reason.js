@@ -1,6 +1,7 @@
 var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
+var moment = require("moment");
 
 describe('Super Script Resoning Interface', function(){
 
@@ -300,7 +301,7 @@ describe('Super Script Resoning Interface', function(){
   describe("Reason 3 - Auto Reply", function(){
 
     // Money
-    it.only("should analize and reply", function(done) {
+    it("should analize and reply", function(done) {
       bot.reply("user1", "A loaf of bread cost 4.50 now.", function(err, reply) {
         bot.reply("user1", "How much is a loaf of bread?", function(err, reply) {
           reply.should.eql("It would cost $4.50.");
@@ -310,11 +311,12 @@ describe('Super Script Resoning Interface', function(){
     });
 
     // Date
-    it.skip("should analize and reply with date", function(done) {
+    it("should analize and reply with date", function(done) {
       bot.reply("user1", "My birthday is next month.", function(err, reply) {
         bot.reply("user1", "When is my birthday?", function(err, reply) {
           // DUMMY - you can't hard code this.
-          reply.should.eql("It is in July.");
+          var m = moment().add(1, 'M');
+          reply.should.eql("It is in " + m.format("MMMM") + ".");
           done();
         });
       });
@@ -322,8 +324,8 @@ describe('Super Script Resoning Interface', function(){
 
     // date.parse("October 4") true
     // date.parse("October") false
-    it.skip("should analize and reply with date 3", function(done) {
-      bot.reply("user1", "My birthday is on Oct", function(err, reply) {
+    it.only("should analize and reply with date 3", function(done) {
+      bot.reply("user1", "My birthday is in Oct", function(err, reply) {
         bot.reply("user1", "When is my birthday?", function(err, reply) {
           reply.should.eql("It is in October.");
           done();

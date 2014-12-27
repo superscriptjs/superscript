@@ -3,6 +3,7 @@ var debug = require("debug")("Reason Plugin");
 var history = require("../lib/history");
 var Utils = require("../lib/utils");
 var _ = require("underscore");
+var moment = require("moment");
 
 exports.hasName = function(bool, cb) {
   this.user.get('name', function(e,name){
@@ -86,6 +87,14 @@ exports.findMoney = function(cb) {
   } else {
     cb(null, "Not sure.");
   }
+}
 
-
+exports.findDate = function(cb){
+ var candidates = history(this.user, { date: true });
+ if (candidates.length != 0) {
+  debug("DATE", candidates[0])
+   cb(null, "It is in " + moment(candidates[0].date).format("MMMM") + ".");
+ } else {
+   cb(null, "Not sure.");
+ } 
 }
