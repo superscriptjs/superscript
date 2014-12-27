@@ -16,6 +16,7 @@ var debug   = require("debug")("Script");
 var dWarn   = require("debug")("Script:Warning");
 var facts = require("sfacts");
 
+var Topic = require("./lib/topics");
 
 function SuperScript(botScript, options, callback) {
 
@@ -47,6 +48,13 @@ function SuperScript(botScript, options, callback) {
   this._thats       = data.gPrevTopics;
   this._topics      = data.gTopics;
   this._topicFlags  = data.gTopicFlags;
+
+  this.topics = [];
+  // Create Topic Object (NEW)
+  _.each(Object.keys(this._topics), function(topic) {
+    that.topics.push(new Topic(topic));
+  });
+  
 
   this._includes = data.gIncludes;
   this._lineage  = data.gLineage;
@@ -163,6 +171,10 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
       return callback(err, reply);
     });
   });
+}
+
+SuperScript.prototype.getTopics = function() {
+  return this.topics;
 }
 
 SuperScript.prototype.userConnect = function(userName) {

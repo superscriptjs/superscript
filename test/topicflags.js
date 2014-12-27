@@ -6,6 +6,14 @@ describe('Super Script Topics', function(){
 
   before(help.before("topicflags"));
 
+  describe.only('Topic Functions', function(){
+    it("should fetch a list of topics", function(done){
+      bot.getTopics().should.have.length(5);
+      done();
+    });
+  });
+  
+
   describe('Topics - NoStay', function(){
     // "i am going to stay and go"
     it("topic should have noStay flag", function(done){

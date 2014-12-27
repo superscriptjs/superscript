@@ -1,7 +1,3 @@
-> begin
-	+ request 
-	- {ok}
-< begin
 
 + topic change
 - Okay we are going to test2 {topic=test2}
