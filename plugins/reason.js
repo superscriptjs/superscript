@@ -78,3 +78,14 @@ exports.makeChoice = function(cb) {
   }
 }
 
+exports.findMoney = function(cb) {
+
+  var candidates = history(this.user, { nouns: this.message.nouns, money: true });
+  if (candidates.length != 0) {
+    cb(null, "It would cost $" + candidates[0].numbers[0] + ".");
+  } else {
+    cb(null, "Not sure.");
+  }
+
+
+}

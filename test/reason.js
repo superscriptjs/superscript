@@ -297,13 +297,13 @@ describe('Super Script Resoning Interface', function(){
 
   });
 
-  describe.skip("Reason 3 - Auto Reply", function(){
+  describe("Reason 3 - Auto Reply", function(){
 
     // Money
-    it("should analize and reply", function(done) {
+    it.only("should analize and reply", function(done) {
       bot.reply("user1", "A loaf of bread cost 4.50 now.", function(err, reply) {
         bot.reply("user1", "How much is a loaf of bread?", function(err, reply) {
-          reply.should.eql("It is 4.50.");
+          reply.should.eql("It would cost $4.50.");
           done();
         });
       });

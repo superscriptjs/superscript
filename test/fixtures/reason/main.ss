@@ -62,3 +62,6 @@
 
 ?:CH * prefer *
 - ^makeChoice()
+
+?:NUM:money *
+- ^findMoney()
