@@ -324,7 +324,7 @@ describe('Super Script Resoning Interface', function(){
 
     // date.parse("October 4") true
     // date.parse("October") false
-    it.only("should analize and reply with date 3", function(done) {
+    it("should analize and reply with date 3", function(done) {
       bot.reply("user1", "My birthday is in Oct", function(err, reply) {
         bot.reply("user1", "When is my birthday?", function(err, reply) {
           reply.should.eql("It is in October.");

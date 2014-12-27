@@ -76,65 +76,22 @@ var messageItorHandle = function(user, system) {
   
       var options = {
         user: user,
-        type: "normal",
         system: system
       }
 
-      if (system.topics["__begin__"]) {
-        debug("Begin getreply");
-        
-        options.message = {clean: "request", qtype: "SYSTEM:sys" }
-        options.type = "begin";
+      options.message = msg;
 
-        getreply(options,  function(err, begin) {
-
-          // Okay to continue?
-          if (begin.indexOf("{ok}") > -1) {
-            debug("Normal getreply");
-
-            options.message = msg;
-            options.type = "normal";
-
-            getreply(options, function(err, reply2){
-              if (err) { 
-                next(err, null);
-              } else {
-                reply2 = begin.replace(/\{ok\}/g, reply2);  
-                var pOptions = {
-                  msg: msg, reply: reply2, 
-                  stars: [], botstars:[],
-                  user: user, 
-                  system: system
-                };
-                processTags(pOptions, function(err, reply){
-                  new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
-                    user.updateHistory(msg, replyObj);
-                    return next(err, reply);
-                  });
-                });
-              }
-            });
-          } else {
-            next(err, begin);
-          }
+      getreply(options, function(err, reply){
+        new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
+          user.updateHistory(msg, replyObj);
+          return next(err, reply);
         });
-      } else {
-        debug("Normal getreply");
-        options.message = msg;
-        options.type = "normal";
+      });
 
-        getreply(options, function(err, reply){
-          new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
-            user.updateHistory(msg, replyObj);
-            return next(err, reply);
-          });
-        });
-      }
     }
 
-
     internalizeHandle();
-
+    
   }
 }
 
