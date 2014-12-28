@@ -49,13 +49,9 @@ function SuperScript(botScript, options, callback) {
   this._topics      = data.gTopics;
   this._topicFlags  = data.gTopicFlags;
 
-  this.topics = [];
-  // Create Topic Object (NEW)
-  _.each(Object.keys(this._topics), function(topic) {
-    that.topics.push(new Topic(topic));
-  });
-  
 
+  this.createTopicStructure(data);
+  
   this._includes = data.gIncludes;
   this._lineage  = data.gLineage;
   this.scope = _.extend(options.scope || {});
@@ -173,9 +169,6 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
   });
 }
 
-SuperScript.prototype.getTopics = function() {
-  return this.topics;
-}
 
 SuperScript.prototype.userConnect = function(userName) {
   debug("Connecting User", userName);
@@ -201,6 +194,50 @@ SuperScript.prototype.loadPlugins = function(path) {
       this._plugins[func] = plugins[file][func];
     }
   }
+}
+
+SuperScript.prototype.getTopics = function() {
+  return this.topics;
+}
+
+SuperScript.prototype.findTopicByName = function(name) {
+  var found = false;
+  for (var i = 0; i < this.topics.length;i++) {
+    if (this.topics[i].name === name) {
+      found = this.topics[i];
+      break;
+    }
+  }
+  return found;
+}
+
+// Returns all topics that match the rule
+// Not sure yet what this would be used for.
+SuperScript.prototype.findTopicsByInput = function(input) {
+  var topics = [];
+  // for (var i = 0; i < this.topics.length;i++) {
+  //   if (this.topics[i].name === name) {
+  //     topics.push(this.topics[i]);
+  //   }
+  // }
+  return topics;
+}
+
+// This will return the matching triggers
+// filter by optinal topic
+SuperScript.prototype.findTriggerByInput = function(input, topic) {
+  return [];
+}
+
+SuperScript.prototype.createTopicStructure = function(data) {
+  var that = this;
+  this.topics = [];
+
+  _.each(Object.keys(data.gTopics), function(topicName) {
+    var topicFlags = data.gTopicFlags[topicName];
+    var triggers =  data.gTopics[topicName];
+    that.topics.push(new Topic(topicName, triggers, topicFlags));
+  });
 }
 
 var firstReplyTime = Utils.getRandomInt(3000, 10000);

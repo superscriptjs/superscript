@@ -11,6 +11,18 @@ describe('Super Script Topics', function(){
       bot.getTopics().should.have.length(5);
       done();
     });
+
+    it("find topic by Name", function(done){
+      var rand = bot.findTopicByName('random');
+      rand.should.not.be.empty;
+      done();
+    });
+
+    it("find topic by match", function(done){
+      var rand = bot.findTopicByMatch('random');
+      rand.should.not.be.empty;
+      done();
+    });
   });
   
 
@@ -25,7 +37,6 @@ describe('Super Script Topics', function(){
         
         var ct = bot.getUser("user1").getTopic();
         ct.should.eql("nostay");
-
 
         // Lets say something in this topic
         bot.reply("user1", "i am going to stay and go", function(err, reply2){
