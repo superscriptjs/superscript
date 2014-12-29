@@ -6,7 +6,7 @@ var async   = require("async");
 var qtypes  = require("qtypes");
 var Message = require("./lib/message");
 var Users   = require("./lib/users");
-var getreply      = require("./lib/getreply");
+var getreply2      = require("./lib/getreply2");
 var processTags   = require("./lib/processtags");
 var Utils   = require("./lib/utils");
 var _       = require("underscore");
@@ -16,7 +16,7 @@ var debug   = require("debug")("Script");
 var dWarn   = require("debug")("Script:Warning");
 var facts = require("sfacts");
 
-var Topic = require("./lib/topics");
+var Topics = require("./lib/topics");
 
 function SuperScript(botScript, options, callback) {
 
@@ -50,7 +50,9 @@ function SuperScript(botScript, options, callback) {
   this._topicFlags  = data.gTopicFlags;
 
 
-  this.createTopicStructure(data);
+  this.topicSystem = new Topics(data);
+
+  
   
   this._includes = data.gIncludes;
   this._lineage  = data.gLineage;
@@ -85,12 +87,20 @@ var messageItorHandle = function(user, system) {
 
       options.message = msg;
 
-      getreply(options, function(err, reply){
+      getreply2(options, function(err, reply){
         new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
           user.updateHistory(msg, replyObj);
           return next(err, reply);
         });
       });
+
+
+      // getreply(options, function(err, reply){
+      //   new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
+      //     user.updateHistory(msg, replyObj);
+      //     return next(err, reply);
+      //   });
+      // });
 
     }
 
@@ -139,6 +149,8 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     thats: that._thats,
     includes: that._includes,
     lineage: that._lineage,
+
+    topicsSystem: that.topicSystem,
 
     plugins: that._plugins,
     question: that.question, 
@@ -198,46 +210,6 @@ SuperScript.prototype.loadPlugins = function(path) {
 
 SuperScript.prototype.getTopics = function() {
   return this.topics;
-}
-
-SuperScript.prototype.findTopicByName = function(name) {
-  var found = false;
-  for (var i = 0; i < this.topics.length;i++) {
-    if (this.topics[i].name === name) {
-      found = this.topics[i];
-      break;
-    }
-  }
-  return found;
-}
-
-// Returns all topics that match the rule
-// Not sure yet what this would be used for.
-SuperScript.prototype.findTopicsByInput = function(input) {
-  var topics = [];
-  // for (var i = 0; i < this.topics.length;i++) {
-  //   if (this.topics[i].name === name) {
-  //     topics.push(this.topics[i]);
-  //   }
-  // }
-  return topics;
-}
-
-// This will return the matching triggers
-// filter by optinal topic
-SuperScript.prototype.findTriggerByInput = function(input, topic) {
-  return [];
-}
-
-SuperScript.prototype.createTopicStructure = function(data) {
-  var that = this;
-  this.topics = [];
-
-  _.each(Object.keys(data.gTopics), function(topicName) {
-    var topicFlags = data.gTopicFlags[topicName];
-    var triggers =  data.gTopics[topicName];
-    that.topics.push(new Topic(topicName, triggers, topicFlags));
-  });
 }
 
 var firstReplyTime = Utils.getRandomInt(3000, 10000);
