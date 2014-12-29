@@ -131,7 +131,7 @@ describe('SuperScript Scripting Interface', function(){
 
   });
 
-  describe('Variable length star interface *~n', function(){
+  describe.only('Variable length star interface *~n', function(){
 
     it("should match *~2 star - End case", function(done) {
       bot.reply("user1", "define love", function(err, reply) {

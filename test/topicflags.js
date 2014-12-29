@@ -27,7 +27,7 @@ describe('Super Script Topics', function(){
   });
   
 
-  describe.only('Topics - NoStay', function(){
+  describe('Topics - NoStay', function(){
     // "i am going to stay and go"
     it("topic should have noStay flag", function(done){
       bot._topicFlags['nostay'].should.containEql("nostay");
