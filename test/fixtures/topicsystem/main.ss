@@ -12,7 +12,6 @@
 + testing topic system
 - ^save(key, value)
 
-
 < pre
 
 > topic a

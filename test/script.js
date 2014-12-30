@@ -43,7 +43,6 @@ describe('SuperScript Scripting Interface', function(){
       });
     });
 
-
     it("leading star", function(done) {
       bot.reply("user1", "my bone", function(err, reply) {
         reply.should.eql("win 1");
@@ -72,8 +71,6 @@ describe('SuperScript Scripting Interface', function(){
       });
     });
 
-
-
   });
 
   describe('Exact length star interface *n', function(){
@@ -98,16 +95,13 @@ describe('SuperScript Scripting Interface', function(){
       });
     });   
 
-
     it("should match *2 star - Three case", function(done) {
       bot.reply("user1", "It is one two three hot out", function(err, reply) {
         reply.should.eql("");
         done();
       });
-    });   
-
+    });
   });
-
 
   describe('Replies can be repeated accross triggers', function(){
     it("Should pass", function(done) {
@@ -132,7 +126,7 @@ describe('SuperScript Scripting Interface', function(){
 
   describe('Variable length star interface *~n', function(){
 
-    it.only("should match *~2 star - End case", function(done) {
+    it("should match *~2 star - End case", function(done) {
       bot.reply("user1", "define love", function(err, reply) {
         reply.should.eql("Test endstar should pass");
         done();

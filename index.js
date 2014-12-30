@@ -93,19 +93,9 @@ var messageItorHandle = function(user, system) {
           return next(err, reply);
         });
       });
-
-
-      // getreply(options, function(err, reply){
-      //   new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
-      //     user.updateHistory(msg, replyObj);
-      //     return next(err, reply);
-      //   });
-      // });
-
     }
 
     internalizeHandle();
-    
   }
 }
 
@@ -235,29 +225,19 @@ SuperScript.prototype.check = function() {
   var currentTimestamp = (new Date()).getTime();
   
   var sendMessage = function(message, user, cb) {
+    
+    var gScope = that.scope;
+    gScope.user = user;
 
-    var system = {
-      topicFlags: that._topicFlags,
-      sorted: that._sorted, 
-      topics: that._topics, 
-      thats: that._thats,
-      includes: that._includes,
-      lineage: that._lineage,
-
+    var options = {
       plugins: that._plugins,
-      question: that.question, 
-      normalize: that.normalize,
-      facts: that.facts, 
-      cnet: that.cnet
-    }
-
-    var pOptions = {
-      msg: null, reply: message, 
-      stars: [], botstars:[],
-      user: user, system: system
+      scope: gScope
     };
 
-    processTags(pOptions, function(err, reply){
+    // TODO - Reply Object has changed, and we need to mimic that here.
+    var reply = {};
+
+    processTags(reply, user, options, function afterProcessTags(err, reply){
       new Message(reply, that.question, that.normalize, that.cnet, that.facts, function(replyObj) {
         user.updateHistory(null, replyObj);
         that.emit('message', user.name, reply);
