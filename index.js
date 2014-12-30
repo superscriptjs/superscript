@@ -44,27 +44,27 @@ function SuperScript(botScript, options, callback) {
   this.loadPlugins(process.cwd() + "/plugins");
   
   var data = JSON.parse(fs.readFileSync(botScript, 'utf8'));
+
+  // Old Topic System
   this._sorted      = data.gSorted;
   this._thats       = data.gPrevTopics;
   this._topics      = data.gTopics;
   this._topicFlags  = data.gTopicFlags;
-
-
-  this.topicSystem = new Topics(data);
-
-  
-  
   this._includes = data.gIncludes;
   this._lineage  = data.gLineage;
+
+  // New Topic System
+  this.topicSystem = new Topics(data);
+
+
+  this.facts = (options.factSystem) ? options.factSystem : facts.create("systemDB");
+  
+  this.scope = {
+    facts: this.facts
+  };
+  
   this.scope = _.extend(options.scope || {});
-
-  if (options.factSystem) {
-    this.facts = options.factSystem;
-  } else {
-    // We need to create a db to user store stuff.
-    this.facts = facts.create("systemDB");
-  }
-
+  
   norm.loadData(function() {
     that.normalize = norm;
     new qtypes(function(question) {
@@ -132,7 +132,7 @@ util.inherits(SuperScript, EventEmitter);
 
 // Convert msg into message object, then check for a match
 SuperScript.prototype.reply = function(userName, msg, callback) {
-  if (arguments.length == 2 && typeof msg == "function") {
+  if (arguments.length === 2 && typeof msg == "function") {
     callback = msg;
     msg = userName;
     userName = "randomUser";

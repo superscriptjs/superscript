@@ -127,13 +127,12 @@ describe('SuperScript Scripting Interface', function(){
         reply.should.eql("");
         done();
       });
-    });  
-
+    });
   });
 
-  describe.only('Variable length star interface *~n', function(){
+  describe('Variable length star interface *~n', function(){
 
-    it("should match *~2 star - End case", function(done) {
+    it.only("should match *~2 star - End case", function(done) {
       bot.reply("user1", "define love", function(err, reply) {
         reply.should.eql("Test endstar should pass");
         done();

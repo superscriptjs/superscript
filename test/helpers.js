@@ -7,8 +7,8 @@ var async = require("async");
 var cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 
 var data = [
-  './test/fixtures/concepts/bigrams.tbl',
-  './test/fixtures/concepts/trigrams.tbl',
+  // './test/fixtures/concepts/bigrams.tbl',
+  // './test/fixtures/concepts/trigrams.tbl',
   './test/fixtures/concepts/test.top', 
   './test/fixtures/concepts/opp.tbl'];
 
