@@ -6,8 +6,8 @@ var async   = require("async");
 var qtypes  = require("qtypes");
 var Message = require("./lib/message");
 var Users   = require("./lib/users");
-var getreply2      = require("./lib/getreply2");
-var processTags   = require("./lib/processtags");
+var getreply = require("./lib/getreply");
+var processTags = require("./lib/processtags");
 var Utils   = require("./lib/utils");
 var _       = require("underscore");
 var norm    = require("node-normalizer");
@@ -45,14 +45,6 @@ function SuperScript(botScript, options, callback) {
   
   var data = JSON.parse(fs.readFileSync(botScript, 'utf8'));
 
-  // Old Topic System
-  this._sorted      = data.gSorted;
-  this._thats       = data.gPrevTopics;
-  this._topics      = data.gTopics;
-  this._topicFlags  = data.gTopicFlags;
-  this._includes = data.gIncludes;
-  this._lineage  = data.gLineage;
-
   // New Topic System
   this.topicSystem = new Topics(data);
 
@@ -83,7 +75,7 @@ var messageItorHandle = function(user, system) {
 
     options.message = msg;
 
-    getreply2(options, function(err, reply){
+    getreply(options, function(err, reply){
 
       // Convert the reply into a message object too.
       new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
@@ -128,14 +120,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
   
   // Ideally these will come from a cache, but that is a exercise for a rainy day
   var system = {
-    // OLD
-    topicFlags: that._topicFlags,
-    sorted: that._sorted, 
-    topics: that._topics, 
-    thats: that._thats,
-    includes: that._includes,
-    lineage: that._lineage,
-
+    
     // getReply
     topicsSystem: that.topicSystem,
     plugins: that._plugins,
