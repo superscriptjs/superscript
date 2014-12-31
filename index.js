@@ -75,24 +75,22 @@ function SuperScript(botScript, options, callback) {
 
 var messageItorHandle = function(user, system) {
   return messageItor = function(msg, next) {
-    var internalizeHandle = function(){
-  
-      var options = {
-        user: user,
-        system: system
-      }
-
-      options.message = msg;
-
-      getreply2(options, function(err, reply){
-        new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
-          user.updateHistory(msg, replyObj);
-          return next(err, reply);
-        });
-      });
+    
+    var options = {
+      user: user,
+      system: system
     }
 
-    internalizeHandle();
+    options.message = msg;
+
+    getreply2(options, function(err, reply){
+
+      // Convert the reply into a message object too.
+      new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
+        user.updateHistory(msg, replyObj);
+        return next(err, reply);
+      });
+    });
   }
 }
 
@@ -100,7 +98,7 @@ var messageItorHandle = function(user, system) {
 // the sytem. We put them back together on the other end.
 var messageFactory = function(rawMsg, question, normalize, cnet, facts, cb) {
 
-  rawMsg = normalize.clean(rawMsg).trim();
+  var rawMsg = normalize.clean(rawMsg).trim();
   var messageParts = Utils.sentenceSplit(rawMsg);
   messageParts = Utils.cleanArray(messageParts);
 
@@ -147,11 +145,10 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     question: that.question, 
     normalize: that.normalize,
     facts: that.facts, 
-    cnet: that.cnet
+    cnet: that.conceptnet
   }
 
   var user = Users.findOrCreate(userName, that.facts);
-
   messageFactory(msg, that.question, that.normalize, that.cnet, that.facts, function(messages) {
     async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
       
@@ -171,6 +168,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     });
   });
 }
+
 
 SuperScript.prototype.userConnect = function(userName) {
   debug("Connecting User", userName);
