@@ -56,7 +56,6 @@ describe('Super Script Continue System', function(){
       });
     });
 
-
   });
 
   after(help.after);

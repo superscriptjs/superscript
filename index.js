@@ -56,14 +56,11 @@ function SuperScript(botScript, options, callback) {
   // New Topic System
   this.topicSystem = new Topics(data);
 
-
   this.facts = (options.factSystem) ? options.factSystem : facts.create("systemDB");
   
-  this.scope = {
-    facts: this.facts
-  };
-  
+  this.scope = {};
   this.scope = _.extend(options.scope || {});
+  this.scope.facts = this.facts;
   
   norm.loadData(function() {
     that.normalize = norm;
@@ -133,6 +130,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
   
   // Ideally these will come from a cache, but that is a exercise for a rainy day
   var system = {
+    // OLD
     topicFlags: that._topicFlags,
     sorted: that._sorted, 
     topics: that._topics, 
@@ -140,17 +138,20 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     includes: that._includes,
     lineage: that._lineage,
 
+    // getReply
     topicsSystem: that.topicSystem,
-
     plugins: that._plugins,
+    scope: that.scope,
+
+    // Message 
     question: that.question, 
     normalize: that.normalize,
     facts: that.facts, 
-    cnet: that.cnet,
-    scope: that.scope
+    cnet: that.cnet
   }
 
   var user = Users.findOrCreate(userName, that.facts);
+
   messageFactory(msg, that.question, that.normalize, that.cnet, that.facts, function(messages) {
     async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
       
@@ -170,7 +171,6 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     });
   });
 }
-
 
 SuperScript.prototype.userConnect = function(userName) {
   debug("Connecting User", userName);
