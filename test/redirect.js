@@ -42,7 +42,7 @@ describe('Super Script Redirects', function(){
     });
   });
 
-  describe.only('Inline Redirect recurrsion!', function(){
+  describe('Inline Redirect recurrsion!', function(){
     it("should redirect should save itself", function(done) {
       bot.reply("user1", "this is a bad idea", function(err, reply) {
         reply.should.not.be.empty;
