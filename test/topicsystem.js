@@ -16,5 +16,21 @@ describe('SuperScript TopicsSystem', function(){
     });
   });
 
+  describe.only('TopicDiscovery', function() {
+    it("Should find the right topic", function(done){
+      bot.reply("i like to hunt", function(err, reply){
+        reply.should.containEql("i like to spend time outdoors");
+
+        done();
+
+        // bot.reply("i like to fish", function(err, reply){
+        //   reply.should.containEql("me too");
+        //   done();
+        // });
+
+      });
+    });
+  });
+
   after(help.after);
 });

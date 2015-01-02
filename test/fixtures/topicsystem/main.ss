@@ -9,29 +9,23 @@
 
 > pre
 
-+ testing topic system
-- ^save(key, value)
+	+ testing topic system
+	- ^save(key, value)
 
 < pre
 
-> topic a
 
-  + this is test 2 *
-  - testing2  
+> topic:keep outdoors ( fishing hunting camping ) ^sometest()
+	
+	+ I like to *
+	- i like to spend time outdoors
 
 < topic
 
-> topic b
 
-  + this is test 3
-  - testing3
-  
-< topic
-
-
-> topic c
-
-  + this is test 3
-  - not accessible
+> topic fishing ^sometest() ( fish fishing to_fish rod worms )
+	
+	+ I like to *
+	- me too
 
 < topic

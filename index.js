@@ -1,22 +1,22 @@
-var fs      = require("fs");
-var util    = require("util");
+var fs = require("fs");
+var util = require("util");
 var events = require('events');
 var EventEmitter = events.EventEmitter;
-var async   = require("async");
-var qtypes  = require("qtypes");
-var Message = require("./lib/message");
-var Users   = require("./lib/users");
-var getreply = require("./lib/getreply");
-var processTags = require("./lib/processtags");
-var Utils   = require("./lib/utils");
-var _       = require("underscore");
-var norm    = require("node-normalizer");
+var async = require("async");
+var qtypes = require("qtypes");
+var _ = require("underscore");
+var norm = require("node-normalizer");
 var requireDir = require('require-dir');
-var debug   = require("debug")("Script");
-var dWarn   = require("debug")("Script:Warning");
+var debug = require("debug")("Script");
+var dWarn = require("debug")("Script:Warning");
 var facts = require("sfacts");
 
 var Topics = require("./lib/topics");
+var Message = require("./lib/message");
+var Users = require("./lib/users");
+var getreply = require("./lib/getreply");
+var processTags = require("./lib/processtags");
+var Utils = require("./lib/utils");
 
 function SuperScript(botScript, options, callback) {
 
