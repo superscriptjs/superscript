@@ -2,8 +2,8 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-// Testing topics that include and mixin other topics.
-describe('Super Script Topics Structure', function(){
+// This functionality has been removed.
+describe.skip('Super Script Topics Structure', function(){
 
   before(help.before("topicstruct"));
 

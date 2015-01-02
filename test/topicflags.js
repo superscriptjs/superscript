@@ -30,7 +30,9 @@ describe('Super Script Topics', function(){
   describe('Topics - NoStay', function(){
     // "i am going to stay and go"
     it("topic should have noStay flag", function(done){
-      bot._topicFlags['nostay'].should.containEql("nostay");
+      
+      var t = bot.topicSystem.findTopicByName('nostay');
+      t.flags.should.containEql("nostay");
       
       // Lets change to this topic
       bot.reply("user1", "set topic to nostay", function(err, reply){
@@ -49,14 +51,14 @@ describe('Super Script Topics', function(){
           done();
         });
       });
-      
     });
   });
 
   describe('Topics - Keep', function(){
 
     it("topic should have keep flag", function(done){
-      bot._topicFlags['keeptopic'].should.containEql("keep");
+      var t = bot.topicSystem.findTopicByName('keeptopic');
+      t.flags.should.containEql("keep");
       done();
     });
 
@@ -73,14 +75,13 @@ describe('Super Script Topics', function(){
             done();
           });
         });
-
       });
     });
-
     
     it("should not repeat itself", function(done){
       // Manually reset the topic
       // bot.getUser("user1").setTopic("random");
+      // bot.userConnect("user1");
       bot.getUser("user1").currentTopic = "random"
 
       bot.reply("user1", "set topic to dry", function(err, reply) {
@@ -89,13 +90,10 @@ describe('Super Script Topics', function(){
         ct.should.eql("dry");
 
         bot.reply("user1", "this is a dry topic", function(err, reply2) {
-          
           reply2.should.eql("dry topic test pass");
-
           // Say it again...
           bot.reply("user1", "this is a dry topic", function(err, reply3) {
             // If something was said, we don't say it again
-            console.log("Second time.. should be empty", reply3)
             reply3.should.eql("");
             done();
           });
@@ -121,7 +119,9 @@ describe('Super Script Topics', function(){
           // Say it again, now it should be removed
           bot.reply("user1", "i have one thing to say", function(err, reply3) {
             // If something was said, we don't say it again
-            reply3.should.eql("");
+            // This was empty, but with the new topic system, we don't match on the rule in
+            // dry, it continues onto keep topic and matches here.
+            reply3.should.eql("topic test pass");
             done();
           });
         });
