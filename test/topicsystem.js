@@ -3,12 +3,12 @@ var should  = require("should");
 var help = require("./helpers");
 
 // Testing topics that include and mixin other topics.
-describe.only('SuperScript TopicsSystem', function(){
+describe('SuperScript TopicsSystem', function(){
 
   before(help.before("topicsystem"));
 
   describe('TopicSystem', function() {
-    it.only("Should skip empty replies until it finds a match", function(done){
+    it("Should skip empty replies until it finds a match", function(done){
       bot.reply("testing topic system", function(err, reply){
         ["we like it","i hate it"].should.containEql(reply);
         done();
@@ -29,6 +29,10 @@ describe.only('SuperScript TopicsSystem', function(){
       });
     });
   });
+
+  // Test concept expansion
+  // Test conversation
+
 
   after(help.after);
 });

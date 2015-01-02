@@ -298,7 +298,7 @@ describe('Super Script Resoning Interface', function(){
 
   });
 
-  describe("Reason 3 - Auto Reply", function(){
+  describe.skip("Reason 3 - Auto Reply", function(){
 
     // Money
     it("should analize and reply", function(done) {
