@@ -29,9 +29,8 @@ function SuperScript(botScript, options, callback) {
 
   var that = this;
   options = options || {};
-  options.conceptnet = options.conceptnet || {host:'127.0.0.1', user:'root', pass:''}
-  
-  this.cnet = require("conceptnet")(options.conceptnet);
+  // options.conceptnet = options.conceptnet || {host:'127.0.0.1', user:'root', pass:''}
+  // this.cnet = require("conceptnet")(options.conceptnet);
   this._plugins = [];
 
   this.normalize = null;
@@ -78,7 +77,7 @@ var messageItorHandle = function(user, system) {
     getreply(options, function(err, reply){
 
       // Convert the reply into a message object too.
-      new Message(reply, system.question, system.normalize, system.cnet, system.facts, function(replyObj) {
+      new Message(reply, system.question, system.normalize, system.facts, function(replyObj) {
         user.updateHistory(msg, replyObj);
         return next(err, reply);
       });
@@ -88,14 +87,14 @@ var messageItorHandle = function(user, system) {
 
 // This takes a message and breaks it into chucks to be passed though 
 // the sytem. We put them back together on the other end.
-var messageFactory = function(rawMsg, question, normalize, cnet, facts, cb) {
+var messageFactory = function(rawMsg, question, normalize, facts, cb) {
 
   var rawMsg = normalize.clean(rawMsg).trim();
   var messageParts = Utils.sentenceSplit(rawMsg);
   messageParts = Utils.cleanArray(messageParts);
 
   var itor = function(messageChunk, next) {
-    new Message(messageChunk.trim(), question, normalize, cnet, facts, function(tmsg) {
+    new Message(messageChunk.trim(), question, normalize, facts, function(tmsg) {
       next(null, tmsg); 
     });
   }
@@ -129,12 +128,11 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     // Message 
     question: that.question, 
     normalize: that.normalize,
-    facts: that.facts, 
-    cnet: that.conceptnet
+    facts: that.facts
   }
 
   var user = Users.findOrCreate(userName, that.facts);
-  messageFactory(msg, that.question, that.normalize, that.cnet, that.facts, function(messages) {
+  messageFactory(msg, that.question, that.normalize, that.facts, function(messages) {
     async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
       
       var reply = "";
@@ -221,7 +219,7 @@ SuperScript.prototype.check = function() {
     var reply = {};
 
     processTags(reply, user, options, function afterProcessTags(err, reply){
-      new Message(reply, that.question, that.normalize, that.cnet, that.facts, function(replyObj) {
+      new Message(reply, that.question, that.normalize, that.facts, function(replyObj) {
         user.updateHistory(null, replyObj);
         that.emit('message', user.name, reply);
         cb();
