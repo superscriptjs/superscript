@@ -7,7 +7,7 @@ var async = require("async");
 var cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 
 var data = [
-  // './test/fixtures/concepts/bigrams.tbl',
+  './test/fixtures/concepts/bigrams.tbl',
   // './test/fixtures/concepts/trigrams.tbl',
   './test/fixtures/concepts/test.top', 
   './test/fixtures/concepts/opp.tbl'];
@@ -32,18 +32,23 @@ exports.after = function(done) {
   }
 
   bot.facts.db.close(function(){
+    // Kill the globals
+    gFacts = null;
+    bot = null;
+    
     async.each(['./factsystem', './systemDB'], itor,  done);
   });  
 }
 
 exports.before = function(file) {
-  return function(done) {
 
-    var options = { 
-      scope: {
-        cnet : cnet
-      }
+  var options = { 
+    scope: {
+      cnet : cnet
     }
+  }
+
+  return function(done) {
 
     fs.exists('./test/fixtures/cache/'+ file +'.json', function (exists) {
       if (!exists) {
@@ -64,6 +69,7 @@ exports.before = function(file) {
         console.log("Loading Cached Script");
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
+          bot = null;
           new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
             bot = botx;
             done();

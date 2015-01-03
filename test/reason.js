@@ -160,8 +160,8 @@ describe('Super Script Resoning Interface', function(){
   // If John is taller than Mary, who is the taller
 
     it("should be able to match 1", function(done){
-      bot.reply("user1", "Tom is more tall than Mary", function(err, reply) {
-        var fs = bot.getUser("user1");
+      bot.reply("ruser1", "Tom is more tall than Mary", function(err, reply) {
+        var fs = bot.getUser("ruser1");
         fs.memory.db.get({ subject: "tom"}, function(e,r){
           r[0].predicate.should.eql("tall");
           r[0].object.should.eql("mary");
@@ -465,9 +465,9 @@ describe('Super Script Resoning Interface', function(){
 
   describe("Loebner 2014 Screener", function(){
     it("should save knowledge", function(done) {
-      bot.reply("user1", "Hello, my name is Adam.", function(err, reply) {
+      bot.reply("r1user1", "Hello, my name is Adam.", function(err, reply) {
         reply.should.containEql("Nice to meet you, Adam.");
-        bot.reply("user1", "My name is Adam.", function(err, reply1) {
+        bot.reply("r1user1", "My name is Adam.", function(err, reply1) {
           reply1.should.containEql("I know, you already told me your name.");
           done();
         });
@@ -476,14 +476,14 @@ describe('Super Script Resoning Interface', function(){
 
     // Slightly more complex
     it("Loebner Q1.A", function(done) {
-      bot.reply("user1", "What is your name?", function(err, reply) {
+      bot.reply("r1user1", "What is your name?", function(err, reply) {
         reply.should.containEql("My name is Brit.");
         done();
       });
     });
 
     it("Loebner Q1.B", function(done) {
-      bot.reply("user1", "Hello, my name is Adam, what is your name?", function(err, reply) {
+      bot.reply("r1user1", "Hello, my name is Adam, what is your name?", function(err, reply) {
         reply.should.containEql("I know, you already told me your name. My name is Brit.");
         done();
       });
@@ -543,26 +543,25 @@ describe('Super Script Resoning Interface', function(){
       });
     });
     // TODO - Auto aquire favorites. 
-    it("Loebner Q4", function(done) {
+    it.skip("Loebner Q4", function(done) {
       bot.reply("user1", "What is your favourite television program? ", function(err, reply) {
         done();
       });
     });
 
-    it("Loebner Q18", function(done) {
+    it.skip("Loebner Q18", function(done) {
       bot.reply("user1", "What is your favourite chocolate bar?", function(err, reply) {
         reply.should.containEql("I don't have a favorite chocolate bar.")
         done();
       });
     });
 
-    it("Loebner Q3", function(done) {
+    it.skip("Loebner Q3", function(done) {
       bot.reply("user1", "I like to listen to music and play football. Do you have any hobbies?", function(err, reply) {
         reply.should.endWith("I like Running.")
         done();
       });
     });
-
 
   });
 

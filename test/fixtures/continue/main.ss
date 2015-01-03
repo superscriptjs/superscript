@@ -7,10 +7,11 @@
 
 + i went to highschool
 - did you finish ?
-+ *
-% did you finish ?
-- i went to university
-- what was it like?
+
+	+ *
+	% did you finish ?
+	- i went to university
+	- what was it like?
 
 
 + i like to travel

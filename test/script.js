@@ -362,10 +362,10 @@ describe('SuperScript Scripting Interface', function(){
     });
 
     it("Alpha Length 4", function(done) {
-      bot.reply("user1", "blank", function(err, reply) {
-        var u = bot.getUser("user1");
+      bot.reply("suser1", "blank", function(err, reply) {
+        var u = bot.getUser("suser1");
         u.set("name", "Bill");
-        bot.reply("user1", "How many characters in my name?", function(err, reply) {
+        bot.reply("suser1", "How many characters in my name?", function(err, reply) {
           reply.should.eql("There are 4 letters in your name.");
           done();
         });
@@ -415,10 +415,10 @@ describe('SuperScript Scripting Interface', function(){
     });
 
     it("Should save and recall 2", function(done) {
-      bot.reply("user2", "My name is Ken", function(err, reply) {
+      bot.reply("suser2", "My name is Ken", function(err, reply) {
         reply.should.eql("Hi Ken");
         var u1 = bot.getUser("userX");
-        var u2 = bot.getUser("user2");
+        var u2 = bot.getUser("suser2");
         u1.get("name", function(err, res){
           res.should.eql("Bob");
           u2.get("name", function(err, res){
@@ -429,24 +429,6 @@ describe('SuperScript Scripting Interface', function(){
       }); 
     });
 
-    it("Should save and recall 3", function(done) {
-      
-      var it = function(i,n) {
-        var user = bot.getUser("user" + i);
-        user.memory.create("k1","isa","v"+i, false, function(){
-          n();
-        });
-      }
-      
-      async.each([1,2], it, function(){
-        var user = bot.getUser("user1");
-        user.memory.db.get({'predicate':'isa'}, function(e,r){
-          r.should.have.length(1)
-          done()
-        });
-      });
-    
-    });
   });
 
   describe('Custom functions 4 - user topic change', function(){

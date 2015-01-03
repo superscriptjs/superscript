@@ -12,7 +12,7 @@ describe('Super Script Continue System', function(){
       bot.reply("user1", "i went to highschool", function(err, reply) {
         reply.should.eql("did you finish ?");
         bot.reply("user1", "then what happened?", function(err, reply2) {
-          reply2.should.eql("i went to university");
+          ["i went to university", "what was it like?"].should.containEql(reply2);
           done();
         });
       });

@@ -37,7 +37,7 @@ function SuperScript(botScript, options, callback) {
   this.normalize = null;
   this.question  = null;
 
-  this.intervalId = setInterval(this.check.bind(this), 500);
+  // this.intervalId = setInterval(this.check.bind(this), 500);
 
   Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
