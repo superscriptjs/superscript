@@ -19,6 +19,11 @@
 + set topic to nostay
 - Okay we are going to nostay {topic=nostay}
 
+> topic:system hidden
+	+ this is a system topic
+	- some reply
+< topic
+
 
 /*
 	non-Keep Flag Test

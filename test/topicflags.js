@@ -22,7 +22,15 @@ describe('Super Script Topics', function(){
       done();
     });
   });
-  
+    
+  describe.only('Topics - System', function(){
+    it("topic should have system flag", function(done){
+      bot.reply("user1", "this is a system topic", function(err, reply){
+        reply.should.eql("");
+        done();
+      });
+    });
+  });
 
   // This has regressed.
   describe.skip('Topics - NoStay', function(){
