@@ -14,6 +14,28 @@ describe('SuperScript TopicsSystem', function(){
         done();
       });
     });
+
+    it("Should create a new topic & use it", function(done){
+      var newTopic = bot.topicSystem.createTopic('food');
+      var trig = "Do you like food?";
+      var replies = ["Yes, Turkey is my favourite."];
+      var trigger = newTopic.addTrigger(trig, replies);
+
+      // Now lets try to match!
+      bot.reply("do you like food", function(err, reply){
+        reply.should.containEql("Yes, Turkey is my favourite.");
+
+        // Add another reply
+        trigger.addReply("I like food");
+        // We can add a reply to a trigger too.
+        // The first one should already be gone, so this one will fire next.
+        bot.reply("do you like food", function(err, reply){
+          reply.should.containEql("I like food");
+          done();
+        });
+      });
+    });
+
   });
 
   describe('TopicDiscovery', function() {
