@@ -23,13 +23,23 @@ describe('Super Script Topics', function(){
     });
   });
     
-  describe.only('Topics - System', function(){
+  describe('Topics - System', function(){
     it("topic should have system flag", function(done){
       bot.reply("user1", "this is a system topic", function(err, reply){
+        // This really just makes sure the reply is not accesses directly
         reply.should.eql("");
         done();
       });
     });
+
+    it("Go to hidden topic indirectly", function(done){
+      bot.reply("user1", "why did you run", function(err, reply){
+        // This really just makes sure the reply is not accesses directly
+        reply.should.eql("to get away from someone");
+        done();
+      });
+    });
+
   });
 
   // This has regressed.

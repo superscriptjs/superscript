@@ -19,6 +19,14 @@
 + set topic to nostay
 - Okay we are going to nostay {topic=nostay}
 
+? why did *
+- ^respond(system_why)
+
+> topic:system system_why
+	+ * you run
+	- to get away from someone
+< topic
+
 > topic:system hidden
 	+ this is a system topic
 	- some reply

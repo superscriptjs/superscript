@@ -52,6 +52,7 @@ function SuperScript(botScript, options, callback) {
   this.scope = {};
   this.scope = _.extend(options.scope || {});
   this.scope.facts = this.facts;
+  this.scope.topicSystem = this.topicSystem;
   
   norm.loadData(function() {
     that.normalize = norm;
