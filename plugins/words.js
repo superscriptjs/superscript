@@ -13,3 +13,7 @@ exports.plural = function(word, cb) {
 
   cb(null, reply);
 }
+
+exports.not = function(word, cb) {
+	cb(null, !(this.message.words.indexOf(word) != -1));
+}

@@ -147,9 +147,12 @@
 	+ reply with a new topic from function
 	- ^changefunctionreply(fish)
 
-// This will save the name to the internal fact system for this user.
+	// This will save the name to the internal fact system for this user.
 	+ My name is *1
 	- ^save(name, <cap1>) Hi <cap1>
+
+	+ ^not(filter) trigger *1 function
+	- trigger filter reply
 
 < topic
 

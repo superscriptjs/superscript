@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -455,7 +455,22 @@ describe('SuperScript Scripting Interface', function(){
     });
   });
 
-  describe.only('Should parse subfolder', function(){
+
+  describe('Filter functions', function(){
+    it("Trigger function", function(done) {
+      bot.reply("scuser5", "trigger filter function", function(err, reply) {
+        reply.should.eql("");
+        bot.reply("scuser5", "trigger filler function", function(err, reply) {
+          reply.should.eql("trigger filter reply");
+          done();
+        });
+
+      });
+    });
+  });
+
+
+  describe('Should parse subfolder', function(){
     it("Item in folder should exist", function(done) {
       bot.topicSystem.findTopicByName('suba').should.not.be.false;
       done();
