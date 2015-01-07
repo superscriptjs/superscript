@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
