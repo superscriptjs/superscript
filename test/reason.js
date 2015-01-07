@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var moment = require("moment");
 
-describe('Super Script Resoning Interface', function(){
+describe.only('Super Script Resoning Interface', function(){
 
   before(help.before("reason"));
   
@@ -24,6 +24,21 @@ describe('Super Script Resoning Interface', function(){
         done();
       });
     });
+
+    it("should evaluate math expressions - multiply 1", function(done) {
+      bot.reply("user1", "what is two times three", function(err, reply) {
+        reply.should.eql("I think it is 6");
+        done();
+      });
+    });
+
+    it("should evaluate math expressions - multiply 2", function(done) {
+      bot.reply("user1", "what is 2 x 3", function(err, reply) {
+        reply.should.eql("I think it is 6");
+        done();
+      });
+    });
+    
 
     it("should evaluate math expressions - string to numeric add", function(done) {
       bot.reply("user1", "what is one of one", function(err, reply) {

@@ -40,7 +40,7 @@ describe('Super Script Topics', function(){
       });
     });
 
-    it.only("topic recurrsion with respond", function(done){
+    it("topic recurrsion with respond", function(done){
       bot.reply("user1", "test recursion", function(err, reply){
         reply.should.eql("");
         done();
