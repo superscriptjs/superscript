@@ -22,6 +22,17 @@
 ? why did *
 - ^respond(system_why)
 
++ test recursion
+- ^respond(system_recurr)
+
+
+> topic:system system_recurr
+	
+	+ test recursion
+	- ^respond(hidden)
+
+< topic
+
 > topic:system system_why
 	+ * you run
 	- to get away from someone
