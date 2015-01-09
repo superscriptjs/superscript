@@ -4,6 +4,7 @@ var history = require("../lib/history");
 var Utils = require("../lib/utils");
 var _ = require("underscore");
 var moment = require("moment");
+var wd = require("../lib/wordnet"); 
 
 exports.hasName = function(bool, cb) {
   this.user.get('name', function(e,name){
@@ -13,6 +14,12 @@ exports.hasName = function(bool, cb) {
       // We have no name
       cb(null, (bool == "false") ? true : false)
     }
+  });
+}
+
+exports.has = function(value, cb) {
+  this.user.get(value, function(e, uvar){
+    cb(null, (uvar === undefined) ? false : true);
   });
 }
 
@@ -44,7 +51,9 @@ exports.tooAdjective = function(cb) {
 
   if (candidates.length != 0 && candidates[0].cNouns.length != 0) {
     var choice = candidates[0].cNouns.filter(function(item){ return item.length >= 3 });                   
-    suggest = "The " + choice.pop() + " was too " + message.adjectives[0] + ".";
+    var too = (message.adverbs.indexOf("too") != -1) ? "too " : "";
+    suggest = "The " + choice.pop() + " was " + too + message.adjectives[0] + ".";
+    // suggest = "The " + choice.pop() + " was too " + message.adjectives[0] + ".";
   } else {
     suggest = "";
   }
@@ -55,9 +64,179 @@ exports.tooAdjective = function(cb) {
 exports.usedFor = function(cb) {
   var that = this;
   this.cnet.usedForForward(that.message.nouns[0], function(e,r){
-    var res = (r) ? Utils.makeSentense(r[0].sentense)  : "";
-    cb(null, res);
+    if (!_.isEmpty(r)) {
+      var res = (r) ? Utils.makeSentense(r[0].sentense)  : "";
+      cb(null, res);
+    } else {
+      cb(null,"");
+    }
   });
+}
+
+exports.resolveFact = function(cb) {
+  // Resolve this
+  var message = this.message;
+  var t1 = message.nouns[0];
+  var t2 = message.adjectives[0];
+
+  this.cnet.resolveFact(t1, t2, function(err, res){
+    if (res) {
+      cb(null, "It sure is.");
+    } else {
+      cb(null, "I'm not sure.");
+    }
+  });
+}
+
+
+exports.putA = function(cb) {
+  var that = this;
+  var thing = (that.message.entities[0]) ? that.message.entities[0] : that.message.nouns[0];
+  var userfacts = that.user.memory.db;
+
+  if (thing) {
+    this.cnet.putConcept(thing, function(e, putThing){
+      if (putThing) {
+        cb(null, Utils.makeSentense(Utils.indefiniteArticlerize(putThing)));
+      } else {
+        cb(null, "");
+      }
+    });
+  }
+}
+
+exports.isA = function(cb) {
+  var that = this;
+  var thing = (that.message.entities[0]) ? that.message.entities[0] : that.message.nouns[0];
+  var userfacts = that.user.memory.db;
+  var userID = that.user.name;
+
+  if (thing) {
+    this.cnet.isAForward(thing, function(e,r){
+      if (!_.isEmpty(r)) {
+        var res = (r) ? Utils.makeSentense(r[0].sentense)  : "";
+        cb(null, res);
+      } else {
+        // Lets try wordnet
+        wd.define(thing, function(err, result){
+          if (err) {
+            cb(null, "");
+          } else {
+            cb(null, result);
+          }          
+        });
+      }
+    });
+  } else {
+    var thing = "";
+    // my x is adj => what is adj
+    if (that.message.adverbs[0]) {
+      thing = that.message.adverbs[0];
+    } else {
+      thing = that.message.adjectives[0];
+    }
+    userfacts.get({object:thing, predicate: userID}, function(err, list) {
+      if (!_.isEmpty(list)){
+        // Because it came from userID it must be his
+        cb(null, "You said your " + list[0].subject + " is " + thing + ".");
+      } else {
+        // find example of thing?
+        cb(null, "");
+      }
+      
+    });
+  }
+}
+
+
+// exports.nounlookup = function(cb) {
+//   debug("NounLookup");
+//   var that = this;
+//   var message = that.message;
+//   var userID = that.user.name;
+//   var facts = that.facts.db;
+
+//   // We have no noun "what be thing"
+//   facts.get({ subject: message.nouns[0], predicate:userID  , predicate:message.nouns[1]}, function(err, list) {
+//     debug("LIST", list);
+//     cb(null, "");
+//   });
+// }
+
+exports.colorLookup = function(cb) {
+  var that = this;
+  var message = this.message;
+  var things = message.entities.filter(function(item) { if (item != "color") return item; });
+  var suggest = "";
+  var facts = that.facts.db;
+  var userfacts = that.user.memory.db;
+  var userID = that.user.name;
+
+  // TODO: This could be improved adjectives may be empty
+  var thing = (things.length == 1) ? things[0] : message.adjectives[0];
+
+  if(thing != "" && message.pnouns.length == 0) {
+
+    facts.get({ subject: thing, predicate:'color'}, function(err, list) {
+      if (!_.isEmpty(list)) {
+        suggest = "It is " + list[0].object + ".";
+        cb(null, suggest);
+      } else {
+        cnet.resolveFact("color", thing, function(err, res){
+          if (res) {
+            suggest = "It is " + res + ".";
+          } else {
+            suggest = "It depends, maybe brown?";
+          }
+          cb(null, suggest);
+        });
+      }
+    });
+
+  } else if (message.pronouns.length != 0){
+    // Your or My color?
+    // TODO: Lookup a saved or cached value.
+    // what color is my car
+    if (message.pronouns.indexOf("my") != -1) {
+      userfacts.get({subject:message.nouns[1],  predicate: userID}, function(err, list) {
+        debug("LIST", list);
+        if (!_.isEmpty(list)) {
+          var color = list[0].object;
+          var thing = message.nouns[1];
+
+          var toSay = ["Your " + thing + " is " + color + "."]
+
+          facts.get({object:color,  predicate: 'color'}, function(err, list) {
+              
+            if (!_.isEmpty(list)) {
+              var thingOfColor = Utils.pickItem(list);
+              var toc = thingOfColor.subject.replace(/_/g, " ");  
+              toSay.push("Your " + thing + " is the same color as a " + toc + ".");
+            }
+            cb(null, Utils.pickItem(toSay));
+          });
+        } else {
+          cb(null,"You never told me what color your " + thing + " is.");
+        }
+      });      
+    } else if (message.pronouns.indexOf("your") != -1) {
+      // Do I have a /thing/ and if so, what color could or would it be?
+
+      facts.get({subject:thing, predicate: 'botfact', object:'color'}, function(err, list) {
+          
+        if (!_.isEmpty(list)) {
+          var thingOfColor = Utils.pickItem(list);
+          var toc = thingOfColor.subject.replace(/_/g, " ");  
+          toSay.push("Your " + thing + " is the same color as a " + toc + ".");
+        }
+        cb(null, Utils.pickItem(toSay));
+      });
+
+    }
+  } else {
+    suggest = "It is blue-green in color.";
+    cb(null, suggest);
+  }
 }
 
 exports.makeChoice = function(cb) {

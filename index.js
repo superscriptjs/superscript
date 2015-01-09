@@ -29,8 +29,7 @@ function SuperScript(botScript, options, callback) {
 
   var that = this;
   options = options || {};
-  // options.conceptnet = options.conceptnet || {host:'127.0.0.1', user:'root', pass:''}
-  // this.cnet = require("conceptnet")(options.conceptnet);
+
   this._plugins = [];
 
   this.normalize = null;

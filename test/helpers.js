@@ -10,6 +10,7 @@ var data = [
   './test/fixtures/concepts/bigrams.tbl',
   // './test/fixtures/concepts/trigrams.tbl',
   './test/fixtures/concepts/test.top', 
+  './test/fixtures/concepts/color.tbl', 
   './test/fixtures/concepts/opp.tbl'];
 
 exports.bootstrap = bootstrap = function(cb) {

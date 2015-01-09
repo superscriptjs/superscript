@@ -104,6 +104,14 @@ describe.only('Super Script Resoning Interface', function(){
       });
     });
 
+    it.skip("should evaluate math expressions - square root", function(done) {
+      bot.reply("user1", "what is the square root of 25?", function(err, reply) {
+        reply.should.eql("I think it is 5");
+        done();
+      });
+    });
+
+
     it("should evaluate math expressions - Memory (half fact)", function(done) {
       bot.reply("user1", "what is ten plus ten", function(err, reply) {
         reply.should.eql("I think it is 20");
@@ -383,9 +391,32 @@ describe.only('Super Script Resoning Interface', function(){
     });
 
     it("should analize 2", function(done) {
-      bot.reply("user1", "What is a hammer?", function(err, reply) {
-        // A taxi is a vehicle for hire"
+      bot.reply("user1", "What is a car used for?", function(err, reply) {
         reply.should.not.eql("");
+        done();
+      });
+    });
+
+    it("should analize 2 - isA", function(done) {
+      bot.reply("user1", "What is snow?", function(err, reply) {
+        reply.should.not.eql("");
+        done();
+      });
+    });
+
+    it.skip("Reason resolve adj => noun", function(done) {
+      bot.reply("user1xx", "I have a friend named Harry who likes to play tennis.", function(err, reply) {  
+        // bot.reply("user1xx", "What is the name of the friend I just told you about?", function(err, reply) {
+          bot.reply("user1xx", "Do you know what game Harry likes to play?", function(err, reply) {
+            done();
+          });
+        // });
+      });
+    });
+
+    it("PutA", function(done) {
+      bot.reply("user1xx", "where can i put a dead body?", function(err, reply) {  
+        console.log(reply);
         done();
       });
     });

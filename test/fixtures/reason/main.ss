@@ -37,11 +37,27 @@
 ? which *~4 <adjectives> [<name1> or <name2>]
 - ^resolveAdjective() 
 
+
+// I have a friend name __
++ * friend [named] <name1> *
+- ^save(friend,<cap1>)
+
++ * <name1> * likes * play *1
+- ^save(<cap1>,<cap2>)
+
+// What is the name of my friend
+?:WH ^has(friend) * is the name  *~2 friend *
+- Your friends name is ^get(friend).
+
+// What whould I use to put a nail into a wall
+? * put a *
+- ^putA()
+
 + * my name is <name>
 - {^hasName(false)} ^save(name,<cap1>) Nice to meet you, <cap1>.
 - {^hasName(true)} I know, you already told me your name.
 
-?:WH * name *
+?:WH * your name
 - My name is Brit.
 
 ?:WH * you live
@@ -50,15 +66,42 @@
 ?:WH * i live
 - ^findLoc()
 
-+ I live *
++ i live *
 - Do you like it there?
 
 // What was too small?
 ?:WH * <adjective>
 - ^tooAdjective()
 
+// Concept net
 ?:WH * i do with a *
 - ^usedFor()
+
+?:WH * is a * used for
+- ^usedFor()
+
+// What is a thing
+? what is a *~2
+- ^isA()
+
+// What is NOUN
+? what be *1
+- ^isA()
+
+?:ENTY:color *
+- ^colorLookup()
+
++ my <noun1> is (<adjective1>|<adverb1>)
+- ^save(<cap1>,<cap2>)
+
+// what is black
+// what is too big
+? what be (<adjective1>|<adverb1>)
+- ^tooAdjective()
+
+// Resolve Fact 
+? is [the] <noun1> <adjective1>
+- ^resolveFact()
 
 ?:CH * prefer *
 - ^makeChoice()
