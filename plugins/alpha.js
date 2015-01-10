@@ -87,31 +87,21 @@ exports.letterLookup = function(cb) {
   cb(null, reply);
 }
 
-
 exports.wordLength = function(cap, cb) {
-  var reply = "";
   if (typeof cap == "string") {
     var parts = cap.split(" ");
-
     if (parts.length == 1) {
-      reply = cap.length;
-      cb(null, reply);
+      cb(null, cap.length);
     } else {
       if (parts[0].toLowerCase() == "the" && parts.length == 3) {
         // name bill, word bill
-        reply = parts.pop().length;
-        cb(null, reply);
+        cb(null, parts.pop().length);
       } else if (parts[0] == "the" && parts[1].toLowerCase() == "alphabet") {
-        reply = 26;
-        cb(null, reply);
+        cb(null, "26");
       } else if (parts[0] == "my" && parts.length == 2) {
         // Varible lookup
         var lookup = parts[1];
-
-        
-
         this.user.get(lookup, function(e,v){
-
           if (v != -1 && v.length) {
             cb(null, "There are "+ v.length +" letters in your " + lookup + ".");
           } else {
@@ -120,16 +110,14 @@ exports.wordLength = function(cap, cb) {
         });
       } else if (parts[0] == "this" && parts.length == 2) {
         // this phrase, this sentence
-        reply = "That phrase has " + this.message.raw.length + " characters. I think.";
-        cb(null, reply);
+        cb(null, "That phrase has " + this.message.raw.length + " characters. I think.");
       } else {
-        reply = "I think there is about 10 characters. :)";
-        cb(null, reply);
+        cb(null, "I think there is about 10 characters. :)");
       }
     }
     
   } else {
-    cap(true,"");
+    cap(null,"");
   }
 }
 

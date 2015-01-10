@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var moment = require("moment");
 
-describe.only('Super Script Resoning Interface', function(){
+describe('Super Script Resoning Interface', function(){
 
   before(help.before("reason"));
   

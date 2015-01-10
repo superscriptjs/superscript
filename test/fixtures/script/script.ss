@@ -119,7 +119,7 @@
 	+ I ~like shoe
 	- Wordnet test one
 
-	+ I love ~SPORTS_BALL
+	+ I love ~SPORTS_BALL *
 	- Term expanded
 
 

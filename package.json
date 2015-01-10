@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
@@ -33,12 +33,12 @@
     "crc": "^3.0.0",
     "debug": "~0.8.0",
     "moment": "~2.6.0",
-    "natural": "~0.1.27",
+    "natural": "~0.2.0",
     "node-normalizer": "0.0.8",
     "node-tense": "0.0.4",
     "pluralize": "0.0.9",
     "pos": "~0.1.5",
-    "qtypes": "0.0.9",
+    "qtypes": "0.1.0",
     "require-dir": "~0.1.0",
     "rhyme": "0.0.3",
     "roman-numerals": "~0.3.2",

@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -245,6 +245,13 @@ describe('SuperScript Scripting Interface', function(){
       });
     });
 
+    it("should not expand user-defined concepts greedly (word boundry protection)", function(done) {
+      bot.reply("user1", "I love ballball", function(err, reply) {
+        reply.should.eql("");
+        done();
+      });
+    });
+
   });
 
   describe('Replies can have Optionals too!', function(){
@@ -364,10 +371,11 @@ describe('SuperScript Scripting Interface', function(){
     it("Alpha Length 4", function(done) {
       bot.reply("suser1", "blank", function(err, reply) {
         var u = bot.getUser("suser1");
-        u.set("name", "Bill");
-        bot.reply("suser1", "How many characters in my name?", function(err, reply) {
-          reply.should.eql("There are 4 letters in your name.");
-          done();
+        u.set("name", "Bill", function(){
+          bot.reply("suser1", "How many characters in my name?", function(err, reply) {
+            reply.should.eql("There are 4 letters in your name.");
+            done();
+          });
         });
       });
     });

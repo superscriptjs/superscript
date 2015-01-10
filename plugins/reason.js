@@ -223,7 +223,7 @@ exports.colorLookup = function(cb) {
       // Do I have a /thing/ and if so, what color could or would it be?
 
       facts.get({subject:thing, predicate: 'botfact', object:'color'}, function(err, list) {
-          
+        var toSay = [];
         if (!_.isEmpty(list)) {
           var thingOfColor = Utils.pickItem(list);
           var toc = thingOfColor.subject.replace(/_/g, " ");  

@@ -69,13 +69,11 @@ var messageItorHandle = function(user, system) {
     
     var options = {
       user: user,
-      system: system
-    }
-
-    options.message = msg;
+      system: system,
+      message: msg
+    };
 
     getreply(options, function(err, reply){
-
       // Convert the reply into a message object too.
       new Message(reply, system.question, system.normalize, system.facts, function(replyObj) {
         user.updateHistory(msg, replyObj);
@@ -111,7 +109,7 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
   if (arguments.length === 2 && typeof msg == "function") {
     callback = msg;
     msg = userName;
-    userName = "randomUser";
+    userName = Math.random().toString(36).substr(2, 5);
   }
 
   debug("Message Recieved from '" + userName + "'", msg);
