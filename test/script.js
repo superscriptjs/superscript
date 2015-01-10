@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){

@@ -166,7 +166,6 @@ exports.colorLookup = function(cb) {
     // What else is green (AKA Example of green) OR
     // What color is a tree?
 
-
     var fthing = thing.toLowerCase().replace(" ", "_");
 
     // ISA on thing
@@ -199,25 +198,40 @@ exports.colorLookup = function(cb) {
   } else if (message.pronouns.length != 0){
     // Your or My color?
     // TODO: Lookup a saved or cached value.
+    
     // what color is my car
+    // what is my favoirute color
     if (message.pronouns.indexOf("my") != -1) {
+
+      // my car is x
       userfacts.get({subject:message.nouns[1],  predicate: userID}, function(err, list) {
-        debug("LIST", list);
+        
         if (!_.isEmpty(list)) {
           var color = list[0].object;
-          var thing = message.nouns[1];
-          var toSay = ["Your " + thing + " is " + color + "."]
+          var lookup = message.nouns[1];
+          var toSay = ["Your " + lookup + " is " + color + "."]
 
           facts.get({object:color,  predicate: 'color'}, function(err, list) {
             if (!_.isEmpty(list)) {
               var thingOfColor = Utils.pickItem(list);
               var toc = thingOfColor.subject.replace(/_/g, " ");  
-              toSay.push("Your " + thing + " is the same color as a " + toc + ".");
+              toSay.push("Your " + lookup + " is the same color as a " + toc + ".");
             }
             cb(null, Utils.pickItem(toSay));
           });
         } else {
-          cb(null,"You never told me what color your " + thing + " is.");
+          // my fav color - we need 
+          var pred = message.entities[0];
+          userfacts.get({subject: thing,  predicate: pred }, function(err, list) {
+            debug("!!!!", list)
+            if (!_.isEmpty(list)) {
+              var color = list[0].object;
+              cb(null,"Your " + thing + " " + pred + " is " + color + ".");
+            } else {
+              cb(null,"You never told me what color your " + thing + " is.");  
+            }
+          });
+          
         }
       });      
     } else if (message.pronouns.indexOf("your") != -1) {

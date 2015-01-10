@@ -94,9 +94,12 @@
 ? what [else] is <adjective1>
 - ^colorLookup()
 
-
+// my car is red
 + my <noun1> is (<adjective1>|<adverb1>)
 - ^save(<cap1>,<cap2>)
+
++ my favorite color is *1
+- ^createUserFact(favorite, color, <cap1>)
 
 // what is black
 // what is too big

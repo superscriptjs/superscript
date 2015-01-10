@@ -9,3 +9,9 @@ exports.get = function(key, cb) {
 		cb(null, val);
 	});
 }
+
+exports.createUserFact = function(s,v,o,cb) {
+	this.user.memory.create(s,v,o,false, function(){
+		cb(null,"");
+	});
+}

@@ -126,33 +126,55 @@ describe('Super Script Resoning Interface', function(){
     });
   });
 
-  describe.only('Color Related', function(){
-    it("should evaluate colors", function(done) {
+  describe('Color Related - Plugin', function(){
+    it("should evaluate colors - world knowledge", function(done) {
       bot.reply("user1", "What color is the White House?", function(err, reply) {
         reply.should.eql("It is white.");
         done();
       });
     });
 
-    it("should resolve reason 1f - concept support", function(done) {
+    it("should evaluate colors - world knowledge 2", function(done) {
+      bot.reply("user1", "What color is a tree?", function(err, reply) {
+        reply.should.containEql("It is brown.");
+        done();
+      });
+    });
+
+    it("should evaluate colors - world knowledge inverse", function(done) {
+      bot.reply("user1", "What else is green?", function(err, reply) {
+        reply.should.endWith("is green.");
+        done();
+      });
+    });
+
+    it("should evaluate colors - bot facts", function(done) {
       bot.reply("user1", "what is your favorite color", function(err, reply) {
         reply.should.containEql("My favorite color is green.");
         done();
       });
     });
 
-    it("should resolve reason 1f - concept support 2", function(done) {
-      bot.reply("user1", "What color is a tree?", function(err, reply) {
-        console.log(reply)
-        reply.should.containEql("It is brown.");
+    it("should evaluate colors - user facts 1", function(done) {
+      bot.reply("user1", "what color is my car?", function(err, reply) {
+        reply.should.containEql("You never told me what color your car is.");
         done();
       });
     });
 
-    it("should resolve reason 1f - concept support 3", function(done) {
-      bot.reply("user1", "What else is green?", function(err, reply) {
-        reply.should.endWith("is green.");
+    it("should evaluate colors - user facts 2", function(done) {
+      bot.reply("user1", "what is my favorite color", function(err, reply) {
+        reply.should.containEql("You never told me what color your favorite is.");
         done();
+      });
+    });
+
+    it("should evaluate colors - user facts 3", function(done) {
+      bot.reply("user1", "my favorite color is red.", function(err, reply) {
+        bot.reply("user1", "what is my favorite color", function(err, reply) {
+          reply.should.containEql("Your favorite color is red.");
+          done();
+        });
       });
     });
 

@@ -76,8 +76,6 @@ exports.before = function(file) {
           options['factSystem'] = facts;
           facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
 
-            console.log("BF", botfacts)
-
             options['botfacts'] = botfacts;
             bot = null;            
             new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
