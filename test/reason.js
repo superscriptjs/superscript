@@ -111,7 +111,6 @@ describe('Super Script Resoning Interface', function(){
       });
     });
 
-
     it("should evaluate math expressions - Memory (half fact)", function(done) {
       bot.reply("user1", "what is ten plus ten", function(err, reply) {
         reply.should.eql("I think it is 20");
@@ -127,6 +126,38 @@ describe('Super Script Resoning Interface', function(){
     });
   });
 
+  describe.only('Color Related', function(){
+    it("should evaluate colors", function(done) {
+      bot.reply("user1", "What color is the White House?", function(err, reply) {
+        reply.should.eql("It is white.");
+        done();
+      });
+    });
+
+    it("should resolve reason 1f - concept support", function(done) {
+      bot.reply("user1", "what is your favorite color", function(err, reply) {
+        reply.should.containEql("My favorite color is green.");
+        done();
+      });
+    });
+
+    it("should resolve reason 1f - concept support 2", function(done) {
+      bot.reply("user1", "What color is a tree?", function(err, reply) {
+        console.log(reply)
+        reply.should.containEql("It is brown.");
+        done();
+      });
+    });
+
+    it("should resolve reason 1f - concept support 3", function(done) {
+      bot.reply("user1", "What else is green?", function(err, reply) {
+        reply.should.endWith("is green.");
+        done();
+      });
+    });
+
+
+  });
 
   describe('Numeric Other', function(){
 
@@ -645,13 +676,6 @@ describe('Super Script Resoning Interface', function(){
     it("should resolve reason 1e - concept support", function(done) {
       bot.reply("user1", "Where would I find pants?", function(err, reply) {
         reply.should.containEql("department store");
-        done();
-      });
-    });
-
-    it("should resolve reason 1f - concept support", function(done) {
-      bot.reply("user1", "what is your favorite color", function(err, reply) {
-        reply.should.containEql("red");
         done();
       });
     });

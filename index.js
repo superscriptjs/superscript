@@ -45,14 +45,18 @@ function SuperScript(botScript, options, callback) {
 
   // New Topic System
   this.topicSystem = new Topics(data);
-
   this.facts = (options.factSystem) ? options.factSystem : facts.create("systemDB");
   
+  // We want a place to store bot related data
+  this.memory = (options.botfacts) ? options.botfacts : this.facts.createUserDB("botfacts");
+
   this.scope = {};
   this.scope = _.extend(options.scope || {});
   this.scope.facts = this.facts;
   this.scope.topicSystem = this.topicSystem;
-  
+
+  this.scope.botfacts = this.memory;
+
   norm.loadData(function() {
     that.normalize = norm;
     new qtypes(function(question) {

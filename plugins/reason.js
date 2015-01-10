@@ -148,21 +148,6 @@ exports.isA = function(cb) {
   }
 }
 
-
-// exports.nounlookup = function(cb) {
-//   debug("NounLookup");
-//   var that = this;
-//   var message = that.message;
-//   var userID = that.user.name;
-//   var facts = that.facts.db;
-
-//   // We have no noun "what be thing"
-//   facts.get({ subject: message.nouns[0], predicate:userID  , predicate:message.nouns[1]}, function(err, list) {
-//     debug("LIST", list);
-//     cb(null, "");
-//   });
-// }
-
 exports.colorLookup = function(cb) {
   var that = this;
   var message = this.message;
@@ -170,6 +155,7 @@ exports.colorLookup = function(cb) {
   var suggest = "";
   var facts = that.facts.db;
   var userfacts = that.user.memory.db;
+  var botfacts = that.botfacts.db;
   var userID = that.user.name;
 
   // TODO: This could be improved adjectives may be empty
@@ -177,18 +163,35 @@ exports.colorLookup = function(cb) {
 
   if(thing != "" && message.pnouns.length == 0) {
 
-    facts.get({ subject: thing, predicate:'color'}, function(err, list) {
+    // What else is green (AKA Example of green) OR
+    // What color is a tree?
+
+
+    var fthing = thing.toLowerCase().replace(" ", "_");
+
+    // ISA on thing
+    facts.get({ object: fthing, predicate:'color'}, function(err, list) {
       if (!_.isEmpty(list)) {
-        suggest = "It is " + list[0].object + ".";
-        cb(null, suggest);
+        var thingOfColor = Utils.pickItem(list);
+        var toc = thingOfColor.subject.replace(/_/g, " ");  
+
+        cb(null, Utils.makeSentense(Utils.indefiniteArticlerize(toc) + " is " + fthing));
       } else {
-        cnet.resolveFact("color", thing, function(err, res){
-          if (res) {
-            suggest = "It is " + res + ".";
+        facts.get({ subject: fthing, predicate:'color'}, function(err, list) {
+          if (!_.isEmpty(list)) {
+            suggest = "It is " + list[0].object + ".";
+            cb(null, suggest);
           } else {
-            suggest = "It depends, maybe brown?";
+
+            that.cnet.resolveFact("color", thing, function(err, res){
+              if (res) {
+                suggest = "It is " + res + ".";
+              } else {
+                suggest = "It depends, maybe brown?";
+              }
+              cb(null, suggest);
+            });
           }
-          cb(null, suggest);
         });
       }
     });
@@ -203,11 +206,9 @@ exports.colorLookup = function(cb) {
         if (!_.isEmpty(list)) {
           var color = list[0].object;
           var thing = message.nouns[1];
-
           var toSay = ["Your " + thing + " is " + color + "."]
 
           facts.get({object:color,  predicate: 'color'}, function(err, list) {
-              
             if (!_.isEmpty(list)) {
               var thingOfColor = Utils.pickItem(list);
               var toc = thingOfColor.subject.replace(/_/g, " ");  
@@ -221,17 +222,17 @@ exports.colorLookup = function(cb) {
       });      
     } else if (message.pronouns.indexOf("your") != -1) {
       // Do I have a /thing/ and if so, what color could or would it be?
-
-      facts.get({subject:thing, predicate: 'botfact', object:'color'}, function(err, list) {
-        var toSay = [];
+      
+      botfacts.get({subject:thing, predicate: 'color'}, function(err, list) {
         if (!_.isEmpty(list)) {
           var thingOfColor = Utils.pickItem(list);
-          var toc = thingOfColor.subject.replace(/_/g, " ");  
-          toSay.push("Your " + thing + " is the same color as a " + toc + ".");
+          var toc = thingOfColor.object.replace(/_/g, " ");
+          cb(null, "My " + thing + " color is " + toc + ".");
+        } else {
+          // Do I make something up or just continue?
+          cb(null, "");
         }
-        cb(null, Utils.pickItem(toSay));
       });
-
     }
   } else {
     suggest = "It is blue-green in color.";

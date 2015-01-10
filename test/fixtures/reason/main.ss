@@ -91,6 +91,10 @@
 ?:ENTY:color *
 - ^colorLookup()
 
+? what [else] is <adjective1>
+- ^colorLookup()
+
+
 + my <noun1> is (<adjective1>|<adverb1>)
 - ^save(<cap1>,<cap2>)
 

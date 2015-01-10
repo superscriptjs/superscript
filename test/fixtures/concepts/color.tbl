@@ -6,7 +6,7 @@ table: ~colorof (^color ^object)
  DATA:
  green [grass leaf plant emerald ~plants turtle parsley topaz]
  green [lettuce lime spinach celery pear broccoli apple shamrock ]
- green [artichoke arugula asparagus avacado brussel_sprout chinese_cabbage cucumber endive "green apple" "green bean"]
+ green [artichoke arugula asparagus avacado brussel_sprout chinese_cabbage cucumber endive green_apple green_bean]
  green [bean cabbage "green onion" "green pepper" honeydew kiwi kiwifruit leek okra pea snow_pea watercress zucchini]
 
  brown ["tree trunk" tree soil dirt earth mud chocolate bark beaver coffee toast root_beer eye raisin shit feces crap wood furniture floor floorboard]
@@ -33,7 +33,7 @@ table: ~colorof (^color ^object)
  black [night darkness computer speaker "electronic equipment" Tivo TV	 pavement magnet tire smoke panther opal zebra charcoal ]
  
  white [snow snowman sheet pillowcase cloud	lamb cotton_ball cotton milk cream polar_bear tooth bride zebra egg]
- white [chicken pigeon dove ginger cauliflower garlic jicama kohlrabi onion parsnip potato onion shallot turnip "white corn"]
+ white [chicken pigeon dove ginger cauliflower garlic jicama kohlrabi onion parsnip potato onion shallot turnip white_corn white_house]
  
  grey [raincloud building ~building elephant ash turkey computer]
 

@@ -7,11 +7,15 @@ var async = require("async");
 var cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 
 var data = [
-  './test/fixtures/concepts/bigrams.tbl',
+  // './test/fixtures/concepts/bigrams.tbl',
   // './test/fixtures/concepts/trigrams.tbl',
   './test/fixtures/concepts/test.top', 
   './test/fixtures/concepts/color.tbl', 
   './test/fixtures/concepts/opp.tbl'];
+
+var botData = [
+  './test/fixtures/concepts/botfacts.tbl'
+  ];
 
 exports.bootstrap = bootstrap = function(cb) {
   sfact.load(data, 'factsystem', function(err, facts){
@@ -70,10 +74,16 @@ exports.before = function(file) {
         console.log("Loading Cached Script");
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
-          bot = null;
-          new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
-            bot = botx;
-            done();
+          facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
+
+            console.log("BF", botfacts)
+
+            options['botfacts'] = botfacts;
+            bot = null;            
+            new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
+              bot = botx;
+              done();
+            });
           });
         });
       }

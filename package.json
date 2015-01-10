@@ -42,7 +42,7 @@
     "require-dir": "~0.1.0",
     "rhyme": "0.0.3",
     "roman-numerals": "~0.3.2",
-    "sfacts": "0.0.5",
+    "sfacts": "0.0.6",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0",
     "underscore": "~1.6.0",
