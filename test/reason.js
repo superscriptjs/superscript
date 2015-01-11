@@ -178,7 +178,6 @@ describe('Super Script Resoning Interface', function(){
       });
     });
 
-
   });
 
   describe('Numeric Other', function(){
@@ -374,7 +373,7 @@ describe('Super Script Resoning Interface', function(){
 
   });
 
-  describe.skip("Reason 3 - Auto Reply", function(){
+  describe("Reason 3 - Auto Reply", function(){
 
     // Money
     it("should analize and reply", function(done) {
@@ -470,6 +469,13 @@ describe('Super Script Resoning Interface', function(){
     it("PutA", function(done) {
       bot.reply("user1xx", "where can i put a dead body?", function(err, reply) {  
         console.log(reply);
+        done();
+      });
+    });
+
+    it("Located At", function(done) {
+      bot.reply("user1xx", "Name something you would find on a beach.", function(err, reply) {  
+        reply.should.not.be.empty;
         done();
       });
     });

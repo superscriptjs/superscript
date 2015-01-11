@@ -88,6 +88,10 @@
 ? what be *1
 - ^isA()
 
+// name something you could find at a beach
++ * name * find (on|at) [a|the] *~2
+- ^locatedAt(<cap2>)
+
 ?:ENTY:color *
 - ^colorLookup()
 

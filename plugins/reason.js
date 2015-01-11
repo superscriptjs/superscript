@@ -243,6 +243,7 @@ exports.colorLookup = function(cb) {
           var toc = thingOfColor.object.replace(/_/g, " ");
           cb(null, "My " + thing + " color is " + toc + ".");
         } else {
+          debug("---", {subject:thing, predicate: 'color'})
           // Do I make something up or just continue?
           cb(null, "");
         }
@@ -291,4 +292,19 @@ exports.findDate = function(cb){
  } else {
    cb(null, "Not sure.");
  } 
+}
+
+exports.locatedAt = function(place, cb) {
+  debug("LocatedAt", place);
+   
+  // var thing = entities.filter(function(item){if (item != "name") return item })
+  this.cnet.atLocationReverse(place, function(err, results){
+    if (!_.isEmpty(results)) {
+      var itemFound = Utils.pickItem(results);
+      cb(null,Utils.makeSentense("you might find " + Utils.indefiniteArticlerize(itemFound.c1_text) + " at " +  Utils.indefiniteArticlerize(place)));
+    } else {
+      cb(null,"");  
+    }
+    
+  });
 }
