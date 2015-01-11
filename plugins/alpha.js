@@ -1,7 +1,7 @@
 var rhyme = require('rhyme');
 var syllabistic = require('syllablistic');
 var debug = require("debug")("AlphaPlugins");
-
+var _ = require("underscore");
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -10,14 +10,18 @@ var getRandomInt = function (min, max) {
 exports.oppisite = function(word, cb) {
 
   debug("oppisite", word);
+  
+  this.facts.db.get({subject:word, predicate: "opposite"}, function(err, opp) {
 
-  var oppisiteWord = this.facts.query("direct_sv", word, "opposite");
-  if (oppisiteWord[0]) {
-    oppisiteWord = oppisiteWord[0].replace("_", " ");
-    cb(null, oppisiteWord);
-  } else {
-    cb(null, "?!?");
-  }
+    if (!_.isEmpty(opp)) {
+      var oppisiteWord = opp[0].object;
+      oppisiteWord = oppisiteWord.replace(/_/g, " ");
+      cb(null, oppisiteWord);
+    } else {
+      cb(null, "");
+    }
+
+  });
 }
 
 // This uses rhyme and it is painfully slow
