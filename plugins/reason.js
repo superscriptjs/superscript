@@ -294,8 +294,22 @@ exports.findDate = function(cb){
  } 
 }
 
-exports.locatedAt = function(place, cb) {
-  debug("LocatedAt", place);
+exports.locatedAt = function(cb) {
+  debug("LocatedAt");
+  var args = Array.prototype.slice.call(arguments);
+  var place;
+
+  if (args.length === 2) {
+    place = args[0];
+    cb = args[1];
+  } else {
+    cb = args[0];
+    // Pull the place from the history
+    var reply = this.user.getLastReply();
+    if (reply && reply.nouns.length != 0);
+    place = reply.nouns.pop();
+  }
+
    
   // var thing = entities.filter(function(item){if (item != "name") return item })
   this.cnet.atLocationReverse(place, function(err, results){
