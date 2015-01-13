@@ -1,3 +1,5 @@
+var debug = require("debug")("UserFacts");
+
 exports.save = function(key, value, cb) {
 	this.user.set(key, value, function(){
 		cb(null, "");

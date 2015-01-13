@@ -126,6 +126,120 @@ describe('Super Script Resoning Interface', function(){
     });
   });
 
+  describe('Create Facts', function(){
+    it("CF 1", function(done) {
+      bot.reply("cfuser1", " My friend Albert eats rocks", function(err, reply) {
+        var fact = bot.getUser("cfuser1");
+        fact.memory.db.get({ subject: "albert"}, function(e,r){
+          r[0].predicate.should.eql("eats");
+          r[0].object.should.eql("rocks");
+          done();
+        });
+      });
+    });
+
+
+    // Bob isa brother
+    // I hit brother
+    // I hit bob
+    it("CF 2", function(done) {
+      bot.reply("cfuser1", " I hit my brother Bob", function(err, reply) {
+        var fact = bot.getUser("cfuser1");
+        fact.memory.db.get({ subject: "i"}, function(e,r){
+          r[0].predicate.should.eql("hit");
+          r[0].object.should.eql("bob");
+          r[1].object.should.eql("brother");
+          done();
+        });
+      });
+    });
+
+    it("CF 3", function(done) {
+      bot.reply("cfuser1", "I hit my brother Bob", function(err, reply) {
+        var fact = bot.getUser("cfuser1");
+        fact.memory.db.get({ subject: "i"}, function(e,r){
+          r[0].predicate.should.eql("hit");
+          r[0].object.should.eql("bob");
+          r[1].object.should.eql("brother");
+          done();
+        });
+      });
+    });
+
+    it("CF 4", function(done) {
+      bot.reply("cfuser1", "Charlie is my dog.", function(err, reply) {
+        var fact = bot.getUser("cfuser1");
+        fact.memory.db.get({ subject: "charlie"}, function(e,r){
+          r[0].predicate.should.eql("isa");
+          r[0].object.should.eql("dog");
+          done();
+        });
+      });
+    });
+
+
+    it("CF 5", function(done) {
+      bot.reply("cfuser1", "My mother is Elizabeth", function(err, reply) {
+        var fact = bot.getUser("cfuser1");
+        fact.memory.db.get({ subject: "elizabeth"}, function(e,r){
+          r[0].predicate.should.eql("isa");
+          r[0].object.should.eql("mother");
+          done();
+        });
+      });
+    });
+
+    it("CF 6", function(done) {
+      bot.reply("cfuser1", "My cat is Freddy", function(err, reply) {
+        var fact = bot.getUser("cfuser1");
+        fact.memory.db.get({ subject: "freddy"}, function(e,r){
+          r[0].predicate.should.eql("isa");
+          r[0].object.should.eql("cat");
+          done();
+        });
+      });
+    });
+
+    it("CF 7", function(done) {
+      bot.reply("cfuser1", "My father likes to play tennis", function(err, reply) {
+        var fact = bot.getUser("cfuser1");
+        
+        bot.reply("cfuser1", "my uncle likes to play basketball", function(err, reply) {
+          fact.memory.db.get({ predicate: "play" }, function(e,r){
+            r[0].subject.should.eql("uncle");
+            r[1].subject.should.eql("father");
+            done();
+          });
+        });
+      });
+    });
+
+    it("CF 8", function(done) {
+      bot.reply("cfuser1", "I have 2 kids", function(err, reply) {
+        var fact = bot.getUser("cfuser1");
+        fact.memory.db.get({ object: 'kid'}, function(e,r){
+          r[0].predicate.should.eql("have");
+          done();
+        });
+      });
+    });
+
+
+  });
+
+
+  describe.skip('Aquire Goods - Plugin', function(){
+    it("Aquire goods", function(done) {
+      bot.reply("user1", "Do you own a dog?", function(err, reply) {
+        bot.reply("user1", "Do you own a dog?", function(err, reply) {
+          console.log(reply);
+          done();
+        });  
+      });
+    });
+  });
+
+
   describe('Color Related - Plugin', function(){
     it("should evaluate colors - world knowledge", function(done) {
       bot.reply("user1", "What color is the White House?", function(err, reply) {

@@ -151,7 +151,7 @@
 	+ My name is *1
 	- ^save(name, <cap1>) Hi <cap1>
 
-	+ ^not(filter) trigger *1 function
+	+ ^not(filter|filterx) trigger *1 function
 	- trigger filter reply
 
 < topic

@@ -122,3 +122,41 @@
 
 ?:NUM:date * birthday
 - ^findDate()
+
+? * do you ~own *
+- ^aquireGoods()
+
+
+// Fact tests
+// My friend Albert eats rocks
+// Albert eat rock
++ my *~2 <name1> [likes to] <verb1> *1
+- ^createUserFact(<cap2>,<cap3>,<cap4>)
+
++ i <verb1> [my|a] ~family_members [named|called] <name1>
+- ^createUserFact(i,<cap1>,<cap3>)^createUserFact(i,<cap1>,<cap2>)^createUserFact(<cap3>,isa,<cap2>)
+
+// Charlie is my dog
++ <name1> is my <noun2>
+- ^createUserFact(<cap1>,isa,<cap2>)
+
+// My mother is Elizabeth
++ my ~family_members is <name1>
+- ^createUserFact(<cap2>,isa,<cap1>)
+
+// My cat is Freddy
+// my fish is called Harold
++ my <noun1> is [called|named] <name1>
+- ^createUserFact(<cap2>,isa,<cap1>)
+
+
++ my ~role likes to play *1
+- ^createUserFact(<cap1>,like,to_play_<cap2>)^createUserFact(<cap1>,like,<cap2>)^createUserFact(<cap1>,play,<cap2>)
+// father like to_play_tennis
+// father like tennis
+// father play tennis
+
++ i have *1 (kid|kids|child|children|babys|babies|teenager|son|sons|daughter|daughters|cousin|friend) *
+- ^createUserFact(<cap1>,have,<cap3>)
+
+

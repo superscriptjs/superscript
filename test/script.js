@@ -468,6 +468,7 @@ describe.only('SuperScript Scripting Interface', function(){
     it("Trigger function", function(done) {
       bot.reply("scuser5", "trigger filter function", function(err, reply) {
         reply.should.eql("");
+
         bot.reply("scuser5", "trigger filler function", function(err, reply) {
           reply.should.eql("trigger filter reply");
           done();

@@ -142,8 +142,7 @@ exports.isA = function(cb) {
       } else {
         // find example of thing?
         cb(null, "");
-      }
-      
+      }      
     });
   }
 }
@@ -257,20 +256,25 @@ exports.colorLookup = function(cb) {
 
 exports.makeChoice = function(cb) {
   var that = this;
-  // Save the choice so we can refer to our decision later
-  var sect = _.difference(that.message.entities, that.message.list);
-  // So I believe sect[0] is the HEAD noun
+  if (!_.isEmpty(that.message.list)) {
+    // Save the choice so we can refer to our decision later
+    var sect = _.difference(that.message.entities, that.message.list);
+    // So I believe sect[0] is the HEAD noun
 
-  if(sect.length === 0){
-    // What do you like?
-    var choice = Utils.pickItem(that.message.list);
-    cb(null, "I like " + choice + ".");  
-  } else {
-    // Which <noun> do you like?
-    that.cnet.filterConcepts(that.message.list, sect[0], function(err, results) {
-      var choice = Utils.pickItem(results);
+    if(sect.length === 0){
+      // What do you like?
+      var choice = Utils.pickItem(that.message.list);
       cb(null, "I like " + choice + ".");  
-    });    
+    } else {
+      // Which <noun> do you like?
+      that.cnet.filterConcepts(that.message.list, sect[0], function(err, results) {
+        var choice = Utils.pickItem(results);
+        cb(null, "I like " + choice + ".");  
+      });    
+    }
+    
+  } else {
+    cb(null,"")
   }
 }
 
@@ -309,7 +313,6 @@ exports.locatedAt = function(cb) {
     if (reply && reply.nouns.length != 0);
     place = reply.nouns.pop();
   }
-
    
   // var thing = entities.filter(function(item){if (item != "name") return item })
   this.cnet.atLocationReverse(place, function(err, results){
@@ -320,5 +323,39 @@ exports.locatedAt = function(cb) {
       cb(null,"");  
     }
     
+  });
+}
+
+exports.aquireGoods = function(cb) {
+  // Do you own a <thing>
+  var that = this;
+  var message = that.message;
+  var thing = (message.entities[0]) ? message.entities[0] : message.nouns[0];
+  var botfacts = that.botfacts.db;
+  var cnet = that.cnet;
+  var reason = "";
+
+  botfacts.get({subject:thing, predicate: 'ownedby', object: 'bot'}, function(err, list) {
+    debug("!!!", list)
+    if (!_.isEmpty(list)){
+      // Lets find out more about it.
+
+      cb(null, "Yes");
+    } else {
+      // find example of thing?
+      // what is it?
+      cnet.usedForForward(thing, function(err, res){
+         
+        if (res) {
+          reason = Utils.pickItem(res);
+          reason = reason.frame2;
+          botfacts.put({subject:thing, predicate: 'ownedby', object: 'bot'}, function(err, list) {
+            cb(null, "Yes, I used it for " + reason + ".");  
+          });
+        } else {
+          cb(null, "NO");    
+        }
+      })
+    }    
   });
 }

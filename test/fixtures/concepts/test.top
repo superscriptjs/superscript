@@ -1,5 +1,17 @@
 concept: ~brother (bro brother male_sibling~1 )
-concept: ~family_adult_male (~BROTHER ~FATHER boyfriend brother-in-law hubby  ex-husband father-in-law fiance granddad granddaddy  grandfather grandpa grandpaw grandpop husband patriarch son-in-law stepfather uncle widower step-father scion)  
+
+
+concept: ~family_adult NOUN ANIMATE_BEING (~FAMILY_ADULT_FEMALE ~FAMILY_ADULT_GENERIC ~FAMILY_ADULT_MALE )
+concept: ~family_adult_female NOUN ANIMATE_BEING (~MOTHER aunt daughter-in-law ex-wife fiancee girlfriend godmother gran grandma  grandmom grandmother granny matriarch mistress step-mother stepmother widow spinster wife mother-in-law)
+concept: ~family_adult_generic NOUN ANIMATE_BEING (tribe heir parent descendant descendent  ancestor clan folks elders  ancestor cousin descendant parent stepparent  grandparent folks partner  elders partner heir spouse)
+concept: ~family_adult_male NOUN ANIMATE_BEING (~BROTHER ~FATHER boyfriend brother-in-law hubby  ex-husband father-in-law fiance granddad granddaddy  grandfather grandpa grandpaw grandpop hubby husband patriarch son-in-law stepfather uncle widower step-father scion)  
+concept: ~family_children NOUN NOUN_SINGULAR(~FAMILY_CHILDREN_FEMALE ~FAMILY_CHILDREN_GENERIC ~FAMILY_CHILDREN_MALE )
+concept: ~family_children_female NOUN ANIMATE_BEING NOUN_SINGULAR(~SISTER daughter granddaughter grandniece niece sister sister-in-law step-daughter step-sister stepdaughter stepsister  step-sister )
+concept: ~family_children_generic NOUN ANIMATE_BEING NOUN_SINGULAR(ward cousin  twin offspring progeny baby child  youth grandchild grandkid infant kid sibling step-child stepchild teen teenager toddler tot cousin  ward)
+concept: ~family_children_male NOUN ANIMATE_BEING NOUN_SINGULAR(~brother scion brother grandnephew grandson nephew son step-brother  step-son stepson )
+concept: ~family_members NOUN ANIMATE_BEING NOUN_SINGULAR(~FAMILY_ADULT ~FAMILY_CHILDREN twin relative )
+
+
 
 concept: ~do_with_titles (~watch ~buy ~own ~like ~hear ~read)
 

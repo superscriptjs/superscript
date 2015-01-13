@@ -1,4 +1,6 @@
 var pluralize = require("pluralize");
+var debug = require("debug")("Word Plugin");
+var utils = require("../lib/utils");
 
 exports.plural = function(word, cb) {
   // Sometimes WordNet will give us more then one word
@@ -15,5 +17,8 @@ exports.plural = function(word, cb) {
 }
 
 exports.not = function(word, cb) {
-	cb(null, !(this.message.words.indexOf(word) != -1));
+  var words = word.split("|");
+  var results = utils.inArray(this.message.words, words);
+  debug("RES", results);
+  cb(null, (results === false));
 }
