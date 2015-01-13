@@ -1,0 +1,9 @@
+table: ~own (^thing ^usedFor ^prop )
+^createfact(^thing ownedby bot)
+^createfact(^thing usedFor ^usedFor)
+^createfact(^thing hasProperty ^prop)
+
+DATA:
+car travel red
+house shelter big
+bike exercise road_bike
