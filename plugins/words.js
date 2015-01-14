@@ -22,3 +22,12 @@ exports.not = function(word, cb) {
   debug("RES", results);
   cb(null, (results === false));
 }
+
+exports.lowercase = function(word, cb) {
+  if (word) {
+    cb(null, word.toLowerCase());  
+  } else {
+    cb(null, "");
+  }
+  
+}
