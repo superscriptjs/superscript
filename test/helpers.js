@@ -9,10 +9,11 @@ var cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 var data = [
   // './test/fixtures/concepts/bigrams.tbl',
   // './test/fixtures/concepts/trigrams.tbl',
-  './test/fixtures/concepts/concepts.top',
-  './test/fixtures/concepts/verb.top', 
-  './test/fixtures/concepts/color.tbl', 
-  './test/fixtures/concepts/opp.tbl'];
+  // './test/fixtures/concepts/concepts.top',
+  // './test/fixtures/concepts/verb.top', 
+  // './test/fixtures/concepts/color.tbl', 
+  // './test/fixtures/concepts/opp.tbl'
+  ];
 
 var botData = [
   './test/fixtures/concepts/botfacts.tbl',

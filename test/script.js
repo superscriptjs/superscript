@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe.only('SuperScript Scripting Interface', function(){
+describe('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -170,7 +170,7 @@ describe.only('SuperScript Scripting Interface', function(){
 
   });
 
-  describe('Alternates Interface (a|b)', function(){
+  describe.only('Alternates Interface (a|b)', function(){
     it("should match a or b - Not empty", function(done) {
       bot.reply("user1", "what is it", function(err, reply) {
         reply.should.eql("");
@@ -191,6 +191,35 @@ describe.only('SuperScript Scripting Interface', function(){
         done();
       });
     });
+
+    it("should match a or b - word boundries A", function(done) {
+      bot.reply("user1", "what weekend is it", function(err, reply) {
+        reply.should.eql("");
+        done();
+      });
+    });
+
+    it("should match a or b - word boundries B", function(done) {
+      bot.reply("user1", "this or that", function(err, reply) {
+        reply.should.eql("alter boundry test");
+        done();
+      });
+    });
+    
+    it("should match a or b - word boundries C", function(done) {
+      bot.reply("user1", "favorite", function(err, reply) {
+        reply.should.eql("");
+        done();
+      });
+    });
+
+    it("should match a or b - word boundries D", function(done) {
+      bot.reply("user1", "this a should e", function(err, reply) {
+        reply.should.eql("alter boundry test 2");
+        done();
+      });
+    });
+
   });
 
   describe('Optionals Interface [a|b|c]', function(){

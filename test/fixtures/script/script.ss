@@ -43,6 +43,12 @@
 	- Test endstar should pass
 
 
+	+ * (or) *
+	- alter boundry test
+
+	+ * (a|b|c) * (d|e|f)
+	- alter boundry test 2
+
 	// Alternates
 	+ What (day|week) is it
 	- Test four should pass
