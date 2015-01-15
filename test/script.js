@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -170,7 +170,7 @@ describe('SuperScript Scripting Interface', function(){
 
   });
 
-  describe.only('Alternates Interface (a|b)', function(){
+  describe('Alternates Interface (a|b)', function(){
     it("should match a or b - Not empty", function(done) {
       bot.reply("user1", "what is it", function(err, reply) {
         reply.should.eql("");
