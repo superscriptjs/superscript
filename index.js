@@ -77,11 +77,24 @@ var messageItorHandle = function(user, system) {
       message: msg
     };
 
-    getreply(options, function(err, reply){
+    getreply(options, function(err, replyObj) {
       // Convert the reply into a message object too.
-      new Message(reply, system.question, system.normalize, system.facts, function(replyObj) {
-        user.updateHistory(msg, replyObj);
-        return next(err, reply);
+      
+      var msgString = "";
+      var messageOptions = {
+        qtypes: system.question,
+        norm: system.normalize,
+        facts: system.facts
+      };
+
+      if (replyObj) {
+        messageOptions['replyId'] = replyObj.id;  
+        msgString = replyObj.string;
+      }
+      
+      new Message(msgString, messageOptions,  function(replyMessageObject) {
+        user.updateHistory(msg, replyMessageObject);
+        return next(err, msgString);
       });
     });
   }
@@ -96,7 +109,14 @@ var messageFactory = function(rawMsg, question, normalize, facts, cb) {
   messageParts = Utils.cleanArray(messageParts);
 
   var itor = function(messageChunk, next) {
-    new Message(messageChunk.trim(), question, normalize, facts, function(tmsg) {
+    
+    var messageOptions = {
+      qtypes: question, 
+      norm: normalize, 
+      facts: facts
+    };
+
+    new Message(messageChunk.trim(), messageOptions, function(tmsg) {
       next(null, tmsg); 
     });
   }
@@ -221,7 +241,12 @@ SuperScript.prototype.check = function() {
     var reply = {};
 
     processTags(reply, user, options, function afterProcessTags(err, reply){
-      new Message(reply, that.question, that.normalize, that.facts, function(replyObj) {
+      var messageOptions = {
+        qtypes: that.question, 
+        norm: that.normalize, 
+        facts: that.facts
+      };
+      new Message(reply, messageOptions, function(replyObj) {
         user.updateHistory(null, replyObj);
         that.emit('message', user.name, reply);
         cb();

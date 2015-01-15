@@ -51,11 +51,11 @@
 
 	// Alternates
 	+ What (day|week) is it
-	- Test four should pass
+	- {keep} Test four should pass
 
 	// Optionals
 	+ i have a [red|green|blue] car
-	- Test five should pass
+	- {keep} Test five should pass
 
 	// Mix case testing
 	+ THIS IS ALL CAPITALS
@@ -126,23 +126,23 @@
 	- Wordnet test one
 
 	+ I love ~SPORTS_BALL *
-	- Term expanded
+	- {keep} Term expanded
 
 
 	+ what is one plus one
 	- It is two.
 
 	+ how many (letters|chars|characters) [are there] in [the word] *~3
-	- ^wordLength(<cap2>)
+	- {keep} ^wordLength(<cap2>)
 
 	+ what [letter] (comes|is) (after|before) *~1
-	- ^letterLookup()
+	- {keep} ^letterLookup()
 
 	// What is the nth letter in the alphabet?
 	// What is the first letter in the alphabet?
 	// What is the last letter in the alphabet?
 	+ what [is] [the] * letter (in|of) the [english] alphabet
-	- ^letterLookup()
+	- {keep} ^letterLookup()
 
 	+ ~emohello
 	- Hello

@@ -107,6 +107,7 @@ describe.only('SuperScript Scripting Interface', function(){
     it("Should pass", function(done) {
       bot.reply("user1", "trigger one", function(err, reply) {
         reply.should.eql("generic reply");
+
         bot.reply("user1", "trigger two", function(err, reply) {
           reply.should.eql("generic reply");
           done();
@@ -124,8 +125,7 @@ describe.only('SuperScript Scripting Interface', function(){
     });
   });
 
-  describe('Variable length star interface *~n', function(){
-
+  describe('Variable length star interface *~n', function() {
     it("should match *~2 star - End case", function(done) {
       bot.reply("user1", "define love", function(err, reply) {
         reply.should.eql("Test endstar should pass");
