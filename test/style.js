@@ -76,6 +76,15 @@ describe('Super Script Style', function(){
     });
 
 
+    it("should removed bursted commas 2", function(done){
+      bot.reply("user1", "Is it morning, noon, or night?", function(err, reply) {
+        reply.should.eql("Test nine should pass");
+        done();
+      });
+    });
+    
+
+
   });
 
   describe("chunk message", function(){

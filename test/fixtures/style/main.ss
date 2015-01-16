@@ -44,7 +44,7 @@
 
 // Mix case testing
 + THIS IS ALL CAPITALS
-- Test six should pass
+- {keep} Test six should pass
 
 + Do you have a clue
 - Test seven should pass
@@ -57,6 +57,11 @@
 
 + John is older than Mary and Mary is older than Sarah
 - Test eight should pass
+
+// Should match without commas
++ is it morning noon or night
+- Test nine should pass
+
 
 // Test Multiple line output
 + tell me a poem
