@@ -344,6 +344,7 @@ describe.only('SuperScript Scripting Interface', function(){
   });
 
 
+  // I moved this to 5 times because there was a odd chance that we could hit the keep message 2/3rds of the time
   describe('Reply Flags', function() {
 
     it("Keep Flag", function(done) {
@@ -354,11 +355,16 @@ describe.only('SuperScript Scripting Interface', function(){
           ["say one thing","say something else"].should.containEql(reply);
           // third time
           bot.reply("user1", "reply flags", function(err, reply3) {
-            reply3.should.eql("say something else");
-            done();
+            ["say one thing","say something else"].should.containEql(reply);
+            bot.reply("user1", "reply flags", function(err, reply3) {
+              ["say one thing","say something else"].should.containEql(reply);
+              bot.reply("user1", "reply flags", function(err, reply3) {
+                ["say something else"].should.containEql(reply);
+                done();
+              });
+            });
           });
         });
-        
       });
     });
 
