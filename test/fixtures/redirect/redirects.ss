@@ -1,6 +1,6 @@
 // Redirect Test
 + redirect landing
-- redirect test pass
+- {keep} redirect test pass
 
 + testing redirects
 @ redirect landing
