@@ -51,5 +51,31 @@ describe('Super Script Redirects', function(){
     });
   });
 
+  describe('Redirect to new topic', function(){
+    it("should redirect to new topic", function(done) {
+      bot.reply("user1", "hello", function(err, reply) {
+        reply.should.eql("Is it hot");
+        done();
+      });
+    });
+
+    it("should redirect to new topic dynamically", function(done) {
+      bot.reply("user1", "i like school", function(err, reply) {
+        reply.should.eql("I'm majoring in CS.");
+        done();
+      });
+    });
+
+    it("should redirect to new topic Inline", function(done) {
+      bot.reply("user1", "topic redirect test", function(err, reply) {
+        reply.should.eql("Say this. Say that.");
+        done();
+      });
+    });
+
+
+  });
+
+
   after(help.after);
 });

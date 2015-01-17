@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "0.3.14",
+  "version": "0.3.15",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
@@ -29,11 +29,14 @@
     "WNdb": "~3.1.1",
     "async": "~0.7.0",
     "async-replace": "0.0.2",
+    "checksum": "^0.1.1",
     "commander": "^2.4.0",
+    "conceptnet": "silentrob/conceptnet",
     "crc": "^3.0.0",
     "debug": "~0.8.0",
     "moment": "~2.6.0",
     "natural": "~0.2.0",
+    "node-lemmer": "grachev/node-lemmer",
     "node-normalizer": "0.0.9",
     "node-tense": "0.0.4",
     "pluralize": "0.0.9",
@@ -45,9 +48,7 @@
     "sfacts": "0.0.7",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0",
-    "underscore": "~1.6.0",
-    "node-lemmer": "grachev/node-lemmer",
-    "conceptnet": "silentrob/conceptnet"
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "blanket": "~1.1.6",
