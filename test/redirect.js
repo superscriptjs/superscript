@@ -2,7 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe('Super Script Redirects', function(){
+describe.only('Super Script Redirects', function(){
 
   before(help.before("redirect"));
 
@@ -69,6 +69,13 @@ describe('Super Script Redirects', function(){
     it("should redirect to new topic Inline", function(done) {
       bot.reply("user1", "topic redirect test", function(err, reply) {
         reply.should.eql("Say this. Say that.");
+        done();
+      });
+    });
+
+    it("should redirect forward capture", function(done) {
+      bot.reply("user1", "topic redirect to fishsticks", function(err, reply) {
+        reply.should.eql("Capture forward fishsticks");
         done();
       });
     });

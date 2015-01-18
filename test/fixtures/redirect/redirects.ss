@@ -70,3 +70,14 @@
 < topic
 
 
++ topic redirect to *1
+- ^topicRedirect(test2,__to_say__)
+
+> topic test2
+
+	+ __to_say__
+	- Capture forward <cap1>
+ 
+< topic
+
+
