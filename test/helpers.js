@@ -57,7 +57,7 @@ exports.before = function(file) {
   }
 
   return function(done) {
-
+    
     fs.exists('./test/fixtures/cache/'+ file +'.json', function (exists) {
       if (!exists) {
         bootstrap(function(err, facts) {
@@ -75,15 +75,26 @@ exports.before = function(file) {
         });
       } else {
         console.log("Loading Cached Script");
+        var contents = fs.readFileSync('./test/fixtures/cache/'+ file +'.json', 'utf-8');
+        var contents = JSON.parse(contents);
+        
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
-          facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
+          var sums = contents.checksums;
+          var parse = require("../lib/parse")(facts);
+          parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
 
-            options['botfacts'] = botfacts;
-            bot = null;            
-            new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
-              bot = botx;
-              done();
+            parse.merge(contents, result, function(err, results) {
+              fs.writeFile('./test/fixtures/cache/'+ file +'.json', JSON.stringify(results), function (err) {
+                facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
+                  options['botfacts'] = botfacts;
+                  bot = null;            
+                  new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
+                    bot = botx;
+                    done();
+                  });
+                });
+              });
             });
           });
         });
