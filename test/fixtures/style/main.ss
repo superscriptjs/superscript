@@ -62,6 +62,9 @@
 + is it morning noon or night
 - Test nine should pass
 
+// Remove Quotes
++ how many letters in car
+- Test ten should pass
 
 // Test Multiple line output
 + tell me a poem

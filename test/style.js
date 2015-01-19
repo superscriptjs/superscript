@@ -82,8 +82,13 @@ describe('Super Script Style', function(){
         done();
       });
     });
-    
 
+    it("should removed quotes", function(done){
+      bot.reply("user1", 'How many letters in "car"?', function(err, reply) {
+        reply.should.eql("Test ten should pass");
+        done();
+      });
+    });
 
   });
 
