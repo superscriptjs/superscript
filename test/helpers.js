@@ -83,8 +83,9 @@ exports.before = function(file) {
           var sums = contents.checksums;
           var parse = require("../lib/parse")(facts);
           parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
-
+            
             parse.merge(contents, result, function(err, results) {
+
               fs.writeFile('./test/fixtures/cache/'+ file +'.json', JSON.stringify(results), function (err) {
                 facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
                   options['botfacts'] = botfacts;
