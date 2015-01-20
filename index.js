@@ -129,14 +129,14 @@ var messageFactory = function(rawMsg, question, normalize, facts, cb) {
 util.inherits(SuperScript, EventEmitter);
 
 // Convert msg into message object, then check for a match
-SuperScript.prototype.reply = function(userName, msg, callback) {
+SuperScript.prototype.reply = function(userId, msg, callback) {
   if (arguments.length === 2 && typeof msg == "function") {
     callback = msg;
-    msg = userName;
-    userName = Math.random().toString(36).substr(2, 5);
+    msg = userId;
+    userId = Math.random().toString(36).substr(2, 5);
   }
 
-  debug("Message Recieved from '" + userName + "'", msg);
+  debug("Message Recieved from '" + userId + "'", msg);
   var that = this;
   
   // Ideally these will come from a cache, but that is a exercise for a rainy day
@@ -153,37 +153,38 @@ SuperScript.prototype.reply = function(userName, msg, callback) {
     facts: that.facts
   }
 
-  var user = Users.findOrCreate(userName, that.facts);
-  messageFactory(msg, that.question, that.normalize, that.facts, function(messages) {
-    async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
-      
-      var reply = "";
-      messageArray = Utils.cleanArray(messageArray);
-      
-      if (messageArray.length == 1) {
-        reply = messageArray[0];
-      } else {
-        // TODO - We will want to add some smarts on putting multiple
-        // lines back together - check for tail grammar or drop bits.
-        reply = messageArray.join(" ");
-      }
+  Users.findOrCreate(userId, that.facts, function(err, user){
 
-      debug("Update and Reply to user '" + user.name + "'", reply);
-      return callback(err, reply);
+    messageFactory(msg, that.question, that.normalize, that.facts, function(messages) {
+      async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
+        var reply = "";
+        messageArray = Utils.cleanArray(messageArray);
+        
+        if (messageArray.length == 1) {
+          reply = messageArray[0];
+        } else {
+          // TODO - We will want to add some smarts on putting multiple
+          // lines back together - check for tail grammar or drop bits.
+          reply = messageArray.join(" ");
+        }
+
+        debug("Update and Reply to user '" + user.name + "'", reply);
+        return callback(err, reply);
+      });
     });
   });
 }
 
-
-SuperScript.prototype.userConnect = function(userName) {
+SuperScript.prototype.userConnect = function(userName, callback) {
   debug("Connecting User", userName);
-  return Users.connect(userName, this.facts);
+  return Users.connect(userName, this.facts, callback);
 }
 
-SuperScript.prototype.userDisconnect = function(userName) {
-  debug("userDisconnect User", userName);
-  return Users.disconnect(userName);
-}
+// TODO: Revisit this.
+// SuperScript.prototype.userDisconnect = function(userName) {
+//   debug("userDisconnect User", userName);
+//   return Users.disconnect(userName);
+// }
 
 SuperScript.prototype.getUser = function(userName) {
   debug("Fetching User", userName);
@@ -247,9 +248,17 @@ SuperScript.prototype.check = function() {
         facts: that.facts
       };
       new Message(reply, messageOptions, function(replyObj) {
-        user.updateHistory(null, replyObj);
-        that.emit('message', user.name, reply);
-        cb();
+
+        var triple = { subject: "user", predicate: "saved_data", object: user };
+        
+        that.facts.db.put(triple, function(err) {
+
+          debug("User Saved");
+          user.updateHistory(null, replyObj);
+          that.emit('message', user.name, reply);
+          cb();
+
+        });
       });
     });
   }

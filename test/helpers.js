@@ -9,21 +9,29 @@ var cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 var data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
   // './test/fixtures/concepts/trigrams.tbl', 
-  './test/fixtures/concepts/concepts.top',
-  './test/fixtures/concepts/verb.top', 
-  './test/fixtures/concepts/color.tbl', 
-  './test/fixtures/concepts/opp.tbl'
+  // './test/fixtures/concepts/concepts.top',
+  // './test/fixtures/concepts/verb.top', 
+  // './test/fixtures/concepts/color.tbl', 
+  // './test/fixtures/concepts/opp.tbl'
 ];
 
 var botData = [
   './test/fixtures/concepts/botfacts.tbl',
   './test/fixtures/concepts/botown.tbl'
-  ];
+];
 
 exports.bootstrap = bootstrap = function(cb) {
   sfact.load(data, 'factsystem', function(err, facts){
     gFacts = facts;
     cb(null, facts);
+  });
+}
+
+exports.softAfter = function(done) {
+  bot.facts.db.close(function() {
+    gFacts = null;
+    bot = null;
+    done()
   });
 }
 
@@ -83,7 +91,7 @@ exports.before = function(file) {
           var sums = contents.checksums;
           var parse = require("../lib/parse")(facts);
           parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
-            
+
             parse.merge(contents, result, function(err, results) {
 
               fs.writeFile('./test/fixtures/cache/'+ file +'.json', JSON.stringify(results), function (err) {
