@@ -45,17 +45,23 @@ function SuperScript(botScript, options, callback) {
 
   // New Topic System
   this.topicSystem = new Topics(data);
-  this.facts = (options.factSystem) ? options.factSystem : facts.create("systemDB");
+  // this.facts = (options.factSystem) ? options.factSystem : facts.create("systemDB");
   
-  // We want a place to store bot related data
-  this.memory = (options.botfacts) ? options.botfacts : this.facts.createUserDB("botfacts");
+  // // We want a place to store bot related data
+  // this.memory = (options.botfacts) ? options.botfacts : this.facts.createUserDB("botfacts");
+
+  // Hard code these for now
+  this.factSystem = facts.create("systemDB");
+
 
   this.scope = {};
   this.scope = _.extend(options.scope || {});
-  this.scope.facts = this.facts;
+  // this.scope.facts = this.facts;
   this.scope.topicSystem = this.topicSystem;
 
-  this.scope.botfacts = this.memory;
+  this.users = new Users(this.factSystem);
+
+  // this.scope.botfacts = this.memory;
 
   norm.loadData(function() {
     that.normalize = norm;
@@ -94,7 +100,7 @@ var messageItorHandle = function(user, system) {
       
       new Message(msgString, messageOptions,  function(replyMessageObject) {
         user.updateHistory(msg, replyMessageObject);
-        return next(err, msgString);
+        return next(err, msgString);  
       });
     });
   }
@@ -150,12 +156,21 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
     // Message 
     question: that.question, 
     normalize: that.normalize,
-    facts: that.facts
+    facts: that.factSystem
   }
 
-  Users.findOrCreate(userId, that.facts, function(err, user){
+    var properties = { id: userId };
+    var prop = {
+      currentTopic :'random', 
+      status:0, 
+      conversation: 0, 
+      volley: 0, 
+      rally:0
+    };
 
-    messageFactory(msg, that.question, that.normalize, that.facts, function(messages) {
+  this.users.findOrCreate(properties, prop, function(err, user, isNew){
+
+    messageFactory(msg, that.question, that.normalize, that.factSystem, function(messages) {
       async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
         var reply = "";
         messageArray = Utils.cleanArray(messageArray);
@@ -175,20 +190,24 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
   });
 }
 
-SuperScript.prototype.userConnect = function(userName, callback) {
-  debug("Connecting User", userName);
-  return Users.connect(userName, this.facts, callback);
-}
-
-// TODO: Revisit this.
-// SuperScript.prototype.userDisconnect = function(userName) {
-//   debug("userDisconnect User", userName);
-//   return Users.disconnect(userName);
+// SuperScript.prototype.userConnect = function(userId, callback) {
+//   debug("Connecting User", userId);
+//   return Users.connect(userId, this.facts, callback);
 // }
 
-SuperScript.prototype.getUser = function(userName) {
-  debug("Fetching User", userName);
-  return Users.get(userName);
+// TODO: Revisit this.
+// SuperScript.prototype.userDisconnect = function(userId) {
+//   debug("userDisconnect User", userId);
+//   return Users.disconnect(userId);
+// }
+
+SuperScript.prototype.getUser = function(userId, cb) {
+  debug("Fetching User", userId);
+
+  this.users.findOne({id: userId}, function(err, usr){
+    console.log(err, usr);
+    cb(err, usr);
+  });
 }
 
 SuperScript.prototype.loadPlugins = function(path) {
@@ -223,98 +242,93 @@ var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
 // This method emits a "message" event on bot and sends back a userID
 // so you will need to pair the user back to a socket.
 //
-SuperScript.prototype.check = function() {
-  var that = this;
-  var users = Users.getOnline();
-  var currentTimestamp = (new Date()).getTime();
+// SuperScript.prototype.check = function() {
+//   var that = this;
+//   var users = Users.getOnline();
+//   var currentTimestamp = (new Date()).getTime();
   
-  var sendMessage = function(message, user, cb) {
+//   var sendMessage = function(message, user, cb) {
     
-    var gScope = that.scope;
-    gScope.user = user;
+//     var gScope = that.scope;
+//     gScope.user = user;
 
-    var options = {
-      plugins: that._plugins,
-      scope: gScope
-    };
+//     var options = {
+//       plugins: that._plugins,
+//       scope: gScope
+//     };
 
-    // TODO - Reply Object has changed, and we need to mimic that here.
-    var reply = {};
+//     // TODO - Reply Object has changed, and we need to mimic that here.
+//     var reply = {};
 
-    processTags(reply, user, options, function afterProcessTags(err, reply){
-      var messageOptions = {
-        qtypes: that.question, 
-        norm: that.normalize, 
-        facts: that.facts
-      };
-      new Message(reply, messageOptions, function(replyObj) {
+//     processTags(reply, user, options, function afterProcessTags(err, reply){
+//       var messageOptions = {
+//         qtypes: that.question, 
+//         norm: that.normalize, 
+//         facts: that.facts
+//       };
+//       new Message(reply, messageOptions, function(replyObj) {
 
-        var triple = { subject: "user", predicate: "saved_data", object: user };
-        
-        that.facts.db.put(triple, function(err) {
+//         debug("User Saved");
+//         user.updateHistory(null, replyObj);
+//         that.emit('message', user.name, reply);
+//         cb();
 
-          debug("User Saved");
-          user.updateHistory(null, replyObj);
-          that.emit('message', user.name, reply);
-          cb();
+//       });
+//     });
+//   }
 
-        });
-      });
-    });
-  }
-
-  var itor = function(user, next) {
+//   var itor = function(user, next) {
     
-    // Are we in a topic?
-    var currentTopic = user.getTopic();
+//     // Are we in a topic?
+//     var currentTopic = user.getTopic();
 
-    var thingsToSay = [];
-    var firstToSay = [];
+//     var thingsToSay = [];
+//     var firstToSay = [];
 
-    for (message in that._topics[currentTopic]) {
-      if(that._topics[currentTopic][message].say !== undefined) {
-        if(that._topics[currentTopic][message].options.index !== undefined) {
-          firstToSay.push(that._topics[currentTopic][message].say);
-        } else {
-          thingsToSay.push(that._topics[currentTopic][message].say);
-        }
-      }
-    }
+//     for (message in that._topics[currentTopic]) {
+//       if(that._topics[currentTopic][message].say !== undefined) {
+//         if(that._topics[currentTopic][message].options.index !== undefined) {
+//           firstToSay.push(that._topics[currentTopic][message].say);
+//         } else {
+//           thingsToSay.push(that._topics[currentTopic][message].say);
+//         }
+//       }
+//     }
 
-    var durationMs = currentTimestamp - user.conversationStartedAt;
+//     var durationMs = currentTimestamp - user.conversationStartedAt;
 
-    if (user.lastMessageSentAt === null && !_.isEmpty(firstToSay)) {
-      var reply = Utils.pickItem(firstToSay);
-      // Only say the firstReply message once
-      if (durationMs > firstReplyTime && durationMs < firstReplyTime + 500) {        
-        sendMessage(reply, user, next);
-      } else if(durationMs > secondReplyTime && durationMs < secondReplyTime + 500) {
-        sendMessage(reply, user, next);
-      } else {
-        next();
-      }
+//     if (user.lastMessageSentAt === null && !_.isEmpty(firstToSay)) {
+//       var reply = Utils.pickItem(firstToSay);
+//       // Only say the firstReply message once
+//       if (durationMs > firstReplyTime && durationMs < firstReplyTime + 500) {        
+//         sendMessage(reply, user, next);
+//       } else if(durationMs > secondReplyTime && durationMs < secondReplyTime + 500) {
+//         sendMessage(reply, user, next);
+//       } else {
+//         next();
+//       }
       
-    } else if(!_.isEmpty(thingsToSay)) {
-      var reply = Utils.pickItem(thingsToSay);
+//     } else if(!_.isEmpty(thingsToSay)) {
+//       var reply = Utils.pickItem(thingsToSay);
 
-      // We have said something, but now the conversation is dried up.
-      // Either rally 0, or time ellapsed since last message
-      var durationMs = currentTimestamp - user.lastMessageSentAt;
+//       // We have said something, but now the conversation is dried up.
+//       // Either rally 0, or time ellapsed since last message
+//       var durationMs = currentTimestamp - user.lastMessageSentAt;
 
-      // Some random time between 6s, and 20s
-      var ellapsedTime = firstReplyTime * 2;
+//       // Some random time between 6s, and 20s
+//       var ellapsedTime = firstReplyTime * 2;
 
-      if(durationMs > ellapsedTime && durationMs < ellapsedTime + 500) {
-        sendMessage(reply, user, next);
-      } else {
-        next();
-      }
-    } else {
-      next();
-    }
-  }
+//       if(durationMs > ellapsedTime && durationMs < ellapsedTime + 500) {
+//         sendMessage(reply, user, next);
+//       } else {
+//         next();
+//       }
+//     } else {
+//       next();
+//     }
+//   }
 
-  async.each(users, itor, function() {});
-}
+//   async.each(users, itor, function() {});
+// }
 
 module.exports = SuperScript;

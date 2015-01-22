@@ -20,19 +20,22 @@ var botData = [
   './test/fixtures/concepts/botown.tbl'
 ];
 
+// exports.bootstrap = bootstrap = function(cb) {
+//   sfact.load(data, 'factsystem', function(err, facts){
+//     gFacts = facts;
+//     cb(null, facts);
+//   });
+// }
+
+
 exports.bootstrap = bootstrap = function(cb) {
-  sfact.load(data, 'factsystem', function(err, facts){
-    gFacts = facts;
-    cb(null, facts);
-  });
+  cb(null, {});
 }
 
 exports.softAfter = function(done) {
-  bot.facts.db.close(function() {
-    gFacts = null;
-    bot = null;
-    done()
-  });
+  gFacts = null;
+  bot = null;
+  done();
 }
 
 exports.after = function(done) {
@@ -47,14 +50,14 @@ exports.after = function(done) {
     });
   }
 
-  bot.facts.db.close(function(){
+  // bot.facts.db.close(function(){
     // Kill the globals
     gFacts = null;
     bot = null;
-    
     async.each(['./factsystem', './systemDB'], itor,  done);
-  });  
+  // });  
 }
+
 
 exports.before = function(file) {
 
@@ -78,7 +81,6 @@ exports.before = function(file) {
                 done();
               });
             });
-
           });
         });
       } else {
@@ -95,14 +97,14 @@ exports.before = function(file) {
             parse.merge(contents, result, function(err, results) {
 
               fs.writeFile('./test/fixtures/cache/'+ file +'.json', JSON.stringify(results), function (err) {
-                facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
-                  options['botfacts'] = botfacts;
+                // facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
+                //   options['botfacts'] = botfacts;
                   bot = null;            
                   new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
                     bot = botx;
                     done();
                   });
-                });
+                // });
               });
             });
           });

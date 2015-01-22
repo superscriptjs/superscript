@@ -425,13 +425,14 @@ describe('SuperScript Scripting Interface', function(){
   });
 
   describe('Custom functions 3 - user fact system', function(){
-    it("Should save and recall 1", function(done) {
+    it.only("Should save and recall 1", function(done) {
       bot.reply("userX", "My name is Bob", function(err, reply) {
         reply.should.eql("Hi Bob");
-        var u1 = bot.getUser("userX");
-        u1.get("name", function(err, res){
-          res.should.eql("Bob");
-          done();
+        bot.getUser("userX", function(err, u1){
+          u1.getVar('name', function(err, name){
+            name.should.eql("Bob");
+            done();
+          });
         });
       });
     });

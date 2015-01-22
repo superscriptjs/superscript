@@ -36,6 +36,8 @@
     "debug": "~0.8.0",
     "deepmerge": "^0.2.7",
     "moment": "~2.6.0",
+    "mongoose": "^3.8.21",
+    "mongoose-findorcreate": "^0.1.2",
     "natural": "~0.2.0",
     "node-lemmer": "grachev/node-lemmer",
     "node-normalizer": "0.0.9",
@@ -46,7 +48,7 @@
     "require-dir": "~0.1.0",
     "rhyme": "0.0.3",
     "roman-numerals": "~0.3.2",
-    "sfacts": "0.0.7",
+    "sfacts": "0.0.8",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0",
     "underscore": "~1.6.0"
