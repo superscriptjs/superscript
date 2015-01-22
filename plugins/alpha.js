@@ -105,8 +105,8 @@ exports.wordLength = function(cap, cb) {
       } else if (parts[0] == "my" && parts.length == 2) {
         // Varible lookup
         var lookup = parts[1];
-        this.user.get(lookup, function(e,v){
-          if (v != -1 && v.length) {
+        this.user.getVar(lookup, function(e,v){
+          if (v !== null && v.length) {
             cb(null, "There are "+ v.length +" letters in your " + lookup + ".");
           } else {
             cb(null, "I don't know");

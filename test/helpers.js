@@ -27,11 +27,6 @@ exports.bootstrap = bootstrap = function(cb) {
   });
 }
 
-
-// exports.bootstrap = bootstrap = function(cb) {
-//   cb(null, {});
-// }
-
 exports.softAfter = function(done) {
   gFacts = null;
   bot = null;
