@@ -10,9 +10,9 @@ var data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
   // './test/fixtures/concepts/trigrams.tbl', 
   // './test/fixtures/concepts/concepts.top',
-  // './test/fixtures/concepts/verb.top', 
-  // './test/fixtures/concepts/color.tbl', 
-  // './test/fixtures/concepts/opp.tbl'
+  './test/fixtures/concepts/verb.top', 
+  './test/fixtures/concepts/color.tbl', 
+  './test/fixtures/concepts/opp.tbl'
 ];
 
 var botData = [
@@ -20,17 +20,17 @@ var botData = [
   './test/fixtures/concepts/botown.tbl'
 ];
 
-// exports.bootstrap = bootstrap = function(cb) {
-//   sfact.load(data, 'factsystem', function(err, facts){
-//     gFacts = facts;
-//     cb(null, facts);
-//   });
-// }
-
-
 exports.bootstrap = bootstrap = function(cb) {
-  cb(null, {});
+  sfact.load(data, 'factsystem', function(err, facts){
+    gFacts = facts;
+    cb(null, facts);
+  });
 }
+
+
+// exports.bootstrap = bootstrap = function(cb) {
+//   cb(null, {});
+// }
 
 exports.softAfter = function(done) {
   gFacts = null;
@@ -97,14 +97,14 @@ exports.before = function(file) {
             parse.merge(contents, result, function(err, results) {
 
               fs.writeFile('./test/fixtures/cache/'+ file +'.json', JSON.stringify(results), function (err) {
-                // facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
-                //   options['botfacts'] = botfacts;
+                facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
+                  options['botfacts'] = botfacts;
                   bot = null;            
                   new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
                     bot = botx;
                     done();
                   });
-                // });
+                });
               });
             });
           });

@@ -155,7 +155,7 @@
 
 	// This will save the name to the internal fact system for this user.
 	+ My name is *1
-	- ^save(name, <cap1>) Hi <cap1>
+	- {keep} ^save(name, <cap1>) Hi <cap1>
 
 	+ ^not(filter|filterx) trigger *1 function
 	- trigger filter reply

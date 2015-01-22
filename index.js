@@ -45,23 +45,22 @@ function SuperScript(botScript, options, callback) {
 
   // New Topic System
   this.topicSystem = new Topics(data);
-  // this.facts = (options.factSystem) ? options.factSystem : facts.create("systemDB");
+  this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
   
-  // // We want a place to store bot related data
-  // this.memory = (options.botfacts) ? options.botfacts : this.facts.createUserDB("botfacts");
+  // We want a place to store bot related data
+  this.memory = (options.botfacts) ? options.botfacts : this.factSystem.createUserDB("botfacts");
 
   // Hard code these for now
-  this.factSystem = facts.create("systemDB");
+  // this.factSystem = facts.create("systemDB");
 
 
   this.scope = {};
   this.scope = _.extend(options.scope || {});
-  // this.scope.facts = this.facts;
+  this.scope.facts = this.factSystem;
   this.scope.topicSystem = this.topicSystem;
+  this.scope.botfacts = this.memory;
 
   this.users = new Users(this.factSystem);
-
-  // this.scope.botfacts = this.memory;
 
   norm.loadData(function() {
     that.normalize = norm;
@@ -205,7 +204,6 @@ SuperScript.prototype.getUser = function(userId, cb) {
   debug("Fetching User", userId);
 
   this.users.findOne({id: userId}, function(err, usr){
-    console.log(err, usr);
     cb(err, usr);
   });
 }

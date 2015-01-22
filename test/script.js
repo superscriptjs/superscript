@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -384,12 +384,13 @@ describe('SuperScript Scripting Interface', function(){
 
     it("Alpha Length 4", function(done) {
       bot.reply("suser1", "blank", function(err, reply) {
-        var u = bot.getUser("suser1");
-        u.set("name", "Bill", function(){
-          bot.reply("suser1", "How many characters in my name?", function(err, reply) {
-            reply.should.eql("There are 4 letters in your name.");
-            done();
-          });
+        bot.getUser("suser1", function(err, u){
+          u.setVar("name", "Bill", function(){
+            bot.reply("suser1", "How many characters in my name?", function(err, reply) {
+              reply.should.eql("There are 4 letters in your name.");
+              done();
+            });
+          });          
         });
       });
     });
@@ -425,7 +426,7 @@ describe('SuperScript Scripting Interface', function(){
   });
 
   describe('Custom functions 3 - user fact system', function(){
-    it.only("Should save and recall 1", function(done) {
+    it("Should save and recall 1", function(done) {
       bot.reply("userX", "My name is Bob", function(err, reply) {
         reply.should.eql("Hi Bob");
         bot.getUser("userX", function(err, u1){
@@ -440,13 +441,15 @@ describe('SuperScript Scripting Interface', function(){
     it("Should save and recall 2", function(done) {
       bot.reply("suser2", "My name is Ken", function(err, reply) {
         reply.should.eql("Hi Ken");
-        var u1 = bot.getUser("userX");
-        var u2 = bot.getUser("suser2");
-        u1.get("name", function(err, res){
-          res.should.eql("Bob");
-          u2.get("name", function(err, res){
-            res.should.eql("Ken");
-            done();
+        bot.getUser("userX", function(err, u1){
+          bot.getUser("suser2", function(err, u2){
+            u1.getVar("name", function(err, res){
+              res.should.eql("Bob");
+              u2.getVar("name", function(err, res){
+                res.should.eql("Ken");
+                done();
+              });
+            });
           });
         });
       }); 
@@ -457,22 +460,24 @@ describe('SuperScript Scripting Interface', function(){
   describe('Custom functions 4 - user topic change', function(){
     it("Change topic", function(done) {
       bot.reply("user3", "call function with new topic", function(err, reply) {
-        var user = bot.getUser("user3");
-        user.currentTopic.should.eql("fish");
-        bot.reply("user3", "i like fish", function(err, reply) {
-          reply.should.eql("me too");
-          done();
+        bot.getUser("user3", function(err, user){
+          user.currentTopic.should.eql("fish");
+          bot.reply("user3", "i like fish", function(err, reply) {
+            reply.should.eql("me too");
+            done();
+          });
         });
       });
     });
 
     it("Change topic 2", function(done) {
       bot.reply("user4", "reply with a new topic from function", function(err, reply) {
-        var user = bot.getUser("user4");
-        user.currentTopic.should.eql("fish");
-        bot.reply("user4", "i like fish", function(err, reply) {
-          reply.should.eql("me too");
-          done();
+        bot.getUser("user4", function(err, user){
+          user.currentTopic.should.eql("fish");
+          bot.reply("user4", "i like fish", function(err, reply) {
+            reply.should.eql("me too");
+            done();
+          });          
         });
       });
     });
@@ -483,16 +488,13 @@ describe('SuperScript Scripting Interface', function(){
     it("Trigger function", function(done) {
       bot.reply("scuser5", "trigger filter function", function(err, reply) {
         reply.should.eql("");
-
         bot.reply("scuser5", "trigger filler function", function(err, reply) {
           reply.should.eql("trigger filter reply");
           done();
         });
-
       });
     });
   });
-
 
   describe('Should parse subfolder', function(){
     it("Item in folder should exist", function(done) {
@@ -500,8 +502,6 @@ describe('SuperScript Scripting Interface', function(){
       done();
     });
   });
-
-
 
   describe('Emo reply', function(){
     it("Emo Hello 1", function(done) {
