@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -103,7 +103,7 @@ describe('SuperScript Scripting Interface', function(){
     });
   });
 
-  describe.only('Replies can be repeated accross triggers', function(){
+  describe('Replies can be repeated accross triggers', function(){
     it("Should pass", function(done) {
       bot.reply("user1", "trigger one", function(err, reply) {
         reply.should.eql("generic reply");

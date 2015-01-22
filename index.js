@@ -99,7 +99,9 @@ var messageItorHandle = function(user, system) {
       
       new Message(msgString, messageOptions,  function(replyMessageObject) {
         user.updateHistory(msg, replyMessageObject);
-        return next(err, msgString);  
+        user.save(function(e,r,s){
+          return next(err, msgString);  
+        });
       });
     });
   }
@@ -182,7 +184,7 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
           reply = messageArray.join(" ");
         }
 
-        debug("Update and Reply to user '" + user.name + "'", reply);
+        debug("Update and Reply to user '" + user.id + "'", reply);
         return callback(err, reply);
       });
     });
