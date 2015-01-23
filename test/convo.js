@@ -10,20 +10,27 @@ describe('Super Script Conversation', function(){
     
     it("should have volley", function(done) {
       bot.reply("user1", "Can you skip rope?", function(err, reply) {
-        bot.getUser("user1").volley.should.eql(0);
-        done();
+        bot.getUser("user1", function(e, user){
+          user.volley.should.eql(0);
+          done();          
+        });
       });
     });
 
     it("should have volley 1", function(done) {
       bot.reply("user1", "Can you jump rope?", function(err, reply) {
-        bot.getUser("user1").volley.should.eql(1);
-        bot.getUser("user1").rally.should.eql(1);
-        bot.reply("user1", "Have you done it lately?", function(err, reply) {
-          bot.getUser("user1").volley.should.eql(0);
-          bot.getUser("user1").rally.should.eql(0);
-          done();
-        });
+        bot.getUser("user1", function(e, user){
+          user.volley.should.eql(1);
+          user.rally.should.eql(1);
+
+          bot.reply("user1", "Have you done it lately?", function(err, reply) {
+            bot.getUser("user1", function(e, user){
+              user.volley.should.eql(0);
+              user.rally.should.eql(0);
+              done();
+            });
+          });
+        });        
       });
     });
   });

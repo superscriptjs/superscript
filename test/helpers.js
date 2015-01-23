@@ -4,15 +4,12 @@ var fs = require("fs");
 var rmdir = require("rmdir");
 var async = require("async");
   
-var mongoDB, mongoose;
+var mongoDB, mongoose, cnet, data, botData;
+
 mongoose = require("mongoose");
-mongoDB = mongoose.connect("mongodb://localhost/userDB");
+cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 
-
-
-var cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
-
-var data = [
+data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
   // './test/fixtures/concepts/trigrams.tbl', 
   './test/fixtures/concepts/concepts.top',
@@ -21,23 +18,16 @@ var data = [
   './test/fixtures/concepts/opp.tbl'
 ];
 
-var botData = [
+botData = [
   './test/fixtures/concepts/botfacts.tbl',
   './test/fixtures/concepts/botown.tbl'
 ];
 
 exports.bootstrap = bootstrap = function(cb) {
-
   sfact.load(data, 'factsystem', function(err, facts){
     gFacts = facts;
     cb(null, facts);
   });
-}
-
-exports.softAfter = function(done) {
-  gFacts = null;
-  bot = null;
-  done();
 }
 
 exports.after = function(done) {
@@ -52,15 +42,17 @@ exports.after = function(done) {
     });
   }
 
-  // bot.facts.db.close(function(){
+  bot.factSystem.db.close(function(){
     // Kill the globals
     gFacts = null;
     bot = null;
     async.each(['./factsystem', './systemDB'], itor,  done);
+    delete mongoose.connection.models['User'];
+    mongoose.connection.models = {};
+
     mongoDB.connection.db.dropDatabase();
-    mongoDB.connection.close()
-    
-  // });  
+    mongoDB.connection.close();
+  });  
 }
 
 
@@ -93,6 +85,7 @@ exports.before = function(file) {
         var contents = fs.readFileSync('./test/fixtures/cache/'+ file +'.json', 'utf-8');
         var contents = JSON.parse(contents);
         
+        mongoDB = mongoose.connect("mongodb://localhost/userDB");
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
           options['mongoConnection'] = mongoDB;
