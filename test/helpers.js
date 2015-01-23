@@ -58,7 +58,7 @@ exports.after = function(done) {
     bot = null;
     async.each(['./factsystem', './systemDB'], itor,  done);
     mongoDB.connection.db.dropDatabase();
-    mongoose.connection.close()
+    mongoDB.connection.close()
     
   // });  
 }
