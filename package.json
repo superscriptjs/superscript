@@ -51,7 +51,8 @@
     "sfacts": "0.0.8",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "mkdirp": "^0.5.0"
   },
   "devDependencies": {
     "blanket": "~1.1.6",

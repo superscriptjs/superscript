@@ -50,8 +50,9 @@ exports.after = function(done) {
     delete mongoose.connection.models['User'];
     mongoose.connection.models = {};
 
-    mongoDB.connection.db.dropDatabase();
-    mongoDB.connection.close();
+    mongoDB.connection.db.dropDatabase(function(){
+      mongoDB.connection.close();  
+    });
   });  
 }
 
