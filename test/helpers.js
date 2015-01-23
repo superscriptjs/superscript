@@ -4,6 +4,12 @@ var fs = require("fs");
 var rmdir = require("rmdir");
 var async = require("async");
   
+var mongoDB, mongoose;
+mongoose = require("mongoose");
+mongoDB = mongoose.connect("mongodb://localhost/userDB");
+
+
+
 var cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 
 var data = [
@@ -21,6 +27,7 @@ var botData = [
 ];
 
 exports.bootstrap = bootstrap = function(cb) {
+
   sfact.load(data, 'factsystem', function(err, facts){
     gFacts = facts;
     cb(null, facts);
@@ -50,6 +57,7 @@ exports.after = function(done) {
     gFacts = null;
     bot = null;
     async.each(['./factsystem', './systemDB'], itor,  done);
+    mongoDB.connection.db.dropDatabase();
   // });  
 }
 
@@ -85,6 +93,7 @@ exports.before = function(file) {
         
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
+          options['mongoConnection'] = mongoDB;
           var sums = contents.checksums;
           var parse = require("../lib/parse")(facts);
           parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {

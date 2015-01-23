@@ -17,6 +17,7 @@ var Users = require("./lib/users");
 var getreply = require("./lib/getreply");
 var processTags = require("./lib/processtags");
 var Utils = require("./lib/utils");
+var mongoose = require('mongoose');
 
 function SuperScript(botScript, options, callback) {
 
@@ -50,17 +51,16 @@ function SuperScript(botScript, options, callback) {
   // We want a place to store bot related data
   this.memory = (options.botfacts) ? options.botfacts : this.factSystem.createUserDB("botfacts");
 
-  // Hard code these for now
-  // this.factSystem = facts.create("systemDB");
-
-
   this.scope = {};
   this.scope = _.extend(options.scope || {});
   this.scope.facts = this.factSystem;
   this.scope.topicSystem = this.topicSystem;
   this.scope.botfacts = this.memory;
 
-  this.users = new Users(this.factSystem);
+  var mongoConnection = (options.mongoConnection) 
+    ? options.mongoConnection 
+    : mongoose.connect('mongodb://localhost/userDB');
+  this.users = new Users(mongoConnection, this.factSystem);
 
   norm.loadData(function() {
     that.normalize = norm;
@@ -191,17 +191,6 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
   });
 }
 
-// SuperScript.prototype.userConnect = function(userId, callback) {
-//   debug("Connecting User", userId);
-//   return Users.connect(userId, this.facts, callback);
-// }
-
-// TODO: Revisit this.
-// SuperScript.prototype.userDisconnect = function(userId) {
-//   debug("userDisconnect User", userId);
-//   return Users.disconnect(userId);
-// }
-
 SuperScript.prototype.getUser = function(userId, cb) {
   debug("Fetching User", userId);
 
@@ -224,6 +213,18 @@ SuperScript.prototype.loadPlugins = function(path) {
 SuperScript.prototype.getTopics = function() {
   return this.topics;
 }
+
+
+// SuperScript.prototype.userConnect = function(userId, callback) {
+//   debug("Connecting User", userId);
+//   return Users.connect(userId, this.facts, callback);
+// }
+
+// TODO: Revisit this.
+// SuperScript.prototype.userDisconnect = function(userId) {
+//   debug("userDisconnect User", userId);
+//   return Users.disconnect(userId);
+// }
 
 var firstReplyTime = Utils.getRandomInt(3000, 10000);
 var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
