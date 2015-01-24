@@ -164,9 +164,7 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
     var prop = {
       currentTopic :'random', 
       status:0, 
-      conversation: 0, 
-      volley: 0, 
-      rally:0
+      conversation: 0, volley: 0, rally:0
     };
 
   this.users.findOrCreate(properties, prop, function(err, user, isNew){

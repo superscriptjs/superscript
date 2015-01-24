@@ -33,6 +33,10 @@
 + deep message loop
 - and back {@this is a bad idea}
 
+// Dummy entry
++ pass the cheese <name>
+- Thanks <cap1>
+
 
 // Redirect to a topic
 + ~emohello *

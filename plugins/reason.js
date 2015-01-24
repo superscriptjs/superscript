@@ -7,7 +7,7 @@ var moment = require("moment");
 var wd = require("../lib/wordnet"); 
 
 exports.hasName = function(bool, cb) {
-  this.user.get('name', function(e,name){
+  this.user.getVar('name', function(e,name){
     if (name !== null) {
       cb(null, (bool == "true") ? true : false)
     } else {
@@ -18,7 +18,7 @@ exports.hasName = function(bool, cb) {
 }
 
 exports.has = function(value, cb) {
-  this.user.get(value, function(e, uvar){
+  this.user.getVar(value, function(e, uvar){
     cb(null, (uvar === undefined) ? false : true);
   });
 }

@@ -47,11 +47,12 @@ exports.after = function(done) {
     gFacts = null;
     bot = null;
     async.each(['./factsystem', './systemDB'], itor,  done);
+    
     delete mongoose.connection.models['User'];
     mongoose.connection.models = {};
 
     mongoDB.connection.db.dropDatabase(function(){
-      mongoDB.connection.close();  
+      mongoose.connection.close();
     });
   });  
 }
@@ -66,7 +67,7 @@ exports.before = function(file) {
   }
 
   return function(done) {
-    
+    mongoDB = mongoose.connect("mongodb://localhost/userDB");
     fs.exists('./test/fixtures/cache/'+ file +'.json', function (exists) {
       if (!exists) {
         bootstrap(function(err, facts) {
@@ -86,7 +87,7 @@ exports.before = function(file) {
         var contents = fs.readFileSync('./test/fixtures/cache/'+ file +'.json', 'utf-8');
         var contents = JSON.parse(contents);
         
-        mongoDB = mongoose.connect("mongodb://localhost/userDB");
+        
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
           options['mongoConnection'] = mongoDB;
