@@ -68,6 +68,14 @@ describe('Super Script Style', function(){
       });
     });
 
+    it("should allow spaces at the end of replies", function(done){
+      bot.reply("user1", "spaced out", function(err, reply) {
+        reply.should.eql("note the space  ");
+        done();
+      });
+    });
+
+
     it("should removed bursted commas", function(done){
       bot.reply("user1", "John is older than Mary, and Mary is older than Sarah", function(err, reply) {
         reply.should.eql("Test eight should pass");

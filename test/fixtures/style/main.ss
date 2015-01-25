@@ -85,3 +85,9 @@
 
 + I ~like basketball
 - Wordnet test one
+
+
++ spaced out
+- note the space\s\s
+
+
