@@ -127,18 +127,33 @@ describe('Super Script Resoning Interface', function(){
   });
 
   describe('Create Facts', function(){
-    it("CF 1", function(done) {
-      bot.reply("cfuser1", " My friend Albert eats rocks", function(err, reply) {
 
-        bot.getUser("cfuser1", function(e, fact){
-          fact.memory.db.get({ subject: "albert"}, function(e,r){
-            r[0].predicate.should.eql("eats");
-            r[0].object.should.eql("rocks");
-            done();
-          });          
+
+    it.skip("CF -1", function(done) {
+
+      bot.reply("cfuser1", "make mad", function(err, reply) {
+        bot.reply("cfuser1", "look", function(err, reply) {
+          console.log(reply)
+          done();
         });
       });
     });
+
+
+    it("CF 0", function(done) {
+
+      bot.reply("cfuser1", "I'm hanging out with Heather.", function(err, reply) {
+        reply.should.eql("Who is Heather?");
+        
+        bot.reply("cfuser1", "Heather is my wife.", function(err, reply) {
+          bot.reply("cfuser1", "I'm hanging out with Heather.", function(err, reply) {
+            reply.should.eql("Thats cool");
+            done();
+          });
+        });
+      });
+    });
+
 
 
     // Bob isa brother

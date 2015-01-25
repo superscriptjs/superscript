@@ -1,3 +1,4 @@
+
 ?:NUM:expression *
 - ^evaluateExpression()
 
@@ -160,3 +161,15 @@
 - ^createUserFact(<cap1>,have,<cap3>)
 
 
++ * hanging out with <name>
+- {^known(true)} Thats cool
+- {^known(false)} Who is <cap1>?
+
+
+
++ make mad
+- ^save(bikerAngry, true)
+
++ look
+- {^hasItem(bikerAngry,true)} A big biker dude. He seems angry. Better check your wallet is safe.
+- {^hasItem(bikerAngry,false)} A big biker dude. He seems pretty chill. Maybe he knows where we are?
