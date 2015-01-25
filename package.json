@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
@@ -40,7 +40,7 @@
     "mongoose-findorcreate": "^0.1.2",
     "natural": "~0.2.0",
     "node-lemmer": "grachev/node-lemmer",
-    "node-normalizer": "0.0.9",
+    "node-normalizer": "0.0.10",
     "node-tense": "0.0.4",
     "pluralize": "0.0.9",
     "pos": "~0.1.5",
