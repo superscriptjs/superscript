@@ -69,14 +69,14 @@ var receiveData = function(slack, bot, data) {
           channel = slack.getChannelGroupOrDMByName(user.name);
           break;
         case "atReply": 
-          reply = "@" + user.name  + " " + reply;
+          reply = "@" + user.name  + " " + reply.string;
         case "public":
           channel = slack.getChannelGroupOrDMByID(messageData.channel);
           break
 
       }
       if (reply) {
-        channel.send(reply);
+        channel.send(reply.string);
       }
         
     });
