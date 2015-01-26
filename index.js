@@ -18,6 +18,7 @@ var getreply = require("./lib/getreply");
 var processTags = require("./lib/processtags");
 var Utils = require("./lib/utils");
 var mongoose = require('mongoose');
+var mergex = require('deepmerge');
 
 function SuperScript(botScript, options, callback) {
 
@@ -95,12 +96,23 @@ var messageItorHandle = function(user, system) {
       if (replyObj) {
         messageOptions['replyId'] = replyObj.id;  
         msgString = replyObj.string;
+      } else {
+        replyObj = {};
       }
-      
+
       new Message(msgString, messageOptions,  function(replyMessageObject) {
         user.updateHistory(msg, replyMessageObject);
+
+        // We send back a smaller message object to the clients.
+        var clientObject = {
+          createdAt : replyMessageObject.createdAt || new Date(),
+          string: replyMessageObject.raw || ""
+        };
+
+        var clientObject =  mergex(clientObject, replyObj.props || {});
+
         user.save(function(e,r,s){
-          return next(err, msgString);  
+          return next(err, clientObject);  
         });
       });
     });
@@ -179,7 +191,21 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
         } else {
           // TODO - We will want to add some smarts on putting multiple
           // lines back together - check for tail grammar or drop bits.
-          reply = messageArray.join(" ");
+          reply = messageArray[0];
+          var messageReplies = [];
+
+          debug("Array ", messageArray);
+          for (var i = 0; i < messageArray.length; i++) {
+            messageReplies.push(messageArray[i].string);
+
+            for (var prop in messageArray[i]) {
+              if (prop != "createdAt" && prop != "string") {
+                reply[prop] = messageArray[i][prop];
+              }
+            }
+          }
+
+          reply.string = messageReplies.join(" ");
         }
 
         debug("Update and Reply to user '" + user.id + "'", reply);

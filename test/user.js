@@ -17,7 +17,7 @@ describe.skip('Super Script User Presist', function(){
   describe('Should save users session', function(){
   
     it.skip("should save user session", function(done) {
-      bot.reply("iuser1", "Hello, my name is Rob.", function(err, reply) {
+      bot.reply.string("iuser1", "Hello, my name is Rob.", function(err, reply) {
         reply.should.eql("Nice to meet you Rob.");
         done()
       });
@@ -26,7 +26,7 @@ describe.skip('Super Script User Presist', function(){
     it.skip("it remember my name", function(done) {
       // Call startup again (same as before hook)
       bot.reply("iuser1", "Hello again.", function(err, reply) {
-        reply.should.eql("Hi Rob")
+        reply.string.should.eql("Hi Rob")
         done();
       });
 

@@ -10,9 +10,9 @@ describe('Super Script Continue System', function(){
 
     it("should continue", function(done) {
       bot.reply("user1", "i went to highschool", function(err, reply) {
-        reply.should.eql("did you finish ?");
+        reply.string.should.eql("did you finish ?");
         bot.reply("user1", "then what happened?", function(err, reply2) {
-          ["i went to university", "what was it like?"].should.containEql(reply2);
+          ["i went to university", "what was it like?"].should.containEql(reply2.string);
           done();
         });
       });
@@ -20,9 +20,9 @@ describe('Super Script Continue System', function(){
 
     it("should continue 2 - yes", function(done) {
       bot.reply("user1", "i like to travel", function(err, reply) {
-        reply.should.eql("have you been to Madird?");
+        reply.string.should.eql("have you been to Madird?");
         bot.reply("user1", "yes it is the capital of spain!", function(err, reply2) {
-          reply2.should.eql("Madird is amazing.");
+          reply2.string.should.eql("Madird is amazing.");
           done();
         });
       });
@@ -30,9 +30,9 @@ describe('Super Script Continue System', function(){
     
     it("should continue 3 - no", function(done) {
       bot.reply("user1", "i like to travel", function(err, reply) {
-        reply.should.eql("have you been to Madird?");
+        reply.string.should.eql("have you been to Madird?");
         bot.reply("user1", "never", function(err, reply2) {
-          reply2.should.eql("Madird is my favorite city.");
+          reply2.string.should.eql("Madird is my favorite city.");
           done();
         });
       });
@@ -41,7 +41,7 @@ describe('Super Script Continue System', function(){
     it("should continue 4 - A", function(done) {
       bot.reply("user1", "something random", function(err, reply) {
         bot.reply("user1", "red", function(err, reply2) {
-          reply2.should.eql("red is mine too.");
+          reply2.string.should.eql("red is mine too.");
           done();
         });
       });
@@ -50,7 +50,7 @@ describe('Super Script Continue System', function(){
     it("should continue 4 - B", function(done) {
       bot.reply("user1", "something random", function(err, reply) {
         bot.reply("user1", "blue", function(err, reply2) {
-          reply2.should.eql("I hate that color.");
+          reply2.string.should.eql("I hate that color.");
           done();
         });
       });

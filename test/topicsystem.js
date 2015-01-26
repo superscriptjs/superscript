@@ -3,14 +3,14 @@ var should  = require("should");
 var help = require("./helpers");
 
 // Testing topics that include and mixin other topics.
-describe('SuperScript TopicsSystem', function(){
+describe.only('SuperScript TopicsSystem', function(){
 
   before(help.before("topicsystem"));
 
   describe('TopicSystem', function() {
     it("Should skip empty replies until it finds a match", function(done){
       bot.reply("testing topic system", function(err, reply){
-        ["we like it","i hate it"].should.containEql(reply);
+        ["we like it","i hate it"].should.containEql(reply.string);
         done();
       });
     });
@@ -23,14 +23,14 @@ describe('SuperScript TopicsSystem', function(){
 
       // Now lets try to match!
       bot.reply("do you like food", function(err, reply){
-        reply.should.containEql("Yes, Turkey is my favourite.");
+        reply.string.should.containEql("Yes, Turkey is my favourite.");
 
         // Add another reply
         trigger.addReply("I like food");
         // We can add a reply to a trigger too.
         // The first one should already be gone, so this one will fire next.
         bot.reply("do you like food", function(err, reply){
-          reply.should.containEql("I like food");
+          reply.string.should.containEql("I like food");
           done();
         });
       });
@@ -41,10 +41,10 @@ describe('SuperScript TopicsSystem', function(){
   describe('TopicDiscovery', function() {
     it("Should find the right topic", function(done){
       bot.reply("i like to hunt", function(err, reply){
-        reply.should.containEql("i like to spend time outdoors");
+        reply.string.should.containEql("i like to spend time outdoors");
 
         bot.reply("i like to fish", function(err, reply){
-          reply.should.containEql("me too");
+          reply.string.should.containEql("me too");
           done();
         });
 

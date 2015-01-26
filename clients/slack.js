@@ -84,8 +84,8 @@ var receiveData = function(slack, bot, data) {
   } else if (messageData.channel[0] == "D") {
     bot.reply(user.name, message, function(err, reply){
       channel = slack.getChannelGroupOrDMByName(user.name);
-      if (reply) {
-        channel.send(reply);
+      if (reply.string) {
+        channel.send(reply.string);
       }
     });
   } else {

@@ -26,7 +26,7 @@ var botHandle = function(err, bot) {
       var i = sockets.indexOf(socket);
       var soc = sockets[i];
 
-      soc.write("\nBot> " + reply + "\n");
+      soc.write("\nBot> " + reply.string + "\n");
       soc.write("You> ");
 
     });

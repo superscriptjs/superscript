@@ -9,28 +9,28 @@ describe('SuperScript substitution Interface', function(){
   describe('Message Subs', function(){
     it("name subsitution", function(done) {
       bot.reply("user1", "Rob is here", function(err, reply) {
-        reply.should.eql("hi Rob");
+        reply.string.should.eql("hi Rob");
         done();
       });
     });
 
     it("name subsitution - 2", function(done) {
       bot.reply("user1", "Rob is taller than Heather", function(err, reply) {
-        reply.should.eql("Heather is shorter than Rob");
+        reply.string.should.eql("Heather is shorter than Rob");
         done();
       });
     });
 
     it("name subsitution - 3", function(done) {
       bot.reply("user1", "Rob Ellis is taller than Heather Allen", function(err, reply) {
-        reply.should.eql("Heather Allen is shorter than Rob Ellis");
+        reply.string.should.eql("Heather Allen is shorter than Rob Ellis");
         done();
       });
     });
 
     it("name subsitution - 4", function(done) {
       bot.reply("user1", "Rob is taller than Rob", function(err, reply) {
-        reply.should.eql("");
+        reply.string.should.eql("");
         done();
       });
     });
@@ -38,7 +38,7 @@ describe('SuperScript substitution Interface', function(){
 
     it("verb pronoun noun subsitution ", function(done) {
       bot.reply("user1", "She ran to Vancouver", function(err, reply) {
-        reply.should.eql("okay");
+        reply.string.should.eql("okay");
         done();
       });
     });

@@ -160,6 +160,16 @@
 	+ ^not(filter|filterx) trigger *1 function
 	- trigger filter reply
 
++ can you smile
+- ^addMessageProp(emoji,smile) Sure can.
+
+
++ property 1
+- ^addMessageProp(p1, foo) buz
+
++ property 2
+- ^addMessageProp(p2, bar) baz
+
 < topic
 
 > topic fish

@@ -10,21 +10,21 @@ describe('Super Script Topic Hooks', function(){
   describe('Pre/Post Topic Hooks', function() {
     it("pre topic should be called", function(done) {
       bot.reply("user1", "pre hook", function(err, reply) {
-        reply.should.eql("yep pre hook");
+        reply.string.should.eql("yep pre hook");
         done();
       });
     });
 
     it("post topic should be called", function(done) {
       bot.reply("user1", "post hook", function(err, reply) {
-        reply.should.eql("yep post hook");
+        reply.string.should.eql("yep post hook");
         done();
       });
     });
 
     it("normal topic should be called", function(done) {
       bot.reply("user1", "this is random", function(err, reply) {
-        reply.should.eql("we are in random");
+        reply.string.should.eql("we are in random");
         done();
       });
     });
