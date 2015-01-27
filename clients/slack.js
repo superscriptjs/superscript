@@ -1,5 +1,4 @@
 
-
 // Auth Token - You can generate your token from 
 // https://<slack_name>.slack.com/services/new/bot
 var token = "...";
@@ -54,7 +53,12 @@ var receiveData = function(slack, bot, data) {
   var user = data._client.users[data.user];
   var channel;
   var messageData = data.toJSON();
-  var message = "" + messageData.text.trim();
+  var message = "";
+
+  if (messageData && messageData.text) {
+    message = "" + messageData.text.trim();
+  }
+  
   
   var match = message.match(atReplyRE)
   
