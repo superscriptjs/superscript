@@ -47,14 +47,17 @@ exports.after = function(done) {
     // Kill the globals
     gFacts = null;
     bot = null;
-    async.each(['./factsystem', './systemDB'], itor,  done);
-    
-    delete mongoose.connection.models['User'];
-    mongoose.connection.models = {};
+    async.each(['./factsystem', './systemDB'], itor, function(){
 
-    mongoDB.connection.db.dropDatabase(function(){
-      mongoose.connection.close();
+      delete mongoose.connection.models['User'];
+      mongoose.connection.models = {};
+
+      mongoDB.connection.db.dropDatabase(function(){
+        mongoose.connection.close();
+        done();
+      });
     });
+
   });  
 }
 
@@ -69,12 +72,14 @@ exports.before = function(file) {
 
   return function(done) {
     mongoDB = mongoose.connect("mongodb://localhost/userDB");
+
     fs.exists('./test/fixtures/cache/'+ file +'.json', function (exists) {
       if (!exists) {
         bootstrap(function(err, facts) {
           var parse = require("../lib/parse")(facts);
           parse.loadDirectory('./test/fixtures/' + file, function(err, result) {
             options['factSystem'] = facts;
+            options['mongoConnection'] = mongoDB;
             fs.writeFile('./test/fixtures/cache/'+ file +'.json', JSON.stringify(result), function (err) {
               new script('./test/fixtures/cache/'+ file +'.json', options, function(err, botx) {
                 bot = botx;

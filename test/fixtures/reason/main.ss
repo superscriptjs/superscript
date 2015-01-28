@@ -1,3 +1,10 @@
+> pre
+
++ *
+- ^resolvePronouns()
+
+< pre
+
 
 ?:NUM:expression *
 - ^evaluateExpression()
@@ -173,3 +180,7 @@
 + look
 - {^hasItem(bikerAngry,true)} A big biker dude. He seems angry. Better check your wallet is safe.
 - {^hasItem(bikerAngry,false)} A big biker dude. He seems pretty chill. Maybe he knows where we are?
+
+
+? who is she
+- I'm not sure

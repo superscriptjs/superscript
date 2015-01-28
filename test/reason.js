@@ -514,6 +514,15 @@ describe('Super Script Resoning Interface', function(){
 
   describe("Reason 3 - Auto Reply", function(){
 
+    // it.only("should handle pronoun subsitution", function(done) {
+    //   bot.reply("user1", "My oldest daughter is 11", function(err, reply) {
+    //     bot.reply("user1", "How old is she?", function(err, reply) {
+    //       console.log(reply.string);
+    //       done();
+    //     });
+    //   });
+    // });
+
     // Money
     it("should analize and reply", function(done) {
       bot.reply("user1", "A loaf of bread cost 4.50 now.", function(err, reply) {
