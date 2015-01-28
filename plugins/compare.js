@@ -100,11 +100,11 @@ exports.resolveAdjective = function(cb) {
   if (candidates) {
     var prevMessage = candidates[0];
 
-    if (prevMessage.names.length === 1) {
+    if (prevMessage && prevMessage.names.length === 1) {
 
       cb(null, "It is " + prevMessage.names[0] + ".");
 
-    } else if (prevMessage.names.length > 1) {
+    } else if (prevMessage && prevMessage.names.length > 1) {
     
       // This could be:
       // Jane is older than Janet. Who is the youngest?
