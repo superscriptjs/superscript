@@ -281,6 +281,18 @@ describe.only('SuperScript Scripting Interface', function(){
       });
     });
 
+    // To match lemma version of wordnet expanded terms, make sure the whole line is lemmed.
+    it("should match both text and lemma", function(done) {
+      bot.reply("user1", "My brother is fat", function(err, reply) {
+        reply.string.should.eql("Ouch");
+        bot.reply("user1", "My brothers is fat", function(err, reply) {
+          reply.string.should.eql("Ouch");
+          done();
+        });
+
+      });
+    });
+
   });
 
   describe('Replies can have Optionals too!', function(){

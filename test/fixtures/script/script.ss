@@ -128,6 +128,8 @@
 	+ I love ~SPORTS_BALL *
 	- {keep} Term expanded
 
+	+ my ~family_members be fat
+	- {keep} Ouch
 
 	+ what is one plus one
 	- It is two.

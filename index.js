@@ -183,10 +183,12 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
 
     messageFactory(msg, that.question, that.normalize, that.factSystem, function(messages) {
       async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
-        var reply = "";
+        var reply = {};
         messageArray = Utils.cleanArray(messageArray);
         
-        if (messageArray.length == 1) {
+        if (_.isEmpty(messageArray)) {
+          reply.string = "";
+        } else if (messageArray.length == 1) {
           reply = messageArray[0];
         } else {
           // TODO - We will want to add some smarts on putting multiple
@@ -195,6 +197,7 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
           var messageReplies = [];
 
           debug("Array ", messageArray);
+          
           for (var i = 0; i < messageArray.length; i++) {
             messageReplies.push(messageArray[i].string);
 

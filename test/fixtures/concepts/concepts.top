@@ -143,10 +143,9 @@ watchet )
 concept: ~blue_other ADJECTIVE ADJECTIVE_NORMAL   (aquamarine cobalt peacock periwinkle sapphire sky steel )
 concept: ~board_games NOUN NOUN_SINGULAR(backgammon board_game~1 checkers chess Clue D_and_D dice dominoes Dungeons_and_Dragons mahjong Monopoly Pente Risk Scrabble shogi Stratego Sudoku tic-tac-toe 
 tic_tac_toe tiddlywinks )
-concept: ~bodily_states (asleep awake chastity conscious dead dehydration doziness hunger lassitude obesity relaxation relaxed starvation tense tension thirst unconscious
-  ache  content contentment   pain~n  thirst   blind bloated  chill chilly cold comfort   cool cough deaf  dozy famished fever feverish  
-heat heavy  hot hunger  hungry  irritate itch itchy   pain painful parched pleasure quiet satiated sensation sex-deprived sex-starved horny sexy shock 
-sleepiness sleepy smell smelly sniff stink stinky starve stifling stuffed stun suffer sweaty sweating sweet taste thirst thirsty tired warm warmth)
+
+concept: ~bodily_states (asleep awake chastity conscious dead dehydration doziness hunger lassitude obesity relaxation relaxed starvation tense tension thirst unconscious ache  content contentment   pain~n  thirst   blind bloated  chill chilly cold comfort   cool cough deaf  dozy famished fever feverish heat heavy  hot hunger  hungry  irritate itch itchy   pain painful parched pleasure quiet satiated sensation sex-deprived sex-starved horny sexy shock sleepiness sleepy smell smelly sniff stink stinky starve stifling stuffed stun suffer sweaty sweating sweet taste thirst thirsty tired warm warmth)
+
 concept: ~bodyarmor NOUN NOUN_SINGULAR(armor armour battledress breastplate bullet_proof_vest chain_mail cuirass helmet jousting_mail kevlar kevlar_jacket kevlar_vest linothorax shield )
 concept: ~bodyparts (~BASEORGANS ~BLEMISHMARK ~EXTREMITIES ~HEADPART  ~TORSO )
 concept: ~bone (bone carpus coccyx cranium femur fibula humerus metatarsus patella phalanges pubis radius rib sacrum sternum tarsus tibia ulna )
@@ -1041,8 +1040,9 @@ concept: ~supports (~FURNITURE )
 concept: ~surface_furniture (~HUMAN_SURFACE ~OBJECT_SURFACE )
 concept: ~surfaces (blackboard book chalkboard paper parking_space photo_album pillow plate saucer surface toilet_paper tray umbrella video videotape whiteboard )
 concept: ~switchable (~ELECTRONIC_ITEMS )
-concept: ~symptom (a_rash a_temperature ache achy anxiety awful bellyache cold~a cough crummy diarrhea dizzy faint fatigue feel_sick fever flu headache hives ill illness insomnia itch laryngitis nausea nauseous numb numbness pain phlegm queasy rotten runny_nose sick sickness sneeze sniffle sore sore_throat stomach_ache stomachache tingle tired tummy_ache upset_stomach 
-vomit)
+
+concept: ~symptom (a_rash a_temperature ache achy anxiety awful bellyache cold~a cough crummy diarrhea dizzy faint fatigue feel_sick fever flu headache hives ill illness insomnia itch laryngitis nausea nauseous numb numbness pain phlegm queasy rotten runny_nose sick sickness sneeze sniffle sore sore_throat stomach_ache stomachache tingle tired tummy_ache upset_stomach vomit)
+
 concept: ~system_independent_marker (furthermore however moreover nevertheless therefore )
 concept: ~system_joiner (, and but nor or yet )
 concept: ~taxi (ride taxi transport travel )
