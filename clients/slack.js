@@ -65,6 +65,11 @@ var receiveData = function(slack, bot, data) {
   // Are they talking to us?
   if (match && match[1] === slack.self.id) {
 
+    message = message.replace(atReplyRE, '').trim();
+    if (message[0] == ':') {
+        message = message.substring(1).trim();
+    }
+
     bot.reply(user.name, message, function(err, reply){
       // We reply back direcly to the user
 
@@ -73,13 +78,15 @@ var receiveData = function(slack, bot, data) {
           channel = slack.getChannelGroupOrDMByName(user.name);
           break;
         case "atReply": 
-          reply = "@" + user.name  + " " + reply.string;
+          reply.string = "@" + user.name  + " " + reply.string;
+          channel = slack.getChannelGroupOrDMByID(messageData.channel);
+          break;
         case "public":
           channel = slack.getChannelGroupOrDMByID(messageData.channel);
           break
 
       }
-      if (reply) {
+      if (reply.string) {
         channel.send(reply.string);
       }
         
