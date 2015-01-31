@@ -76,7 +76,7 @@ exports.before = function(file) {
     fs.exists('./test/fixtures/cache/'+ file +'.json', function (exists) {
       if (!exists) {
         bootstrap(function(err, facts) {
-          var parse = require("../lib/parse")(facts);
+          var parse = require("../lib/parse/")(facts);
           parse.loadDirectory('./test/fixtures/' + file, function(err, result) {
             options['factSystem'] = facts;
             options['mongoConnection'] = mongoDB;
@@ -98,7 +98,7 @@ exports.before = function(file) {
           options['factSystem'] = facts;
           options['mongoConnection'] = mongoDB;
           var sums = contents.checksums;
-          var parse = require("../lib/parse")(facts);
+          var parse = require("../lib/parse/")(facts);
           parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
 
             parse.merge(contents, result, function(err, results) {
