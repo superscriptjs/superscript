@@ -6,9 +6,9 @@ var async = require("async");
 describe('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
-  describe('Simple star Interface *', function(){
+  describe.only('Simple star Interface *', function(){
 
-    it.only("should reply to simple string", function(done) {
+    it("should reply to simple string", function(done) {
       bot.reply("user1", "This is a test", function(err, reply) {
         reply.string.should.eql("Test should pass one");
         done();
