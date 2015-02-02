@@ -510,8 +510,10 @@ describe.only('SuperScript Scripting Interface', function(){
 
   describe('Should parse subfolder', function(){
     it("Item in folder should exist", function(done) {
-      bot.topicSystem.findTopicByName('suba').should.not.be.false;
-      done();
+      bot.topicSystem.topic.findOne({name:'suba'}, function(e,res){
+        res.should.not.be.false;
+        done();
+      });
     });
   });
 
