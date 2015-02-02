@@ -11,6 +11,8 @@ var debug = require("debug")("Script");
 var dWarn = require("debug")("Script:Warning");
 var facts = require("sfacts");
 
+var TopicsSystem = require("./lib/topics/index");
+
 var Topics = require("./lib/topics");
 var Message = require("./lib/message");
 var Users = require("./lib/users");
@@ -21,34 +23,40 @@ var mongoose = require('mongoose');
 var mergex = require('deepmerge');
 
 function SuperScript(botScript, options, callback) {
+  EventEmitter.call(this);
 
+  var that = this;
+  options = options || {};
+  
   if (!botScript) {
     dWarn("No Script file found");
     throw new Error("No Script file found");
   }
 
-  EventEmitter.call(this);
+  // You are history.  
+  var data = JSON.parse(fs.readFileSync(botScript, 'utf8'));
 
-  var that = this;
-  options = options || {};
+  // Create a new connection if non is provided.
+  var mongoConnection = (options.mongoConnection) 
+    ? options.mongoConnection 
+    : mongoose.connect('mongodb://localhost/superscriptDB');
 
   this._plugins = [];
-
   this.normalize = null;
   this.question  = null;
-
-  // this.intervalId = setInterval(this.check.bind(this), 500);
 
   Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
-  
-  var data = JSON.parse(fs.readFileSync(botScript, 'utf8'));
+  // this.intervalId = setInterval(this.check.bind(this), 500);
 
   // New Topic System
-  this.topicSystem = new Topics(data);
-  this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
+  // this.topicSystem = new Topics(data);
   
+  this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
+  this.topicSystem = TopicsSystem(this.factSystem);
+  
+
   // We want a place to store bot related data
   this.memory = (options.botfacts) ? options.botfacts : this.factSystem.createUserDB("botfacts");
 
@@ -58,9 +66,6 @@ function SuperScript(botScript, options, callback) {
   this.scope.topicSystem = this.topicSystem;
   this.scope.botfacts = this.memory;
 
-  var mongoConnection = (options.mongoConnection) 
-    ? options.mongoConnection 
-    : mongoose.connect('mongodb://localhost/userDB');
   this.users = new Users(mongoConnection, this.factSystem);
 
   norm.loadData(function() {
