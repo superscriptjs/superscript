@@ -27,11 +27,6 @@ Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how t
 * [Full Documentation](http://superscriptjs.com/documentation/scripting)
 * Follow [@rob_ellis](https://twitter.com/rob_ellis)
 
-## Bugs (Known issues)
-
-* Still Alpha, everything is unstable.
-* Report them. Provide a failing test please.
-
 ## Thanks
 
 SuperScript is based off of a fork of RiveScript with idiom brought in from ChatScript. Without the work of Noah Petherbridge and Bruce Wilcox, this project would not be possible. 
@@ -40,4 +35,4 @@ SuperScript is based off of a fork of RiveScript with idiom brought in from Chat
 
 [The MIT License (MIT)](LICENSE.md)
 
-Copyright © 2014 Rob Ellis
+Copyright © 2014-2015 Rob Ellis
