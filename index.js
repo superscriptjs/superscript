@@ -196,6 +196,7 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
         } else if (messageArray.length == 1) {
           reply = messageArray[0];
         } else {
+
           // TODO - We will want to add some smarts on putting multiple
           // lines back together - check for tail grammar or drop bits.
           reply = messageArray[0];
@@ -204,7 +205,10 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
           debug("Array ", messageArray);
           
           for (var i = 0; i < messageArray.length; i++) {
-            messageReplies.push(messageArray[i].string);
+            if (messageArray[i].string != "") {
+              messageReplies.push(messageArray[i].string);
+            }
+              
 
             for (var prop in messageArray[i]) {
               if (prop != "createdAt" && prop != "string") {

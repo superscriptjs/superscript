@@ -8,7 +8,7 @@ describe('Super Script Continue System', function(){
 
   describe('Match and continue', function(){
 
-    it("should continue", function(done) {
+    it.only("should continue", function(done) {
       bot.reply("user1", "i went to highschool", function(err, reply) {
         reply.string.should.eql("did you finish ?");
         bot.reply("user1", "then what happened?", function(err, reply2) {
