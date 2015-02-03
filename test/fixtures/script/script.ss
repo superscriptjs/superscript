@@ -13,9 +13,9 @@
 
 	// Test single and double star
 	+ Should match single *
-	- pass 1
-	- pass 2
-	- pass 3
+	- {keep} pass 1
+	- {keep} pass 2
+	- {keep} pass 3
 
 	/*
 		Variable length Star
