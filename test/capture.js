@@ -2,7 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe('Super Script Capture System', function(){
+describe.only('Super Script Capture System', function(){
 
   before(help.before("capture"));
 

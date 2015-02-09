@@ -30,14 +30,14 @@ exports.bootstrap = bootstrap = function(cb) {
   });
 }
 
-exports.after = function(done) {
+exports.after = function(end) {
 
-  var itor = function(item, cb) {
+  var itor = function(item, next) {
     fs.exists(item, function (exists) {
       if (exists) { 
-        rmdir(item, cb); 
+        rmdir(item, next); 
       } else {
-        cb();
+        next();
       }
     });
   }
@@ -51,11 +51,12 @@ exports.after = function(done) {
       delete mongoose.connection.models['Gambit'];
       delete mongoose.connection.models['User'];
       mongoose.connection.models = {};
-
-      mongoDB.connection.db.dropDatabase(function(){
-        mongoose.connection.close();
-        done();
-      });
+      mongoose.connection.db.dropDatabase();
+      end();
+      // mongoDB.connection.db.dropDatabase(function(){
+      //   mongoose.connection.close();
+      //   end();
+      // });
     });
   });  
 }
