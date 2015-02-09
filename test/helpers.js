@@ -60,11 +60,10 @@ exports.after = function(done) {
   });  
 }
 
-var TopicSystem = require("../lib/topics/index"); 
-
 var imortFilePath = function(path, facts, callback) {
-  var importFile = TopicSystem(facts).importer;
-  importFile(path, callback);    
+  mongoose.connect('mongodb://localhost/superscriptDB');
+  var TopicSystem = require("../lib/topics/index")(mongoose, facts); 
+  TopicSystem.importer(path, callback);    
 }
 
 exports.before = function(file) {
@@ -76,7 +75,6 @@ exports.before = function(file) {
   }
 
   return function(done) {
-    mongoDB = mongoose.connect("mongodb://localhost/superscriptDB");
 
     var fileCache = './test/fixtures/cache/'+ file +'.json';
     fs.exists(fileCache, function (exists) {
@@ -86,12 +84,11 @@ exports.before = function(file) {
           var parse = require("../lib/parse/")(facts);
           parse.loadDirectory('./test/fixtures/' + file, function(err, result) {
             options['factSystem'] = facts;
-            // options['mongoConnection'] = mongoDB;
+            options['mongoose'] = mongoose;
             fs.writeFile(fileCache, JSON.stringify(result), function (err) {
-
               // Load the topic file into the MongoDB
               imortFilePath(fileCache, facts, function() {
-                new script(fileCache, options, function(err, botx) {
+                new script(options, function(err, botx) {
                   bot = botx;
                   done();
                 });
@@ -107,7 +104,7 @@ exports.before = function(file) {
         
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
-          options['mongoConnection'] = mongoDB;
+          options['mongoose'] = mongoose;
 
           var sums = contents.checksums;
           var parse = require("../lib/parse/")(facts);
@@ -119,7 +116,7 @@ exports.before = function(file) {
                   options['botfacts'] = botfacts;
                   bot = null;
                   imortFilePath(fileCache, facts, function() {
-                    new script(fileCache, options, function(err, botx) {
+                    new script(options, function(err, botx) {
                       bot = botx;
                       done();
                     }); // new bot

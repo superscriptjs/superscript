@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "WNdb": "~3.1.1",
-    "async": "~0.7.0",
+    "async": "^0.7.0",
     "async-replace": "0.0.2",
     "checksum": "^0.1.1",
     "commander": "^2.4.0",

@@ -19,27 +19,22 @@ var Users = require("./lib/users");
 var getreply = require("./lib/getreply");
 var processTags = require("./lib/processtags");
 var Utils = require("./lib/utils");
-var mongoose = require('mongoose');
+
 var mergex = require('deepmerge');
 
-function SuperScript(botScript, options, callback) {
+function SuperScript(options, callback) {
   EventEmitter.call(this);
-
+  var mongoose;
   var that = this;
   options = options || {};
   
-  if (!botScript) {
-    dWarn("No Script file found");
-    throw new Error("No Script file found");
-  }
-
-  // You are history.  
-  var data = JSON.parse(fs.readFileSync(botScript, 'utf8'));
-
   // Create a new connection if non is provided.
-  var mongoConnection = (options.mongoConnection) 
-    ? options.mongoConnection 
-    : mongoose.connect('mongodb://localhost/superscriptDB');
+  if (options.mongoose) {
+    mongoose = options.mongoose;
+  } else {
+    mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/superscriptDB');
+  }
 
   this._plugins = [];
   this.normalize = null;
@@ -54,7 +49,7 @@ function SuperScript(botScript, options, callback) {
   // this.topicSystem = new Topics(data);
   
   this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
-  this.topicSystem = TopicsSystem(this.factSystem);
+  this.topicSystem = TopicsSystem(mongoose, this.factSystem);
   
 
   // We want a place to store bot related data
@@ -66,7 +61,7 @@ function SuperScript(botScript, options, callback) {
   this.scope.topicSystem = this.topicSystem;
   this.scope.botfacts = this.memory;
 
-  this.users = new Users(mongoConnection, this.factSystem);
+  this.users = new Users(mongoose, this.factSystem);
 
   norm.loadData(function() {
     that.normalize = norm;
