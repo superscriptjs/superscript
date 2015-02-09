@@ -8,7 +8,7 @@ describe('SuperScript Scripting Interface', function(){
 
   describe('Simple star Interface *', function(){
 
-    it("should reply to simple string", function(done) {
+    it.only("should reply to simple string", function(done) {
       bot.reply("user1", "This is a test", function(err, reply) {
         reply.string.should.eql("Test should pass one");
         done();
@@ -368,9 +368,7 @@ describe('SuperScript Scripting Interface', function(){
         });
       });
     });
-
   });
-
 
   describe('Custom functions 2 - plugin related', function(){
     it("Alpha Length 1", function(done) {

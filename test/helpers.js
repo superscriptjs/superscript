@@ -83,6 +83,7 @@ exports.before = function(file) {
           parse.loadDirectory('./test/fixtures/' + file, function(err, result) {
             options['factSystem'] = facts;
             options['mongoose'] = mongoose;
+
             fs.writeFile(fileCache, JSON.stringify(result), function (err) {
               // Load the topic file into the MongoDB
               imortFilePath(fileCache, facts, function() {

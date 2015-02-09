@@ -50,7 +50,6 @@ function SuperScript(options, callback) {
   
   this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
   this.topicSystem = TopicsSystem(mongoose, this.factSystem);
-  
 
   // We want a place to store bot related data
   this.memory = (options.botfacts) ? options.botfacts : this.factSystem.createUserDB("botfacts");
