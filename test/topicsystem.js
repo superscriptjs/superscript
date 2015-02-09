@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 
 // Testing topics that include and mixin other topics.
-describe('SuperScript TopicsSystem', function(){
+describe.only('SuperScript TopicsSystem', function(){
 
   before(help.before("topicsystem"));
 

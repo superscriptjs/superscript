@@ -3,9 +3,10 @@ var sfact = require("sfacts");
 var fs = require("fs");
 var rmdir = require("rmdir");
 var async = require("async");
+var mongoose = require("mongoose");
   
-var mongoDB, mongoose, cnet, data, botData;
-mongoose = require("mongoose");
+var cnet, data, botData;
+
 cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 
 data = [
@@ -53,10 +54,6 @@ exports.after = function(end) {
       mongoose.connection.models = {};
       mongoose.connection.db.dropDatabase();
       end();
-      // mongoDB.connection.db.dropDatabase(function(){
-      //   mongoose.connection.close();
-      //   end();
-      // });
     });
   });  
 }
