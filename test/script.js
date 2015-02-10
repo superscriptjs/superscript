@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -524,6 +524,18 @@ describe('SuperScript Scripting Interface', function(){
     });
   });
 
+  describe('Filter on Replies', function(){
+    it("should save knowledge", function(done) {
+      bot.reply("r1user1", "okay my name is Adam.", function(err, reply) {
+        reply.string.should.containEql("Nice to meet you, Adam.");
+        bot.reply("r1user1", "okay my name is Adam.", function(err, reply1) {
+          reply1.string.should.containEql("I know, you already told me your name.");
+          done();
+        });
+      });
+    });
+  });
+
 
   describe('Augment reply Object', function(){
     it("Should have replyProp", function(done) {
@@ -542,7 +554,6 @@ describe('SuperScript Scripting Interface', function(){
         done();
       });
     });
-
   });
 
 
