@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe.only('SuperScript Scripting Interface', function(){
+describe('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -540,6 +540,7 @@ describe.only('SuperScript Scripting Interface', function(){
   describe('Augment reply Object', function(){
     it("Should have replyProp", function(done) {
       bot.reply("user1", "Can you smile?", function(err, reply) {
+        console.log(reply)
         reply.string.should.eql("Sure can.")
         reply.emoji.should.eql("smile");
         done();

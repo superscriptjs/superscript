@@ -105,7 +105,9 @@ var messageItorHandle = function(user, system) {
         // We send back a smaller message object to the clients.
         var clientObject = {
           createdAt : replyMessageObject.createdAt || new Date(),
-          string: replyMessageObject.raw || ""
+          string: replyMessageObject.raw || "",
+          triggerId: replyObj.triggerId,
+          topicName: replyObj.topicName
         };
 
         var clientObject =  mergex(clientObject, replyObj.props || {});
@@ -184,7 +186,7 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
       async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
         var reply = {};
         messageArray = Utils.cleanArray(messageArray);
-        
+
         if (_.isEmpty(messageArray)) {
           reply.string = "";
         } else if (messageArray.length == 1) {
@@ -195,20 +197,25 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
           // lines back together - check for tail grammar or drop bits.
           reply = messageArray[0];
           var messageReplies = [];
-
-          debug("Array ", messageArray);
-          
+          reply.parts = [];
           for (var i = 0; i < messageArray.length; i++) {
+             // reply.parts[i] = JSON.parse(JSON.stringify(messageArray[i]));
+             reply.parts[i] = {
+                string: messageArray[i].string,
+                triggerId: messageArray[i].triggerId,
+                topicName: messageArray[i].topicName
+              }
+
             if (messageArray[i].string != "") {
               messageReplies.push(messageArray[i].string);
             }
-              
-
+            
             for (var prop in messageArray[i]) {
               if (prop != "createdAt" && prop != "string") {
                 reply[prop] = messageArray[i][prop];
               }
             }
+
           }
 
           reply.string = messageReplies.join(" ");

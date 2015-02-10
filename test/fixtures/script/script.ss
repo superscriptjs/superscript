@@ -169,8 +169,6 @@
 + property 1
 - ^addMessageProp(p1, foo) buz
 
-+ property 2
-- ^addMessageProp(p2, bar) baz
 
 // Reply Filter functions
 + okay my name is <name>
@@ -184,6 +182,10 @@
 < topic
 
 > topic fish
+
+  + property 2
+  - ^addMessageProp(p2, bar) baz
+
 	+ I like fish
 	- me too
 < topic
