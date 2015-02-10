@@ -106,7 +106,7 @@ var messageItorHandle = function(user, system) {
         var clientObject = {
           createdAt : replyMessageObject.createdAt || new Date(),
           string: replyMessageObject.raw || "",
-          triggerId: replyObj.triggerId,
+          gambitId: replyObj.gambitId,
           topicName: replyObj.topicName
         };
 
@@ -249,6 +249,17 @@ SuperScript.prototype.loadPlugins = function(path) {
 
 SuperScript.prototype.getTopics = function() {
   return this.topics;
+}
+
+SuperScript.prototype.findOrCreateUser = function(userId, callback) {
+  var properties = { id: userId };
+  var prop = {
+    currentTopic :'random', 
+    status:0, 
+    conversation: 0, volley: 0, rally:0
+  };
+
+  this.users.findOrCreate(properties, prop, callback);
 }
 
 
