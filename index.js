@@ -84,7 +84,7 @@ var messageItorHandle = function(user, system) {
 
     getreply(options, function(err, replyObj) {
       // Convert the reply into a message object too.
-      
+    
       var msgString = "";
       var messageOptions = {
         qtypes: system.question,
@@ -104,7 +104,8 @@ var messageItorHandle = function(user, system) {
 
         // We send back a smaller message object to the clients.
         var clientObject = {
-          createdAt : replyMessageObject.createdAt || new Date(),
+          replyId: replyObj.replyId,
+          createdAt: replyMessageObject.createdAt || new Date(),
           string: replyMessageObject.raw || "",
           gambitId: replyObj.gambitId,
           topicName: replyObj.topicName
@@ -215,7 +216,6 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
                 reply[prop] = messageArray[i][prop];
               }
             }
-
           }
 
           reply.string = messageReplies.join(" ");
@@ -245,6 +245,10 @@ SuperScript.prototype.loadPlugins = function(path) {
       this._plugins[func] = plugins[file][func];
     }
   }
+}
+
+SuperScript.prototype.getPlugins = function() {
+  return this._plugins;
 }
 
 SuperScript.prototype.getTopics = function() {
