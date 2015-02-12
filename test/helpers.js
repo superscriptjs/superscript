@@ -12,7 +12,6 @@ cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
   // './test/fixtures/concepts/trigrams.tbl', 
-
   // './test/fixtures/concepts/concepts.top',
   // './test/fixtures/concepts/verb.top', 
   // './test/fixtures/concepts/color.tbl', 

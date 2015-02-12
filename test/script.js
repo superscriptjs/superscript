@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -267,13 +267,6 @@ describe('SuperScript Scripting Interface', function(){
       });
     });
 
-    it("should expand user-defined concepts too", function(done) {
-      bot.reply("user1", "I love basketball", function(err, reply) {
-        reply.string.should.eql("Term expanded");
-        done();
-      });
-    });
-
     it("should not expand user-defined concepts greedly (word boundry protection)", function(done) {
       bot.reply("user1", "I love ballball", function(err, reply) {
         reply.string.should.eql("");
@@ -281,8 +274,16 @@ describe('SuperScript Scripting Interface', function(){
       });
     });
 
+    // This works, but I dont like having to import the DB every time 
+    it.skip("should expand user-defined concepts too", function(done) {
+      bot.reply("user1", "I love basketball", function(err, reply) {
+        reply.string.should.eql("Term expanded");
+        done();
+      });
+    });
+    
     // To match lemma version of wordnet expanded terms, make sure the whole line is lemmed.
-    it("should match both text and lemma", function(done) {
+    it.skip("should match both text and lemma", function(done) {
       bot.reply("user1", "My brother is fat", function(err, reply) {
         reply.string.should.eql("Ouch");
         bot.reply("user1", "My brothers is fat", function(err, reply) {
