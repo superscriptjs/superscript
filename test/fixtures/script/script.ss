@@ -13,9 +13,9 @@
 
 	// Test single and double star
 	+ Should match single *
-	- pass 1
-	- pass 2
-	- pass 3
+	- {keep} pass 1
+	- {keep} pass 2
+	- {keep} pass 3
 
 	/*
 		Variable length Star
@@ -169,12 +169,23 @@
 + property 1
 - ^addMessageProp(p1, foo) buz
 
-+ property 2
-- ^addMessageProp(p2, bar) baz
+
+// Reply Filter functions
++ okay my name is <name>
+- {^hasName(false)} ^save(name,<cap1>) Nice to meet you, <cap1>.
+- {^hasName(true)} I know, you already told me your name.
+
+?:WH * your name
+- My name is Brit.
+
 
 < topic
 
 > topic fish
+
+  + property 2
+  - ^addMessageProp(p2, bar) baz
+
 	+ I like fish
 	- me too
 < topic

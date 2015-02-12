@@ -1,22 +1,19 @@
-var mocha = require("mocha");
-var should  = require("should");
+// var mocha = require("mocha");
+// var should  = require("should");
+// var mongoose = require("mongoose");
 
+// var importFile = require("../lib/topics/import")();
+// // mongoose.connect("mongodb://localhost/topicDB");
 
-var parse = require("../lib/parse")();
+// // This is to add some extra functionity to the parse engine.
+// describe('parse interface', function(){
 
-// This is to add some extra functionity to the parse engine.
-describe.only('parse interface', function(){
+//   it("should import file to topic Data", function(done){
+//     importFile('./test/fixtures/cache/script.json', function(err, res){
+      
+//       res.should.eql("done");
 
-  it("should parse single string", function(done){
-
-    // Lets take a random string and parse it.
-    var str = "? This be *~2 random <noun1> to say\n - Say it isn't so";
-    var topic = "random";
-
-    parse.parseContents(str, null, function(err, res){
-      console.log(JSON.stringify(res, null, 2));
-      done();
-    });
-
-  });
-});
+//       done();
+//     });
+//   });
+// });

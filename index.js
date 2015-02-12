@@ -11,44 +11,46 @@ var debug = require("debug")("Script");
 var dWarn = require("debug")("Script:Warning");
 var facts = require("sfacts");
 
+var TopicsSystem = require("./lib/topics/index");
+
 var Topics = require("./lib/topics");
 var Message = require("./lib/message");
 var Users = require("./lib/users");
 var getreply = require("./lib/getreply");
 var processTags = require("./lib/processtags");
 var Utils = require("./lib/utils");
-var mongoose = require('mongoose');
+
 var mergex = require('deepmerge');
 
-function SuperScript(botScript, options, callback) {
-
-  if (!botScript) {
-    dWarn("No Script file found");
-    throw new Error("No Script file found");
-  }
-
+function SuperScript(options, callback) {
   EventEmitter.call(this);
-
+  var mongoose;
   var that = this;
   options = options || {};
+  
+  // Create a new connection if non is provided.
+  if (options.mongoose) {
+    mongoose = options.mongoose;
+  } else {
+    mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/superscriptDB');
+  }
 
   this._plugins = [];
-
   this.normalize = null;
   this.question  = null;
-
-  // this.intervalId = setInterval(this.check.bind(this), 500);
 
   Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
-  
-  var data = JSON.parse(fs.readFileSync(botScript, 'utf8'));
+  // this.intervalId = setInterval(this.check.bind(this), 500);
 
   // New Topic System
-  this.topicSystem = new Topics(data);
-  this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
+  // this.topicSystem = new Topics(data);
   
+  this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
+  this.topicSystem = TopicsSystem(mongoose, this.factSystem);
+
   // We want a place to store bot related data
   this.memory = (options.botfacts) ? options.botfacts : this.factSystem.createUserDB("botfacts");
 
@@ -58,10 +60,7 @@ function SuperScript(botScript, options, callback) {
   this.scope.topicSystem = this.topicSystem;
   this.scope.botfacts = this.memory;
 
-  var mongoConnection = (options.mongoConnection) 
-    ? options.mongoConnection 
-    : mongoose.connect('mongodb://localhost/userDB');
-  this.users = new Users(mongoConnection, this.factSystem);
+  this.users = new Users(mongoose, this.factSystem);
 
   norm.loadData(function() {
     that.normalize = norm;
@@ -85,7 +84,7 @@ var messageItorHandle = function(user, system) {
 
     getreply(options, function(err, replyObj) {
       // Convert the reply into a message object too.
-      
+    
       var msgString = "";
       var messageOptions = {
         qtypes: system.question,
@@ -105,8 +104,11 @@ var messageItorHandle = function(user, system) {
 
         // We send back a smaller message object to the clients.
         var clientObject = {
-          createdAt : replyMessageObject.createdAt || new Date(),
-          string: replyMessageObject.raw || ""
+          replyId: replyObj.replyId,
+          createdAt: replyMessageObject.createdAt || new Date(),
+          string: replyMessageObject.raw || "",
+          gambitId: replyObj.gambitId,
+          topicName: replyObj.topicName
         };
 
         var clientObject =  mergex(clientObject, replyObj.props || {});
@@ -185,22 +187,30 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
       async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
         var reply = {};
         messageArray = Utils.cleanArray(messageArray);
-        
+
         if (_.isEmpty(messageArray)) {
           reply.string = "";
         } else if (messageArray.length == 1) {
           reply = messageArray[0];
         } else {
+
           // TODO - We will want to add some smarts on putting multiple
           // lines back together - check for tail grammar or drop bits.
           reply = messageArray[0];
           var messageReplies = [];
-
-          debug("Array ", messageArray);
-          
+          reply.parts = [];
           for (var i = 0; i < messageArray.length; i++) {
-            messageReplies.push(messageArray[i].string);
+             // reply.parts[i] = JSON.parse(JSON.stringify(messageArray[i]));
+             reply.parts[i] = {
+                string: messageArray[i].string,
+                triggerId: messageArray[i].triggerId,
+                topicName: messageArray[i].topicName
+              }
 
+            if (messageArray[i].string != "") {
+              messageReplies.push(messageArray[i].string);
+            }
+            
             for (var prop in messageArray[i]) {
               if (prop != "createdAt" && prop != "string") {
                 reply[prop] = messageArray[i][prop];
@@ -237,8 +247,23 @@ SuperScript.prototype.loadPlugins = function(path) {
   }
 }
 
+SuperScript.prototype.getPlugins = function() {
+  return this._plugins;
+}
+
 SuperScript.prototype.getTopics = function() {
   return this.topics;
+}
+
+SuperScript.prototype.findOrCreateUser = function(userId, callback) {
+  var properties = { id: userId };
+  var prop = {
+    currentTopic :'random', 
+    status:0, 
+    conversation: 0, volley: 0, rally:0
+  };
+
+  this.users.findOrCreate(properties, prop, callback);
 }
 
 
