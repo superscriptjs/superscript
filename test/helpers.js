@@ -7,7 +7,8 @@ var mongoose = require("mongoose");
   
 var cnet, data, botData;
 
-cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
+// This is used just for some tests in reason.
+// cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
 
 data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
