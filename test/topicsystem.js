@@ -16,7 +16,7 @@ describe('SuperScript TopicsSystem', function(){
     });
   });
 
-  describe.only('TopicDiscovery', function() {
+  describe('TopicDiscovery', function() {
     it("Should find the right topic", function(done){
       bot.reply("i like to hunt", function(err, reply){
         reply.string.should.containEql("i like to spend time outdoors");

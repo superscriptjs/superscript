@@ -40,10 +40,11 @@ describe('Super Script Topics', function(){
       });
     });
 
-    it("Go to hidden topic indirectly", function(done){
+    it.only("Go to hidden topic indirectly", function(done){
       bot.reply("user1", "why did you run", function(err, reply){
         // This really just makes sure the reply is not accesses directly
         reply.string.should.eql("to get away from someone");
+        reply.topicName.should.eql("system_why")
         done();
       });
     });
