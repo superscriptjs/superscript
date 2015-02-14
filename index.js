@@ -44,9 +44,6 @@ function SuperScript(options, callback) {
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
   // this.intervalId = setInterval(this.check.bind(this), 500);
-
-  // New Topic System
-  // this.topicSystem = new Topics(data);
   
   this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
   this.topicSystem = TopicsSystem(mongoose, this.factSystem);
@@ -68,6 +65,7 @@ function SuperScript(options, callback) {
       debug("Questions Loaded");
       that.question = question;
       debug("System Loaded, waiting for replies");
+
       callback(null, that);
     });
   });
@@ -148,6 +146,20 @@ var messageFactory = function(rawMsg, question, normalize, facts, cb) {
 }
 
 util.inherits(SuperScript, EventEmitter);
+
+SuperScript.prototype.message = function(msgString, callback) {
+
+  var messageOptions = {
+    qtypes: this.question, 
+    norm: this.normalize, 
+    facts: this.factSystem
+  };
+
+  new Message(msgString, messageOptions,  function(msgObj) {
+    callback(null, msgObj);
+  });
+}
+
 
 // Convert msg into message object, then check for a match
 SuperScript.prototype.reply = function(userId, msg, callback) {

@@ -43,19 +43,24 @@ exports.after = function(end) {
     });
   }
 
-  bot.factSystem.db.close(function(){
-    // Kill the globals
-    gFacts = null;
-    bot = null;
-    async.each(['./factsystem', './systemDB'], itor, function(){
-      delete mongoose.connection.models['Topic'];
-      delete mongoose.connection.models['Gambit'];
-      delete mongoose.connection.models['User'];
-      mongoose.connection.models = {};
-      mongoose.connection.db.dropDatabase();
-      end();
-    });
-  });  
+  if (bot) {
+    bot.factSystem.db.close(function(){
+      // Kill the globals
+      gFacts = null;
+      bot = null;
+      async.each(['./factsystem', './systemDB'], itor, function(){
+        delete mongoose.connection.models['Topic'];
+        delete mongoose.connection.models['Gambit'];
+        delete mongoose.connection.models['User'];
+        mongoose.connection.models = {};
+        mongoose.connection.db.dropDatabase();
+        end();
+      });
+    });     
+  } else {
+    console.log("No bot?!?")
+  }
+ 
 }
 
 var imortFilePath = function(path, facts, callback) {
