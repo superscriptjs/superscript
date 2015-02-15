@@ -2,9 +2,18 @@
 
 var net             = require("net");
 var superscript     = require("superscript");
+var mongoose        = require("mongoose");
+var facts           = require("sfacts");
+var factSystem      = facts.create('telnetFacts');
+mongoose.connect('mongodb://localhost/superscriptDB');
 
 var options = {};
 var sockets = [];
+
+var TopicSystem = require("superscriptlib/topics/index")(mongoose, factSystem);
+
+options['factSystem'] = factSystem;
+options['mongoose'] = mongoose;
 
 var botHandle = function(err, bot) {
     
@@ -79,6 +88,9 @@ var botHandle = function(err, bot) {
 // See superscript/bin/parse for information on how to do that.
 
 // Main entry point
-new superscript('./data.json', options, function(err, botInstance){
-  botHandle(null, botInstance);
+TopicSystem.importer('./data.json', function(){
+
+  new superscript(options, function(err, botInstance){
+    botHandle(null, botInstance);
+  });
 });

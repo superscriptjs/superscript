@@ -5,6 +5,8 @@ var token = "...";
 
 // This is the main Bot interface
 var superscript = require("superscript");
+var mongoose = require("mongoose");
+mongoose.connect('mongodb://localhost/superscriptDB');
 
 // slack-client provides auth and sugar around dealing with the RealTime API.
 var Slack = require("slack-client");
@@ -12,7 +14,7 @@ var Slack = require("slack-client");
 var debug = require('debug')("Slack Client");
 var facts = require("sfacts");
 var factSystem = facts.explore("botfacts");
-
+var TopicSystem = require("superscript/lib/topics/index")(mongoose, facts);
 
 // How should we reply to the user? 
 // direct - sents a DM
@@ -22,7 +24,8 @@ var replyType = "atReply";
 
 var atReplyRE = /<@(.*?)>/;
 var options = {};
-options.factSystem = factSystem;
+options['factSystem'] = factSystem;
+options['mongoose'] = mongoose;
 
 var slack = new Slack(token, true, true);
 
@@ -105,6 +108,8 @@ var receiveData = function(slack, bot, data) {
 }
 
 // Main entry point
-new superscript('./data.json', options, function(err, botInstance){
-  botHandle(null, botInstance);
+TopicSystem.importer('./data.json', function(){
+  new superscript(options, function(err, botInstance){
+    botHandle(null, botInstance);
+  });
 });
