@@ -58,7 +58,7 @@ exports.after = function(end) {
       });
     });     
   } else {
-    console.log("No bot?!?")
+    end();
   }
  
 }
