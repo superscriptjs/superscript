@@ -29,9 +29,9 @@
 	// Should match it foo hot out2
 	// Should match it hot out2
 	+ It is *~2 hot out 2
-	- pass 1
-	- pass 2
-	- pass 3
+	- {keep} pass 1
+	- {keep} pass 2
+	- {keep} pass 3
 
 
 	// Test 2 Star match 

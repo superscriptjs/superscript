@@ -4,7 +4,7 @@
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test -R spec -s 1700 -t 21000"
+    "test": "mocha test -R spec -s 1700 -t 30000"
   },
   "repository": {
     "type": "git",
