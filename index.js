@@ -48,6 +48,9 @@ function SuperScript(options, callback) {
   this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
   this.topicSystem = TopicsSystem(mongoose, this.factSystem);
 
+  // This is a kill switch for filterBySeen which is useless in the editor.
+  this.editMode = options.editMode || false;
+
   // We want a place to store bot related data
   this.memory = (options.botfacts) ? options.botfacts : this.factSystem.createUserDB("botfacts");
 
@@ -181,7 +184,8 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
     // Message 
     question: that.question, 
     normalize: that.normalize,
-    facts: that.factSystem
+    facts: that.factSystem,
+    editMode: that.editMode
   }
 
     var properties = { id: userId };
