@@ -62,10 +62,8 @@ function SuperScript(options, callback) {
   norm.loadData(function() {
     that.normalize = norm;
     new qtypes(function(question) {
-      debug("Questions Loaded");
       that.question = question;
       debug("System Loaded, waiting for replies");
-
       callback(null, that);
     });
   });
@@ -240,14 +238,6 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
   });
 }
 
-SuperScript.prototype.getUser = function(userId, cb) {
-  debug("Fetching User", userId);
-
-  this.users.findOne({id: userId}, function(err, usr){
-    cb(err, usr);
-  });
-}
-
 SuperScript.prototype.loadPlugins = function(path) {
   var plugins = requireDir(path);
 
@@ -265,6 +255,14 @@ SuperScript.prototype.getPlugins = function() {
 
 SuperScript.prototype.getTopics = function() {
   return this.topics;
+}
+
+SuperScript.prototype.getUser = function(userId, cb) {
+  debug("Fetching User", userId);
+
+  this.users.findOne({id: userId}, function(err, usr){
+    cb(err, usr);
+  });
 }
 
 SuperScript.prototype.findOrCreateUser = function(userId, callback) {

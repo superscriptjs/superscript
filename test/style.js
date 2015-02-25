@@ -15,7 +15,6 @@ describe('Super Script Style', function(){
     });
   });
 
-
   describe('Normalize Trigger', function(){
     it("should be expanded before trying to match", function(done){
       bot.reply("user1", "it is all good in the hood", function(err, reply) {
@@ -82,7 +81,6 @@ describe('Super Script Style', function(){
         done();
       });
     });
-
 
     it("should removed bursted commas 2", function(done){
       bot.reply("user1", "Is it morning, noon, or night?", function(err, reply) {

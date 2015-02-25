@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe.only('SuperScript Scripting Interface', function(){
+describe('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -557,6 +557,16 @@ describe.only('SuperScript Scripting Interface', function(){
     });
   });
 
+  describe.only('Create Gambit Helper', function(){
+
+    it("contains concept", function(done) {
+      bot.reply("user1", "my husband likes fish", function(err, reply) {
+        
+        done();
+      });
+    });
+
+  });
 
   after(help.after);
 
