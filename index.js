@@ -261,6 +261,10 @@ SuperScript.prototype.getTopics = function() {
   return this.topics;
 }
 
+SuperScript.prototype.getUsers = function(cb) {
+  this.users.find({}, 'id', cb);
+}
+
 SuperScript.prototype.getUser = function(userId, cb) {
   debug("Fetching User", userId);
 

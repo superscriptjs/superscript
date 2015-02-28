@@ -558,14 +558,11 @@ describe.only('SuperScript Scripting Interface', function(){
   });
 
   describe('Create Gambit Helper', function(){
-
     it("contains concept", function(done) {
-      bot.reply("user1", "my husband likes fish", function(err, reply) {
-        
+      bot.reply("user1", "my husband likes fish", function(err, reply) {        
         done();
       });
     });
-
   });
 
   after(help.after);

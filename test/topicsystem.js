@@ -16,6 +16,7 @@ describe('SuperScript TopicsSystem', function(){
     });
   });
 
+  // Test Single gambit 
   describe('Test Gambit', function() {
     // this is a testing input for the editor
     // We want a string in and false or matches out
@@ -29,7 +30,6 @@ describe('SuperScript TopicsSystem', function(){
         });        
       });
     });
-
 
     it("update gambit test", function(done){
       bot.topicSystem.gambit.findOrCreate({input:'this is a create test'}, function(er, gam){
@@ -52,6 +52,25 @@ describe('SuperScript TopicsSystem', function(){
       });
     });
 
+  });
+
+
+  // Test Entire topic for Match
+  describe('Test Topic', function() {
+    // this is a testing input for the editor
+    // We want a string in and false or matches out
+    it("Should try string agaist topic", function(done){
+      bot.message("I like to play outside", function(err, msg){
+        bot.topicSystem.topic.findOne({name:'outdoors'}, function(e,topic){
+          topic.doesMatch(msg, function(e,r){
+            r.should.not.be.empty;
+            r[0].input.should.containEql('I like to *');
+            done();              
+          })
+        });          
+      });
+      
+    });
   });
 
   describe('TopicDiscovery', function() {

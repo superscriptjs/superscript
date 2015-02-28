@@ -19,6 +19,9 @@
 	+ I like to *
 	- i like to spend time outdoors
 
+  + hiking is so much fun
+  - I like to hike too!
+
 < topic
 
 

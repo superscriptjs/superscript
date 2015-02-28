@@ -10,11 +10,22 @@ var help = require("./helpers");
 // In this suite, the after hook does not delete the DB
 // so that will have to be torn down manually.
 
-describe.skip('Super Script User Presist', function(){
+describe('Super Script User Presist', function(){
 
   before(help.before("user"));
 
-  describe('Should save users session', function(){
+  describe('Get a list of users', function(){
+    it("should return all users", function(done){
+      bot.reply("userx", "hello world", function(err, reply){
+        bot.getUsers(function(err, list){
+          list.should.not.be.empty;
+          done();
+        });        
+      });
+    });
+  });
+
+  describe.skip('Should save users session', function(){
   
     it.skip("should save user session", function(done) {
       bot.reply.string("iuser1", "Hello, my name is Rob.", function(err, reply) {
@@ -33,10 +44,7 @@ describe.skip('Super Script User Presist', function(){
     });
   });
 
-  after(function(done){
-    done();
-  });
+  after(help.after);
 
-  // after(help.after);
 
 });
