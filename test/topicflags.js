@@ -15,7 +15,7 @@ describe('Super Script Topics', function(){
 
         bot.topicSystem.topic.findPendingTopicsForUser(user, message, function(e,topics) {
           topics.should.not.be.empty;
-          topics.should.have.length(10)
+          topics.should.have.length(7)
           done();  
         });
       });
@@ -32,11 +32,8 @@ describe('Super Script Topics', function(){
   describe('Topics - System', function(){
     it("topic should have system flag", function(done){
       bot.reply("user1", "this is a system topic", function(err, reply){
-        bot.topicSystem.topic.findByName(reply.topicName, function(err, topic){
-          console.log(topic.system)
-          topic.system.should.be.true;
-          done();
-        });
+        reply.string.should.be.empty;
+        done();
       });
     });
 
