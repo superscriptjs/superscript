@@ -26,6 +26,17 @@
 - ^respond(system_recurr)
 
 
+// Testing sort
++ *
+- Catch all
+
++ this * catch some
+- Catch some
+
++ this * catch * more
+- Catch more
+
+
 > topic:system system_recurr
 	
 	+ test recursion

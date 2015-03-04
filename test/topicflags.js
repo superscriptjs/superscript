@@ -55,6 +55,48 @@ describe('Super Script Topics', function(){
 
   });
 
+  describe('Topic - sort', function(){
+
+    it("topic should not be orderd by default", function(done){    
+      bot.reply("user1", "this should catch some", function(err, reply){        
+        bot.topicSystem.gambit.findOrCreate({input:'this should catch some more'}, function(er, gam){
+          bot.topicSystem.reply.create({reply: "New Reply"}, function(err, rep){
+            rep.save(function() {
+              gam.replies.push(rep._id);
+              gam.save(function(){
+
+                bot.topicSystem.topic.findByName('random', function(err, topic){
+                  topic.gambits.push(gam._id)
+                  topic.save(function(err, topic2){
+                    topic2.sortGambits(function(){                      
+                      bot.reply("user1", "this should catch some more", function(err, reply){
+                        reply.string.should.eql("New Reply");
+                        done();
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+
+    });
+  });
+
+        // bot.topicSystem.topic.findByName('random', function(err, topic){
+        //   topic.sortGambits(function(){
+        //     bot.reply("user1", "this should catch some", function(err, reply){
+        //       reply.string.should.eql("Catch some");
+             
+        //     });
+        //   });
+        // });
+
+
+
+
   describe('Topics - Keep', function(){
 
     it("topic should have keep flag", function(done){
