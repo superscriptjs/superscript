@@ -2,6 +2,14 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
+/*
+
+  Proposed - New TopicSystem relationships.
+  topic.createGambit(...)
+  gambit.createReply(...)
+
+*/
+
 // Testing topics that include and mixin other topics.
 describe('SuperScript TopicsSystem', function(){
 
