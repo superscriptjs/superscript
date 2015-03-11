@@ -14,7 +14,7 @@ var Slack = require("slack-client");
 var debug = require('debug')("Slack Client");
 var facts = require("sfacts");
 var factSystem = facts.explore("botfacts");
-var TopicSystem = require("superscript/lib/topics/index")(mongoose, facts);
+var TopicSystem = require("superscript/lib/topics/index")(mongoose, factSystem);
 
 // How should we reply to the user? 
 // direct - sents a DM
