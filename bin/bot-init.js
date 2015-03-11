@@ -58,6 +58,7 @@ fs.mkdir(botPath, function(err, res){
     , dependencies: {
        'superscript': 'latest'
       , 'sfacts':'latest'
+      , 'mongoose':'3.8.24'
       ,'debug': '~2.0.0'
     }
   }
