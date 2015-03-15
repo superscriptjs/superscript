@@ -55,7 +55,7 @@ describe('Super Script Topics', function(){
 
   });
 
-  describe.only('Topic - sort', function(){
+  describe('Topic - sort', function(){
 
     it("topic should not be orderd by default", function(done){    
       bot.reply("user1", "this should catch some", function(err, reply){        
