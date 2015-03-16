@@ -19,6 +19,8 @@ SuperScript is a dialog system + bot engine for creating human-like conversation
 
 Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript.
 
+Also make sure you check out and install the [SuperScript Web Editor](https://github.com/silentrob/superscript-editor)
+
 ### Further Reading
 
 * [Introducing SuperScript](https://medium.com/@rob_ellis/superscript-ce40e9720bef) on Medium
