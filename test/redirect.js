@@ -51,6 +51,16 @@ describe('Super Script Redirects', function(){
     });
   });
 
+  describe.only('Inline Redirect with function GH-81', function(){
+    it("should parse function and redirect", function(done) {
+      bot.reply("user1", "tell me a random fact", function(err, reply) {
+        reply.string.should.not.be.empty;
+        console.log(reply.string);
+        done();
+      });
+    });
+  });
+
   describe('Redirect to new topic', function(){
     it("should redirect to new topic", function(done) {
       bot.reply("user1", "hello", function(err, reply) {

@@ -42,6 +42,14 @@
 + ~emohello *
 - ^topicRedirect(weather,__to_say__)
 
+// GH-81 Function with redirect
+
++ tell me a random fact
+- {keep} Okay, here's a fact: ^one() . {@_post_random_fact}
+
++ _post_random_fact
+- Would you like me to tell you another fact?
+
 > topic weather
 
 	+ __to_say__
