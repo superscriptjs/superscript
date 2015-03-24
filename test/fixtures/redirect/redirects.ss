@@ -50,6 +50,14 @@
 + _post_random_fact
 - Would you like me to tell you another fact?
 
++ tell me a random fact two
+- {keep} Okay, here's a fact. {@_post_random_fact2}
+
++ _post_random_fact2
+-  ^one() Would you like me to tell you another fact?
+
+
+
 > topic weather
 
 	+ __to_say__
