@@ -92,7 +92,7 @@ var messageItorHandle = function(user, system) {
       };
 
       if (replyObj) {
-        messageOptions['replyId'] = replyObj.id;
+        messageOptions.replyId = replyObj.id;
         msgString = replyObj.string;
       } else {
         replyObj = {};
@@ -110,22 +110,21 @@ var messageItorHandle = function(user, system) {
           topicName: replyObj.topicName
         };
 
-        var clientObject =  mergex(clientObject, replyObj.props || {});
+        var newClientObject =  mergex(clientObject, replyObj.props || {});
 
         user.save(function(e,r,s){
-          return next(err, clientObject);
+          return next(err, newClientObject);
         });
       });
     });
-  }
-}
+  };
+};
 
 // This takes a message and breaks it into chucks to be passed though
 // the sytem. We put them back together on the other end.
 var messageFactory = function(rawMsg, question, normalize, facts, cb) {
 
-  var rawMsg = normalize.clean(rawMsg).trim();
-  var messageParts = Utils.sentenceSplit(rawMsg);
+  var messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
   messageParts = Utils.cleanArray(messageParts);
 
   var itor = function(messageChunk, next) {
@@ -139,12 +138,12 @@ var messageFactory = function(rawMsg, question, normalize, facts, cb) {
     new Message(messageChunk.trim(), messageOptions, function(tmsg) {
       next(null, tmsg);
     });
-  }
+  };
 
   return async.mapSeries(messageParts, itor, function(err, messageArray) {
     return cb(messageArray);
   });
-}
+};
 
 util.inherits(SuperScript, EventEmitter);
 
@@ -159,7 +158,7 @@ SuperScript.prototype.message = function(msgString, callback) {
   new Message(msgString, messageOptions,  function(msgObj) {
     callback(null, msgObj);
   });
-}
+};
 
 
 // Convert msg into message object, then check for a match
@@ -186,7 +185,7 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
     normalize: that.normalize,
     facts: that.factSystem,
     editMode: that.editMode
-  }
+  };
 
     var properties = { id: userId };
     var prop = {
@@ -219,9 +218,9 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
                 string: messageArray[i].string,
                 triggerId: messageArray[i].triggerId,
                 topicName: messageArray[i].topicName
-              }
+              };
 
-            if (messageArray[i].string != "") {
+            if (messageArray[i].string !== "") {
               messageReplies.push(messageArray[i].string);
             }
 
@@ -240,7 +239,7 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
       });
     });
   });
-}
+};
 
 SuperScript.prototype.loadPlugins = function(path) {
   var plugins = requireDir(path);
@@ -251,19 +250,19 @@ SuperScript.prototype.loadPlugins = function(path) {
       this._plugins[func] = plugins[file][func];
     }
   }
-}
+};
 
 SuperScript.prototype.getPlugins = function() {
   return this._plugins;
-}
+};
 
 SuperScript.prototype.getTopics = function() {
   return this.topics;
-}
+};
 
 SuperScript.prototype.getUsers = function(cb) {
   this.users.find({}, 'id', cb);
-}
+};
 
 SuperScript.prototype.getUser = function(userId, cb) {
   debug("Fetching User", userId);
@@ -271,7 +270,7 @@ SuperScript.prototype.getUser = function(userId, cb) {
   this.users.findOne({id: userId}, function(err, usr){
     cb(err, usr);
   });
-}
+};
 
 SuperScript.prototype.findOrCreateUser = function(userId, callback) {
   var properties = { id: userId };
@@ -282,7 +281,7 @@ SuperScript.prototype.findOrCreateUser = function(userId, callback) {
   };
 
   this.users.findOrCreate(properties, prop, callback);
-}
+};
 
 
 // SuperScript.prototype.userConnect = function(userId, callback) {
