@@ -27,7 +27,7 @@ function SuperScript(options, callback) {
   var mongoose;
   var that = this;
   options = options || {};
-  
+
   // Create a new connection if non is provided.
   if (options.mongoose) {
     mongoose = options.mongoose;
@@ -44,7 +44,7 @@ function SuperScript(options, callback) {
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
   // this.intervalId = setInterval(this.check.bind(this), 500);
-  
+
   this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
   this.topicSystem = TopicsSystem(mongoose, this.factSystem);
 
@@ -74,7 +74,7 @@ function SuperScript(options, callback) {
 
 var messageItorHandle = function(user, system) {
   return messageItor = function(msg, next) {
-    
+
     var options = {
       user: user,
       system: system,
@@ -83,7 +83,7 @@ var messageItorHandle = function(user, system) {
 
     getreply(options, function(err, replyObj) {
       // Convert the reply into a message object too.
-    
+
       var msgString = "";
       var messageOptions = {
         qtypes: system.question,
@@ -92,7 +92,7 @@ var messageItorHandle = function(user, system) {
       };
 
       if (replyObj) {
-        messageOptions['replyId'] = replyObj.id;  
+        messageOptions['replyId'] = replyObj.id;
         msgString = replyObj.string;
       } else {
         replyObj = {};
@@ -113,14 +113,14 @@ var messageItorHandle = function(user, system) {
         var clientObject =  mergex(clientObject, replyObj.props || {});
 
         user.save(function(e,r,s){
-          return next(err, clientObject);  
+          return next(err, clientObject);
         });
       });
     });
   }
 }
 
-// This takes a message and breaks it into chucks to be passed though 
+// This takes a message and breaks it into chucks to be passed though
 // the sytem. We put them back together on the other end.
 var messageFactory = function(rawMsg, question, normalize, facts, cb) {
 
@@ -129,15 +129,15 @@ var messageFactory = function(rawMsg, question, normalize, facts, cb) {
   messageParts = Utils.cleanArray(messageParts);
 
   var itor = function(messageChunk, next) {
-    
+
     var messageOptions = {
-      qtypes: question, 
-      norm: normalize, 
+      qtypes: question,
+      norm: normalize,
       facts: facts
     };
 
     new Message(messageChunk.trim(), messageOptions, function(tmsg) {
-      next(null, tmsg); 
+      next(null, tmsg);
     });
   }
 
@@ -151,8 +151,8 @@ util.inherits(SuperScript, EventEmitter);
 SuperScript.prototype.message = function(msgString, callback) {
 
   var messageOptions = {
-    qtypes: this.question, 
-    norm: this.normalize, 
+    qtypes: this.question,
+    norm: this.normalize,
     facts: this.factSystem
   };
 
@@ -172,17 +172,17 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
 
   debug("Message Recieved from '" + userId + "'", msg);
   var that = this;
-  
+
   // Ideally these will come from a cache, but that is a exercise for a rainy day
   var system = {
-    
+
     // getReply
     topicsSystem: that.topicSystem,
     plugins: that._plugins,
     scope: that.scope,
 
-    // Message 
-    question: that.question, 
+    // Message
+    question: that.question,
     normalize: that.normalize,
     facts: that.factSystem,
     editMode: that.editMode
@@ -190,8 +190,8 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
 
     var properties = { id: userId };
     var prop = {
-      currentTopic :'random', 
-      status:0, 
+      currentTopic :'random',
+      status:0,
       conversation: 0, volley: 0, rally:0
     };
 
@@ -224,7 +224,7 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
             if (messageArray[i].string != "") {
               messageReplies.push(messageArray[i].string);
             }
-            
+
             for (var prop in messageArray[i]) {
               if (prop != "createdAt" && prop != "string") {
                 reply[prop] = messageArray[i][prop];
@@ -276,8 +276,8 @@ SuperScript.prototype.getUser = function(userId, cb) {
 SuperScript.prototype.findOrCreateUser = function(userId, callback) {
   var properties = { id: userId };
   var prop = {
-    currentTopic :'random', 
-    status:0, 
+    currentTopic :'random',
+    status:0,
     conversation: 0, volley: 0, rally:0
   };
 
@@ -317,9 +317,9 @@ var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
 //   var that = this;
 //   var users = Users.getOnline();
 //   var currentTimestamp = (new Date()).getTime();
-  
+
 //   var sendMessage = function(message, user, cb) {
-    
+
 //     var gScope = that.scope;
 //     gScope.user = user;
 
@@ -333,8 +333,8 @@ var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
 
 //     processTags(reply, user, options, function afterProcessTags(err, reply){
 //       var messageOptions = {
-//         qtypes: that.question, 
-//         norm: that.normalize, 
+//         qtypes: that.question,
+//         norm: that.normalize,
 //         facts: that.facts
 //       };
 //       new Message(reply, messageOptions, function(replyObj) {
@@ -349,7 +349,7 @@ var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
 //   }
 
 //   var itor = function(user, next) {
-    
+
 //     // Are we in a topic?
 //     var currentTopic = user.getTopic();
 
@@ -371,14 +371,14 @@ var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
 //     if (user.lastMessageSentAt === null && !_.isEmpty(firstToSay)) {
 //       var reply = Utils.pickItem(firstToSay);
 //       // Only say the firstReply message once
-//       if (durationMs > firstReplyTime && durationMs < firstReplyTime + 500) {        
+//       if (durationMs > firstReplyTime && durationMs < firstReplyTime + 500) {
 //         sendMessage(reply, user, next);
 //       } else if(durationMs > secondReplyTime && durationMs < secondReplyTime + 500) {
 //         sendMessage(reply, user, next);
 //       } else {
 //         next();
 //       }
-      
+
 //     } else if(!_.isEmpty(thingsToSay)) {
 //       var reply = Utils.pickItem(thingsToSay);
 
