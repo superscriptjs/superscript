@@ -34,7 +34,7 @@ describe.only('SuperScript Scripting Interface', function(){
         ["pass 1", "pass 2", "pass 3"].should.containEql(reply.string);
         done();
       });
-    });   
+    });
 
     it("capture in reply", function(done) {
       bot.reply("user1", "connect the win", function(err, reply) {
@@ -79,7 +79,7 @@ describe.only('SuperScript Scripting Interface', function(){
         reply.string.should.eql("");
         done();
       });
-    });   
+    });
 
     it("should match *2 star - One case", function(done) {
       bot.reply("user1", "It is one hot out", function(err, reply) {
@@ -93,7 +93,7 @@ describe.only('SuperScript Scripting Interface', function(){
         reply.string.should.eql("Test three should pass");
         done();
       });
-    });   
+    });
 
     it("should match *2 star - Three case", function(done) {
       bot.reply("user1", "It is one two three hot out", function(err, reply) {
@@ -113,7 +113,7 @@ describe.only('SuperScript Scripting Interface', function(){
           done();
         });
       });
-    });   
+    });
 
     // We exausted this reply in the last test.
     // NB: this test will fail if run on its own.
@@ -131,28 +131,28 @@ describe.only('SuperScript Scripting Interface', function(){
         reply.string.should.eql("Test endstar should pass");
         done();
       });
-    });   
+    });
 
     it("should match *~2 star - Zero Star", function(done) {
       bot.reply("user1", "It is hot out2", function(err, reply) {
         ["pass 1","pass 2","pass 3"].should.containEql(reply.string);
         done();
       });
-    });   
+    });
 
     it("should match *~2 star - One Star", function(done) {
       bot.reply("user1", "It is a hot out2", function(err, reply) {
         ["pass 1","pass 2","pass 3"].should.containEql(reply.string);
         done();
       });
-    });   
+    });
 
     it("should match *~2 star - Two Star", function(done) {
       bot.reply("user1", "It is a b hot out2", function(err, reply) {
         ["pass 1","pass 2","pass 3"].should.containEql(reply.string);
         done();
       });
-    });   
+    });
 
     it("should match *~2 star - Three Star (fail)", function(done) {
       bot.reply("user1", "It is a b c d hot out2", function(err, reply) {
@@ -176,14 +176,14 @@ describe.only('SuperScript Scripting Interface', function(){
         reply.string.should.eql("");
         done();
       });
-    });   
+    });
 
     it("should match a or b - should be A", function(done) {
       bot.reply("user1", "what day is it", function(err, reply) {
         reply.string.should.eql("Test four should pass");
         done();
       });
-    });   
+    });
 
     it("should match a or b - should be B", function(done) {
       bot.reply("user1", "what week is it", function(err, reply) {
@@ -205,7 +205,7 @@ describe.only('SuperScript Scripting Interface', function(){
         done();
       });
     });
-    
+
     it("should match a or b - word boundries C", function(done) {
       bot.reply("user1", "favorite", function(err, reply) {
         reply.string.should.eql("");
@@ -228,7 +228,7 @@ describe.only('SuperScript Scripting Interface', function(){
         reply.string.should.eql("Test five should pass");
         done();
       });
-    });   
+    });
 
     it("should match a", function(done) {
       bot.reply("user1", "i have a red car", function(err, reply) {
@@ -242,14 +242,14 @@ describe.only('SuperScript Scripting Interface', function(){
         reply.string.should.eql("Test five should pass");
         done();
       });
-    });   
+    });
 
     it("should match c", function(done) {
       bot.reply("user1", "i have a green car", function(err, reply) {
         reply.string.should.eql("Test five should pass");
         done();
       });
-    });   
+    });
 
     it("should not match d", function(done) {
       bot.reply("user1", "i have a black car", function(err, reply) {
@@ -274,14 +274,14 @@ describe.only('SuperScript Scripting Interface', function(){
       });
     });
 
-    // This works, but I dont like having to import the DB every time 
+    // This works, but I dont like having to import the DB every time
     it.skip("should expand user-defined concepts too", function(done) {
       bot.reply("user1", "I love basketball", function(err, reply) {
         reply.string.should.eql("Term expanded");
         done();
       });
     });
-    
+
     // To match lemma version of wordnet expanded terms, make sure the whole line is lemmed.
     it.skip("should match both text and lemma", function(done) {
       bot.reply("user1", "My brother is fat", function(err, reply) {
@@ -401,7 +401,7 @@ describe.only('SuperScript Scripting Interface', function(){
               reply.string.should.eql("There are 4 letters in your name.");
               done();
             });
-          });          
+          });
         });
       });
     });
@@ -463,7 +463,7 @@ describe.only('SuperScript Scripting Interface', function(){
             });
           });
         });
-      }); 
+      });
     });
 
   });
@@ -488,7 +488,7 @@ describe.only('SuperScript Scripting Interface', function(){
           bot.reply("user4", "i like fish", function(err, reply) {
             reply.string.should.eql("me too");
             done();
-          });          
+          });
         });
       });
     });
@@ -559,7 +559,7 @@ describe.only('SuperScript Scripting Interface', function(){
 
   describe('Create Gambit Helper', function(){
     it("contains concept", function(done) {
-      bot.reply("user1", "my husband likes fish", function(err, reply) {        
+      bot.reply("user1", "my husband likes fish", function(err, reply) {
         done();
       });
     });
