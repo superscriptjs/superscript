@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting Interface', function(){
+describe.only('SuperScript Scripting Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -199,7 +199,7 @@ describe('SuperScript Scripting Interface', function(){
       });
     });
 
-    it.only("should match a or b - word boundries B", function(done) {
+    it("should match a or b - word boundries B", function(done) {
       bot.reply("user1", "this or that", function(err, reply) {
         reply.string.should.eql("alter boundry test");
         done();

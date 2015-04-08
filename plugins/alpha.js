@@ -5,7 +5,7 @@ var _ = require("underscore");
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 exports.oppisite = function(word, cb) {
 
@@ -22,7 +22,7 @@ exports.oppisite = function(word, cb) {
     }
 
   });
-}
+};
 
 // This uses rhyme and it is painfully slow
 exports.rhymes = function(word, cb) {
@@ -33,17 +33,17 @@ exports.rhymes = function(word, cb) {
     var rhymedWords = r.rhyme(word);
     var i = getRandomInt(0, rhymedWords.length - 1);
 
-    if (rhymedWords.length != 0) {
+    if (rhymedWords.length !== 0) {
       cb(null, rhymedWords[i].toLowerCase());
     } else {
       cb(null, null);
     }
   });
-}
+};
 
 exports.syllable = function(word, cb) {
   cb(null, syllabistic.text(word));
-}
+};
 
 exports.letterLookup = function(cb) {
   
@@ -51,13 +51,15 @@ exports.letterLookup = function(cb) {
   var reply = "";
 
   var lastWord = this.message.lemWords.slice(-1)[0];
+  debug("--LastWord", lastWord);
+  debug("LemWords", this.message.lemWords);
   var alpha = "abcdefghijklmonpqrstuvwxyz".split("");
   var pos = alpha.indexOf(lastWord);
-
+  debug("POS", pos);
   if (this.message.lemWords.indexOf("before") != -1) {
     if (alpha[pos - 1]) {
       reply = alpha[pos - 1].toUpperCase();
-    } else {  
+    } else {
       reply = "Don't be silly, there is nothing before A";
     }
   } else if (this.message.lemWords.indexOf("after") != -1) {
@@ -78,18 +80,18 @@ exports.letterLookup = function(cb) {
 
       // Number or word number
       // 1st, 2nd, 3rd, 4th or less then 99
-      if ((loc == "st"  || loc == "nd" || loc == "rd" || loc == "th") && this.message.numbers.length != 0 ) {
+      if ((loc === "st"  || loc === "nd" || loc === "rd" || loc === "th") && this.message.numbers.length !== 0 ) {
         var num = parseInt(this.message.numbers[0]);
         if (num > 0 && num <= 26) {
-          reply =  "It is " + alpha[num - 1].toUpperCase(); 
+          reply =  "It is " + alpha[num - 1].toUpperCase();
         } else {
           reply = "seriously...";
         }
       }
     }
-  } 
+  }
   cb(null, reply);
-}
+};
 
 exports.wordLength = function(cap, cb) {
   if (typeof cap == "string") {
@@ -123,17 +125,17 @@ exports.wordLength = function(cap, cb) {
   } else {
     cap(null,"");
   }
-}
+};
 
 exports.nextNumber = function(cb) {
   var reply = "";
   var num = this.message.numbers.slice(-1)[0];
   
   if (num) {
-    if (this.message.lemWords.indexOf("before") != -1) {
+    if (this.message.lemWords.indexOf("before") !== -1) {
       reply = parseInt(num) - 1;
     }
-    if (this.message.lemWords.indexOf("after") != -1) {
+    if (this.message.lemWords.indexOf("after") !== -1) {
       reply = parseInt(num) + 1;
     }
   }
