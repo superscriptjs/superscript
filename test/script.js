@@ -170,7 +170,7 @@ describe.only('SuperScript Scripting Interface', function(){
 
   });
 
-  describe('Alternates Interface (a|b)', function(){
+  describe('Alternates Interface (a|b)', function() {
     it("should match a or b - Not empty", function(done) {
       bot.reply("user1", "what is it", function(err, reply) {
         reply.string.should.eql("");
@@ -299,14 +299,14 @@ describe.only('SuperScript Scripting Interface', function(){
   describe('Replies can have Optionals too!', function(){
     it("replies with optionals", function(done) {
       bot.reply("user1", "this reply is random", function(err, reply) {
-        ["yes this reply is awesome","yes this reply is random"].should.containEql(reply.string)
+        ["yes this reply is awesome","yes this reply is random"].should.containEql(reply.string);
         done();
       });
     });
 
     it("replies with wordnet", function(done) {
       bot.reply("user1", "reply with wordnet", function(err, reply) {
-        ["i cotton people","i prefer people", "i care for people", "i love people", "i please people"].should.containEql(reply.string)
+        ["i cotton people","i prefer people", "i care for people", "i love people", "i please people"].should.containEql(reply.string);
         done();
       });
     });
@@ -336,7 +336,7 @@ describe.only('SuperScript Scripting Interface', function(){
 
     it("pass a param into custom function1", function(done) {
       bot.reply("user1", "custom 6 function", function(err, reply) {
-        ["he cottons this","he prefers this", "he cares for this", "he loves this", "he pleases this"].should.containEql(reply.string)
+        ["he cottons this","he prefers this", "he cares for this", "he loves this", "he pleases this"].should.containEql(reply.string);
         done();
       });
     });
@@ -519,7 +519,7 @@ describe.only('SuperScript Scripting Interface', function(){
   describe('Emo reply', function(){
     it("Emo Hello 1", function(done) {
       bot.reply("user1", "Hello", function(err, reply) {
-        reply.string.should.eql("Hello")
+        reply.string.should.eql("Hello");
         done();
       });
     });
@@ -541,7 +541,7 @@ describe.only('SuperScript Scripting Interface', function(){
   describe('Augment reply Object', function(){
     it("Should have replyProp", function(done) {
       bot.reply("user1", "Can you smile?", function(err, reply) {
-        reply.string.should.eql("Sure can.")
+        reply.string.should.eql("Sure can.");
         reply.emoji.should.eql("smile");
         done();
       });
