@@ -21,7 +21,7 @@ var parse = require("../lib/parse")();
 fs.exists(program.output, function (exists) {
   if (!exists || program.force === true) {
     parse.loadDirectory(program.path, function(err, result){
-      fs.writeFile(program.output, JSON.stringify(result), function (err) {
+      fs.writeFile(program.output, JSON.stringify(result, null, 4), function (err) {
         if (err) throw err;
         console.log('Saved output to ' + program.output);
       });
