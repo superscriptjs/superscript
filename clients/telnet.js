@@ -10,7 +10,7 @@ mongoose.connect('mongodb://localhost/superscriptDB');
 var options = {};
 var sockets = [];
 
-var TopicSystem = require("superscriptlib/topics/index")(mongoose, factSystem);
+var TopicSystem = require("superscript/lib/topics/index")(mongoose, factSystem);
 
 options['factSystem'] = factSystem;
 options['mongoose'] = mongoose;
