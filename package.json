@@ -57,7 +57,7 @@
   "devDependencies": {
     "blanket": "~1.1.6",
     "mkdirp": "^0.5.0",
-    "mocha": "~1.18.2",
+    "mocha": "1.21.1",
     "rmdir": "^1.0.4",
     "should": "~3.3.1",
     "conceptnet": "silentrob/conceptnet"
