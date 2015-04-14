@@ -157,7 +157,7 @@
 
 	// This will save the name to the internal fact system for this user.
 	+ My name is *1
-	- {keep} ^save(name, <cap1>) Hi <cap1>
+	- {keep} ^save(name, <cap1>) Hi <cap1>.
 
 	+ ^not(filter|filterx) trigger *1 function
 	- trigger filter reply
@@ -189,3 +189,61 @@
 	+ I like fish
 	- me too
 < topic
+
+
+
+// Style Tests
+
+
+
+
+// Mix case testing
++ THIS IS ALL CAPITALS
+- {keep} Test six should pass
+
++ Do you have a clue
+- Test seven should pass
+
++ Do you have a cause
+- Test seven should pass
+
++ Do you have a condition
+- Test seven should pass
+
++ John is older than Mary and Mary is older than Sarah
+- Test eight should pass
+
+// Should match without commas
++ is it morning noon night
+- Test nine should pass
+
+// Remove Quotes
++ remove quotes around car
+- Test ten should pass
+
+// Test Multiple line output
++ tell me a poem
+- Little Miss Muffit sat on her tuffet,\n
+^ In a nonchalant sort of way.\n
+^ With her forcefield around her,\n
+^ The Spider, the bounder,\n
+^ Is not in the picture today.
+
+
+// In this example we want to demonstrate that the trigger 
+// is changed to "it is ..." before trying to find a match
++ it's all good in the hood
+- normalize trigger test
+
++ it's all good in the hood two
+- normalize trigger test
+
++ I ~like basketball
+- Wordnet test one
+
+
++ spaced out
+- note the space\s\s
+
+
+
