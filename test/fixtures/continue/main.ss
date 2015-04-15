@@ -28,12 +28,23 @@
 + something random
 - What is your favorite color?
 
+  + *1 
   % What is your favorite color?
+  - <cap> is mine too.
+
   + (blue|green)
+  % What is your favorite color?
   - I hate that color.
     
-  % What is your favorite color?
-  + *1
-  - <cap> is mine too.
+
++ test complex
+- reply test {@__complex__}
+
+  + cool
+  % reply
+  - it works
+
++ __complex__
+- super compound
 
 < topic

@@ -57,6 +57,16 @@ describe.only('Super Script Continue System', function(){
       });
     });
 
+    it("GH-84 - compound reply convo.", function(done) {
+      bot.reply("user1", "test complex", function(err, reply) {
+        reply.string.should.eql("reply test super compound");
+        bot.reply("user1", "cool", function(err, reply) {
+          reply.string.should.eql("it works");
+          done();
+        });
+      });
+    });
+
   });
 
   after(help.after);
