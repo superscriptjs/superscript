@@ -29,19 +29,19 @@ exports.bootstrap = bootstrap = function(cb) {
     gFacts = facts;
     cb(null, facts);
   });
-}
+};
 
 exports.after = function(end) {
 
   var itor = function(item, next) {
     fs.exists(item, function (exists) {
-      if (exists) { 
-        rmdir(item, next); 
+      if (exists) {
+        rmdir(item, next);
       } else {
         next();
       }
     });
-  }
+  };
 
   if (bot) {
     bot.factSystem.db.close(function(){
@@ -56,26 +56,26 @@ exports.after = function(end) {
         mongoose.connection.db.dropDatabase();
         end();
       });
-    });     
+    });
   } else {
     end();
   }
  
-}
+};
 
 var imortFilePath = function(path, facts, callback) {
   mongoose.connect('mongodb://localhost/superscriptDB');
-  var TopicSystem = require("../lib/topics/index")(mongoose, facts); 
-  TopicSystem.importer(path, callback);    
-}
+  var TopicSystem = require("../lib/topics/index")(mongoose, facts);
+  TopicSystem.importer(path, callback);
+};
 
 exports.before = function(file) {
 
-  var options = { 
+  var options = {
     scope: {
       cnet : cnet
     }
-  }
+  };
 
   return function(done) {
 
