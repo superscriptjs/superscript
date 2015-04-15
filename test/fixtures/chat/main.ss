@@ -1,3 +1,4 @@
+// This functionilty has been pulled back but will make its way back in.
 // Now that the bot can just talk, lets give it something to say whenever it wants.
 // Bot leads  '*'
 
