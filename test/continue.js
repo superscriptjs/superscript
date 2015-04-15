@@ -2,7 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe.only('Super Script Continue System', function(){
+describe('Super Script Continue System', function(){
 
   before(help.before("continue"));
 

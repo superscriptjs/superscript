@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting + Style Interface', function(){
+describe.only('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -439,7 +439,7 @@ describe('SuperScript Scripting + Style Interface', function(){
   describe('Custom functions 3 - user fact system', function(){
     it("Should save and recall 1", function(done) {
       bot.reply("userX", "My name is Bob", function(err, reply) {
-        reply.string.should.eql("Hi Bob");
+        reply.string.should.eql("Hi Bob.");
         bot.getUser("userX", function(err, u1){
           u1.getVar('name', function(err, name){
             name.should.eql("Bob");
@@ -451,7 +451,7 @@ describe('SuperScript Scripting + Style Interface', function(){
 
     it("Should save and recall 2", function(done) {
       bot.reply("suser2", "My name is Ken", function(err, reply) {
-        reply.string.should.eql("Hi Ken");
+        reply.string.should.eql("Hi Ken.");
         bot.getUser("userX", function(err, u1){
           bot.getUser("suser2", function(err, u2){
             u1.getVar("name", function(err, res){
@@ -661,7 +661,7 @@ describe('SuperScript Scripting + Style Interface', function(){
   describe("chunk message", function(){
     it("should split the message into two", function(done){
       bot.reply("user1", "My name is Bill. What is your name?", function(err, reply) {
-        reply.string.should.eql("Hi Bill My name is Brit.");
+        reply.string.should.eql("Hi Bill. My name is Brit.");
         done();
       });
     });

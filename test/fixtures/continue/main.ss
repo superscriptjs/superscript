@@ -41,7 +41,7 @@
 - reply test {@__complex__}
 
   + cool
-  % reply
+  % * super compound *
   - it works
 
 + __complex__
