@@ -2,7 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe('Super Script Continue System', function(){
+describe.only('Super Script Continue System', function(){
 
   before(help.before("continue"));
 
@@ -38,7 +38,8 @@ describe('Super Script Continue System', function(){
       });
     });
 
-    it("should continue 4 - A", function(done) {
+    // These two are testing sorted gambits in replies.
+    it("should continue Sorted - A", function(done) {
       bot.reply("user1", "something random", function(err, reply) {
         bot.reply("user1", "red", function(err, reply2) {
           reply2.string.should.eql("red is mine too.");
@@ -47,7 +48,7 @@ describe('Super Script Continue System', function(){
       });
     });
 
-    it("should continue 4 - B", function(done) {
+    it("should continue Sorted - B", function(done) {
       bot.reply("user1", "something random", function(err, reply) {
         bot.reply("user1", "blue", function(err, reply2) {
           reply2.string.should.eql("I hate that color.");

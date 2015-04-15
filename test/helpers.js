@@ -103,8 +103,7 @@ exports.before = function(file) {
       } else {
         console.log("Loading Cached Script");
         var contents = fs.readFileSync(fileCache, 'utf-8');
-        var contents = JSON.parse(contents);
-        
+        contents = JSON.parse(contents);
         
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
@@ -132,5 +131,5 @@ exports.before = function(file) {
         });
       }
     });
-  }
-}
+  };
+};
