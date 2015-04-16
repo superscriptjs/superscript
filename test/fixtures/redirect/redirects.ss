@@ -70,7 +70,7 @@
 < topic
 
 
-// Go to a topic Dynamically Spoler alert it is school
+// Go to a topic Dynamically Spoiler alert it is school
 + i like *1
 - ^topicRedirect(<cap1>,__to_say__)
 
