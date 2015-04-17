@@ -84,6 +84,14 @@ describe.only('Super Script Topics', function(){
       });
     });
 
+    it("nostay test", function(done){
+      bot.reply("user1", "testing nostay", function(err, reply) {
+        console.log(reply);
+        reply.string.should.eql("topic test pass");
+        done();
+      });
+    });
+
   });
 
   describe('Topics - Keep', function() {

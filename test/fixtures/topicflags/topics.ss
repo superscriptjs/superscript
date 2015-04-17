@@ -25,6 +25,9 @@
 + test recursion
 - ^respond(system_recurr)
 
++ testing nostay
+- ^topicRedirect(nostay, _bounce_)
+
 
 // Testing sort
 + x *
@@ -71,7 +74,6 @@
 /*
   Keep Flag Test
   We use the keep flag to allow us to reuse the gambit over and over
-
 */
 > topic:keep keeptopic
   + i have one thing to say
@@ -85,6 +87,6 @@
   to the previous one after saying the gambit.
 */
 > topic:nostay nostay
-  + i am going to stay and go
+  + _bounce_
   - topic test pass
 < topic
