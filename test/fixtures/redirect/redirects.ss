@@ -15,8 +15,12 @@
 + message
 - game
 
++ one
+- 1
+
 + two
 - 2
+
 
 + this is an nested redirect
 - this {@nested message}
@@ -57,6 +61,15 @@
 -  ^one() Would you like me to tell you another fact?
 
 
+// Odd..
++ GitHub issue 92
+- testing redirects {@    _one_thing   } {@_two_thing   }
+
++ _one_thing
+- one thing
+
++ _two_thing
+- two thing
 
 > topic weather
 
