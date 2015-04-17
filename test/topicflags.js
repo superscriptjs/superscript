@@ -4,7 +4,7 @@ var help = require("./helpers");
 
 
 // We need to revisit userConnect 
-describe('Super Script Topics', function(){
+describe.only('Super Script Topics', function(){
 
   before(help.before("topicflags"));
 
@@ -30,10 +30,9 @@ describe('Super Script Topics', function(){
   });
     
   describe('Topics - System', function(){
-    it.only("topic should have system flag", function(done){
+    it("topic should have system flag", function(done){
       bot.reply("user1", "this is a system topic", function(err, reply){
-        console.log(reply)
-        // reply.string.should.be.empty;
+        reply.string.should.be.empty;
         done();
       });
     });
@@ -77,7 +76,17 @@ describe('Super Script Topics', function(){
     });
   });
 
-  describe('Topics - Keep', function(){
+  describe('Topics - NoStay', function() {
+    it("topic should have nostay flag", function(done){
+      bot.topicSystem.topic.findByName('nostay', function(err, t) {
+        t.nostay.should.be.true;
+        done();
+      });
+    });
+
+  });
+
+  describe('Topics - Keep', function() {
 
     it("topic should have keep flag", function(done){
       bot.topicSystem.topic.findByName('keeptopic', function(err, t) {
@@ -130,36 +139,6 @@ describe('Super Script Topics', function(){
         });
       });
     });
-
-    // This test we are going to hit a duplicate reply, one is in a keep topic, and one is not
-    // We expect it to repeat it because it is allowed.
-    // This test is dependant on the first test 
-    // TODO: Investigate why this is not working anymore
-    it.skip("should not repeat itself 2", function(done){
-      // Manually reset the topic
-      bot.getUser("user1").currentTopic = "random";
-
-      bot.reply("user1", "set topic to dry again", function(err, reply) {
-        // Now in dry topic
-        var ct = bot.getUser("user1").getTopic();
-        ct.should.eql("dry");
-
-        bot.reply("user1", "i have one thing to say", function(err, reply2) {
-          reply2.should.eql("dry topic test pass");
-
-          // Say it again, now it should be removed
-          bot.reply("user1", "i have one thing to say", function(err, reply3) {
-
-            // If something was said, we don't say it again
-            // This was empty, but with the new topic system, we don't match on the rule in
-            // dry, it continues onto keep topic and matches here.
-            reply3.should.eql("topic test pass");
-            done();
-          });
-        });
-      });
-    });
-
   });
 
   after(help.after);

@@ -27,7 +27,7 @@
 
 
 // Testing sort
-+ *
++ x *
 - Catch all
 
 + this * catch some
