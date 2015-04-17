@@ -4,7 +4,7 @@ var help = require("./helpers");
 
 
 // We need to revisit userConnect 
-describe.only('Super Script Topics', function(){
+describe('Super Script Topics', function(){
 
   before(help.before("topicflags"));
 
