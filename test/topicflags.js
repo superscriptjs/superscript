@@ -4,7 +4,7 @@ var help = require("./helpers");
 
 
 // We need to revisit userConnect 
-describe('Super Script Topics', function(){
+describe.only('Super Script Topics', function(){
 
   before(help.before("topicflags"));
 
@@ -15,8 +15,8 @@ describe('Super Script Topics', function(){
 
         bot.topicSystem.topic.findPendingTopicsForUser(user, message, function(e,topics) {
           topics.should.not.be.empty;
-          topics.should.have.length(7)
-          done();  
+          topics.should.have.length(7);
+          done();
         });
       });
     });
@@ -41,7 +41,7 @@ describe('Super Script Topics', function(){
       bot.reply("user1", "why did you run", function(err, reply){
         // This really just makes sure the reply is not accesses directly
         reply.string.should.eql("to get away from someone");
-        reply.topicName.should.eql("system_why")
+        reply.topicName.should.eql("system_why");
         done();
       });
     });
@@ -57,13 +57,13 @@ describe('Super Script Topics', function(){
 
   describe('Topic - sort', function(){
 
-    it("topic should not be orderd by default", function(done){    
-      bot.reply("user1", "this should catch some", function(err, reply){        
-        bot.topicSystem.topic.findByName('random', function(err, topic){
-          topic.createGambit({input:'this should catch some more'}, function(er, gam){
-            gam.addReply({reply: "New Reply"}, function(err, rep){
-              topic.sortGambits(function(){                      
-                bot.reply("user1", "this should catch some more", function(err, reply){
+    it("topic should not be orderd by default", function(done) {
+      bot.reply("user1", "this should catch some", function(err, reply) {
+        bot.topicSystem.topic.findByName('random', function(err, topic) {
+          topic.createGambit({input:'this should catch some more'}, function(er, gam) {
+            gam.addReply({reply: "New Reply"}, function(err, rep) {
+              topic.sortGambits(function() {
+                bot.reply("user1", "this should catch some more", function(err, reply) {
                   reply.string.should.eql("New Reply");
                   done();
                 });
@@ -79,9 +79,9 @@ describe('Super Script Topics', function(){
   describe('Topics - Keep', function(){
 
     it("topic should have keep flag", function(done){
-      bot.topicSystem.topic.findByName('keeptopic', function(err, t){
+      bot.topicSystem.topic.findByName('keeptopic', function(err, t) {
         t.keep.should.be.true;
-        done();        
+        done();
       });
     });
 
@@ -94,7 +94,7 @@ describe('Super Script Topics', function(){
           bot.reply("user1", "i have one thing to say", function(err, reply) {
             reply.string.should.eql("topic test pass");
             bot.reply("user1", "i have one thing to say", function(err, reply) {
-              reply.string.should.eql("topic test pass");          
+              reply.string.should.eql("topic test pass");
               done();
             });
           });
@@ -114,7 +114,7 @@ describe('Super Script Topics', function(){
             ct = su.getTopic();
             ct.should.eql("dry");
 
-            bot.reply("user1", "this is a dry topic", function(err, reply) { 
+            bot.reply("user1", "this is a dry topic", function(err, reply) {
               reply.string.should.eql("dry topic test pass");
               // Say it again...
               bot.reply("user1", "this is a dry topic", function(err, reply) {
@@ -136,14 +136,14 @@ describe('Super Script Topics', function(){
     // TODO: Investigate why this is not working anymore
     it.skip("should not repeat itself 2", function(done){
       // Manually reset the topic
-      bot.getUser("user1").currentTopic = "random"
+      bot.getUser("user1").currentTopic = "random";
 
       bot.reply("user1", "set topic to dry again", function(err, reply) {
         // Now in dry topic
         var ct = bot.getUser("user1").getTopic();
         ct.should.eql("dry");
 
-        bot.reply("user1", "i have one thing to say", function(err, reply2) {         
+        bot.reply("user1", "i have one thing to say", function(err, reply2) {
           reply2.should.eql("dry topic test pass");
 
           // Say it again, now it should be removed
@@ -156,7 +156,6 @@ describe('Super Script Topics', function(){
             done();
           });
         });
-
       });
     });
 
