@@ -4,7 +4,7 @@ var help = require("./helpers");
 
 
 // We need to revisit userConnect 
-describe.only('Super Script Topics', function(){
+describe('Super Script Topics', function(){
 
   before(help.before("topicflags"));
 
@@ -30,9 +30,10 @@ describe.only('Super Script Topics', function(){
   });
     
   describe('Topics - System', function(){
-    it("topic should have system flag", function(done){
+    it.only("topic should have system flag", function(done){
       bot.reply("user1", "this is a system topic", function(err, reply){
-        reply.string.should.be.empty;
+        console.log(reply)
+        // reply.string.should.be.empty;
         done();
       });
     });
