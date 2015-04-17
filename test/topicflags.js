@@ -105,24 +105,6 @@ describe.only('Super Script Topics', function(){
 
   });
 
-  // describe('Topics - NoStay', function() {
-  //   it("topic should have nostay flag", function(done){
-  //     bot.topicSystem.topic.findByName('nostay', function(err, t) {
-  //       t.nostay.should.be.true;
-  //       done();
-  //     });
-  //   });
-
-  //   it("nostay test", function(done){
-  //     bot.reply("user1", "testing nostay", function(err, reply) {
-  //       console.log(reply);
-  //       reply.string.should.eql("topic test pass");
-  //       done();
-  //     });
-  //   });
-
-  // });
-
   describe('Topics - Keep', function() {
 
     it("topic should have keep flag", function(done){
