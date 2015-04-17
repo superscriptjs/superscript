@@ -76,23 +76,52 @@ describe.only('Super Script Topics', function(){
     });
   });
 
-  describe('Topics - NoStay', function() {
-    it("topic should have nostay flag", function(done){
-      bot.topicSystem.topic.findByName('nostay', function(err, t) {
-        t.nostay.should.be.true;
-        done();
+
+  describe('Topic Flow', function() {
+
+    it("topic flow 1", function(done){
+      bot.reply("user1", "testing hidden", function(err, reply) {
+        reply.string.should.eql("some reply");
+
+        bot.reply("user1", "yes", function(err, reply) {
+          reply.string.should.eql("this should work.");
+          done();
+        });
+
       });
     });
 
-    it("nostay test", function(done){
-      bot.reply("user1", "testing nostay", function(err, reply) {
-        console.log(reply);
-        reply.string.should.eql("topic test pass");
-        done();
+     it("topic flow 2", function(done){
+      bot.reply("user2", "testing hidden", function(err, reply) {
+        reply.string.should.eql("some reply");
+
+        bot.reply("user2", "lets not go on", function(err, reply) {
+          reply.string.should.eql("end");
+          done();
+        });
+
       });
     });
 
   });
+
+  // describe('Topics - NoStay', function() {
+  //   it("topic should have nostay flag", function(done){
+  //     bot.topicSystem.topic.findByName('nostay', function(err, t) {
+  //       t.nostay.should.be.true;
+  //       done();
+  //     });
+  //   });
+
+  //   it("nostay test", function(done){
+  //     bot.reply("user1", "testing nostay", function(err, reply) {
+  //       console.log(reply);
+  //       reply.string.should.eql("topic test pass");
+  //       done();
+  //     });
+  //   });
+
+  // });
 
   describe('Topics - Keep', function() {
 

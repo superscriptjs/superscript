@@ -39,6 +39,12 @@
 + this * catch * more
 - Catch more
 
+// test topic flow
++ testing *
+- ^respond(newHidden)
+
++ * go on
+- end
 
 > topic:system system_recurr
   
@@ -89,4 +95,19 @@
 > topic:nostay nostay
   + _bounce_
   - topic test pass
+< topic
+
+
+> topic:system newHidden
+
++ testing hidden
+- some reply
+
++ yes
+% some reply
+- this should work.
+
++ no
+-  wont work
+
 < topic

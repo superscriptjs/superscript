@@ -94,6 +94,7 @@ exports.before = function(file) {
               imortFilePath(fileCache, facts, function() {
                 new script(options, function(err, botx) {
                   bot = botx;
+                  // process.exit(1);
                   done();
                 });
               });
