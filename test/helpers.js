@@ -66,7 +66,7 @@ exports.after = function(end) {
 var imortFilePath = function(path, facts, callback) {
   mongoose.connect('mongodb://localhost/superscriptDB');
   var TopicSystem = require("../lib/topics/index")(mongoose, facts);
-  TopicSystem.importer(path, callback);
+  TopicSystem.importerFile(path, callback);
 };
 
 exports.before = function(file) {
