@@ -23,7 +23,7 @@ var botHandle = function(err, bot) {
 
     message = message.replace(/[\x0D\x0A]/g, "");
 
-    if (message.indexOf("/quit") == 0 || data.toString('hex',0,data.length) === "fff4fffd06") {
+    if (message.indexOf("/quit") === 0 || data.toString('hex',0,data.length) === "fff4fffd06") {
       socket.end("Good-bye!\n");
       return;
     }
@@ -39,7 +39,7 @@ var botHandle = function(err, bot) {
       soc.write("You> ");
 
     });
-  }
+  };
 
   var closeSocket = function(socket, bot) {
     var i = sockets.indexOf(socket);
@@ -50,7 +50,7 @@ var botHandle = function(err, bot) {
     if (i != -1) {
       sockets.splice(i, 1);
     }
-  }
+  };
 
   var newSocket = function (socket) {
     socket.name = socket.remoteAddress + ":" + socket.remotePort;
@@ -82,14 +82,13 @@ var botHandle = function(err, bot) {
 
   server.listen(2000);
   console.log("TCP server running on port 2000.\n");
-}
+};
 
 // This assumes the topics have been compiled to data.json first
 // See superscript/bin/parse for information on how to do that.
 
 // Main entry point
 TopicSystem.importer('./data.json', function(){
-
   new superscript(options, function(err, botInstance){
     botHandle(null, botInstance);
   });
