@@ -55,6 +55,10 @@ Also make sure you check out and install the [SuperScript Web Editor](https://gi
 `*n` Matches exactly N number of words or tokens
 
 
+## And More
+
+The above is just a tiny fraction of what the system is capable of doing. Please see the [full documentation](http://superscriptjs.com) to learn more.
+
 ## Alternate Authoring 
 
 For a simplified web authoring workflow, check out the [Web Editor](https://github.com/silentrob/superscript-editor)
