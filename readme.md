@@ -21,6 +21,44 @@ Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how t
 
 Also make sure you check out and install the [SuperScript Web Editor](https://github.com/silentrob/superscript-editor)
 
+
+### Example Script - Script Authoring
+
+    + hello human
+    - Hello Bot
+
+`+` matches all input types
+
+`?` matches only question input
+
+`-` Is the reply sent back to the user.
+
+    
+### Optional and Alternates - Script Authoring
+    
+    + [hey] hello (nice|mean) human
+    - Hello Bot
+
+`[]` are for optional words, they may or may not appear in the input match
+
+`()` are alternate words. One MUST appear.
+
+### Capturing results - Script Authoring (wildcards)
+
+    + * should *~2 work *1
+    - I have no idea.
+
+`*` Matches ZERO or more words or tokens
+
+`*~n` Matches ZERO to N words or tokens
+
+`*n` Matches exactly N number of words or tokens
+
+
+## Alternate Authoring 
+
+For a simplified web authoring workflow, check out the [Web Editor](https://github.com/silentrob/superscript-editor)
+
 ### Further Reading
 
 * [Introducing SuperScript](https://medium.com/@rob_ellis/superscript-ce40e9720bef) on Medium
