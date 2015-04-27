@@ -34,14 +34,21 @@
   - {keep} pass 3
 
 
+  // Min Max Test
+  + min max *1 *~1
+  - {keep} min max test
+
   // Test 2 Star match 
   + It is *2 cold out
   - Two star result <cap>
 
   // varwidth star end case
-  + define *1
+  + define *~1
   - Test endstar should pass
 
+  // fixedwidth star end case
+  + fixedwidth define *1
+  - Test endstar should pass
 
   + * (or) *
   - alter boundry test

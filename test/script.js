@@ -101,6 +101,45 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         done();
       });
     });
+
+    it.only("should match *1 star - End case", function(done) {
+      bot.reply("user1", "fixedwidth define love", function(err, reply) {
+        reply.string.should.eql("Test endstar should pass");
+        done();
+      });
+    });
+  });
+
+
+  // min max *1 *~1
+  describe('Mix stars for Mix and Max', function(){
+    it("min max star - Zero", function(done) {
+      bot.reply("user1", "min max", function(err, reply) {
+        reply.string.should.eql("");
+        done();
+      });
+    });
+
+    it("min max star - one", function(done) {
+      bot.reply("user1", "min max one", function(err, reply) {
+        reply.string.should.eql("min max test");
+        done();
+      });
+    });
+
+    it("min max star - two", function(done) {
+      bot.reply("user1", "min max one two", function(err, reply) {
+        reply.string.should.eql("min max test");
+        done();
+      });
+    });
+
+    it("min max star - three", function(done) {
+      bot.reply("user1", "min max one two three", function(err, reply) {
+        reply.string.should.eql("");
+        done();
+      });
+    });
   });
 
   describe('Replies can be repeated accross triggers', function(){
