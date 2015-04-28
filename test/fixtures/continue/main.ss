@@ -36,6 +36,15 @@
   % What is your favorite color?
   - I hate that color.
     
+// Keep test GH-100
++ aaa
+- 111
+  + bbb
+  % 111
+  - {keep} 222
+    + ccc
+    % 222
+    - {keep} 333
 
 + test complex
 - reply test {@__complex__}
