@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/silentrob/superscript.svg?branch=master)](https://travis-ci.org/silentrob/superscript)
-
+[![Gitter chat](https://badges.gitter.im/silentrob/gendocs.png)](https://gitter.im/silentrob/superscript)
 # SuperScript
 
 SuperScript is a dialog system + bot engine for creating human-like conversation chat bots. It exposes an expressive script for crafting dialogue and features text-expansion using wordnet and Information Retrieval and extraction using ConceptNet. 
