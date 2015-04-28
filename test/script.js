@@ -102,7 +102,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       });
     });
 
-    it.only("should match *1 star - End case", function(done) {
+    it("should match *1 star - End case", function(done) {
       bot.reply("user1", "fixedwidth define love", function(err, reply) {
         reply.string.should.eql("Test endstar should pass");
         done();
@@ -111,7 +111,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
   });
 
 
-  // min max *1 *~1
+  // min max *(1-2)
   describe('Mix stars for Mix and Max', function(){
     it("min max star - Zero", function(done) {
       bot.reply("user1", "min max", function(err, reply) {

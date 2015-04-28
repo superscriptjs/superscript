@@ -35,7 +35,7 @@
 
 
   // Min Max Test
-  + min max *1 *~1
+  + min max *(1-2)
   - {keep} min max test
 
   // Test 2 Star match 
