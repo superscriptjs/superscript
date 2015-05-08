@@ -72,6 +72,10 @@ For a simplified web authoring workflow, check out the [Web Editor](https://gith
 * [Full Documentation](http://superscriptjs.com/documentation/scripting)
 * Follow [@rob_ellis](https://twitter.com/rob_ellis)
 
+### Further Watching
+
+* [Talking to Machines EmpireJS](https://www.youtube.com/watch?v=uKqO6HCKSBg)
+
 ## Thanks
 
 SuperScript is based off of a fork of RiveScript with idiom brought in from ChatScript. Without the work of Noah Petherbridge and Bruce Wilcox, this project would not be possible. 
