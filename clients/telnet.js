@@ -88,7 +88,7 @@ var botHandle = function(err, bot) {
 // See superscript/bin/parse for information on how to do that.
 
 // Main entry point
-TopicSystem.importer('./data.json', function(){
+TopicSystem.importerFile('./data.json', function(){
   new superscript(options, function(err, botInstance){
     botHandle(null, botInstance);
   });

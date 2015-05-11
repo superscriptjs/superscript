@@ -108,7 +108,7 @@ var receiveData = function(slack, bot, data) {
 };
 
 // Main entry point
-TopicSystem.importer('./data.json', function(){
+TopicSystem.importerFile('./data.json', function(){
   new superscript(options, function(err, botInstance){
     botHandle(null, botInstance);
   });
