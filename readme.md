@@ -63,6 +63,10 @@ The above is just a tiny fraction of what the system is capable of doing. Please
 
 For a simplified web authoring workflow, check out the [Web Editor](https://github.com/silentrob/superscript-editor)
 
+### Additonal Resources
+
+* [Sublime Text Syntax Hilighting](https://github.com/mariusursache/superscript-sublimetext)
+* 
 ### Further Reading
 
 * [Introducing SuperScript](https://medium.com/@rob_ellis/superscript-ce40e9720bef) on Medium
