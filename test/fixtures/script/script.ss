@@ -26,17 +26,24 @@
   + It is *2 hot out
   - Test three should pass
 
-  // Should match it foo hot out2
-  // Should match it hot out2
+  // Should match it foo hot out 2
+  // Should match it hot out 2
   + It is *~2 hot out 2
   - {keep} pass 1
   - {keep} pass 2
   - {keep} pass 3
 
+  + var length *~2
+  - {keep} pass 1
 
   // Min Max Test
   + min max *(1-2)
   - {keep} min max test
+
+  // Min Max Test
+  + test 2 min max *(0-1)
+  - {keep} min max test
+
 
   // Test 2 Star match 
   + It is *2 cold out

@@ -140,28 +140,15 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         done();
       });
     });
-  });
 
-  describe('Replies can be repeated accross triggers', function(){
-    it("Replies accross trigger should pass", function(done) {
-      bot.reply("user1", "trigger one", function(err, reply) {
-        reply.string.should.eql("generic reply");
-
-        bot.reply("user1", "trigger two", function(err, reply) {
-          reply.string.should.eql("generic reply");
-          done();
-        });
-      });
-    });
-
-    // We exausted this reply in the last test.
-    // NB: this test will fail if run on its own.
-    it("Should pass 2", function(done) {
-      bot.reply("user1", "trigger one", function(err, reply) {
-        reply.string.should.eql("");
-        done();
-      });
-    });
+    // Todo implement this
+    // it("min max star - four", function(done) {
+    //   bot.reply("user1", "test 2 min max", function(err, reply) {
+    //     reply.string.should.eql("min max test");
+    //     done();
+    //   });
+    // });
+    
   });
 
   describe('Variable length star interface *~n', function() {
@@ -172,8 +159,16 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       });
     });
 
+    it("should match *~2 star - Empty", function(done) {
+      bot.reply("user1", "var length", function(err, reply) {
+        ["pass 1"].should.containEql(reply.string);
+        done();
+      });
+    });
+
+
     it("should match *~2 star - Zero Star", function(done) {
-      bot.reply("user1", "It is hot out2", function(err, reply) {
+      bot.reply("user1", "It is hot out 2", function(err, reply) {
         ["pass 1","pass 2","pass 3"].should.containEql(reply.string);
         done();
       });
@@ -207,6 +202,28 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       });
     });
 
+  });
+
+  describe('Replies can be repeated accross triggers', function(){
+    it("Replies accross trigger should pass", function(done) {
+      bot.reply("user1", "trigger one", function(err, reply) {
+        reply.string.should.eql("generic reply");
+
+        bot.reply("user1", "trigger two", function(err, reply) {
+          reply.string.should.eql("generic reply");
+          done();
+        });
+      });
+    });
+
+    // We exausted this reply in the last test.
+    // NB: this test will fail if run on its own.
+    it("Should pass 2", function(done) {
+      bot.reply("user1", "trigger one", function(err, reply) {
+        reply.string.should.eql("");
+        done();
+      });
+    });
   });
 
   describe('Alternates Interface (a|b)', function() {
