@@ -1,5 +1,8 @@
 > topic random
 
+  + + this is unscaped
+  - This should pass
+  
   + * bone *
   - {keep} win 1
 

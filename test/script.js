@@ -8,6 +8,13 @@ describe.only('SuperScript Scripting + Style Interface', function(){
 
   describe('Simple star Interface *', function(){
 
+    it("Unscaped", function(done) {
+      bot.reply("user1", "+ this is unscaped", function(err, reply) {
+        reply.string.should.eql("This should pass");
+        done();
+      });
+    });
+
     it("should reply to simple string", function(done) {
       bot.reply("user1", "This is a test", function(err, reply) {
         reply.string.should.eql("Test should pass one");
