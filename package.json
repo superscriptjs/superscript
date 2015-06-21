@@ -4,6 +4,7 @@
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
+    "lint":"eslint --env node lib *.js",
     "test": "mocha test -R spec -s 1700 -t 150000"
   },
   "repository": {
@@ -60,11 +61,12 @@
   },
   "devDependencies": {
     "blanket": "~1.1.6",
+    "conceptnet": "silentrob/conceptnet",
+    "eslint": "^0.23.0",
     "mkdirp": "^0.5.0",
     "mocha": "1.21.1",
     "rmdir": "^1.0.4",
-    "should": "~3.3.1",
-    "conceptnet": "silentrob/conceptnet"
+    "should": "~3.3.1"
   },
   "config": {
     "blanket": {

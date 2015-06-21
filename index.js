@@ -1,26 +1,22 @@
-var fs = require("fs");
 var util = require("util");
-var events = require('events');
+var events = require("events");
 var EventEmitter = events.EventEmitter;
 var async = require("async");
 var qtypes = require("qtypes");
 var _ = require("underscore");
 var norm = require("node-normalizer");
-var requireDir = require('require-dir');
+var requireDir = require("require-dir");
 var debug = require("debug")("Script");
-var dWarn = require("debug")("Script:Warning");
 var facts = require("sfacts");
-
 var TopicsSystem = require("./lib/topics/index");
-
-var Topics = require("./lib/topics");
 var Message = require("./lib/message");
 var Users = require("./lib/users");
 var getreply = require("./lib/getreply");
-var processTags = require("./lib/processtags");
 var Utils = require("./lib/utils");
+// var Topics = require("./lib/topics");
+// var processTags = require("./lib/processtags");
 
-var mergex = require('deepmerge');
+var mergex = require("deepmerge");
 
 function SuperScript(options, callback) {
   EventEmitter.call(this);
@@ -32,27 +28,27 @@ function SuperScript(options, callback) {
   if (options.mongoose) {
     mongoose = options.mongoose;
   } else {
-    mongoose = require('mongoose');
-    mongoose.connect('mongodb://localhost/superscriptDB');
+    mongoose = require("mongoose");
+    mongoose.connect("mongodb://localhost/superscriptDB");
   }
 
   this._plugins = [];
   this.normalize = null;
-  this.question  = null;
+  this.question = null;
 
   Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
   // this.intervalId = setInterval(this.check.bind(this), 500);
 
-  this.factSystem = (options.factSystem) ? options.factSystem : facts.create("systemDB");
+  this.factSystem = options.factSystem ? options.factSystem : facts.create("systemDB");
   this.topicSystem = TopicsSystem(mongoose, this.factSystem);
 
   // This is a kill switch for filterBySeen which is useless in the editor.
   this.editMode = options.editMode || false;
 
   // We want a place to store bot related data
-  this.memory = (options.botfacts) ? options.botfacts : this.factSystem.createUserDB("botfacts");
+  this.memory = options.botfacts ? options.botfacts : this.factSystem.createUserDB("botfacts");
 
   this.scope = {};
   this.scope = _.extend(options.scope || {});
@@ -62,9 +58,9 @@ function SuperScript(options, callback) {
 
   this.users = new Users(mongoose, this.factSystem);
 
-  norm.loadData(function() {
+  norm.loadData(function () {
     that.normalize = norm;
-    new qtypes(function(question) {
+    new qtypes(function (question) {
       that.question = question;
       debug("System Loaded, waiting for replies");
       callback(null, that);
@@ -72,8 +68,8 @@ function SuperScript(options, callback) {
   });
 }
 
-var messageItorHandle = function(user, system) {
-  return messageItor = function(msg, next) {
+var messageItorHandle = function (user, system) {
+  var messageItor = function (msg, next) {
 
     var options = {
       user: user,
@@ -81,7 +77,7 @@ var messageItorHandle = function(user, system) {
       message: msg
     };
 
-    getreply(options, function(err, replyObj) {
+    getreply(options, function (err, replyObj) {
       // Convert the reply into a message object too.
 
       var msgString = "";
@@ -98,7 +94,7 @@ var messageItorHandle = function(user, system) {
         replyObj = {};
       }
 
-      new Message(msgString, messageOptions,  function(replyMessageObject) {
+      new Message(msgString, messageOptions, function (replyMessageObject) {
         user.updateHistory(msg, replyMessageObject);
 
         // We send back a smaller message object to the clients.
@@ -110,24 +106,25 @@ var messageItorHandle = function(user, system) {
           topicName: replyObj.topicName
         };
 
-        var newClientObject =  mergex(clientObject, replyObj.props || {});
+        var newClientObject = mergex(clientObject, replyObj.props || {});
 
-        user.save(function(e,r,s){
+        user.save(function () {
           return next(err, newClientObject);
         });
       });
     });
   };
+  return messageItor;
 };
 
 // This takes a message and breaks it into chucks to be passed though
 // the sytem. We put them back together on the other end.
-var messageFactory = function(rawMsg, question, normalize, facts, cb) {
+var messageFactory = function (rawMsg, question, normalize, facts, cb) {
 
   var messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
   messageParts = Utils.cleanArray(messageParts);
 
-  var itor = function(messageChunk, next) {
+  var itor = function (messageChunk, next) {
 
     var messageOptions = {
       qtypes: question,
@@ -135,19 +132,19 @@ var messageFactory = function(rawMsg, question, normalize, facts, cb) {
       facts: facts
     };
 
-    new Message(messageChunk.trim(), messageOptions, function(tmsg) {
+    new Message(messageChunk.trim(), messageOptions, function (tmsg) {
       next(null, tmsg);
     });
   };
 
-  return async.mapSeries(messageParts, itor, function(err, messageArray) {
+  return async.mapSeries(messageParts, itor, function (err, messageArray) {
     return cb(messageArray);
   });
 };
 
 util.inherits(SuperScript, EventEmitter);
 
-SuperScript.prototype.message = function(msgString, callback) {
+SuperScript.prototype.message = function (msgString, callback) {
 
   var messageOptions = {
     qtypes: this.question,
@@ -155,15 +152,15 @@ SuperScript.prototype.message = function(msgString, callback) {
     facts: this.factSystem
   };
 
-  new Message(msgString, messageOptions,  function(msgObj) {
+  new Message(msgString, messageOptions, function (msgObj) {
     callback(null, msgObj);
   });
 };
 
 
 // Convert msg into message object, then check for a match
-SuperScript.prototype.reply = function(userId, msg, callback) {
-  if (arguments.length === 2 && typeof msg == "function") {
+SuperScript.prototype.reply = function (userId, msg, callback) {
+  if (arguments.length === 2 && typeof msg === "function") {
     callback = msg;
     msg = userId;
     userId = Math.random().toString(36).substr(2, 5);
@@ -187,23 +184,23 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
     editMode: that.editMode
   };
 
-    var properties = { id: userId };
-    var prop = {
-      currentTopic :'random',
-      status:0,
-      conversation: 0, volley: 0, rally:0
-    };
+  var properties = { id: userId };
+  var prop = {
+    currentTopic: "random",
+    status: 0,
+    conversation: 0, volley: 0, rally: 0
+  };
 
-  this.users.findOrCreate(properties, prop, function(err, user, isNew){
+  this.users.findOrCreate(properties, prop, function (err, user) {
 
-    messageFactory(msg, that.question, that.normalize, that.factSystem, function(messages) {
-      async.mapSeries(messages, messageItorHandle(user, system), function(err, messageArray) {
+    messageFactory(msg, that.question, that.normalize, that.factSystem, function (messages) {
+      async.mapSeries(messages, messageItorHandle(user, system), function (err, messageArray) {
         var reply = {};
         messageArray = Utils.cleanArray(messageArray);
 
         if (_.isEmpty(messageArray)) {
           reply.string = "";
-        } else if (messageArray.length == 1) {
+        } else if (messageArray.length === 1) {
           reply = messageArray[0];
         } else {
 
@@ -213,20 +210,19 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
           var messageReplies = [];
           reply.parts = [];
           for (var i = 0; i < messageArray.length; i++) {
-             // reply.parts[i] = JSON.parse(JSON.stringify(messageArray[i]));
-             reply.parts[i] = {
-                string: messageArray[i].string,
-                triggerId: messageArray[i].triggerId,
-                topicName: messageArray[i].topicName
-              };
+            reply.parts[i] = {
+              string: messageArray[i].string,
+              triggerId: messageArray[i].triggerId,
+              topicName: messageArray[i].topicName
+            };
 
             if (messageArray[i].string !== "") {
               messageReplies.push(messageArray[i].string);
             }
 
-            for (var prop in messageArray[i]) {
-              if (prop != "createdAt" && prop != "string") {
-                reply[prop] = messageArray[i][prop];
+            for (var nprop in messageArray[i]) {
+              if (nprop !== "createdAt" && nprop !== "string") {
+                reply[nprop] = messageArray[i][nprop];
               }
             }
           }
@@ -241,43 +237,43 @@ SuperScript.prototype.reply = function(userId, msg, callback) {
   });
 };
 
-SuperScript.prototype.loadPlugins = function(path) {
+SuperScript.prototype.loadPlugins = function (path) {
   var plugins = requireDir(path);
 
   for (var file in plugins) {
     for (var func in plugins[file]) {
-      debug("Loading Plugin", path, func)
+      debug("Loading Plugin", path, func);
       this._plugins[func] = plugins[file][func];
     }
   }
 };
 
-SuperScript.prototype.getPlugins = function() {
+SuperScript.prototype.getPlugins = function () {
   return this._plugins;
 };
 
-SuperScript.prototype.getTopics = function() {
+SuperScript.prototype.getTopics = function () {
   return this.topics;
 };
 
-SuperScript.prototype.getUsers = function(cb) {
-  this.users.find({}, 'id', cb);
+SuperScript.prototype.getUsers = function (cb) {
+  this.users.find({}, "id", cb);
 };
 
-SuperScript.prototype.getUser = function(userId, cb) {
+SuperScript.prototype.getUser = function (userId, cb) {
   debug("Fetching User", userId);
 
-  this.users.findOne({id: userId}, function(err, usr){
+  this.users.findOne({id: userId}, function (err, usr) {
     cb(err, usr);
   });
 };
 
-SuperScript.prototype.findOrCreateUser = function(userId, callback) {
+SuperScript.prototype.findOrCreateUser = function (userId, callback) {
   var properties = { id: userId };
   var prop = {
-    currentTopic :'random',
-    status:0,
-    conversation: 0, volley: 0, rally:0
+    currentTopic: "random",
+    status: 0,
+    conversation: 0, volley: 0, rally: 0
   };
 
   this.users.findOrCreate(properties, prop, callback);
@@ -295,8 +291,8 @@ SuperScript.prototype.findOrCreateUser = function(userId, callback) {
 //   return Users.disconnect(userId);
 // }
 
-var firstReplyTime = Utils.getRandomInt(3000, 10000);
-var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
+// var firstReplyTime = Utils.getRandomInt(3000, 10000);
+// var secondReplyTime = firstReplyTime + Utils.getRandomInt(3000, 10000);
 
 // This is really the difference between a personal assistant and
 // a full blown conversation engine.
