@@ -8,7 +8,7 @@ var norm = require("node-normalizer");
 var requireDir = require("require-dir");
 var debug = require("debug")("Script");
 var facts = require("sfacts");
-var TopicsSystem = require("./lib/topics/index");
+var gTopicsSystem = require("./lib/topics/index");
 var Message = require("./lib/message");
 var Users = require("./lib/users");
 var getreply = require("./lib/getreply");
@@ -21,7 +21,7 @@ var mergex = require("deepmerge");
 function SuperScript(options, callback) {
   EventEmitter.call(this);
   var mongoose;
-  var that = this;
+  var self = this;
   options = options || {};
 
   // Create a new connection if non is provided.
@@ -42,7 +42,7 @@ function SuperScript(options, callback) {
   // this.intervalId = setInterval(this.check.bind(this), 500);
 
   this.factSystem = options.factSystem ? options.factSystem : facts.create("systemDB");
-  this.topicSystem = TopicsSystem(mongoose, this.factSystem);
+  this.topicSystem = gTopicsSystem(mongoose, this.factSystem);
 
   // This is a kill switch for filterBySeen which is useless in the editor.
   this.editMode = options.editMode || false;
@@ -59,11 +59,11 @@ function SuperScript(options, callback) {
   this.users = new Users(mongoose, this.factSystem);
 
   norm.loadData(function () {
-    that.normalize = norm;
+    self.normalize = norm;
     new qtypes(function (question) {
-      that.question = question;
+      self.question = question;
       debug("System Loaded, waiting for replies");
-      callback(null, that);
+      callback(null, self);
     });
   });
 }
@@ -152,7 +152,7 @@ SuperScript.prototype.message = function (msgString, callback) {
     facts: this.factSystem
   };
 
-  new Message(msgString, messageOptions, function (msgObj) {
+  var message = new Message(msgString, messageOptions, function (msgObj) {
     callback(null, msgObj);
   });
 };
@@ -167,21 +167,21 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
   }
 
   debug("Message Recieved from '" + userId + "'", msg);
-  var that = this;
+  var self = this;
 
-  // Ideally these will come from a cache, but that is a exercise for a rainy day
+  // Ideally these will come from a cache, but self is a exercise for a rainy day
   var system = {
 
     // getReply
-    topicsSystem: that.topicSystem,
-    plugins: that._plugins,
-    scope: that.scope,
+    topicsSystem: self.topicSystem,
+    plugins: self._plugins,
+    scope: self.scope,
 
     // Message
-    question: that.question,
-    normalize: that.normalize,
-    facts: that.factSystem,
-    editMode: that.editMode
+    question: self.question,
+    normalize: self.normalize,
+    facts: self.factSystem,
+    editMode: self.editMode
   };
 
   var properties = { id: userId };
@@ -191,10 +191,16 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
     conversation: 0, volley: 0, rally: 0
   };
 
-  this.users.findOrCreate(properties, prop, function (err, user) {
+  this.users.findOrCreate(properties, prop, function (err1, user) {
+    if (err1) {
+      console.log(err1);
+    }
+    messageFactory(msg, self.question, self.normalize, self.factSystem, function (messages) {
+      async.mapSeries(messages, messageItorHandle(user, system), function (err2, messageArray) {
+        if (err2) {
+          console.log(err2);
+        }
 
-    messageFactory(msg, that.question, that.normalize, that.factSystem, function (messages) {
-      async.mapSeries(messages, messageItorHandle(user, system), function (err, messageArray) {
         var reply = {};
         messageArray = Utils.cleanArray(messageArray);
 
@@ -231,7 +237,7 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
         }
 
         debug("Update and Reply to user '" + user.id + "'", reply);
-        return callback(err, reply);
+        return callback(err2, reply);
       });
     });
   });
@@ -309,34 +315,34 @@ SuperScript.prototype.findOrCreateUser = function (userId, callback) {
 // so you will need to pair the user back to a socket.
 //
 // SuperScript.prototype.check = function() {
-//   var that = this;
+//   var self = this;
 //   var users = Users.getOnline();
 //   var currentTimestamp = (new Date()).getTime();
 
 //   var sendMessage = function(message, user, cb) {
 
-//     var gScope = that.scope;
+//     var gScope = self.scope;
 //     gScope.user = user;
 
 //     var options = {
-//       plugins: that._plugins,
+//       plugins: self._plugins,
 //       scope: gScope
 //     };
 
-//     // TODO - Reply Object has changed, and we need to mimic that here.
+//     // TODO - Reply Object has changed, and we need to mimic self here.
 //     var reply = {};
 
 //     processTags(reply, user, options, function afterProcessTags(err, reply){
 //       var messageOptions = {
-//         qtypes: that.question,
-//         norm: that.normalize,
-//         facts: that.facts
+//         qtypes: self.question,
+//         norm: self.normalize,
+//         facts: self.facts
 //       };
 //       new Message(reply, messageOptions, function(replyObj) {
 
 //         debug("User Saved");
 //         user.updateHistory(null, replyObj);
-//         that.emit('message', user.name, reply);
+//         self.emit('message', user.name, reply);
 //         cb();
 
 //       });
@@ -351,12 +357,12 @@ SuperScript.prototype.findOrCreateUser = function (userId, callback) {
 //     var thingsToSay = [];
 //     var firstToSay = [];
 
-//     for (message in that._topics[currentTopic]) {
-//       if(that._topics[currentTopic][message].say !== undefined) {
-//         if(that._topics[currentTopic][message].options.index !== undefined) {
-//           firstToSay.push(that._topics[currentTopic][message].say);
+//     for (message in self._topics[currentTopic]) {
+//       if(self._topics[currentTopic][message].say !== undefined) {
+//         if(self._topics[currentTopic][message].options.index !== undefined) {
+//           firstToSay.push(self._topics[currentTopic][message].say);
 //         } else {
-//           thingsToSay.push(that._topics[currentTopic][message].say);
+//           thingsToSay.push(self._topics[currentTopic][message].say);
 //         }
 //       }
 //     }
