@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe.only('SuperScript Scripting + Style Interface', function(){
+describe('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -559,7 +559,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
 
 
   describe('Filter functions', function(){
-    it("Trigger function", function(done) {
+    it.only("Trigger function", function(done) {
       bot.reply("scuser5", "trigger filter function", function(err, reply) {
         reply.string.should.eql("");
         bot.reply("scuser5", "trigger filler function", function(err, reply) {
