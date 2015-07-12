@@ -6,3 +6,5 @@ test/fixtures/cache/*
 systemDB
 factsystem
 botfacts
+dump.rdb
+dump/*
