@@ -4,7 +4,7 @@
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
-    "lint":"eslint --env node lib *.js",
+    "lint": "eslint --env node lib *.js",
     "test": "mocha test -R spec -s 1700 -t 150000"
   },
   "repository": {
@@ -17,7 +17,8 @@
   },
   "bin": {
     "parse": "bin/parse.js",
-    "bot-init": "bin/bot-init.js"
+    "bot-init": "bin/bot-init.js",
+    "bot-cleanup": "bin/cleanup.js"
   },
   "author": "Rob Ellis",
   "contributors": [
@@ -61,10 +62,13 @@
   },
   "devDependencies": {
     "blanket": "~1.1.6",
+    "bluebird": "^2.9.34",
     "conceptnet": "silentrob/conceptnet",
     "eslint": "^0.23.0",
     "mkdirp": "^0.5.0",
     "mocha": "1.21.1",
+    "mongodb": "^2.0.39",
+    "rimraf": "^2.4.2",
     "rmdir": "^1.0.4",
     "should": "~3.3.1"
   },
