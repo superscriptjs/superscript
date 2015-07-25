@@ -56,7 +56,7 @@ function createFresh () {
 
     // Generate Shared Fact System
     // If not pre-generated, superscript will throw error on initialization
-    var factSystem = facts.create('systemDB'),
+    var factSystem = facts.create(program.facts),
         parser = require('../lib/parse')(factSystem),
         loadDirectory = Promise.promisify( parser.loadDirectory, parser );
 
