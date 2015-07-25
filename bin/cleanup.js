@@ -11,11 +11,15 @@ var Promise = require('bluebird'),
     superscript = require('../index'),
     fs = require("fs");
 
+var collectionsToRemove = ['users', 'topics', 'replies', 'gambits'];
+
 program
   .version('0.0.1')
   .option('--facts [type]', 'Fact Directory', './systemDB')
   .option('--mongo [type]', 'Mongo Database Name', 'systemDB')
   .option('--topic [type]', 'Topic Directory', './topics')
+  .option('--remove-all', 'Remove collections: ' + collectionsToRemove.join(', '))
+  .option('--flush-topics', 'Flush topic gambits and replies')
   .parse(process.argv);
 
 function removeAll (db) {
@@ -23,7 +27,8 @@ function removeAll (db) {
      * @param {Object} MongoDB instance
      * @return {Promise} Resolved after listed collections are removed and the fact system directory has been recursively cleared
      */
-    var collectionsToRemove = ['users', 'topics', 'replies', 'gambits'];
+
+    if (!program.removeAll) return;
 
     return Promise.map(collectionsToRemove, function(collName) {
             var coll = db.collection(collName);
@@ -60,11 +65,11 @@ function createFresh () {
          * @param {Object} Parsed data from a .ss file
          * @return {Promise} Resolved when import is complete
          */
-        
+
         // console.log('Importing', data);
         return new Promise(function(resolve, reject) {
             new superscript({factSystem: factSystem}, function(err, bot) {
-                if (!err) bot.topicSystem.importerData(data, resolve);
+                if (!err) bot.topicSystem.importerData(data, resolve, program.flushTopics);
                 else reject(err);
             });
         });
