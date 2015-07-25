@@ -129,7 +129,8 @@ var messageFactory = function (rawMsg, question, normalize, facts, cb) {
     var messageOptions = {
       qtypes: question,
       norm: normalize,
-      facts: facts
+      facts: facts,
+      original: rawMsg
     };
 
     new Message(messageChunk.trim(), messageOptions, function (tmsg) {
