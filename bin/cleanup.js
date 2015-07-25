@@ -18,8 +18,8 @@ program
   .option('--facts [type]', 'Fact Directory', './systemDB')
   .option('--mongo [type]', 'Mongo Database Name', 'systemDB')
   .option('--topic [type]', 'Topic Directory', './topics')
-  .option('--remove-all', 'Remove collections: ' + collectionsToRemove.join(', '))
-  .option('--flush-topics', 'Flush topic gambits and replies')
+  .option('--skip-remove-all', 'Skip removal of: ' + collectionsToRemove.join(', '))
+  .option('--flush-topics', 'Flush imported topics, implies --skip-remove-all')
   .parse(process.argv);
 
 function removeAll (db) {
@@ -28,7 +28,7 @@ function removeAll (db) {
      * @return {Promise} Resolved after listed collections are removed and the fact system directory has been recursively cleared
      */
 
-    if (!program.removeAll) return;
+    if (program.skipRemoveAll || program.flushTopics) return;
 
     return Promise.map(collectionsToRemove, function(collName) {
             var coll = db.collection(collName);
