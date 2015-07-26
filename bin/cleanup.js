@@ -20,6 +20,7 @@ program
   .option('--topic [type]', 'Topic Directory', './topics')
   .option('--skip-remove-all', 'Skip removal of: ' + collectionsToRemove.join(', '))
   .option('--flush-topics', 'Flush imported topics, implies --skip-remove-all')
+  .option('--preserve-random', 'When used with --flush-topics, it will not empty the random topic')
   .parse(process.argv);
 
 function removeAll (db) {
@@ -69,7 +70,7 @@ function createFresh () {
         // console.log('Importing', data);
         return new Promise(function(resolve, reject) {
             new superscript({factSystem: factSystem}, function(err, bot) {
-                if (!err) bot.topicSystem.importerData(data, resolve, program.flushTopics);
+                if (!err) bot.topicSystem.importerData(data, resolve, program.flushTopics, program.preserveRandom);
                 else reject(err);
             });
         });
