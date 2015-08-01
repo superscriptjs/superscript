@@ -2,11 +2,12 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe('Super Script Continue System', function(){
+
+describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
-  describe('Match and continue', function(){
+  describe.only('Match and continue', function(){
 
     it("should continue", function(done) {
       bot.reply("user1", "i went to highschool", function(err, reply) {

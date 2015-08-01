@@ -47,4 +47,19 @@
 + __complex__
 - super compound
 
+// Testing conversation exaustion
++ conversation
+ - Are you happy?
+   + ~yes
+   % are you happy
+   - OK, so you are happy
+   + ~no
+   % are you happy
+   - OK, so you are not happy
+   + *
+   % are you happy
+   - OK, so you don't know
+ + *
+ - Random reply
+
 < topic
