@@ -7,7 +7,7 @@ describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
-  describe.only('Match and continue', function(){
+  describe('Match and continue', function(){
 
     it("should continue", function(done) {
       bot.reply("user1", "i went to highschool", function(err, reply) {
@@ -67,7 +67,25 @@ describe('Super Script Continue System aka Conversation', function(){
         });
       });
     });
+  });
 
+  describe.only("GH-133", function() {
+    it("Threaded Conversation", function(done) {
+      bot.reply("user1", "conversation", function(err, reply) {
+        reply.string.should.eql("Are you happy?");
+
+        // This is the reply to the conversation
+        bot.reply("user1", "yes", function(err, reply) {
+          reply.string.should.eql("OK, so you are happy");
+
+          // Now we want to break out and fall back to the topic
+          bot.reply("user1", "something else", function(err, reply) {
+            reply.string.should.eql("Random reply");
+            done();
+          });
+        });
+      });
+    });
   });
 
   after(help.after);
