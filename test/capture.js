@@ -49,23 +49,33 @@ describe('Super Script Capture System', function(){
         done();
       });
     });
+
   });
 
-  describe("Match <input> and <reply>", function() {
+  describe.only("GH-128", function() {
+    it("GH-128 exact wildcard", function(done) {
+      bot.reply("user1", "bill is taller than bob", function(err, reply) {
+        reply.string.should.eql("bill is taller than bob");
+        done();
+      });
+    });
+
+    it("GH-128 variable wildcard", function(done) {
+      bot.reply("user1", "bill is smaller than bob", function(err, reply) {
+        reply.string.should.eql("bill is smaller than bob");
+        done();
+      });
+    });
+  });
+
+  describe("Match <input>", function() {
     it("It should capture the last thing said", function(done) {
       bot.reply("user1", "capture input", function(err, reply) {
         reply.string.should.eql("capture input");
         done();
       });
-    })
+    });
 
-    // <reply> is not currently working
-    it.skip("It should capture the last thing said 2", function(done) {
-      bot.reply("user1", "capture input", function(err, reply) {
-        reply.string.should.eql("Don't repeat what I say.");
-        done();
-      });
-    })    
   });
 
   after(help.after);
