@@ -47,43 +47,22 @@
 + __complex__
 - super compound
 
-
-
 // Testing conversation exaustion GH-133
 + conversation
- - Are you happy?
-   + ~yes
-   % are you happy
-   - OK, so you are happy
-   + ~no
-   % are you happy
-   - OK, so you are not happy
-   + *
-   % are you happy
-   - OK, so you don't know
+- Are you happy?
+  + ~yes
+  % are you happy
+  - OK, so you are happy
+
+  + ~no
+  % are you happy
+  - OK, so you are not happy
+
+  + *
+  % are you happy
+  - OK, so you don't know
 
 + something else
 - Random reply
-
-
-// Example two from GH-133
- + start
- - What is your name?
-
-   + [my name is] *1
-   % * what is your name *
-   - So your first name is <cap1>?
-
-   + [my name is] *1 *1
-   % * what is your name *
-   - So your first name is <cap1>?
-
-     + ~yes *
-     % * so your first name is *
-     - That's a nice name.
-
-     + ~no *
-     % * so your first name is *
-     - I'm a bit confused.
 
 < topic

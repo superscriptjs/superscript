@@ -69,11 +69,12 @@ describe('Super Script Continue System aka Conversation', function(){
     });
   });
 
-  describe.only("GH-133", function() {
+  describe("GH-133", function() {
     it("Threaded Conversation", function(done) {
       bot.reply("user1", "conversation", function(err, reply) {
         reply.string.should.eql("Are you happy?");
-
+        // done();
+        
         // This is the reply to the conversation
         bot.reply("user1", "yes", function(err, reply) {
           reply.string.should.eql("OK, so you are happy");

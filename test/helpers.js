@@ -67,6 +67,17 @@ var imortFilePath = function(path, facts, callback) {
   mongoose.connect('mongodb://localhost/superscriptDB');
   var TopicSystem = require("../lib/topics/index")(mongoose, facts);
   TopicSystem.importerFile(path, callback);
+
+  // This is here in case you want to see what exactly was imported.
+  // TopicSystem.importerFile(path, function () {
+  //   Topic.find({name: 'random'}, "gambits")
+  //     .populate("gambits")
+  //     .exec(function (err, mgambits) {
+  //     console.log("------", err, mgambits);
+  //     callback();
+  //   });
+  // });
+
 };
 
 exports.before = function(file) {
@@ -122,7 +133,7 @@ exports.before = function(file) {
                   imortFilePath(fileCache, facts, function() {
                     new script(options, function(err, botx) {
                       bot = botx;
-                      // process.exit(1);
+                      process.exit(1);
                       done();
                     }); // new bot
                   }); // import file
