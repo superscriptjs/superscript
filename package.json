@@ -40,7 +40,7 @@
     "crc": "^3.0.0",
     "debug": "~0.8.0",
     "deepmerge": "^0.2.7",
-    "lemmer": "0.1.1",
+    "lemmer": "0.1.5",
     "mkdirp": "^0.5.0",
     "moment": "~2.6.0",
     "mongoose": "3.8.22",
