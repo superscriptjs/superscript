@@ -52,7 +52,7 @@ describe('Super Script Capture System', function(){
 
   });
 
-  describe.only("GH-128", function() {
+  describe("GH-128", function() {
     it("GH-128 exact wildcard", function(done) {
       bot.reply("user1", "bill is taller than bob", function(err, reply) {
         reply.string.should.eql("bill is taller than bob");
@@ -66,6 +66,14 @@ describe('Super Script Capture System', function(){
         done();
       });
     });
+
+    it("GH-128 min-max wildcard", function(done) {
+      bot.reply("user1", "bill is bigger than bob", function(err, reply) {
+        reply.string.should.eql("bill is bigger than bob");
+        done();
+      });
+    });
+
   });
 
   describe("Match <input>", function() {

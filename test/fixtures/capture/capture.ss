@@ -20,14 +20,14 @@
   + capture input
   - <input>
 
-  + <reply>
-  - Don't repeat what I say.
-
   // GH-128
   + *1 is taller than *1
   - <cap1> is taller than <cap2>
 
   + *~1 is smaller than *~1
   - <cap1> is smaller than <cap2>
+
+  + *(1-1) is bigger than *(1-1)
+  - <cap1> is bigger than <cap2>
 
 < topic
