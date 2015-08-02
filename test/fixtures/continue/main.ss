@@ -47,7 +47,7 @@
 + __complex__
 - super compound
 
-// Testing conversation exaustion GH-133
+// Testing conversation exaustion GH-133 from slack
 + conversation
 - Are you happy?
   + ~yes
@@ -64,5 +64,26 @@
 
 + something else
 - Random reply
+
+
+// GH-133 example from gh issues
++ start
+- What is your name?
+
+  + [my name is] *1
+  % * what is your name *
+  - So your first name is <cap1>?
+
+  + [my name is] *1 *1
+  % * what is your name *
+  - So your first name is <cap1>?
+
+    + ~yes *
+    % * so your first name is *
+    - That's a nice name.
+
+    + ~no *
+    % * so your first name is *
+    - I'm a bit confused.
 
 < topic

@@ -87,6 +87,27 @@ describe('Super Script Continue System aka Conversation', function(){
         });
       });
     });
+
+    it("Threaded Conversation 2", function(done) {
+      bot.reply("user1", "start", function(err, reply) {
+        reply.string.should.eql("What is your name?");
+
+        bot.reply("user1", "My name is Marius Ursache", function(err, reply) {
+          reply.string.should.eql("So your first name is Marius?");
+
+          bot.reply("user1", "Yes", function(err, reply) {
+            reply.string.should.eql("That's a nice name.");
+
+            // Leave thread and go back to topic
+            bot.reply("user1", "something else", function(err, reply) {
+              reply.string.should.eql("Random reply");
+              done();
+            });
+          });
+        });
+      });
+
+    });
   });
 
   after(help.after);
