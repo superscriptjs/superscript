@@ -110,7 +110,28 @@ describe('Super Script Continue System aka Conversation', function(){
   });
 
 
-  describe('Match and continue KEEP', function(){
+  describe('Match and continue KEEP', function() {
+
+    it.only("Should be even more awesome", function(done){
+
+      bot.reply("user1", "conversation", function (err, reply) {
+        reply.string.should.eql("What is your name?");
+        bot.reply("user1", "Rob Ellis", function (err, reply) {
+          reply.string.should.eql("What is your name?");
+          bot.reply("user1", "Rob", function (err, reply) {
+            reply.string.should.eql("So your first name is Rob?");
+            bot.reply("user1", "Im not telling you...", function (err, reply) {
+              reply.string.should.eql("Oh, lets try this again... What is your name?");
+              done();
+            });
+          });
+
+        });
+      });
+
+    });
+
+
     it("GH-100 - should keep reply 1", function(done) {
       bot.reply("user1", "aaa", function(err, reply) {
         reply.string.should.eql("111");

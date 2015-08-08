@@ -46,6 +46,29 @@
     % 222
     - {keep} 333
 
+
++ conversation
+ - What is your name?
+
+   + [my name is] *1
+   % What is your name
+   - So your first name is <cap1>?
+
+    + ~yes
+    % So your first name is *
+    - Okay good.
+
+    + ~no
+    % So your first name is *
+    - Oh, lets try this again... {@conversation}
+
+   + *
+   % What is your name
+   - {keep} What is your name?
+
+
+
+
 + test complex
 - reply test {@__complex__}
 
@@ -76,6 +99,7 @@
 
 
 // GH-133 example from gh issues
+/*
 + start
 - What is your name?
 
@@ -94,5 +118,5 @@
     + ~no *
     % * so your first name is *
     - I'm a bit confused.
-
+*/
 < topic
