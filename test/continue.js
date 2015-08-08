@@ -2,6 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
+
 describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
@@ -130,7 +131,6 @@ describe('Super Script Continue System aka Conversation', function(){
       });
 
     });
-
 
     it("GH-100 - should keep reply 1", function(done) {
       bot.reply("user1", "aaa", function(err, reply) {
