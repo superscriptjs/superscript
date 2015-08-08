@@ -7,7 +7,7 @@ describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
-  describe('Match and continue', function(){
+  describe.only('Match and continue', function(){
 
     it("should continue", function(done) {
       bot.reply("user1", "i went to highschool", function(err, reply) {
@@ -109,6 +109,29 @@ describe('Super Script Continue System aka Conversation', function(){
 
     });
   });
+
+
+  describe('Match and continue KEEP', function(){
+    it("GH-100 - should keep reply 1", function(done) {
+      bot.reply("user1", "aaa", function(err, reply) {
+        reply.string.should.eql("111");
+        bot.reply("user1", "bbb", function(err, reply) {
+          reply.string.should.eql("222");
+          bot.reply("user1", "ccc", function(err, reply) {
+            reply.string.should.eql("333");
+
+            // Repeat CCC
+            bot.reply("user1", "ccc", function(err, reply) {
+              reply.string.should.eql("333");
+              done();
+            });
+
+          });
+        });
+      });
+    });
+  });
+
 
   after(help.after);
 });
