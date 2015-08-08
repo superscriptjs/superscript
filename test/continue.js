@@ -121,9 +121,12 @@ describe('Super Script Continue System aka Conversation', function(){
           reply.string.should.eql("What is your name?");
           bot.reply("user1", "Rob", function (err, reply) {
             reply.string.should.eql("So your first name is Rob?");
-            bot.reply("user1", "Im not telling you...", function (err, reply) {
-              reply.string.should.eql("Oh, lets try this again... What is your name?");
-              done();
+            bot.reply("user1", "yes", function (err, reply) {
+              reply.string.should.eql("Okay good.");
+              bot.reply("user1", "break out", function (err, reply) {
+                reply.string.should.eql("okay we are free");
+                done();
+              });
             });
           });
 
