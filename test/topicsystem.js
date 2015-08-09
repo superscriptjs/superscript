@@ -25,31 +25,31 @@ describe('SuperScript TopicsSystem', function(){
   });
 
   // Test Single gambit 
-  describe('Test Gambit', function() {
+  describe('Test Gambit', function () {
     // this is a testing input for the editor
     // We want a string in and false or matches out
     it("Should try string agaist gambit", function(done){
       bot.message("i like to build fires", function(err, msg){
         bot.topicSystem.gambit.findOne({input:'I like to *'}, function(e,g){
-          g.doesMatch(msg, function(e,r){
-            r.should.exist
-            done();          
+          g.doesMatch(msg, function (e,r) {
+            r.should.exist;
+            done();
           });
-        });        
+        });
       });
     });
 
-    it("update gambit test", function(done){
-      bot.topicSystem.gambit.findOrCreate({input:'this is a create test'}, function(er, gam){
+    it("update gambit test", function (done) {
+      bot.topicSystem.gambit.findOrCreate({input: 'this is a create test'}, function (er, gam) {
         gam.save(function(){
-          bot.message("this is a create test", function(err, msg){
-            gam.doesMatch(msg, function(e,r) {
+          bot.message("this is a create test", function (err, msg) {
+            gam.doesMatch(msg, function (e, r) {
               r.should.exist;
               gam.input = 'this is a create *~2';
-              gam.save(function(){
-                bot.message("this is a create hello world", function(err, msg){
-                  gam.doesMatch(msg, function(e,r) {
-                    r[1].should.eql('hello world');
+              gam.save(function () {
+                bot.message("this is a create hello world", function (err, msg) {
+                  gam.doesMatch(msg, function (e, r) {
+                    r[1].should.eql(' hello world');
                     done();
                   });
                 });
@@ -69,13 +69,13 @@ describe('SuperScript TopicsSystem', function(){
     // We want a string in and false or matches out
     it("Should try string agaist topic", function(done){
       bot.message("I like to play outside", function(err, msg){
-        bot.topicSystem.topic.findOne({name:'outdoors'}, function(e,topic){
-          topic.doesMatch(msg, function(e,r){
+        bot.topicSystem.topic.findOne({name: 'outdoors'}, function(e,topic){
+          topic.doesMatch(msg, function (e,r) {
             r.should.not.be.empty;
             r[0].input.should.containEql('I like to *');
-            done();              
-          })
-        });          
+            done();
+          });
+        });
       });
       
     });
