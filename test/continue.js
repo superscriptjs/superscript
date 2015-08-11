@@ -115,23 +115,42 @@ describe('Super Script Continue System aka Conversation', function(){
 
     it.only("Should be even more awesome", function(done){
 
-      bot.reply("user1", "conversation", function (err, reply) {
+      bot.reply("user1", "new conversation", function (err, reply) {
         reply.string.should.eql("What is your name?");
-        bot.reply("user1", "Rob Ellis", function (err, reply) {
-          reply.string.should.eql("What is your name?");
-          bot.reply("user1", "Rob", function (err, reply) {
-            reply.string.should.eql("So your first name is Rob?");
-            bot.reply("user1", "yes", function (err, reply) {
-              reply.string.should.eql("Okay good.");
-              bot.reply("user1", "break out", function (err, reply) {
-                reply.string.should.eql("okay we are free");
-                done();
-              });
-            });
-          });
 
+        bot.reply("user1", "My name is Rob", function (err, reply) {
+          reply.string.should.eql("So your first name is Rob?");
+
+          bot.reply("user1", "yes", function (err, reply) {
+            reply.string.should.eql("Okay good.");
+
+            bot.reply("user1", "break out", function (err, reply) {
+              reply.string.should.eql("okay we are free");
+              done();
+            });
+
+          });
         });
       });
+
+
+      // bot.reply("user1", "conversation", function (err, reply) {
+      //   reply.string.should.eql("What is your name?");
+      //   bot.reply("user1", "Rob Ellis", function (err, reply) {
+      //     reply.string.should.eql("What is your name?");
+      //     bot.reply("user1", "Rob", function (err, reply) {
+      //       reply.string.should.eql("So your first name is Rob?");
+      //       bot.reply("user1", "yes", function (err, reply) {
+      //         reply.string.should.eql("Okay good.");
+      //         bot.reply("user1", "break out", function (err, reply) {
+      //           reply.string.should.eql("okay we are free");
+      //           done();
+      //         });
+      //       });
+      //     });
+
+      //   });
+      // });
 
     });
 

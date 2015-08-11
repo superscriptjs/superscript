@@ -3,6 +3,32 @@
 
 */
 
+> topic random2
+
++ new conversation
+ - What is your name?
+
+   + [my name is] *1
+   % What is your name
+   - So your first name is <cap1>?
+
+    + ~yes
+    % So your first name is *
+    - Okay good.
+
+    + ~no
+    % So your first name is *
+    - Oh, lets try this again... {@conversation}
+
+   + *
+   % What is your name
+   @conversation
+
++ break out
+- okay we are free
+
+< topic
+
 > topic:keep random
 
 + i went to highschool
@@ -46,28 +72,6 @@
     % 222
     - {keep} 333
 
-
-+ conversation
- - What is your name?
-
-   + [my name is] *1
-   % What is your name
-   - So your first name is <cap1>?
-
-    + ~yes
-    % So your first name is *
-    - Okay good.
-
-    + ~no
-    % So your first name is *
-    - Oh, lets try this again... {@conversation}
-
-   + *
-   % What is your name
-   @conversation
-
-+ break out
-- okay we are free
 
 + test complex
 - reply test {@__complex__}
