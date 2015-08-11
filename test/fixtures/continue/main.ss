@@ -1,7 +1,3 @@
-/*
-  Continuation dialogue.
-
-*/
 
 > topic random2
 
@@ -18,16 +14,18 @@
 
     + ~no
     % So your first name is *
-    - Oh, lets try this again... {@conversation}
+    - Oh, lets try this again... {@new conversation}
 
    + *
    % What is your name
-   @conversation
+   @new conversation
 
 + break out
 - okay we are free
 
 < topic
+
+
 
 > topic:keep random
 
@@ -62,16 +60,6 @@
   % What is your favorite color?
   - I hate that color.
     
-// Keep test GH-100
-+ aaa
-- 111
-  + bbb
-  % 111
-  - {keep} 222
-    + ccc
-    % 222
-    - {keep} 333
-
 
 + test complex
 - reply test {@__complex__}
@@ -84,6 +72,7 @@
 - super compound
 
 // Testing conversation exaustion GH-133 from slack
+/*
 + conversation
 - Are you happy?
   + ~yes
@@ -100,6 +89,8 @@
 
 + something else
 - Random reply
+
+*/
 
 
 // GH-133 example from gh issues
