@@ -2,7 +2,7 @@
 > topic random2
 
 + new conversation
- - What is your name?
+- What is your name?
 
    + [my name is] *1
    % What is your name
@@ -18,7 +18,7 @@
 
    + *
    % What is your name
-   @new conversation
+   - okay nevermind
 
 + break out
 - okay we are free

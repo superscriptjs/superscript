@@ -101,7 +101,7 @@ describe('Super Script Continue System aka Conversation', function(){
 
             // We are still stuck in the conversation here, so we repeat the question again
             bot.reply("user2", "something else", function(err, reply) {
-              reply.string.should.eql("So your first name is something?");
+              reply.string.should.eql("What is your name?");
               done();
             });
           });
@@ -125,16 +125,14 @@ describe('Super Script Continue System aka Conversation', function(){
           bot.reply("user3", "yes", function (err, reply) {
             reply.string.should.eql("Okay good.");
 
-            bot.reply("user3", "Something Random", function (err, reply) {
-              reply.string.should.eql("So your first name is Something?");
+            bot.reply("user3", "break out", function (err, reply) {
+              reply.string.should.eql("So your first name is break?");
 
               bot.reply("user3", "break out", function (err, reply) {
                 reply.string.should.eql("okay we are free");
                 done();
               });
-
             });
-
           });
         });
       });
