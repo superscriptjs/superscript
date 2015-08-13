@@ -73,34 +73,35 @@ describe('Super Script Continue System aka Conversation', function(){
     it("Threaded Conversation", function(done) {
       bot.reply("user1", "conversation", function(err, reply) {
         reply.string.should.eql("Are you happy?");
-        // done();
         
         // This is the reply to the conversation
         bot.reply("user1", "yes", function(err, reply) {
           reply.string.should.eql("OK, so you are happy");
 
-          // Now we want to break out and fall back to the topic
+          // Something else wont match because we are still in the conversation
           bot.reply("user1", "something else", function(err, reply) {
-            reply.string.should.eql("Random reply");
+            reply.string.should.eql("OK, so you don't know");
             done();
           });
         });
       });
     });
 
+
+    // NB: I changed the user to user2 here to clear the thread.
     it("Threaded Conversation 2", function(done) {
-      bot.reply("user1", "start", function(err, reply) {
+      bot.reply("user2", "start", function(err, reply) {
         reply.string.should.eql("What is your name?");
 
-        bot.reply("user1", "My name is Marius Ursache", function(err, reply) {
+        bot.reply("user2", "My name is Marius Ursache", function(err, reply) {
           reply.string.should.eql("So your first name is Marius?");
 
-          bot.reply("user1", "Yes", function(err, reply) {
+          bot.reply("user2", "Yes", function(err, reply) {
             reply.string.should.eql("That's a nice name.");
 
-            // Leave thread and go back to topic
-            bot.reply("user1", "something else", function(err, reply) {
-              reply.string.should.eql("Random reply");
+            // We are still stuck in the conversation here, so we repeat the question again
+            bot.reply("user2", "something else", function(err, reply) {
+              reply.string.should.eql("So your first name is something?");
               done();
             });
           });
@@ -113,59 +114,25 @@ describe('Super Script Continue System aka Conversation', function(){
 
   describe('Match and continue KEEP', function() {
 
-    it.only("Should be even more awesome", function(done){
+    it("Should be even more awesome", function(done){
 
-      bot.reply("user1", "new conversation", function (err, reply) {
+      bot.reply("user3", "new conversation", function (err, reply) {
         reply.string.should.eql("What is your name?");
 
-        bot.reply("user1", "My name is Rob", function (err, reply) {
+        bot.reply("user3", "My name is Rob", function (err, reply) {
           reply.string.should.eql("So your first name is Rob?");
 
-          bot.reply("user1", "yes", function (err, reply) {
+          bot.reply("user3", "yes", function (err, reply) {
             reply.string.should.eql("Okay good.");
 
-            bot.reply("user1", "break out", function (err, reply) {
-              reply.string.should.eql("okay we are free");
-              done();
-            });
+            bot.reply("user3", "Something Random", function (err, reply) {
+              reply.string.should.eql("So your first name is Something?");
 
-          });
-        });
-      });
+              bot.reply("user3", "break out", function (err, reply) {
+                reply.string.should.eql("okay we are free");
+                done();
+              });
 
-
-      // bot.reply("user1", "conversation", function (err, reply) {
-      //   reply.string.should.eql("What is your name?");
-      //   bot.reply("user1", "Rob Ellis", function (err, reply) {
-      //     reply.string.should.eql("What is your name?");
-      //     bot.reply("user1", "Rob", function (err, reply) {
-      //       reply.string.should.eql("So your first name is Rob?");
-      //       bot.reply("user1", "yes", function (err, reply) {
-      //         reply.string.should.eql("Okay good.");
-      //         bot.reply("user1", "break out", function (err, reply) {
-      //           reply.string.should.eql("okay we are free");
-      //           done();
-      //         });
-      //       });
-      //     });
-
-      //   });
-      // });
-
-    });
-
-    it("GH-100 - should keep reply 1", function(done) {
-      bot.reply("user1", "aaa", function(err, reply) {
-        reply.string.should.eql("111");
-        bot.reply("user1", "bbb", function(err, reply) {
-          reply.string.should.eql("222");
-          bot.reply("user1", "ccc", function(err, reply) {
-            reply.string.should.eql("333");
-
-            // Repeat CCC
-            bot.reply("user1", "ccc", function(err, reply) {
-              reply.string.should.eql("333");
-              done();
             });
 
           });
@@ -173,7 +140,6 @@ describe('Super Script Continue System aka Conversation', function(){
       });
     });
   });
-
 
   after(help.after);
 });

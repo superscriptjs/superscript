@@ -32,7 +32,7 @@
 + i went to highschool
 - did you finish ?
 
-	+ *
+	+ * what happened
 	% did you finish ?
 	- i went to university
 	- what was it like?
@@ -72,7 +72,6 @@
 - super compound
 
 // Testing conversation exaustion GH-133 from slack
-/*
 + conversation
 - Are you happy?
   + ~yes
@@ -90,11 +89,8 @@
 + something else
 - Random reply
 
-*/
-
 
 // GH-133 example from gh issues
-/*
 + start
 - What is your name?
 
@@ -113,5 +109,4 @@
     + ~no *
     % * so your first name is *
     - I'm a bit confused.
-*/
 < topic
