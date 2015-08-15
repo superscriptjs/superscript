@@ -1,6 +1,6 @@
 var debug = require("debug")("Message Plugin");
 var history = require("../lib/history");
-var _ = require("underscore");
+var _ = require("lodash");
 
 exports.addMessageProp = function(key, value, cb) {
 

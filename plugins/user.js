@@ -1,5 +1,5 @@
 var debug = require("debug")("UserFacts");
-var _ = require("underscore");
+var _ = require("lodash");
 exports.save = function(key, value, cb) {
   var memory = this.user.memory;
   var userId = this.user.id;

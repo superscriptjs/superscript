@@ -1,7 +1,7 @@
 var debug = require("debug")("Compare Plugin");
 var history = require("../lib/history");
 var Utils = require("../lib/utils");
-var _ = require("underscore");
+var _ = require("lodash");
 var async = require("async");
 
 exports.createFact = function(s, v, o, cb) {

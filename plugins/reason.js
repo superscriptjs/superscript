@@ -2,7 +2,7 @@
 var debug = require("debug")("Reason Plugin");
 var history = require("../lib/history");
 var Utils = require("../lib/utils");
-var _ = require("underscore");
+var _ = require("lodash");
 var moment = require("moment");
 var wd = require("../lib/wordnet"); 
 
