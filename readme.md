@@ -21,9 +21,6 @@ SuperScript is a dialog system + bot engine for creating human-like conversation
 
 Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript. Or [read the wiki](https://github.com/silentrob/superscript/wiki)
 
-Also make sure you check out and install the [SuperScript Web Editor](https://github.com/silentrob/superscript-editor)
-
-
 ### Example Script - Script Authoring
 
     + hello human
@@ -61,9 +58,6 @@ Also make sure you check out and install the [SuperScript Web Editor](https://gi
 
 The above is just a tiny fraction of what the system is capable of doing. Please see the [full documentation](http://superscriptjs.com) to learn more.
 
-## Alternate Authoring 
-
-For a simplified web authoring workflow, check out the [Web Editor](https://github.com/silentrob/superscript-editor)
 
 ### Additonal Resources
 
@@ -75,7 +69,7 @@ For a simplified web authoring workflow, check out the [Web Editor](https://gith
 * [Creating a Chatbot](https://medium.com/@rob_ellis/creating-a-chat-bot-42861e6a2acd) on Medium
 * [Custom Slack chatbot tutorial](https://medium.com/@rob_ellis/slack-superscript-rise-of-the-bots-bba8506a043c) on Medium
 * [SuperScript the big update](https://medium.com/@rob_ellis/superscript-the-big-update-3fa8099ab89a) on Medium
-* [Full Documentation](http://superscriptjs.com/documentation/scripting)
+* [Full Documentation](https://github.com/silentrob/superscript/wiki)
 * Follow [@rob_ellis](https://twitter.com/rob_ellis)
 
 ### Further Watching
