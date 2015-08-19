@@ -118,3 +118,20 @@
 < topic
 
 
++ topic set systest
+- Setting systest. ^changetopic(systest)
+
+> topic:system hidden
+  + I am hidden
+  - You can't find me.
+< topic
+
+> topic:system systest
+  + where am I
+  - In systest.
+< topic
+
+> topic __post__
+  + *
+  - {keep} Should not match post.
+< topic

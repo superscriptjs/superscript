@@ -108,5 +108,16 @@ describe('Super Script Redirects', function(){
     });
   });
 
+  describe('Set topic through plugin and match gambit in the topic in next reply', function(){
+    it("should redirect to system topic", function(done) {
+      bot.reply("user1", "topic set systest", function(err, r1) {
+        r1.string.should.eql("Setting systest.");
+        bot.reply("user1", "where am I", function(err, r2) {
+          r2.string.should.eql("In systest.");
+          done();
+        });
+      });
+    });
+  });
   after(help.after);
 });
