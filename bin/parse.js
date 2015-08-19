@@ -17,7 +17,7 @@ program
 
 if (program.output) console.log('parse topics');
 
-var parse = require("../lib/parse")();
+var parse = require("ss-parser")();
 fs.exists(program.output, function (exists) {
   if (!exists || program.force === true) {
     parse.loadDirectory(program.path, function(err, result){

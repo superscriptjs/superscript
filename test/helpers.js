@@ -95,7 +95,7 @@ exports.before = function(file) {
 
       if (!exists) {
         bootstrap(function(err, facts) {
-          var parse = require("../lib/parse/")(facts);
+          var parse = require("ss-parser")(facts);
           parse.loadDirectory('./test/fixtures/' + file, function(err, result) {
             options['factSystem'] = facts;
             options['mongoose'] = mongoose;
@@ -121,7 +121,7 @@ exports.before = function(file) {
           options['mongoose'] = mongoose;
 
           var sums = contents.checksums;
-          var parse = require("../lib/parse/")(facts);
+          var parse = require("ss-parser")(facts);
           parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
             parse.merge(contents, result, function(err, results) {
 
