@@ -100,7 +100,8 @@ var messageItorHandle = function (user, system) {
           createdAt: replyMessageObject.createdAt || new Date(),
           string: replyMessageObject.raw || "",
           gambitId: replyObj.gambitId,
-          topicName: replyObj.topicName
+          topicName: replyObj.topicName,
+          subReplies: replyObj.subReplies,
         };
 
         var newClientObject = mergex(clientObject, replyObj.props || {});
@@ -207,7 +208,6 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
         } else if (messageArray.length === 1) {
           reply = messageArray[0];
         } else {
-
           // TODO - We will want to add some smarts on putting multiple
           // lines back together - check for tail grammar or drop bits.
           reply = messageArray[0];
@@ -216,6 +216,7 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
           for (var i = 0; i < messageArray.length; i++) {
             reply.parts[i] = {
               string: messageArray[i].string,
+              threads: messageArray[i].threads,
               triggerId: messageArray[i].triggerId,
               topicName: messageArray[i].topicName
             };
@@ -235,6 +236,12 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
         }
 
         debug("Update and Reply to user '" + user.id + "'", reply);
+
+        // If we have a thread of messages, lets space them out.
+        if (reply.subReplies) {
+          
+        }
+
         return callback(err2, reply);
       });
     });

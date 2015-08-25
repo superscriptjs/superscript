@@ -375,6 +375,42 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
   });
 
+  describe('Sub-Replies', function(){
+    it("Sub replies 1", function(done) {
+      bot.reply("user1", "what color is a rainbow", function(err, reply) {
+
+        var r = { string: 'red',
+          topicName: 'random',
+          subReplies: 
+           [ { delay: '500', string: 'orange' },
+             { delay: '500', string: 'yellow' },
+             { delay: '500', string: 'green' },
+             { delay: '500', string: 'blue' },
+             { delay: '500', string: 'and black?' } ] };
+
+        reply.should.containDeep(r);
+        done();
+      });
+    });
+
+    it("Sub replies 2", function(done) {
+      bot.reply("user1", "how many colors in the rainbow", function(err, reply) {
+
+        var r = { string: '',
+          topicName: 'random',
+          subReplies: 
+           [ { delay: '500', string: 'lots' } ] };
+
+        reply.should.containDeep(r);
+        done();
+      });
+    });
+    
+
+  
+  });
+
+
   describe('Custom functions', function(){
     it("should call a custom function", function(done) {
       bot.reply("user1", "custom function", function(err, reply) {
