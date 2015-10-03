@@ -46,6 +46,11 @@
 + ~emohello *
 - ^topicRedirect(weather,__to_say__)
 
+
+// GH-156
++ test missing topic
+- ^topicRedirect(supercalifragilisticexpialidocious,hello) Test OK.
+
 // GH-81 Function with redirect
 
 + tell me a random fact
