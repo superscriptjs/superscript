@@ -61,7 +61,8 @@ The above is just a tiny fraction of what the system is capable of doing. Please
 
 ### Additonal Resources
 
-* [Sublime Text Syntax Hilighting](https://github.com/mariusursache/superscript-sublimetext)
+* [Sublime Text Syntax Highlighting](https://github.com/mariusursache/superscript-sublimetext)
+* [Atom Syntax Highlighting](https://github.com/DBozhinovski/language-superscript)
 * 
 ### Further Reading
 
