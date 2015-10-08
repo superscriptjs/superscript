@@ -240,10 +240,10 @@
 
 // Test Multiple line output
 + tell me a poem
-- Little Miss Muffit sat on her tuffet,\n
-^ In a nonchalant sort of way.\n
-^ With her forcefield around her,\n
-^ The Spider, the bounder,\n
+- Little Miss Muffit sat on her tuffet,
+^ In a nonchalant sort of way.
+^ With her forcefield around her,
+^ The Spider, the bounder,
 ^ Is not in the picture today.
 
 
@@ -265,11 +265,11 @@
 // Sub Replies
 // These are returned as seperate messages in reply to a single gambit.
 + what color is a rainbow
-- red\n
-^ {delay=500} orange\n
-^ {delay=500} yellow\n
-^ {delay=500} green\n
-^ {delay=500} blue\n
+- red
+^ {delay=500} orange
+^ {delay=500} yellow
+^ {delay=500} green
+^ {delay=500} blue
 ^ {delay=500} and black?
 
 + how many colors in the rainbow
