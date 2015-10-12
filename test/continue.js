@@ -107,10 +107,20 @@ describe('Super Script Continue System aka Conversation', function(){
           });
         });
       });
-
     });
   });
 
+
+  describe.only('GH-152 - dont match sub-reply', function() {
+    it("Should not match", function(done) {
+
+      bot.reply("user3", "lastreply two", function (err, reply) {
+        reply.string.should.eql("");
+        done();
+      });
+    });
+
+  });
 
   describe('Match and continue KEEP', function() {
 

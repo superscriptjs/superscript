@@ -109,4 +109,14 @@
     + ~no *
     % * so your first name is *
     - I'm a bit confused.
+
+
+// GH-152 matching on sub-replies
++ lastreply one
+- lastreply one ok
+
+  + lastreply two
+  % lastreply one ok
+  - lastreply exists
+
 < topic

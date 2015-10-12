@@ -57,7 +57,7 @@
     "rhyme": "0.0.3",
     "roman-numerals": "~0.3.2",
     "sfacts": "0.0.12",
-    "ss-parser": "^0.1.1",
+    "ss-parser": "^0.1.2",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0"
   },
