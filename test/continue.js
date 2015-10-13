@@ -87,9 +87,9 @@ describe('Super Script Continue System aka Conversation', function(){
       });
     });
 
-
     // NB: I changed the user to user2 here to clear the thread.
-    it("Threaded Conversation 2", function(done) {
+    // GH-162
+    it.skip("Threaded Conversation 2", function(done) {
       bot.reply("user2", "start", function(err, reply) {
         reply.string.should.eql("What is your name?");
 
@@ -101,7 +101,7 @@ describe('Super Script Continue System aka Conversation', function(){
 
             // We are still stuck in the conversation here, so we repeat the question again
             bot.reply("user2", "something else", function(err, reply) {
-              reply.string.should.eql("What is your name?");
+              reply.string.should.eql("okay nevermind");
               done();
             });
           });
@@ -136,7 +136,7 @@ describe('Super Script Continue System aka Conversation', function(){
             reply.string.should.eql("Okay good.");
 
             bot.reply("user3", "break out", function (err, reply) {
-              reply.string.should.eql("So your first name is break?");
+              reply.string.should.eql("okay nevermind");
 
               bot.reply("user3", "break out", function (err, reply) {
                 reply.string.should.eql("okay we are free");

@@ -25,8 +25,6 @@
 
 < topic
 
-
-
 > topic:keep random
 
 + i went to highschool
@@ -91,6 +89,9 @@
 
 
 // GH-133 example from gh issues
+// This has **some** the same gambits as the example above.
+// TODO - GH-162
+/*
 + start
 - What is your name?
 
@@ -109,7 +110,7 @@
     + ~no *
     % * so your first name is *
     - I'm a bit confused.
-
+*/
 
 // GH-152 matching on sub-replies
 + lastreply one
