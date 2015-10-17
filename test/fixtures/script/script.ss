@@ -263,14 +263,18 @@
 - note the space\s\s
 
 // Sub Replies
-// These are returned as seperate messages in reply to a single gambit.
-+ what color is a rainbow
-- red\n
-^ {delay=500} orange\n
-^ {delay=500} yellow\n
-^ {delay=500} green\n
-^ {delay=500} blue\n
-^ {delay=500} and black?
++ redirect_rainbow
+- ^topicRedirect(rainbow,__delay__)
 
-+ how many colors in the rainbow
-- {delay=500} lots
+> topic rainbow
+  + __delay__
+  - red\n
+  ^ {delay=500} orange\n
+  ^ {delay=500} yellow\n
+  ^ {delay=500} green\n
+  ^ {delay=500} blue\n
+  ^ {delay=500} and black?
+
+  + how many colors in the rainbow
+  - {delay=500} lots
+< topic
