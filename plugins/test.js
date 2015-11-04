@@ -21,3 +21,8 @@ exports.changetopic = function(n,cb) {
 exports.changefunctionreply = function(newtopic,cb) {
 	cb(null, "{topic="+ newtopic + "}");
 }
+
+exports.doSomething = function(cb) {
+  console.log('this.message.raw', this.message.raw);
+  cb(null, "function");
+}
