@@ -4,7 +4,7 @@ var history = require("../lib/history");
 var Utils = require("../lib/utils");
 var _ = require("lodash");
 var moment = require("moment");
-var wd = require("../lib/wordnet"); 
+var wd = require("../lib/reply/wordnet"); 
 
 exports.hasName = function(bool, cb) {
   this.user.getVar('name', function(e,name){
