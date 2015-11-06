@@ -120,7 +120,6 @@ describe('Super Script Topics', function(){
         reply.string.should.eql("Okay we are going to keeptopic");
         bot.getUser("user1", function(err, cu){
           cu.getTopic().should.eql("keeptopic");
-
           bot.reply("user1", "i have one thing to say", function(err, reply) {
             reply.string.should.eql("topic test pass");
             bot.reply("user1", "i have one thing to say", function(err, reply) {
