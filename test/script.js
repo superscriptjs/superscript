@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting + Style Interface', function(){
+describe.only('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -433,7 +433,7 @@ describe('SuperScript Scripting + Style Interface', function(){
       });
     });
 
-    it.only("pass a param into custom function1", function(done) {
+    it("pass a param into custom function1", function(done) {
       bot.reply("user1", "custom 6 function", function(err, reply) {
         ["he cottons this","he prefers this", "he cares for this", "he loves this", "he pleases this"].should.containEql(reply.string);
         done();
