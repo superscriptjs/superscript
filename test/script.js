@@ -568,7 +568,7 @@ describe('SuperScript Scripting + Style Interface', function(){
   });
 
   describe('Custom functions 4 - user topic change', function(){
-    it("Change topic", function(done) {
+    it.only("Change topic", function(done) {
       bot.reply("user3", "call function with new topic", function(err, reply) {
         bot.getUser("user3", function(err, user){
           user.currentTopic.should.eql("fish");
@@ -767,7 +767,7 @@ describe('SuperScript Scripting + Style Interface', function(){
   });
 
 
-  describe.only("gh-170", function(){
+  describe("gh-170", function(){
     it("Function + redirect", function(done){
       bot.reply("user1", "test plugin redirection", function(err, reply) {
         reply.string.should.eql("function okay done");
