@@ -419,7 +419,7 @@ describe('SuperScript Scripting + Style Interface', function(){
       });
     });
 
-    it.only("should continue if error is passed into callback", function(done) {
+    it("should continue if error is passed into callback", function(done) {
       bot.reply("user1", "custom 3 function", function(err, reply) {
         reply.string.should.eql("backup plan");
         done();
@@ -433,7 +433,7 @@ describe('SuperScript Scripting + Style Interface', function(){
       });
     });
 
-    it("pass a param into custom function1", function(done) {
+    it.only("pass a param into custom function1", function(done) {
       bot.reply("user1", "custom 6 function", function(err, reply) {
         ["he cottons this","he prefers this", "he cares for this", "he loves this", "he pleases this"].should.containEql(reply.string);
         done();
