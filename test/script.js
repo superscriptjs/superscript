@@ -419,7 +419,7 @@ describe('SuperScript Scripting + Style Interface', function(){
       });
     });
 
-    it("should continue if error is passed into callback", function(done) {
+    it.only("should continue if error is passed into callback", function(done) {
       bot.reply("user1", "custom 3 function", function(err, reply) {
         reply.string.should.eql("backup plan");
         done();
@@ -568,7 +568,7 @@ describe('SuperScript Scripting + Style Interface', function(){
   });
 
   describe('Custom functions 4 - user topic change', function(){
-    it.only("Change topic", function(done) {
+    it("Change topic", function(done) {
       bot.reply("user3", "call function with new topic", function(err, reply) {
         bot.getUser("user3", function(err, user){
           user.currentTopic.should.eql("fish");
