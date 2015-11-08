@@ -22,7 +22,7 @@ describe('Super Script QType Matching', function(){
     });
   });
 
-  describe('Advanced Question Matching (qType)', function(){
+  describe.only('Advanced Question Matching (qType)', function(){
     it("should reply to QType string YN QType", function(done) {
       bot.reply("user1", "Do you like to clean?", function(err, reply) {
         reply.string.should.eql("a");

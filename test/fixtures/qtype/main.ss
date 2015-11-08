@@ -1,15 +1,15 @@
 ? * bathroom
-- Down the hall on the left
+- {keep} Down the hall on the left
 
 ?:YN *
-- a
+- {keep} a
 
 ?:HUM *
-- b
+- {keep} b
 
 ?:NUM *
-- c
+- {keep} c
 
 // Fine grained types
 ?:HUM:ind *
-- a
+- {keep} a
