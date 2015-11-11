@@ -278,10 +278,3 @@
   + how many colors in the rainbow
   - {delay=500} lots
 < topic
-
-// GH-170
-+ test plugin redirection
-- ^doSomething() okay {@second}
-
-+ second
-- done

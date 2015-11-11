@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting + Style Interface', function(){
+describe.only('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -761,16 +761,6 @@ describe('SuperScript Scripting + Style Interface', function(){
     it("should split the message into two", function(done){
       bot.reply("user1", "My name is Bill. What is your name?", function(err, reply) {
         reply.string.should.eql("Hi Bill. My name is Brit.");
-        done();
-      });
-    });
-  });
-
-
-  describe("gh-170", function(){
-    it("Function + redirect", function(done){
-      bot.reply("user1", "test plugin redirection", function(err, reply) {
-        reply.string.should.eql("function okay done");
         done();
       });
     });
