@@ -278,3 +278,17 @@
   + how many colors in the rainbow
   - {delay=500} lots
 < topic
+
+
+// Special topics flow with inline redirection
+> topic __pre__
+  + flow redirection test
+  - Going back. {@first flow match}
+< topic
+
+> topic flow_test
+  + first flow match
+  - {keep} You are in the first reply.
+  + second flow match
+  - You are in the second reply. {@first flow match}
+< topic
