@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe.only('SuperScript Scripting + Style Interface', function(){
+describe('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -766,6 +766,23 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
   });
 
+
+  describe("gh-172", function(){
+    it("should keep topic though sequence", function(done){
+      bot.reply("user1", "name", function(err, reply) {
+        reply.string.should.eql("What is your first name?");
+        reply.topicName.should.eql("set_name");
+        
+        bot.reply("user1", "Bob Hope", function(err, reply) {
+          reply.topicName.should.eql("set_name");
+          reply.string.should.eql("Ok Bob Hope, what is your last name?");
+
+          done();
+        });
+        
+      });
+    });
+  });
   after(help.after);
 
 });
