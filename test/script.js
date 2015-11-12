@@ -766,7 +766,6 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
   });
 
-
   describe('Keep the current topic when a special topic is matched', function(){
     it("Should redirect to the first gambit", function(done) {
       bot.reply("user1", "first flow match", function(err, reply) {
@@ -787,6 +786,23 @@ describe.only('SuperScript Scripting + Style Interface', function(){
           reply.string.should.eql("Going back. You are in the first reply.");
           done();
         });
+      });
+    });
+  });
+
+  describe("gh-172", function(){
+    it("should keep topic though sequence", function(done){
+      bot.reply("user1", "name", function(err, reply) {
+        reply.string.should.eql("What is your first name?");
+        reply.topicName.should.eql("set_name");
+        
+        bot.reply("user1", "Bob Hope", function(err, reply) {
+          reply.topicName.should.eql("set_name");
+          reply.string.should.eql("Ok Bob Hope, what is your last name?");
+
+          done();
+        });
+        
       });
     });
   });

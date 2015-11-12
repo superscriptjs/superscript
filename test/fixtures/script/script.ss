@@ -292,3 +292,20 @@
   + second flow match
   - You are in the second reply. {@first flow match}
 < topic
+
+// gh-173
++ name
+- {keep} ^respond(set_name)
+
+> topic:keep:system set_name
+  + *
+  - What is your first name?
+
+  + *~5
+  % * is your first name?
+  - ^save(firstName, <cap>) Ok <cap>, what is your last name?
+
+  + *~5
+  % * what is your last name?
+  - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random}
+< topic
