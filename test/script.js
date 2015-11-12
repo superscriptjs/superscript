@@ -155,7 +155,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     //     done();
     //   });
     // });
-    
+
   });
 
   describe('Variable length star interface *~n', function() {
@@ -381,7 +381,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
 
         var r = { string: 'red',
           topicName: 'rainbow',
-          subReplies: 
+          subReplies:
            [ { delay: '500', string: 'orange' },
              { delay: '500', string: 'yellow' },
              { delay: '500', string: 'green' },
@@ -398,16 +398,16 @@ describe.only('SuperScript Scripting + Style Interface', function(){
 
         var r = { string: '',
           topicName: 'rainbow',
-          subReplies: 
+          subReplies:
            [ { delay: '500', string: 'lots' } ] };
 
         reply.should.containDeep(r);
         done();
       });
     });
-    
 
-  
+
+
   });
 
 
@@ -680,14 +680,14 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         reply.string.should.eql("normalize trigger test");
         done();
       });
-    });   
+    });
 
     it("should be expanded before trying to match contract form", function(done){
       bot.reply("user1", "it's all good in the hood two", function(err, reply) {
         reply.string.should.eql("normalize trigger test");
         done();
       });
-    });   
+    });
   });
 
   describe('Mix case test', function(){
@@ -762,6 +762,31 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       bot.reply("user1", "My name is Bill. What is your name?", function(err, reply) {
         reply.string.should.eql("Hi Bill. My name is Brit.");
         done();
+      });
+    });
+  });
+
+
+  describe('Keep the current topic when a special topic is matched', function(){
+    it("Should redirect to the first gambit", function(done) {
+      bot.reply("user1", "first flow match", function(err, reply) {
+        reply.string.should.eql("You are in the first reply.");
+
+        bot.reply("user1", "second flow match", function(err, reply) {
+          reply.string.should.eql("You are in the second reply. You are in the first reply.");
+          done();
+        });
+      });
+    });
+
+    it("Should redirect to the first gambit after matching __pre__", function(done) {
+      bot.reply("user1", "first flow match", function(err, reply) {
+        reply.string.should.eql("You are in the first reply.");
+
+        bot.reply("user1", "flow redirection test", function(err, reply) {
+          reply.string.should.eql("Going back. You are in the first reply.");
+          done();
+        });
       });
     });
   });
