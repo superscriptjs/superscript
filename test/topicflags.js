@@ -38,6 +38,7 @@ describe('Super Script Topics', function(){
       });
     });
 
+    // Re-check this
     it("Go to hidden topic indirectly", function(done){
       bot.reply("user1", "why did you run", function(err, reply){
         // This really just makes sure the reply is not accesses directly

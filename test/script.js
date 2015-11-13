@@ -796,11 +796,14 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         reply.string.should.eql("What is your first name?");
         reply.topicName.should.eql("set_name");
         
-        bot.reply("user1", "Bob Hope", function(err, reply) {
+        bot.reply("user1", "Bob", function(err, reply) {
           reply.topicName.should.eql("set_name");
-          reply.string.should.eql("Ok Bob Hope, what is your last name?");
+          reply.string.should.eql("Ok Bob, what is your last name?");
 
-          done();
+          bot.reply("user1", "Hope", function(err, reply) {
+            reply.topicName.should.eql("random");
+            done();
+          });
         });
         
       });
