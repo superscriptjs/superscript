@@ -87,7 +87,7 @@ function createFresh () {
 
 // Setup Mongo Client
 var MongoClient = Promise.promisifyAll( require('mongodb') ).MongoClient,
-    mongoURL = 'mongodb://' + program.host + ':' + program.port + '/' + program.mongo;
+    mongoURL = util.format('mongodb://%s:%s/%s', program.host, program.port, program.mongo);
 
 
 // DO ALL THE THINGS
