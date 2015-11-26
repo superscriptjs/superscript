@@ -16,7 +16,7 @@ var Promise = require('bluebird'),
 var collectionsToRemove = ['users', 'topics', 'replies', 'gambits'];
 
 program
-  .version('0.0.1')
+  .version('0.0.2')
   .option('--facts [type]', 'Fact Directory', './systemDB')
   .option('--host [type]', 'Mongo Host', 'localhost')
   .option('--port [type]', 'Mongo Port', '27017')
