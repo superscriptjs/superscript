@@ -120,6 +120,7 @@ var messageItorHandle = function (user, system) {
 var messageFactory = function (rawMsg, question, normalize, facts, cb) {
 
   var messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
+
   messageParts = Utils.cleanArray(messageParts);
 
   var itor = function (messageChunk, next) {

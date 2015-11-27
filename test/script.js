@@ -2,6 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
+var Utils = require("../lib/utils");
 
 describe.only('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
@@ -733,7 +734,9 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       });
     });
 
+  });
 
+  describe('Style - burst related', function(){
     it("should removed bursted commas", function(done){
       bot.reply("user1", "John is older than Mary, and Mary is older than Sarah", function(err, reply) {
         reply.string.should.eql("Test eight should pass");
@@ -755,6 +758,27 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       });
     });
 
+    it("dont burst ids", function(done){
+      bot.reply("user1", 'should not burst 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE', function(err, reply) {
+        reply.string.should.eql("burst test should pass 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE");
+        done();
+      });
+    });
+
+    it("dont burst emails", function(done){
+      bot.reply("user1", 'should not burst rob@silentrob.me', function(err, reply) {
+        reply.string.should.eql("burst test should pass rob@silentrob.me");
+        done();
+      });
+    });    
+    
+    it("dont burst urls", function(done){
+      Utils.sentenceSplit("should not burst http://google.com").should.have.length(1);
+      Utils.sentenceSplit("should not burst 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE").should.have.length(1);
+      Utils.sentenceSplit("burst test should pass rob@silentrob.me").should.have.length(1);
+      done();
+    });
+    
   });
 
   describe("chunk message", function(){
