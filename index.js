@@ -98,7 +98,7 @@ var messageItorHandle = function (user, system) {
         var clientObject = {
           replyId: replyObj.replyId,
           createdAt: replyMessageObject.createdAt || new Date(),
-          string: replyMessageObject.raw || "",
+          string: msgString || "", // replyMessageObject.raw || "",
           gambitId: replyObj.gambitId,
           topicName: replyObj.topicName,
           subReplies: replyObj.subReplies,

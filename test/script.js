@@ -758,20 +758,13 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       });
     });
 
-    it("dont burst ids", function(done){
-      bot.reply("user1", 'should not burst 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE', function(err, reply) {
-        reply.string.should.eql("burst test should pass 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE");
+    it("should keep reply quotes", function(done){
+      bot.reply("user1", "reply quotes", function(err, reply) {
+        reply.string.should.eql('Test "eleven" should pass');
         done();
       });
     });
-
-    it("dont burst emails", function(done){
-      bot.reply("user1", 'should not burst rob@silentrob.me', function(err, reply) {
-        reply.string.should.eql("burst test should pass rob@silentrob.me");
-        done();
-      });
-    });    
-    
+     
     it("dont burst urls", function(done){
       Utils.sentenceSplit("should not burst http://google.com").should.have.length(1);
       Utils.sentenceSplit("should not burst 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE").should.have.length(1);
