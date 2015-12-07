@@ -73,7 +73,9 @@ function createFresh () {
 
         // console.log('Importing', data);
         return new Promise(function(resolve, reject) {
-            new superscript({factSystem: factSystem}, function(err, bot) {
+          mongoose.connect(mongoURL)
+
+            new superscript({factSystem: factSystem, mongoose: mongoose }, function(err, bot) {
                 if (!err) bot.topicSystem.importerData(data, resolve, program.flushTopics, program.preserveRandom);
                 else reject(err);
             });
