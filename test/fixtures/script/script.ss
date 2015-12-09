@@ -137,6 +137,12 @@
   + custom 8 *1
   - ^num(4) + ^num(3) = 7
 
+  + custom 9 *1
+  - a\n
+  ^ b\n
+  ^ ^one()\n\n
+  ^ more
+
 
   // We pull in wordnet and system facts
   + I ~like shoe

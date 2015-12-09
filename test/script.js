@@ -454,6 +454,14 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         done();
       });
     });
+
+    it("function in multi-line reply", function(done) {
+      bot.reply("user1", "custom9 function", function(err, reply) {
+        reply.string.should.eql("a\nb\none\n\nmore");
+        done();
+      });
+    });
+
   });
 
 
