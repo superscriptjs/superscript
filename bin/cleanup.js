@@ -21,6 +21,7 @@ program
   .option('--host [type]', 'Mongo Host', 'localhost')
   .option('--port [type]', 'Mongo Port', '27017')
   .option('--mongo [type]', 'Mongo Database Name', 'systemDB')
+  .option('--mongoURI [type]'), 'Mongo URI')
   .option('--topic [type]', 'Topic Directory', './topics')
   .option('--skip-remove-all', 'Skip removal of: ' + collectionsToRemove.join(', '))
   .option('--flush-topics', 'Flush imported topics, implies --skip-remove-all')
@@ -87,9 +88,9 @@ function createFresh () {
 }
 
 
-// Setup Mongo Client
+// Setup Mongo Client: accepts MONGO_URI from environment, and URI or components or defaults as provided in options.
 var MongoClient = Promise.promisifyAll( require('mongodb') ).MongoClient,
-    mongoURL = util.format('mongodb://%s:%s/%s', program.host, program.port, program.mongo);
+    mongoURL = process.env.MONGO_URI || program.mongoURI || util.format('mongodb://%s:%s/%s', program.host, program.port, program.mongo);
 
 
 // DO ALL THE THINGS
