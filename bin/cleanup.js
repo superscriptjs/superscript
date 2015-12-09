@@ -21,7 +21,7 @@ program
   .option('--host [type]', 'Mongo Host', 'localhost')
   .option('--port [type]', 'Mongo Port', '27017')
   .option('--mongo [type]', 'Mongo Database Name', 'systemDB')
-  .option('--mongoURI [type]'), 'Mongo URI')
+  .option('--mongoURI [type]', 'Mongo URI')
   .option('--topic [type]', 'Topic Directory', './topics')
   .option('--skip-remove-all', 'Skip removal of: ' + collectionsToRemove.join(', '))
   .option('--flush-topics', 'Flush imported topics, implies --skip-remove-all')
