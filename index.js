@@ -92,7 +92,7 @@ var messageItorHandle = function (user, system) {
       }
 
       new Message(msgString, messageOptions, function (replyMessageObject) {
-        user.updateHistory(msg, replyMessageObject);
+        user.updateHistory(msg, replyMessageObject, replyObj.stars);
 
         // We send back a smaller message object to the clients.
         var clientObject = {

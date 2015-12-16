@@ -149,5 +149,19 @@ describe('Super Script Continue System aka Conversation', function(){
     });
   });
 
+  describe("GH-207 Pass stars forward", function() {
+    it("should pass stars forward", function(done) {
+      bot.reply("user4", "start 2 foo or win", function(err, reply) {
+        reply.string.should.eql("reply 2 foo");
+
+        bot.reply("user4", "second match bar", function(err, reply) {
+          reply.string.should.eql("reply 3 bar foo win");
+          done();
+        });
+
+      });
+    });
+  });
+
   after(help.after);
 });
