@@ -7,6 +7,14 @@ describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
+  describe.only('Dynamic Conversations', function() {
+    it("set some conversation state", function(done) {
+      bot.reply("user1", "__start__", function(err, reply) {
+        reply.string.should.eql("match here");
+        done();
+      });
+    });
+  });
   describe('Match and continue', function(){
 
     it("should continue", function(done) {
