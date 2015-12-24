@@ -33,6 +33,13 @@ function SuperScript(options, callback) {
   this.normalize = null;
   this.question = null;
 
+  // this is to turn off/on global sentence splitting / chunking
+  if(options.chunking || options.chunking === false) {
+    this.chunking = options.chunking;
+  } else {
+    this.chunking = true;
+  }
+  
   Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
@@ -117,18 +124,27 @@ var messageItorHandle = function (user, system) {
 
 // This takes a message and breaks it into chucks to be passed though
 // the sytem. We put them back together on the other end.
-var messageFactory = function (rawMsg, question, normalize, facts, cb) {
+var messageFactory = function (options, cb) {
+  
+  var rawMsg = options.msg;
+  var normalize = options.normalize;
+  var chunking = options.chunking;
+  var messageParts = [];
 
-  var messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
-
-  messageParts = Utils.cleanArray(messageParts);
+  if (chunking === true) {
+    messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
+    messageParts = Utils.cleanArray(messageParts);    
+  } else {  
+    console.log("Not Chunking")
+    messageParts.push(normalize.clean(rawMsg).trim());
+  }
 
   var itor = function (messageChunk, next) {
 
     var messageOptions = {
-      qtypes: question,
+      qtypes: options.question,
       norm: normalize,
-      facts: facts,
+      facts: options.factSystem,
       original: rawMsg
     };
 
@@ -195,7 +211,16 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
     if (err1) {
       console.log(err1);
     }
-    messageFactory(msg, self.question, self.normalize, self.factSystem, function (messages) {
+
+    var opt = {
+      msg: msg,
+      question: self.question,
+      normalize: self.normalize,
+      factSystem: self.factSystem,
+      chunking: self.chunking
+    };
+
+    messageFactory(opt, function (messages) {
       async.mapSeries(messages, messageItorHandle(user, system), function (err2, messageArray) {
         if (err2) {
           console.log(err2);
