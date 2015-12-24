@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "0.10.8",
+  "version": "0.10.9",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
@@ -61,7 +61,7 @@
     "rimraf": "^2.4.4",
     "roman-numerals": "~0.3.2",
     "sfacts": "0.0.12",
-    "ss-parser": "^0.1.2",
+    "ss-parser": "^0.1.4",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0"
   },

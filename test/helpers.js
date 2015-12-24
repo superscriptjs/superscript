@@ -83,6 +83,7 @@ var imortFilePath = function(path, facts, callback) {
 exports.before = function(file) {
 
   var options = {
+    chunking: true,
     scope: {
       cnet : cnet
     }

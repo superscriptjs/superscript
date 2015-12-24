@@ -47,6 +47,9 @@
   + test 2 min max *(0-1)
   - {keep} min max test
 
+  // GH-211
+  + test *(1-99)
+  - {keep} test <cap1>
 
   // Test 2 Star match
   + It is *2 cold out

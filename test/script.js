@@ -149,13 +149,13 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       });
     });
 
-    // Todo implement this
-    // it("min max star - four", function(done) {
-    //   bot.reply("user1", "test 2 min max", function(err, reply) {
-    //     reply.string.should.eql("min max test");
-    //     done();
-    //   });
-    // });
+    
+    it.skip("min max star - four", function(done) {
+      bot.reply("user1", "test one. two. three.", function(err, reply) {
+        reply.string.should.eql("test one. two. three.");
+        done();
+      });
+    });
 
   });
 
