@@ -22,10 +22,27 @@ describe('SuperScript TopicsSystem', function(){
         done();
       });
     });
+    
+    it("Should break in function with third param", function(done){
+      bot.reply("userx", "force break", function(err, reply){
+        reply.string.should.eql("");
+        done();
+      });
+    });
+
+    it("Should continue in function with third param", function(done){
+      bot.reply("userx", "force continue", function(err, reply){
+        reply.string.should.eql("force one force two");
+        done();
+      });
+    });
+
   });
 
+
+
   // Test Single gambit 
-  describe('Test Gambit', function () {
+  describe.skip('Test Gambit', function () {
     // this is a testing input for the editor
     // We want a string in and false or matches out
     it("Should try string agaist gambit", function(done){
@@ -64,7 +81,7 @@ describe('SuperScript TopicsSystem', function(){
 
 
   // Test Entire topic for Match
-  describe('Test Topic', function() {
+  describe.skip('Test Topic', function() {
     // this is a testing input for the editor
     // We want a string in and false or matches out
     it("Should try string agaist topic", function(done){

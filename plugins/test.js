@@ -26,3 +26,11 @@ exports.doSomething = function(cb) {
   console.log('this.message.raw', this.message.raw);
   cb(null, "function");
 }
+
+exports.break = function(cb) {
+	cb(null, "", true);
+}
+
+exports.nobreak = function(cb) {
+	cb(null, "", false);
+}

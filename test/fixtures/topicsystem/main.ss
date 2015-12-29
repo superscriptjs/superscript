@@ -6,6 +6,12 @@
 + testing topic *
 - we really like it
 
++ force break
+- not going to hit this.
+
++ force continue
+- force two
+
 > pre
 
 	+ testing topic system
@@ -13,7 +19,14 @@
 
 < pre
 
+> topic __pre__
+	+ force break
+	- ^break()
 
+	+ force continue
+	- ^nobreak() force one
+
+< topic
 > topic:keep outdoors ( fishing hunting camping ) ^sometest()
 	
 	+ I like to *
