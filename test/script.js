@@ -9,13 +9,6 @@ describe.only('SuperScript Scripting + Style Interface', function(){
 
   describe('Simple star Interface *', function(){
 
-    // it.only("GH-214", function(done) {
-    //   bot.reply("user1", "one. two. three. capture.", function(err, reply) {
-    //     reply.string.should.eql("Capturing one two three");
-    //     done();
-    //   });
-    // });
-
     it("Unscaped", function(done) {
       bot.reply("user1", "+ this is unscaped", function(err, reply) {
         reply.string.should.eql("This should pass");
@@ -154,9 +147,8 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         reply.string.should.eql("");
         done();
       });
-    });
+    });    
 
-    
     it.skip("min max star - four", function(done) {
       bot.reply("user1", "test one. two. three.", function(err, reply) {
         reply.string.should.eql("test one. two. three.");

@@ -133,6 +133,7 @@ var messageFactory = function (options, cb) {
   
   var cleanMsg = normalize.clean(rawMsg).trim();
   // var cleanMsg = rawMsg.trim();
+  debug("IN MessageFactory", cleanMsg);
   
   if (chunking === true) {
     messageParts = Utils.sentenceSplit(cleanMsg);
