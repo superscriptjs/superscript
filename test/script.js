@@ -9,6 +9,13 @@ describe.only('SuperScript Scripting + Style Interface', function(){
 
   describe('Simple star Interface *', function(){
 
+    // it.only("GH-214", function(done) {
+    //   bot.reply("user1", "one. two. three. capture.", function(err, reply) {
+    //     reply.string.should.eql("Capturing one two three");
+    //     done();
+    //   });
+    // });
+
     it("Unscaped", function(done) {
       bot.reply("user1", "+ this is unscaped", function(err, reply) {
         reply.string.should.eql("This should pass");
