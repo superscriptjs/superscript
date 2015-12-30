@@ -130,14 +130,17 @@ var messageFactory = function (options, cb) {
   var normalize = options.normalize;
   var chunking = options.chunking;
   var messageParts = [];
-
+  
+  var cleanMsg = normalize.clean(rawMsg).trim();
+  // var cleanMsg = rawMsg.trim();
+  
   if (chunking === true) {
-    messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
-    messageParts = Utils.cleanArray(messageParts);    
-  } else {  
-    console.log("Not Chunking")
-    messageParts.push(normalize.clean(rawMsg).trim());
+    messageParts = Utils.sentenceSplit(cleanMsg);
+  } else {
+    messageParts.push(cleanMsg);
   }
+
+  messageParts = Utils.cleanArray(messageParts);
 
   var itor = function (messageChunk, next) {
 

@@ -697,6 +697,14 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         done();
       });
     });
+
+    it("message should exist after normalize", function(done){
+      bot.reply("user1", "then", function(err, reply) {
+        reply.string.should.eql("");
+        done();
+      });
+    });
+
   });
 
   describe('Mix case test', function(){
