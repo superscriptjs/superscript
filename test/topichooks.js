@@ -3,32 +3,33 @@ var should  = require("should");
 var help = require("./helpers");
 
 // Testing topics that include and mixin other topics.
-describe('Super Script Topic Hooks', function(){
+describe.only('Super Script Topic Hooks', function(){
 
   before(help.before("topichooks"));
 
   describe('Pre/Post Topic Hooks', function() {
     it("pre topic should be called", function(done) {
-      bot.reply("user1", "pre hook", function(err, reply) {
-        reply.string.should.eql("yep pre hook");
+      bot.topicSystem.topic.findOne({name:'__pre__'}, function(err, res){
+        res.gambits.should.have.lengthOf(1)
         done();
       });
     });
 
     it("post topic should be called", function(done) {
       bot.reply("user1", "post hook", function(err, reply) {
-        reply.string.should.eql("yep post hook");
-        done();
+        bot.topicSystem.topic.findOne({name:'__post__'}, function(err, res){
+          res.gambits.should.have.lengthOf(1)
+          done();
+        });
       });
     });
 
     it("normal topic should be called", function(done) {
-      bot.reply("user1", "this is random", function(err, reply) {
-        reply.string.should.eql("we are in random");
+      bot.topicSystem.topic.findOne({name:'random'}, function(err, res){
+        res.gambits.should.have.lengthOf(1)
         done();
       });
     });
-  
   });
 
   after(help.after);
