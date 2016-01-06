@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --env node lib *.js",
     "test": "mocha test -R spec -s 1700 -t 150000",
-    "dtest": "DEBUG=*,-mquery,-mocha*,-Importer mocha test -R spec -s 1700 -t 150000"
+    "dtest": "DEBUG=*,-mquery,-mocha*, mocha test -R spec -s 1700 -t 150000"
   },
   "repository": {
     "type": "git",

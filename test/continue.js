@@ -3,20 +3,23 @@ var should  = require("should");
 var help = require("./helpers");
 
 
-describe('Super Script Continue System aka Conversation', function(){
+describe.only('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
-  describe.only('Dynamic Conversations', function() {
+  describe('Dynamic Conversations', function() {
     it("set some conversation state", function(done) {
       bot.reply("user1", "__start__", function(err, reply) {
         reply.string.should.eql("match here");
-        done();
+        bot.getUser("user1", function(err, user) {
+          user.conversationState.id.should.eql(123);
+          done();
+        });
       });
     });
   });
-  describe('Match and continue', function(){
 
+  describe('Match and continue', function(){
     it("should continue", function(done) {
       bot.reply("user1", "i went to highschool", function(err, reply) {
         reply.string.should.eql("did you finish ?");

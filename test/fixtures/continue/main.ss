@@ -122,11 +122,11 @@
 
 // GH-206
 + __start__
-- match here {id=123, bool=true, str="string"}
+- match here {id=123, bool=true,   str="string"  }
 
-// %% (id == 123) 
-// + * 
-// - winning
+%% (id == 123) 
++ * 
+- winning
 
 
 // GH-207
