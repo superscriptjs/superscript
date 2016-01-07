@@ -4,7 +4,7 @@ var help = require("./helpers");
 var async = require("async");
 var Utils = require("../lib/utils");
 
-describe('SuperScript Scripting + Style Interface', function(){
+describe.only('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
