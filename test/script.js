@@ -149,6 +149,14 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       });
     });    
 
+    it("min max star ~emo - gh-221", function(done) {
+      bot.reply("user1", "hello test test", function(err, reply) {
+        reply.string.should.eql("emo reply");
+        done();
+      });
+    });
+
+
     it.skip("min max star - four", function(done) {
       bot.reply("user1", "test one. two. three.", function(err, reply) {
         reply.string.should.eql("test one. two. three.");

@@ -47,6 +47,10 @@
   + test 2 min max *(0-1)
   - {keep} min max test
 
+  // Min Max emo GH-221
+  + *(1-2) test test
+  - {keep} emo reply
+
   // GH-211
   + test *(1-99)
   - {keep} test <cap1>
