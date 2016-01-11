@@ -124,8 +124,7 @@
 + __start__
 - match here {id=123, bool=true,   str="string"  }
 
-%% (id == 123) 
-+ * 
+%% (id == 123)
 - winning
 
 
