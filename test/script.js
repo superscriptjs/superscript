@@ -415,11 +415,11 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
 
 
-
   });
 
 
   describe('Custom functions', function(){
+
     it("should call a custom function", function(done) {
       bot.reply("user1", "custom function", function(err, reply) {
         reply.string.should.eql("The Definition of function is perform duties attached to a particular office or place or function");

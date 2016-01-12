@@ -150,7 +150,6 @@
   ^ ^one()\n\n
   ^ more
 
-
   // We pull in wordnet and system facts
   + I ~like shoe
   - Wordnet test one
