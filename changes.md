@@ -1,3 +1,5 @@
+### 0.10.21
+* Added scope per message in the reply Object.
 ### 0.10.20
 * Add new plugin `getGreetingTimeOfDay`
 ### 0.10.19
