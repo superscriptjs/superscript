@@ -179,15 +179,20 @@ SuperScript.prototype.message = function (msgString, callback) {
 
 
 // Convert msg into message object, then check for a match
-SuperScript.prototype.reply = function (userId, msg, callback) {
+SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
+  var self = this;
+
   if (arguments.length === 2 && typeof msg === "function") {
     callback = msg;
     msg = userId;
     userId = Math.random().toString(36).substr(2, 5);
+    extraScope = {};
   }
 
+  self.scope.message_props = extraScope || {};
+
   debug("Message Recieved from '" + userId + "'", msg);
-  var self = this;
+  
 
   // Ideally these will come from a cache, but self is a exercise for a rainy day
   var system = {
