@@ -53,7 +53,7 @@ exports.getTimeOfDay = function(cb) {
 	} else if (time < 17) {
 		tod =  "afternoon"
 	} else {
-		tod =  "night"
+		tod =  "evening"
 	}
 
 	cb(null, tod);
