@@ -43,7 +43,7 @@ exports.getTime = function(cb) {
 	cb(null, "The time is " + time);
 }
 
-exports.getTimeOfDay = function(cb) {
+exports.getGreetingTimeOfDay = function(cb) {
 	var date = new Date(); 
 	var rounded = new Date(Math.round(date.getTime() / COEFF) * COEFF);
 	var time = moment(rounded).format("H")
@@ -54,6 +54,22 @@ exports.getTimeOfDay = function(cb) {
 		tod =  "afternoon"
 	} else {
 		tod =  "evening"
+	}
+
+	cb(null, tod);
+}
+
+exports.getTimeOfDay = function(cb) {
+	var date = new Date(); 
+	var rounded = new Date(Math.round(date.getTime() / COEFF) * COEFF);
+	var time = moment(rounded).format("H")
+	var tod
+	if (time < 12) {
+		tod = "morning"
+	} else if (time < 17) {
+		tod =  "afternoon"
+	} else {
+		tod =  "night"
 	}
 
 	cb(null, tod);
