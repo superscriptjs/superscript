@@ -88,6 +88,13 @@ describe('Super Script Redirects', function(){
       });
     });
 
+    // GH-227
+    it("Missing function", function(done) {
+      bot.reply("user1", "issue 227", function(err, reply) {
+        reply.string.should.eql("oneIs it hot");
+        done();
+      });
+    });
 
     it("should redirect to new topic", function(done) {
       bot.reply("user1", "hello", function(err, reply) {
