@@ -1,3 +1,5 @@
+### 0.10.22
+* Fix for GH-227 Have a custom function and system function on the same line killed the execution cycle becuase the system function was not found in the list of plugins
 ### 0.10.21
 * Added scope per message in the reply Object.
 ### 0.10.20
