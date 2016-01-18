@@ -1,3 +1,6 @@
+### 0.10.24
+* Fix for gh-236. In some cases custom plugins were firing multiple times.
+
 ### 0.10.23
 * Bumps ss-parser and includes fixes to the matching, primary around min-max wildcards (gh-231, gh-224)
 
