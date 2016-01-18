@@ -2,7 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe('Super Script Redirects', function(){
+describe.only('Super Script Redirects', function(){
 
   before(help.before("redirect"));
 
@@ -133,15 +133,6 @@ describe('Super Script Redirects', function(){
           r2.string.should.eql("In systest.");
           done();
         });
-      });
-    });
-  });
-
-  describe.only("gh-236", function(){
-    it("should reply just once", function(done){
-      bot.reply("user1", "test", function(err, reply) {
-        reply.string.should.eql("Testing redirect Test reply");
-        done();
       });
     });
   });
