@@ -1,4 +1,6 @@
-### 0.10.22
+## 0.10.23
+* Bumps ss-parser and includes fixes to the matching, primary around min-max wildcards (gh-231, gh-224)
+## 0.10.22
 * Fix for GH-227 Have a custom function and system function on the same line killed the execution cycle becuase the system function was not found in the list of plugins
 ### 0.10.21
 * Added scope per message in the reply Object.
