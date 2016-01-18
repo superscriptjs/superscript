@@ -10,15 +10,10 @@ describe('Super Script Continue System aka Conversation', function(){
   describe.only('Dynamic Conversations', function() {
     it("set some conversation state", function(done) {
       bot.reply("user1", "__start__", function(err, reply) {
-        bot.topicSystem.topic.find({conitions: { $exists: true, $ne: [] }}, function(err, res){
+        bot.topicSystem.topic.find({conditions: { $exists: true, $ne: [] }}, function(err, res){
           console.log(err, res);
           done();
         });
-        
-        // bot.getUser("user1", function(err, user) {
-        //   user.conversationState.id.should.eql(123);
-        //   done();
-        // });
       });
     });
   });
