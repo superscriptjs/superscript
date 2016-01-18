@@ -136,5 +136,15 @@ describe('Super Script Redirects', function(){
       });
     });
   });
+
+  describe.only("gh-236", function(){
+    it("should reply just once", function(done){
+      bot.reply("user1", "test", function(err, reply) {
+        reply.string.should.eql("Testing redirect Test reply");
+        done();
+      });
+    });
+  });
+
   after(help.after);
 });

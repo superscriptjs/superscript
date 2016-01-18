@@ -145,3 +145,13 @@
   + *
   - {keep} Should not match post.
 < topic
+
+
+// GH-236
++ test
+- {keep}Testing redirect ^topicRedirect(__test_topic__, __test_reply__)
+
+> topic:keep __test_topic__
+    + __test_reply__
+    - Test reply
+< topic
