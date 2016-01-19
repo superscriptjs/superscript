@@ -2,7 +2,7 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe.only('Super Script Redirects', function(){
+describe('Super Script Redirects', function(){
 
   before(help.before("redirect"));
 
