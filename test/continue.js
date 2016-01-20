@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 
 
-describe.only('Super Script Continue System aka Conversation', function(){
+describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
@@ -22,7 +22,7 @@ describe.only('Super Script Continue System aka Conversation', function(){
       });
     });
 
-    it("and again", function(done) {
+    it.only("and again", function(done) {
       bot.reply("user1", "__start__", function(err, reply) {
         bot.reply("user1", "boo ya", function(err, reply) {
           bot.getUser("user1", function(err, user) {

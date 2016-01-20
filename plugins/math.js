@@ -15,6 +15,7 @@ exports.evaluateExpression = function(cb) {
     var answer = math.parse(this.message.cwords, this.user.prevAns);
     if (answer) {
       this.user.prevAns = answer;
+      console.log("Prev", this.user);
       var suggestedReply = "I think it is " + answer;
     } else {
       var suggestedReply =  "What do I look like, a computer?";

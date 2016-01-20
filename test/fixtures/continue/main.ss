@@ -124,14 +124,13 @@
 + __start__
 - match here {id=123, bool=true,   str="string"  }
 
-%% (bool == true)
-  + boo ya
-  - YES
-
 %% (id == 123)
 - winning
 
 
+%% (bool == true)
+  + boo ya
+  - YES
 
 // GH-207
 
