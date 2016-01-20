@@ -94,6 +94,11 @@ var messageItorHandle = function (user, system) {
       if (replyObj) {
         messageOptions.replyId = replyObj.id;
         msgString = replyObj.string;
+
+        if (replyObj.clearConvo) {
+          messageOptions.clearConvo = replyObj.clearConvo;
+        }
+
       } else {
         replyObj = {};
       }

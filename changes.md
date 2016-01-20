@@ -1,3 +1,6 @@
+### 0.10.25
+* Adds a new {CLEAR} flag you can append to replies to kill the conversation loop. This will reset the conversation back to the topic level on the next input cycle.
+
 ### 0.10.24
 * Fix for gh-236. In some cases custom plugins were firing multiple times.
 
