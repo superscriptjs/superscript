@@ -30,4 +30,8 @@
   + *(1-1) is bigger than *(1-1)
   - <cap1> is bigger than <cap2>
 
+  + *(1-5) is related to *(1-5)
+  - <cap1> is <cap2>
+
+
 < topic

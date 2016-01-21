@@ -8,6 +8,16 @@ describe('Super Script Capture System', function(){
 
   describe('Simple Capture should return capture tag', function(){
 
+
+
+    it("X is Y", function(done) {
+      bot.reply("user1", "x is related to y", function(err, reply) {
+        reply.string.should.eql("x is y");
+        done();
+      });
+    });
+
+
     it("should capture optionals", function(done) {
       bot.reply("user1", "new capture interface", function(err, reply) {
         reply.string.should.eql("capture test interface");
