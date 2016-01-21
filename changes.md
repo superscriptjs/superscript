@@ -1,3 +1,6 @@
+### 0.11.1
+* Just a tiny change to unlock the normalizer version.
+
 ### 0.11.0
 * Adds a new command `%%` for dynamic conversations (gh-206). 
 
