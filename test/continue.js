@@ -7,8 +7,36 @@ describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
-  describe('Match and continue', function(){
+  describe('Dynamic Conversations', function() {
+    it("set some conversation state", function(done) {
+      bot.reply("user1", "__start__", function(err, reply) {
+        bot.getUser("user1", function(err, user) {
+          reply.string.should.eql("match here");
+          user.conversationState.id.should.eql(123);
+          bot.reply("user1", "I really hope this works!", function(err, reply) {
+            reply.string.should.eql("winning");
+            done();
+          });
+        });
 
+      });
+    });
+
+    it("and again", function(done) {
+      bot.reply("user1", "__start__", function(err, reply) {
+        bot.reply("user1", "boo ya", function(err, reply) {
+          bot.getUser("user1", function(err, user) {
+            reply.string.should.eql("YES");
+            done();
+          });
+        });
+      });
+    });
+
+
+  });
+
+  describe('Match and continue', function(){
     it("should continue", function(done) {
       bot.reply("user1", "i went to highschool", function(err, reply) {
         reply.string.should.eql("did you finish ?");

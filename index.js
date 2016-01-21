@@ -196,7 +196,7 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
 
   self.scope.message_props = extraScope || {};
 
-  debug("Message Recieved from '" + userId + "'", msg);
+  debug("\n\n\n\n=================[ New Message - '" + userId + "']===============\n", msg);
   
 
   // Ideally these will come from a cache, but self is a exercise for a rainy day
