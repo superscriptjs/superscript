@@ -1,3 +1,6 @@
+### 0.11.3
+* Allow even more characters into custom function (`(`,`)`, and `&`)
+
 ### 0.11.2
 * Allow more extended characters into custom function (`-`,`'`, and `"`)
 
