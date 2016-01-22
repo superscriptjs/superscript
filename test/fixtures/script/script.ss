@@ -116,6 +116,9 @@
   + reply flags 2
   - {keep} keep this
 
+  + error with function (*)
+  - ^num(<cap1>)
+
   // Custom functions!
   + custom *1
   - ^wordnetDefine()

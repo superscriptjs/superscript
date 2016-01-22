@@ -1,3 +1,6 @@
+### 0.11.2
+* Allow more extended characters into custom function (`-`,`'`, and `"`)
+
 ### 0.11.1
 * Just a tiny change to unlock the normalizer version.
 
