@@ -194,7 +194,7 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
     extraScope = {};
   }
 
-  self.scope.message_props = extraScope || {};
+  // self.scope.message_props = extraScope || {};
 
   debug("\n\n\n\n=================[ New Message - '" + userId + "']===============\n", msg);
   
@@ -206,12 +206,14 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
     topicsSystem: self.topicSystem,
     plugins: self._plugins,
     scope: self.scope,
+    messageScope: extraScope,
 
     // Message
     question: self.question,
     normalize: self.normalize,
     facts: self.factSystem,
     editMode: self.editMode
+
   };
 
   var properties = { id: userId };

@@ -858,6 +858,37 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
   });
 
+  describe("scope creep!", function(){
+    it("dont leak scope", function(done){
+
+      async.parallel([
+          function(callback){
+            bot.reply("userA", "generic message", function(err, reply) {
+              callback(null, reply.string);
+            }, {
+              key: "A"
+            });
+
+          },
+          function(callback){
+            bot.reply("userB", "generic message two", function(err, reply) {
+              callback(null, reply.string);
+            }, {
+              key: "B"
+            });
+          }
+      ],
+      // optional callback
+      function(err, results){
+        results.should.containEql('generic reply A userA generic message');
+        results.should.containEql('generic reply B userB generic message two');
+
+        done();
+      });
+    });
+  });
+
+
   after(help.after);
 
 });

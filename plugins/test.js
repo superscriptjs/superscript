@@ -34,3 +34,7 @@ exports.break = function(cb) {
 exports.nobreak = function(cb) {
 	cb(null, "", false);
 }
+
+exports.showScope = function(cb) {
+	cb(null, this.message_props.key + " " + this.user.id + " " + this.message.raw);
+}

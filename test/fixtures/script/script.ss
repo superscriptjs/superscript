@@ -223,6 +223,12 @@
 < topic
 
 
++ generic message
+- {keep} generic reply ^showScope()
+
++ generic message two
+- {keep} generic reply ^showScope()
+
 
 // Style Tests
 
@@ -327,3 +333,5 @@
   % * what is your last name?
   - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random}
 < topic
+
+
