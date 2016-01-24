@@ -12,19 +12,22 @@
 + force continue
 - force two
 
-> pre
++ testing flow
+- bingo
+
+> topic:keep __pre__
 
 	+ testing topic system
 	- ^save(key, value)
 
-< pre
-
-> topic __pre__
 	+ force break
 	- ^break()
 
 	+ force continue
 	- ^nobreak() force one
+
+	+ testing flow
+	- ^save(key, value)
 
 < topic
 > topic:keep outdoors ( fishing hunting camping ) ^sometest()

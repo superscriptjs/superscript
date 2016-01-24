@@ -15,6 +15,15 @@ describe('SuperScript TopicsSystem', function(){
 
   before(help.before("topicsystem"));
 
+  // describe('Call pre before Random', function() {
+  //   it("pre topic should be called", function(done) {
+  //     bot.reply("testing flow", function(err, res) {
+  //       console.log(res);
+  //       done();
+  //     });
+  //   });
+  // });
+
   describe('TopicSystem', function() {
     it("Should skip empty replies until it finds a match", function(done){
       bot.reply("testing topic system", function(err, reply){

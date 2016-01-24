@@ -10,7 +10,7 @@ describe('Super Script Topic Hooks', function(){
   describe('Pre/Post Topic Hooks', function() {
     it("pre topic should be called", function(done) {
       bot.topicSystem.topic.findOne({name:'__pre__'}, function(err, res){
-        res.gambits.should.have.lengthOf(1)
+        res.gambits.should.have.lengthOf(1);
         done();
       });
     });

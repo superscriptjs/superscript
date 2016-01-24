@@ -4,7 +4,7 @@ var help = require("./helpers");
 var async = require("async");
 var Utils = require("../lib/utils");
 
-describe.only('SuperScript Scripting + Style Interface', function(){
+describe('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -838,7 +838,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
   });
 
-  describe("gh-172", function(){
+  describe("gh-173", function(){
     it("should keep topic though sequence", function(done){
       bot.reply("user1", "name", function(err, reply) {
         reply.string.should.eql("What is your first name?");
@@ -849,8 +849,13 @@ describe.only('SuperScript Scripting + Style Interface', function(){
           reply.string.should.eql("Ok Bob, what is your last name?");
 
           bot.reply("user1", "Hope", function(err, reply) {
-            reply.topicName.should.eql("random");
-            done();
+            // this is where we FOUND the reply
+            reply.topicName.should.eql("set_name");
+            // the new topic (pending topic should now be random)
+            bot.getUser("user1", function(err, user){
+              user.getTopic().should.eql("random");
+              done();
+            });
           });
         });
         
