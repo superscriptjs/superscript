@@ -15,6 +15,13 @@
 + testing flow
 - bingo
 
++ break with continue
+- {CONTINUE} ended
+
+// With the continue bit set we should still hit this next one too
++ break * continue
+- test passed
+
 > topic:keep __pre__
 
 	+ testing topic system

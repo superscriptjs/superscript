@@ -15,14 +15,14 @@ describe('SuperScript TopicsSystem', function(){
 
   before(help.before("topicsystem"));
 
-  // describe('Call pre before Random', function() {
-  //   it("pre topic should be called", function(done) {
-  //     bot.reply("testing flow", function(err, res) {
-  //       console.log(res);
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('Call pre before Random', function() {
+    it("pre topic should be called", function(done) {
+      bot.reply("testing flow", function(err, res) {
+        console.log(res);
+        done();
+      });
+    });
+  });
 
   describe('TopicSystem', function() {
     it("Should skip empty replies until it finds a match", function(done){
@@ -45,6 +45,14 @@ describe('SuperScript TopicsSystem', function(){
         done();
       });
     });
+
+    it("Should continue with a {CONTINUE} tag", function(done){
+      bot.reply("userx", "break with continue", function(err, reply){
+        reply.string.should.eql("ended test passed");
+        done();
+      });
+    });
+    
 
   });
 
