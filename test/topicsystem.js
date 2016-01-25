@@ -120,5 +120,23 @@ describe('SuperScript TopicsSystem', function(){
     });
   });
 
+  describe("gh-240", function() {
+    it("should stop with topicRedirect", function(done) {
+      bot.reply("user", "test empty", function(err, reply) {
+        reply.string.should.containEql("");
+        done();
+      });
+    });
+    
+    it("should stop with respond", function(done) {
+      bot.reply("user", "test respond", function(err, reply) {
+        reply.string.should.containEql("");
+        done();
+      });
+    });
+
+
+  });
+
   after(help.after);
 });

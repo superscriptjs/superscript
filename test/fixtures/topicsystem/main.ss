@@ -54,3 +54,26 @@
 	- me too
 
 < topic
+
+
+// GH-240
++ test empty
+- ^topicRedirect(test, __empty__)
+
++ test respond
+- ^respond(test)
+
+> topic:keep test
+    + __empty__
+    - {END}
+
+    + test respond
+    - {END}
+    
+    + __something__
+    - Something
+
+    + *
+    - Topic catchall
+< topic
+
