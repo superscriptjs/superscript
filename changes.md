@@ -1,3 +1,6 @@
+### 0.11.5
+* GH-240 - Added {END} and {CONTINUE} reply flags, but failed to pass them forward though topicRedirects this has now been fixed.
+
 ### 0.11.4
 * GH-239 - Scope screep issues
 * New logging output - The logs are not JSON per line with a match array showing all matches. This was a signigant change under the hood requiring lots of cleanup.
