@@ -1,6 +1,6 @@
 ### 0.11.4
 * GH-239 - Scope screep issues
-* New logging output
+* New logging output - The logs are not JSON per line with a match array showing all matches. This was a signigant change under the hood requiring lots of cleanup.
 
 ### 0.11.3
 * Allow even more characters into custom function (`(`,`)`, and `&`)
