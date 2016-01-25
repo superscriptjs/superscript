@@ -396,8 +396,6 @@ describe.only('SuperScript Scripting + Style Interface', function(){
              { delay: '500', string: 'blue' },
              { delay: '500', string: 'and black?' } ] };
 
-        console.log(reply);
-
         reply.should.containDeep(r);
         done();
       });

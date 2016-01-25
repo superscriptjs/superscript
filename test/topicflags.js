@@ -2,7 +2,6 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-
 // We need to revisit userConnect 
 describe('Super Script Topics', function(){
 

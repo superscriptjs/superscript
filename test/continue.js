@@ -166,10 +166,12 @@ describe('Super Script Continue System aka Conversation', function(){
             bot.reply("user3", "break out", function (err, reply) {
               reply.string.should.eql("okay nevermind");
 
+              // We should have exhausted "okay nevermind" and break out completely
               bot.reply("user3", "break out", function (err, reply) {
                 reply.string.should.eql("okay we are free");
                 done();
               });
+
             });
           });
         });
