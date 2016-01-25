@@ -92,7 +92,7 @@ var messageItorHandle = function (user, system) {
       };
 
       if (replyObj) {
-        messageOptions.replyId = replyObj.id;
+        messageOptions.replyId = replyObj.replyId;
         msgString = replyObj.string;
 
         if (replyObj.clearConvo) {

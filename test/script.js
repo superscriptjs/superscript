@@ -4,7 +4,7 @@ var help = require("./helpers");
 var async = require("async");
 var Utils = require("../lib/utils");
 
-describe('SuperScript Scripting + Style Interface', function(){
+describe.only('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -395,6 +395,8 @@ describe('SuperScript Scripting + Style Interface', function(){
              { delay: '500', string: 'green' },
              { delay: '500', string: 'blue' },
              { delay: '500', string: 'and black?' } ] };
+
+        console.log(reply);
 
         reply.should.containDeep(r);
         done();
@@ -857,8 +859,8 @@ describe('SuperScript Scripting + Style Interface', function(){
               done();
             });
           });
-        });
-        
+
+        });        
       });
     });
   });
