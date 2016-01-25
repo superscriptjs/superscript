@@ -1,3 +1,9 @@
+### 0.11.7
+* Allows `;` into custom function
+
+### 0.11.6
+* Freezes moongoose, hit rangeError bug reported.
+
 ### 0.11.5
 * GH-240 - Added {END} and {CONTINUE} reply flags, but failed to pass them forward though topicRedirects this has now been fixed.
 
