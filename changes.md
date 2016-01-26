@@ -1,6 +1,8 @@
+### 0.11.9
+* Remove leading spaces from reply.
+
 ### 0.11.8
 * Nuke MessageScope before saving the object back to the history
-
 
 ### 0.11.7
 * Allows `;` into custom function
