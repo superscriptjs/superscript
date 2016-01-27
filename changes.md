@@ -1,3 +1,6 @@
+### 0.11.11
+* Change the custom function regex (again) This time allow `:`.
+
 ### 0.11.10
 * Change the custom function regex (again) This time allow `$`.
 
