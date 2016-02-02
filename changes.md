@@ -1,3 +1,6 @@
+### 0.11.12
+* Add new logging interface for better debugging.
+
 ### 0.11.11
 * Change the custom function regex (again) This time allow `:`.
 
