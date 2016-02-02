@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint --env node lib *.js",
     "test": "mocha test -R spec -s 1700 -t 150000",
-    "dtest": "DEBUG=*,-mquery,-mocha*, mocha test -R spec -s 1700 -t 150000"
+    "dtest": "DEBUG=*,-mquery,-mocha*, mocha test -R spec -s 1700 -t 150000",
+    "itest": "DEBUG=SS* DEBUG_LEVEL=info mocha test -R spec -s 1700 -t 150000"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,7 @@
     "commander": "^2.4.0",
     "crc": "^3.0.0",
     "debug": "~0.8.0",
+    "debug-levels": "^0.2.0",
     "deepmerge": "^0.2.7",
     "lemmer": "0.1.6",
     "lodash": "^3.10.1",

@@ -6,7 +6,7 @@ var qtypes = require("qtypes");
 var _ = require("lodash");
 var norm = require("node-normalizer");
 var requireDir = require("require-dir");
-var debug = require("debug")("Script");
+var debug = require("debug-levels")("SS:Script");
 var facts = require("sfacts");
 var gTopicsSystem = require("./lib/topics/index");
 var Message = require("./lib/message");
@@ -66,7 +66,7 @@ function SuperScript(options, callback) {
     self.normalize = norm;
     new qtypes(function (question) {
       self.question = question;
-      debug("System Loaded, waiting for replies");
+      debug.verbose("System Loaded, waiting for replies");
       callback(null, self);
     });
   });
@@ -140,7 +140,7 @@ var messageFactory = function (options, cb) {
   
   var cleanMsg = normalize.clean(rawMsg).trim();
   // var cleanMsg = rawMsg.trim();
-  debug("IN MessageFactory", cleanMsg);
+  debug.verbose("IN MessageFactory", cleanMsg);
   
   if (chunking === true) {
     messageParts = Utils.sentenceSplit(cleanMsg);
@@ -198,7 +198,7 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
 
   // self.scope.message_props = extraScope || {};
 
-  debug("\n\n\n\n=================[ New Message - '" + userId + "']===============\n", msg);
+  debug.log("[ New Message - '" + userId + "']- " +  msg);
   
 
   // Ideally these will come from a cache, but self is a exercise for a rainy day
@@ -279,7 +279,8 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
           reply.string = messageReplies.join(" ");
         }
 
-        debug("Update and Reply to user '" + user.id + "'", reply);
+        debug.verbose("Update and Reply to user '" + user.id + "'", reply);
+        debug.info("[ Final Reply - '" + user.id + "']- '" + reply.string + "'");
 
         // If we have a thread of messages, lets space them out.
         if (reply.subReplies) {
@@ -297,7 +298,7 @@ SuperScript.prototype.loadPlugins = function (path) {
 
   for (var file in plugins) {
     for (var func in plugins[file]) {
-      debug("Loading Plugin", path, func);
+      debug.verbose("Loading Plugin", path, func);
       this._plugins[func] = plugins[file][func];
     }
   }
@@ -316,7 +317,7 @@ SuperScript.prototype.getUsers = function (cb) {
 };
 
 SuperScript.prototype.getUser = function (userId, cb) {
-  debug("Fetching User", userId);
+  debug.verbose("Fetching User", userId);
 
   this.users.findOne({id: userId}, function (err, usr) {
     cb(err, usr);
