@@ -1,3 +1,6 @@
+### 0.11.13
+* Introducded a typo bug in 0.11.12 - fixed here
+
 ### 0.11.12
 * Add new logging interface for better debugging.
 
