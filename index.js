@@ -56,6 +56,7 @@ function SuperScript(options, callback) {
 
   this.scope = {};
   this.scope = _.extend(options.scope || {});
+  this.scope.bot = this;
   this.scope.facts = this.factSystem;
   this.scope.topicSystem = this.topicSystem;
   this.scope.botfacts = this.memory;

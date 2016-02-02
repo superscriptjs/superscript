@@ -1,3 +1,6 @@
+### 0.11.14
+* Adds `bot` to scope, this will allow plugins to create users.
+
 ### 0.11.13
 * Introducded a typo bug in 0.11.12 - fixed here
 
