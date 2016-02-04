@@ -13,6 +13,7 @@ var Message = require("./lib/message");
 var Users = require("./lib/users");
 var getreply = require("./lib/getreply");
 var Utils = require("./lib/utils");
+var processHelpers = require("./lib/reply/common");
 var mergex = require("deepmerge");
 
 function SuperScript(options, callback) {
@@ -104,7 +105,6 @@ var messageItorHandle = function (user, system) {
         replyObj = {};
       }
 
-
       new Message(msgString, messageOptions, function (replyMessageObject) {
         user.updateHistory(msg, replyMessageObject, replyObj);
 
@@ -186,6 +186,63 @@ SuperScript.prototype.message = function (msgString, callback) {
 };
 
 
+// This is like doing a topicRedirect
+SuperScript.prototype.directReply = function (userId, topic, trigger, callback) {
+  var getreply = require("./lib/getreply");
+  var self = this;
+  var properties = { id: userId };
+  var prop = {
+    currentTopic: "random",
+    status: 0,
+    conversation: 0, volley: 0, rally: 0
+  };
+
+  var system = {
+
+    // getReply
+    topicsSystem: self.topicSystem,
+    plugins: self._plugins,
+    scope: self.scope,
+    messageScope: {},
+
+    // Message
+    question: self.question,
+    normalize: self.normalize,
+    facts: self.factSystem,
+    editMode: self.editMode
+  };
+
+  var messageOptions = {
+    qtypes: self.question,
+    norm: self.normalize,
+    facts: self.factSystem
+  };
+
+  this.users.findOrCreate(properties, prop, function (err1, user) {
+    if (err1) {
+      debug.error(err1);
+    }
+
+    processHelpers.getTopic(self.topicSystem, topic, function (err, topicData) {
+      if (err) {
+        debug.error(err);
+      }
+
+      new Message(trigger, messageOptions, function (replyMessageObject) {
+        system.aTopics = [];
+        system.aTopics.push(topic);
+        system.message = replyMessageObject;
+
+        getreply(system, function (err, subreply) {
+          console.log("subreply", subreply)
+          // callback(err, subreply);
+        });
+      });
+    });
+    
+  });
+};
+
 // Convert msg into message object, then check for a match
 SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
   var self = this;
@@ -197,10 +254,7 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
     extraScope = {};
   }
 
-  // self.scope.message_props = extraScope || {};
-
   debug.log("[ New Message - '" + userId + "']- " +  msg);
-  
 
   // Ideally these will come from a cache, but self is a exercise for a rainy day
   var system = {
