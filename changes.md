@@ -1,3 +1,6 @@
+### 0.11.15
+* Adds new directReply endpoint and more cheanup on msg
+
 ### 0.11.14
 * Adds `bot` to scope, this will allow plugins to create users.
 
