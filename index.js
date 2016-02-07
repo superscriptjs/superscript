@@ -83,50 +83,58 @@ var messageItorHandle = function (user, system) {
       message: msg
     };
 
-    getreply(options, function (err, replyObj) {
-      // Convert the reply into a message object too.
-
-      var msgString = "";
-      var messageOptions = {
-        qtypes: system.question,
-        norm: system.normalize,
-        facts: system.facts
-      };
-
-      if (replyObj) {
-        messageOptions.replyId = replyObj.replyId;
-        msgString = replyObj.string;
-
-        if (replyObj.clearConvo) {
-          messageOptions.clearConvo = replyObj.clearConvo;
-        }
-
-      } else {
-        replyObj = {};
+    processHelpers.getTopic(options.system.topicsSystem, system.topicName, function (err, topicData) {
+      if (topicData) {
+        options.aTopics = [];
+        options.aTopics.push(topicData);        
       }
 
-      new Message(msgString, messageOptions, function (replyMessageObject) {
-        user.updateHistory(msg, replyMessageObject, replyObj);
+      getreply(options, function (err, replyObj) {
+        // Convert the reply into a message object too.
 
-        // We send back a smaller message object to the clients.
-        var clientObject = {
-          replyId: replyObj.replyId,
-          createdAt: replyMessageObject.createdAt || new Date(),
-          string: msgString || "", // replyMessageObject.raw || "",
-          topicName: replyObj.topicName,
-          subReplies: replyObj.subReplies,
+        var msgString = "";
+        var messageOptions = {
+          qtypes: system.question,
+          norm: system.normalize,
+          facts: system.facts
         };
 
-        var newClientObject = mergex(clientObject, replyObj.props || {});
+        if (replyObj) {
+          messageOptions.replyId = replyObj.replyId;
+          msgString = replyObj.string;
 
-        user.save(function (err, res) {
-          // TODO - Seeing RangeError here. (investigate Mongoose 4.0)
-          return next(null, newClientObject);
+          if (replyObj.clearConvo) {
+            messageOptions.clearConvo = replyObj.clearConvo;
+          }
+
+        } else {
+          replyObj = {};
+        }
+
+        new Message(msgString, messageOptions, function (replyMessageObject) {
+          user.updateHistory(msg, replyMessageObject, replyObj);
+
+          // We send back a smaller message object to the clients.
+          var clientObject = {
+            replyId: replyObj.replyId,
+            createdAt: replyMessageObject.createdAt || new Date(),
+            string: msgString || "", // replyMessageObject.raw || "",
+            topicName: replyObj.topicName,
+            subReplies: replyObj.subReplies,
+          };
+
+          var newClientObject = mergex(clientObject, replyObj.props || {});
+
+          user.save(function (err, res) {
+            // TODO - Seeing RangeError here. (investigate Mongoose 4.0)
+            return next(null, newClientObject);
+          });
+
         });
-
       });
     });
   };
+
   return messageItor;
 };
 
@@ -151,7 +159,7 @@ var messageFactory = function (options, cb) {
 
   messageParts = Utils.cleanArray(messageParts);
 
-  var itor = function (messageChunk, next) {
+  var itor = function (messageChunk, nextcb) {
 
     var messageOptions = {
       qtypes: options.question,
@@ -161,7 +169,7 @@ var messageFactory = function (options, cb) {
     };
 
     new Message(messageChunk.trim(), messageOptions, function (tmsg) {
-      next(null, tmsg);
+      nextcb(null, tmsg);
     });
   };
 
@@ -187,66 +195,21 @@ SuperScript.prototype.message = function (msgString, callback) {
 
 
 // This is like doing a topicRedirect
-SuperScript.prototype.directReply = function (userId, topic, trigger, callback) {
-  var getreply = require("./lib/getreply");
-  var self = this;
-  var properties = { id: userId };
-  var prop = {
-    currentTopic: "random",
-    status: 0,
-    conversation: 0, volley: 0, rally: 0
+SuperScript.prototype.directReply = function (userId, topic, msg, callback) {
+  debug.log("[ New DirectReply - '" + userId + "']- " +  msg);
+  var options = {
+    userId: userId,
+    topicName: topic,
+    msgString: msg,
+    extraScope: {}
   };
 
-  var system = {
+  this._reply(options, callback);
 
-    // getReply
-    topicsSystem: self.topicSystem,
-    plugins: self._plugins,
-    scope: self.scope,
-    messageScope: {},
-
-    // Message
-    question: self.question,
-    normalize: self.normalize,
-    facts: self.factSystem,
-    editMode: self.editMode
-  };
-
-  var messageOptions = {
-    qtypes: self.question,
-    norm: self.normalize,
-    facts: self.factSystem
-  };
-
-  this.users.findOrCreate(properties, prop, function (err1, user) {
-    if (err1) {
-      debug.error(err1);
-    }
-
-    processHelpers.getTopic(self.topicSystem, topic, function (err, topicData) {
-      if (err) {
-        debug.error(err);
-      }
-
-      new Message(trigger, messageOptions, function (replyMessageObject) {
-        system.aTopics = [];
-        system.aTopics.push(topic);
-        system.message = replyMessageObject;
-
-        getreply(system, function (err, subreply) {
-          console.log("subreply", subreply)
-          // callback(err, subreply);
-        });
-      });
-    });
-    
-  });
 };
 
 // Convert msg into message object, then check for a match
 SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
-  var self = this;
-
   if (arguments.length === 2 && typeof msg === "function") {
     callback = msg;
     msg = userId;
@@ -255,6 +218,18 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
   }
 
   debug.log("[ New Message - '" + userId + "']- " +  msg);
+  var options = {
+    userId: userId,
+    msgString: msg,
+    extraScope: extraScope
+  };
+
+  this._reply(options, callback);
+};
+
+
+SuperScript.prototype._reply = function(options, callback) {
+  var self = this;
 
   // Ideally these will come from a cache, but self is a exercise for a rainy day
   var system = {
@@ -263,30 +238,31 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
     topicsSystem: self.topicSystem,
     plugins: self._plugins,
     scope: self.scope,
-    messageScope: extraScope,
+    messageScope: options.extraScope,
+
+    // Pass in the topic if it
+    topicName: options.topicName || null,
 
     // Message
     question: self.question,
     normalize: self.normalize,
     facts: self.factSystem,
     editMode: self.editMode
-
   };
 
-  var properties = { id: userId };
   var prop = {
     currentTopic: "random",
     status: 0,
     conversation: 0, volley: 0, rally: 0
   };
 
-  this.users.findOrCreate(properties, prop, function (err1, user) {
+  this.users.findOrCreate({ id: options.userId }, prop, function (err1, user) {
     if (err1) {
-      console.log(err1);
+      debug.error(err1);
     }
 
     var opt = {
-      msg: msg,
+      msg: options.msgString,
       question: self.question,
       normalize: self.normalize,
       factSystem: self.factSystem,
@@ -296,7 +272,7 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
     messageFactory(opt, function (messages) {
       async.mapSeries(messages, messageItorHandle(user, system), function (err2, messageArray) {
         if (err2) {
-          console.log(err2);
+          debug.error(err2);
         }
 
         var reply = {};
@@ -346,7 +322,8 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
       });
     });
   });
-};
+}
+
 
 SuperScript.prototype.loadPlugins = function (path) {
   var plugins = requireDir(path);

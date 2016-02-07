@@ -4,7 +4,7 @@ var help = require("./helpers");
 var async = require("async");
 var Utils = require("../lib/utils");
 
-describe('SuperScript Scripting + Style Interface', function(){
+describe.only('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -893,7 +893,7 @@ describe('SuperScript Scripting + Style Interface', function(){
     });
   });
 
-  describe.only('Direct Reply', function() {
+  describe('Direct Reply', function() {
     it("should return reply", function(done) {
       bot.directReply("user1", "generic", "__simple__", function(err, reply) {
         console.log(err, reply);
