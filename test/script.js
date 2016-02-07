@@ -897,6 +897,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     it("should return reply", function(done) {
       bot.directReply("user1", "generic", "__simple__", function(err, reply) {
         console.log(err, reply);
+        reply.string.should.eql("");
         done();  
       });
     });
