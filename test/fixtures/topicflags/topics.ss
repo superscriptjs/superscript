@@ -87,6 +87,25 @@
 < topic
 
 
++ respond test
+- ^respond(~respond_test)
+
+> topic:system ~respond_test 
+
+  + *
+  - ^respond(~respond_test2)
+
+< topic
+
+> topic:system ~respond_test2
+
+  + *
+  - final
+
+< topic
+
+
+
 /*
   NoStay Flag Test
   The nostay flag means the topic will change automatically back 

@@ -80,6 +80,13 @@ describe('Super Script Topics', function(){
 
   describe('Topic Flow', function() {
 
+    it("topic flow 0", function(done) {
+      bot.reply("user1", "respond test", function(err, reply) {
+        reply.string.should.eql("final");
+        done();
+      });
+    });
+
     it("topic flow 1", function(done){
       bot.reply("user 10", "testing hidden", function(err, reply) {
         reply.string.should.eql("some reply");
@@ -92,7 +99,7 @@ describe('Super Script Topics', function(){
       });
     });
 
-     it("topic flow 2", function(done){
+    it("topic flow 2", function(done){
       bot.reply("user2", "testing hidden", function(err, reply) {
         reply.string.should.eql("some reply");
 
