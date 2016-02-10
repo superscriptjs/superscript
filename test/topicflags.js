@@ -81,10 +81,10 @@ describe('Super Script Topics', function(){
   describe('Topic Flow', function() {
 
     it("topic flow 1", function(done){
-      bot.reply("user1", "testing hidden", function(err, reply) {
+      bot.reply("user 10", "testing hidden", function(err, reply) {
         reply.string.should.eql("some reply");
 
-        bot.reply("user1", "yes", function(err, reply) {
+        bot.reply("user 10", "yes", function(err, reply) {
           reply.string.should.eql("this should work.");
           done();
         });

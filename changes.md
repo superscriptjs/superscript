@@ -1,3 +1,7 @@
+### 0.11.16
+* Fixed a regression in ^respond
+* Moved some console.log to debug.error 
+
 ### 0.11.15
 * Adds new directReply endpoint and more cheanup on msg
 
