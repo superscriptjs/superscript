@@ -38,3 +38,7 @@ exports.nobreak = function(cb) {
 exports.showScope = function(cb) {
 	cb(null, this.message_props.key + " " + this.user.id + " " + this.message.raw);
 }
+
+exports.word = function(word1, word2, cb) {
+	cb(null, word1 === word2);	
+}

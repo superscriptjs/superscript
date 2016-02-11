@@ -1,3 +1,7 @@
+### 0.11.18
+* Adds Telegraph Client
+* Feature GH-243 - Filter Input now supports captured input.
+
 ### 0.11.17
 * Re-added nostay topic flag
 

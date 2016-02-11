@@ -902,6 +902,25 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
   });
 
+
+  describe('GH-243', function() {
+    it("Should pass data back into filter function on input", function(done) {
+      bot.reply("user1", "filter by logic", function(err, reply) {
+        reply.string.should.eql("logic");
+        done();  
+      });
+    });
+
+    it("Should pass data back into filter function on input 2", function(done) {
+      bot.reply("user1", "filter by ai", function(err, reply) {
+        reply.string.should.eql("ai");
+        done();  
+      });
+    });
+
+  });
+
+
   after(help.after);
 
 });

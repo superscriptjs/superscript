@@ -345,3 +345,10 @@
 < topic
 
 
+// GH-243
++ filter by *1
+- {^word(<cap1>,logic)} logic
+- {^word(<cap1>,though)} though
+- {^word(<cap1>,ai)} ai
+
+
