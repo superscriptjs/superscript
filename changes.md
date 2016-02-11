@@ -1,3 +1,6 @@
+### 0.11.17
+* Re-added nostay topic flag
+
 ### 0.11.16
 * Fixed a regression in ^respond
 * Moved some console.log to debug.error 

@@ -112,24 +112,26 @@ var messageItorHandle = function (user, system) {
         }
 
         new Message(msgString, messageOptions, function (replyMessageObject) {
-          user.updateHistory(msg, replyMessageObject, replyObj);
+          user.updateHistory(msg, replyMessageObject, replyObj, function() {
 
-          // We send back a smaller message object to the clients.
-          var clientObject = {
-            replyId: replyObj.replyId,
-            createdAt: replyMessageObject.createdAt || new Date(),
-            string: msgString || "", // replyMessageObject.raw || "",
-            topicName: replyObj.topicName,
-            subReplies: replyObj.subReplies,
-          };
+            // We send back a smaller message object to the clients.
+            var clientObject = {
+              replyId: replyObj.replyId,
+              createdAt: replyMessageObject.createdAt || new Date(),
+              string: msgString || "", // replyMessageObject.raw || "",
+              topicName: replyObj.topicName,
+              subReplies: replyObj.subReplies,
+            };
 
-          var newClientObject = mergex(clientObject, replyObj.props || {});
+            var newClientObject = mergex(clientObject, replyObj.props || {});
 
-          user.save(function (err, res) {
-            // TODO - Seeing RangeError here. (investigate Mongoose 4.0)
-            return next(null, newClientObject);
+            user.save(function (err, res) {
+              // TODO - Seeing RangeError here. (investigate Mongoose 4.0)
+              return next(null, newClientObject);
+            });
+
+
           });
-
         });
       });
     });

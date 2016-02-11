@@ -120,6 +120,15 @@ describe('SuperScript TopicsSystem', function(){
     });
   });
 
+
+  // it("Post Order Topics", function(done){
+  //   bot.reply("I like to spend time fishing", function(err, reply){
+  //     console.log(reply);
+  //     reply.string.should.containEql("fishing");
+  //     done();
+  //   });
+  // });
+
   describe("gh-240", function() {
     it("should stop with topicRedirect", function(done) {
       bot.reply("user", "test empty", function(err, reply) {

@@ -113,6 +113,19 @@ describe('Super Script Topics', function(){
 
   });
 
+  describe('Topics - NoStay Flag', function() {
+    it("topic should have keep flag", function(done){
+      bot.reply("User1", "testing nostay", function(err, reply) {
+        reply.string.should.eql("topic test pass");
+        bot.reply("User1", "something else", function(err, reply) {
+          reply.string.should.eql("reply in random");
+          done();
+        });
+      });
+    });
+
+  });
+
   describe('Topics - Keep', function() {
 
     it("topic should have keep flag", function(done){
@@ -125,6 +138,7 @@ describe('Super Script Topics', function(){
     it("should keep topic for reuse", function(done){
       bot.reply("user1", "set topic to keeptopic", function(err, reply) {
         reply.string.should.eql("Okay we are going to keeptopic");
+
         bot.getUser("user1", function(err, cu){
           cu.getTopic().should.eql("keeptopic");
           bot.reply("user1", "i have one thing to say", function(err, reply) {
@@ -138,7 +152,8 @@ describe('Super Script Topics', function(){
         });
       });
     });
-    
+  
+
     it("should not repeat itself", function(done){
       // Manually reset the topic
       bot.findOrCreateUser("user1", function(err, user){

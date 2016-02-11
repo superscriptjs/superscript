@@ -29,6 +29,9 @@
 - ^topicRedirect(nostay, _bounce_)
 
 
++ something else
+- reply in random
+
 // Testing sort
 + x *
 - Catch all
@@ -105,15 +108,24 @@
 < topic
 
 
-
 /*
   NoStay Flag Test
   The nostay flag means the topic will change automatically back 
   to the previous one after saying the gambit.
 */
+
+> topic:nostay:keep:system loaded
+  + this topic is loaded
+  - woot
+< topic
+
+
 > topic:nostay nostay
   + _bounce_
   - topic test pass
+
+  + something else
+  - reply in nostay
 < topic
 
 

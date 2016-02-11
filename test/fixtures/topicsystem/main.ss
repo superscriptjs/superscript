@@ -45,11 +45,17 @@
   + hiking is so much fun
   - I like to hike too!
 
+  + I like to spend *
+  - outdoors
+
 < topic
 
 
 > topic fishing ^sometest() ( fish fishing to_fish rod worms )
-	
+
+  + I like to spend time *
+  - fishing
+  
 	+ I like to *
 	- me too
 
