@@ -1,3 +1,7 @@
+### 0.11.19
+* Pass matchBit forward though redirect/respond/custom function
+
+
 ### 0.11.18
 * Adds Telegraph Client
 * Feature GH-243 - Filter Input now supports captured input.

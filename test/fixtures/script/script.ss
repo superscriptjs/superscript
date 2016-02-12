@@ -352,3 +352,11 @@
 - {^word(<cap1>,ai)} ai
 
 
++ scope though redirect
+- ^topicRedirect(__A__, __B__)
+
+> topic:keep:system __A__
+  + __B__
+  - ^showScope()
+< topic
+

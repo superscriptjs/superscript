@@ -4,7 +4,7 @@ var help = require("./helpers");
 var async = require("async");
 var Utils = require("../lib/utils");
 
-describe.only('SuperScript Scripting + Style Interface', function(){
+describe('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -864,7 +864,17 @@ describe.only('SuperScript Scripting + Style Interface', function(){
   });
 
   describe("scope creep!", function(){
-    it("dont leak scope", function(done){
+
+    it.only("pass scope into redirect", function(done) {
+      bot.reply("user1", "scope though redirect", function(err, reply) {
+        reply.string.should.eql('A user1 __B__');
+        done();
+      }, {
+        key: "A"
+      });
+    });
+
+    it("dont leak scope", function(done) {
 
       async.parallel([
           function(callback){
