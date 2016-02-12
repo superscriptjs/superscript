@@ -1,6 +1,8 @@
 ### 0.11.19
 * Pass matchBit forward though redirect/respond/custom function
-
+* Pass extraScope forward though topicRedirect function
+* Pass extraScope forward though respond function
+* Pass extraScope forward though inline redirect
 
 ### 0.11.18
 * Adds Telegraph Client

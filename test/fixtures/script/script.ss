@@ -331,7 +331,7 @@
 
   + *~5
   % * what is your last name?
-  - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random}
+  - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random} {clear}
 < topic
 
 

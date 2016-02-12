@@ -126,6 +126,7 @@ var messageItorHandle = function (user, system) {
             var newClientObject = mergex(clientObject, replyObj.props || {});
 
             user.save(function (err, res) {
+              debug.verbose(err, res);
               // TODO - Seeing RangeError here. (investigate Mongoose 4.0)
               return next(null, newClientObject);
             });
