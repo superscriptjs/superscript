@@ -1,3 +1,6 @@
+### 0.11.20
+* Pass clearConvo {CLEAR} back though topicRedirect
+
 ### 0.11.19
 * Pass matchBit forward though redirect/respond/custom function
 * Pass extraScope forward though topicRedirect function
