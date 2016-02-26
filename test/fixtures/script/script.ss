@@ -201,6 +201,11 @@
 + property 1
 - ^addMessageProp(p1, foo) buz
 
++ object param one
+- ^objparam1()
+
++ object param two
+- ^objparam2() ^addMessageProp(foo, bar)
 
 // Reply Filter functions
 + okay my name is <name>

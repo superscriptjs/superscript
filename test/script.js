@@ -675,6 +675,23 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         done();
       });
     });
+
+    it("Augment callback 1", function(done) {
+      bot.reply("user1", "object param one", function(err, reply) {
+        reply.string.should.eql("world");
+        reply.attachments.should.eql([ { text: 'Optional text that appears *within* the attachment' } ]);
+        done();
+      });
+    });
+
+    it("Augment callback 2", function(done) {
+      bot.reply("user1", "object param two", function(err, reply) {
+        reply.string.should.eql("world");
+        reply.foo.should.eql("bar");
+        done();
+      });
+    });
+
   });
 
   describe('Create Gambit Helper', function(){

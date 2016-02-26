@@ -35,6 +35,24 @@ exports.nobreak = function(cb) {
 	cb(null, "", false);
 }
 
+exports.objparam1 = function(cb) {
+
+	var data = {
+    "text": "world",
+    "attachments": [
+      {
+          "text": "Optional text that appears *within* the attachment",
+      }
+     ]
+	}
+	cb(null, data);
+}
+
+exports.objparam2 = function(cb) {
+	cb(null, {test: "hello", text: "world"});
+}
+
+
 exports.showScope = function(cb) {
 	cb(null, this.message_props.key + " " + this.user.id + " " + this.message.raw);
 }
