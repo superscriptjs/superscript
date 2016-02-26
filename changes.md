@@ -1,3 +1,6 @@
+### 0.11.21
+* In custom function (plugins) you can now pass back an object instead of a string providing it contains a `text` or `reply` property. All other params well become OOB data.
+
 ### 0.11.20
 * Pass clearConvo {CLEAR} back though topicRedirect
 
