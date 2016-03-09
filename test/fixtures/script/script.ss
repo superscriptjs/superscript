@@ -207,6 +207,10 @@
 + object param two
 - ^objparam2() ^addMessageProp(foo, bar)
 
+// Object params though topicRedirect
++ object param three
+-  ^addMessageProp(foo, bar) ^topicRedirect(test_topic, __objParams__)
+
 // Reply Filter functions
 + okay my name is <name>
 - {^hasName(false)} ^save(name,<cap1>) Nice to meet you, <cap1>.
@@ -215,7 +219,12 @@
 ?:WH * your name
 - My name is Brit.
 
+< topic
 
+// Object params though topicRedirect (related topic)
+> topic:keep test_topic
+  + __objParams__
+  - ^objparam1()
 < topic
 
 > topic fish

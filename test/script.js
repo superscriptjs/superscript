@@ -657,7 +657,6 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
   });
 
-
   describe('Augment reply Object', function(){
     it("Should have replyProp", function(done) {
       bot.reply("user1", "Can you smile?", function(err, reply) {
@@ -688,6 +687,16 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       bot.reply("user1", "object param two", function(err, reply) {
         reply.string.should.eql("world");
         reply.foo.should.eql("bar");
+        done();
+      });
+    });
+
+    // Params though redirects & Merge
+    it("Augment callback 3", function(done) {
+      bot.reply("user1", "object param three", function(err, reply) {
+        reply.string.should.eql("world");
+        reply.foo.should.eql("bar");
+        reply.attachments.should.eql([ { text: 'Optional text that appears *within* the attachment' } ]);
         done();
       });
     });
