@@ -1,3 +1,6 @@
+### 0.11.22
+* fix/enhancement - If you have OOB data it will now persist though topicRedirect(...), OOB data will also be merged together if you have added some before and after the redirect too.
+
 ### 0.11.21
 * In custom function (plugins) you can now pass back an object instead of a string providing it contains a `text` or `reply` property. All other params well become OOB data.
 
