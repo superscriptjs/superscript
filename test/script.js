@@ -4,7 +4,7 @@ var help = require("./helpers");
 var async = require("async");
 var Utils = require("../lib/utils");
 
-describe.only('SuperScript Scripting + Style Interface', function(){
+describe('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -147,7 +147,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         reply.string.should.eql("");
         done();
       });
-    });    
+    });
 
     it("min max star ~emo - gh-221", function(done) {
       bot.reply("user1", "hello test test", function(err, reply) {
@@ -818,14 +818,14 @@ describe.only('SuperScript Scripting + Style Interface', function(){
         done();
       });
     });
-     
+
     it("dont burst urls", function(done){
       Utils.sentenceSplit("should not burst http://google.com").should.have.length(1);
       Utils.sentenceSplit("should not burst 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE").should.have.length(1);
       Utils.sentenceSplit("burst test should pass rob@silentrob.me").should.have.length(1);
       done();
     });
-    
+
   });
 
   describe("chunk message", function(){
@@ -866,7 +866,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
       bot.reply("user1", "name", function(err, reply) {
         reply.string.should.eql("What is your first name?");
         reply.topicName.should.eql("set_name");
-        
+
         bot.reply("user1", "Bob", function(err, reply) {
           reply.topicName.should.eql("set_name");
           reply.string.should.eql("Ok Bob, what is your last name?");
@@ -881,7 +881,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
             });
           });
 
-        });        
+        });
       });
     });
   });
@@ -930,7 +930,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     it("should return reply", function(done) {
       bot.directReply("user1", "generic", "__simple__", function(err, reply) {
         reply.string.should.eql("");
-        done();  
+        done();
       });
     });
   });
@@ -940,14 +940,14 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     it("Should pass data back into filter function on input", function(done) {
       bot.reply("user1", "filter by logic", function(err, reply) {
         reply.string.should.eql("logic");
-        done();  
+        done();
       });
     });
 
     it("Should pass data back into filter function on input 2", function(done) {
       bot.reply("user1", "filter by ai", function(err, reply) {
         reply.string.should.eql("ai");
-        done();  
+        done();
       });
     });
 

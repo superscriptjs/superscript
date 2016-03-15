@@ -2,13 +2,11 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe('Super Script Capture System', function(){
+describe.only('Super Script Capture System', function(){
 
   before(help.before("capture"));
 
   describe('Simple Capture should return capture tag', function(){
-
-
 
     it("X is Y", function(done) {
       bot.reply("user1", "x is related to y", function(err, reply) {
@@ -60,6 +58,18 @@ describe('Super Script Capture System', function(){
       });
     });
 
+  });
+
+  describe('Previous Capture should return previous capture tag', function(){
+    it("Previous capture", function(done) {
+      bot.reply("user1", "previous capture one interface", function(err, reply) {
+        reply.string.should.eql("previous capture test one interface");
+        bot.reply("user1", "previous capture two", function(err, reply) {
+          reply.string.should.eql("previous capture test two interface");
+          done();
+        });
+      });
+    });
   });
 
   describe("GH-128", function() {
