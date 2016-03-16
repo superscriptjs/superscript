@@ -28,19 +28,18 @@ describe.only('Super Script User Persist', function(){
   describe('Should save users session', function(){
 
     it("should save user session", function(done) {
-      bot.reply.string("iuser3", "Hello, my name is Rob.", function(err, reply) {
-        reply.should.eql("Nice to meet you Rob.");
+      bot.reply("iuser3", "Save user token ABCD.", function(err, reply) {
+        reply.string.should.eql("User token ABCD has been saved.");
         done();
       });
     });
 
     it("it remember my name", function(done) {
       // Call startup again (same as before hook)
-      bot.reply("iuser3", "Hello again.", function(err, reply) {
-        reply.string.should.eql("Hi Rob");
+      bot.reply("iuser3", "Get user token", function(err, reply) {
+        reply.string.should.eql("Return ABCD");
         done();
       });
-
     });
   });
 
