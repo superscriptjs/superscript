@@ -10,7 +10,7 @@ var help = require("./helpers");
 // In this suite, the after hook does not delete the DB
 // so that will have to be torn down manually.
 
-describe('Super Script User Presist', function(){
+describe('Super Script User Persist', function(){
 
   before(help.before("user"));
 
@@ -28,15 +28,15 @@ describe('Super Script User Presist', function(){
   describe('Should save users session', function(){
 
     it("should save user session", function(done) {
-      bot.reply.string("iuser2", "Hello, my name is Rob.", function(err, reply) {
+      bot.reply.string("iuser3", "Hello, my name is Rob.", function(err, reply) {
         reply.should.eql("Nice to meet you Rob.");
-        done()
+        done();
       });
     });
 
     it("it remember my name", function(done) {
       // Call startup again (same as before hook)
-      bot.reply("iuser2", "Hello again.", function(err, reply) {
+      bot.reply("iuser3", "Hello again.", function(err, reply) {
         reply.string.should.eql("Hi Rob");
         done();
       });
