@@ -1,3 +1,6 @@
+### 0.11.23
+* Wrapped User Model Create to support schema or pre-existing.
+
 ### 0.11.22
 * fix/enhancement - If you have OOB data it will now persist though topicRedirect(...), OOB data will also be merged together if you have added some before and after the redirect too.
 

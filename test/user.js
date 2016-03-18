@@ -10,7 +10,7 @@ var help = require("./helpers");
 // In this suite, the after hook does not delete the DB
 // so that will have to be torn down manually.
 
-describe.only('Super Script User Persist', function(){
+describe('Super Script User Persist', function(){
 
   before(help.before("user"));
 
