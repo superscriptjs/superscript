@@ -1,3 +1,6 @@
+### 0.11.25
+* This continues to build out the debugging and logging, now redirects and respond functions are more clear.
+
 ### 0.11.24
 * Added a new Google Hangout Client
 * Bubbled up the internal log to the client as `debug` on the reply object.

@@ -66,6 +66,12 @@
 + test empty
 - ^topicRedirect(test, __empty__)
 
++ generic redirect
+- ^topicRedirect(test, __something__)
+
++ generic respond
+- ^respond(test)
+
 + test respond
 - ^respond(test)
 
@@ -82,4 +88,3 @@
     + *
     - Topic catchall
 < topic
-

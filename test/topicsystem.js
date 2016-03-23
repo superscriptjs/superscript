@@ -129,6 +129,27 @@ describe('SuperScript TopicsSystem', function(){
   //   });
   // });
 
+
+  describe("log-debug", function() {
+    it("Should show steps - redirect", function(done) {
+      bot.reply("user", "generic redirect", function(err, reply) {
+        reply.debug.matched_gambit[0].topic.should.containEql("random");
+        reply.debug.matched_gambit[0].subset[0].topic.should.containEql("test");
+        done();
+      });
+    });
+
+    it("Should show steps - respond", function(done) {
+      bot.reply("user", "generic respond", function(err, reply) {
+        reply.debug.matched_gambit[0].topic.should.containEql("random");
+        reply.debug.matched_gambit[0].subset[0].topic.should.containEql("test");
+        done();
+      });
+    });
+
+  });
+
+
   describe("gh-240", function() {
     it("should stop with topicRedirect", function(done) {
       bot.reply("user", "test empty", function(err, reply) {
