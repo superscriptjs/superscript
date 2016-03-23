@@ -112,7 +112,7 @@ var messageItorHandle = function (user, system) {
         }
 
         new Message(msgString, messageOptions, function (replyMessageObject) {
-          user.updateHistory(msg, replyMessageObject, replyObj, function() {
+          user.updateHistory(msg, replyMessageObject, replyObj, function(err, log) {
 
             // We send back a smaller message object to the clients.
             var clientObject = {
@@ -121,6 +121,7 @@ var messageItorHandle = function (user, system) {
               string: msgString || "", // replyMessageObject.raw || "",
               topicName: replyObj.topicName,
               subReplies: replyObj.subReplies,
+              debug: log
             };
 
             var newClientObject = mergex(clientObject, replyObj.props || {});
