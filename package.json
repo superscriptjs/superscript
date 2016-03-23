@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "0.11.23",
+  "version": "0.11.24",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,8 @@
     "Rob Ellis <rob@silentrob.me>",
     "Issam Hakimi <issam.hakimi@googlemail.com>",
     "Marius Ursache <hello@mariusursache.com>",
-    "Michael Lewkowitz <michael@igniter.com>"
+    "Michael Lewkowitz <michael@igniter.com>",
+    "Zeh Fernandes <ozehfernandes@gmail.com>"
   ],
   "licenses": [
     {

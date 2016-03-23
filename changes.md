@@ -1,3 +1,7 @@
+### 0.11.24
+* Added a new Google Hangout Client
+* Bubbled up the internal log to the client as `debug` on the reply object.
+
 ### 0.11.23
 * Wrapped User Model Create to support schema or pre-existing.
 
