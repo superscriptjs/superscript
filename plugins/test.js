@@ -60,3 +60,13 @@ exports.showScope = function(cb) {
 exports.word = function(word1, word2, cb) {
 	cb(null, word1 === word2);	
 }
+
+exports.hasFirstName = function(bool, cb) {
+  this.user.getVar('firstName', function(e,name){
+    if (name != null) {
+      cb(null, (bool == "true") ? true : false)
+    } else {
+      cb(null, (bool == "false") ? true : false)
+    }
+  });
+}

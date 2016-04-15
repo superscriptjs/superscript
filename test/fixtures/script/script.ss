@@ -1,5 +1,13 @@
 > topic random
 
+  + test filter 
+  - {^hasFirstName(true)} {keep} Hello ^get(firstName)
+  - {^hasFirstName(false)} {keep} Hello no name. ^topicRedirect(catchall, phrase)
+
+  + test save 
+  - {keep} Saving name ^save(firstName, Rob)
+
+
   + + this is unscaped
   - This should pass
 
@@ -374,3 +382,10 @@
   - ^showScope()
 < topic
 
+
+> topic:system catchall
+
+    + phrase
+    - {keep} ^getCatchAll()
+
+< topic
