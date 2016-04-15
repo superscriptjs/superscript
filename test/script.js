@@ -420,20 +420,6 @@ describe.only('SuperScript Scripting + Style Interface', function(){
 
   describe('Custom functions', function(){
 
-    // it.only("GH-259", function(done) {
-    //   bot.reply("user1", "test filter", function(err, reply) {
-    //     console.log(JSON.stringify(reply, null, 2));
-    //     done();
-    //     // bot.reply("user1", "test save", function(err, reply) {
-    //     //   console.log(reply);
-    //     //   bot.reply("user1", "test filter", function(err, reply) {
-    //     //     console.log(reply);
-    //     //     done();
-    //     //   });
-    //     // });
-    //   });
-    // });
-
     it("should call a custom function with hyphen", function(done) {
       bot.reply("user1", "error with function thirty-two", function(err, reply) {
         reply.string.should.eql("thirty-two");

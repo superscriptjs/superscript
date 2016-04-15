@@ -6,7 +6,7 @@ describe('Super Script Conversation', function(){
 
   before(help.before("convo"));
 
-  describe('Volley', function(){
+  describe('Volley', function() {
     
     it("should have volley", function(done) {
       bot.reply("user1", "Can you skip rope?", function(err, reply) {

@@ -1,3 +1,7 @@
+### 0.11.26
+* Fix for GH-262. If a concept is captured we convert it to a non-concept. ^save() will now test for 3 arguments.
+* Fix for GH-259. Harden missing filter and plugin routes, warn louder and pass errors down if hit in topicRedirect.
+
 ### 0.11.25
 * This continues to build out the debugging and logging, now redirects and respond functions are more clear.
 

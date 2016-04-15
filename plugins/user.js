@@ -1,8 +1,16 @@
-var debug = require("debug")("UserFacts");
+var debug = require("debug")("SS:UserFacts");
 var _ = require("lodash");
 exports.save = function(key, value, cb) {
   var memory = this.user.memory;
   var userId = this.user.id;
+  
+  if (arguments.length !== 3) {
+    console.log("WARNING\nValue not found in save function.");
+    if (_.isFunction(value)) {
+      cb = value;
+      value = "";
+    }
+  }
 
   memory.db.get({subject:key, predicate: userId }, function(err, results) {
     if (!_.isEmpty(results)) {
@@ -16,7 +24,8 @@ exports.save = function(key, value, cb) {
         cb(null, "");
       });  
     }
-  });
+  });    
+
 
 }
 
