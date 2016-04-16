@@ -85,4 +85,4 @@ SuperScript is based off of a fork of RiveScript with idiom brought in from Chat
 
 [The MIT License (MIT)](LICENSE.md)
 
-Copyright © 2014-2015 Rob Ellis
+Copyright © 2014-2016 Rob Ellis
