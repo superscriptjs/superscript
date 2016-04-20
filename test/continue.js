@@ -56,7 +56,7 @@ describe('Super Script Continue System aka Conversation', function(){
         });
       });
     });
-    
+
     it("should continue 3 - no", function(done) {
       bot.reply("user1", "i like to travel", function(err, reply) {
         reply.string.should.eql("have you been to Madird?");
@@ -101,7 +101,7 @@ describe('Super Script Continue System aka Conversation', function(){
     it("Threaded Conversation", function(done) {
       bot.reply("user1", "conversation", function(err, reply) {
         reply.string.should.eql("Are you happy?");
-        
+
         // This is the reply to the conversation
         bot.reply("user1", "yes", function(err, reply) {
           reply.string.should.eql("OK, so you are happy");

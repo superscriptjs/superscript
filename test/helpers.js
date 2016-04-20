@@ -4,7 +4,7 @@ var fs = require("fs");
 var rmdir = require("rmdir");
 var async = require("async");
 var mongoose = require("mongoose");
-  
+
 var cnet, data, botData;
 
 // This is used just for some tests in reason.
@@ -12,10 +12,10 @@ var cnet, data, botData;
 
 data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
-  // './test/fixtures/concepts/trigrams.tbl', 
+  // './test/fixtures/concepts/trigrams.tbl',
   // './test/fixtures/concepts/concepts.top',
-  // './test/fixtures/concepts/verb.top', 
-  // './test/fixtures/concepts/color.tbl', 
+  // './test/fixtures/concepts/verb.top',
+  // './test/fixtures/concepts/color.tbl',
   // './test/fixtures/concepts/opp.tbl'
 ];
 
@@ -31,6 +31,18 @@ exports.bootstrap = bootstrap = function(cb) {
   });
 };
 
+var removeModel = function(name) {
+  return new Promise(function(resolve, reject){
+    mongoose.connection.models[name].remove(function(error, removed) {
+      if(error) {
+        return reject(error);
+      }
+      delete mongoose.connection.models[name];
+      resolve(removed);
+    });
+  });
+}
+
 exports.after = function(end) {
 
   var itor = function(item, next) {
@@ -42,29 +54,33 @@ exports.after = function(end) {
       }
     });
   };
-
   if (bot) {
     bot.factSystem.db.close(function(){
       // Kill the globals
       gFacts = null;
       bot = null;
       async.each(['./factsystem', './systemDB'], itor, function(){
-        delete mongoose.connection.models['Topic'];
-        delete mongoose.connection.models['Gambit'];
-        delete mongoose.connection.models['User'];
-        mongoose.connection.models = {};
-        mongoose.connection.db.dropDatabase();
-        end();
+        Promise.all(Object.keys(mongoose.connection.models).map(removeModel)).then(function(){
+          end();
+        }, function(error) {
+          console.log(error.trace);
+          throw error;
+        });
+        //mongoose.connection.models = {};
+        //mongoose.connection.db.dropDatabase();
+        //end();
       });
     });
   } else {
     end();
   }
- 
+
 };
 
 var imortFilePath = function(path, facts, callback) {
-  mongoose.connect('mongodb://localhost/superscriptDB');
+  if(!mongoose.connection.readyState) {
+    mongoose.connect('mongodb://localhost/superscriptDB');
+  }
   var TopicSystem = require("../lib/topics/index")(mongoose, facts);
   TopicSystem.importerFile(path, callback);
 
@@ -90,7 +106,6 @@ exports.before = function(file) {
   };
 
   return function(done) {
-
     var fileCache = './test/fixtures/cache/'+ file +'.json';
     fs.exists(fileCache, function (exists) {
 
@@ -116,16 +131,16 @@ exports.before = function(file) {
         console.log("Loading Cached Script");
         var contents = fs.readFileSync(fileCache, 'utf-8');
         contents = JSON.parse(contents);
-        
+
         bootstrap(function(err, facts) {
           options['factSystem'] = facts;
           options['mongoose'] = mongoose;
 
           var sums = contents.checksums;
           var parse = require("ss-parser")(facts);
+          var start = new Date().getTime();
           parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
             parse.merge(contents, result, function(err, results) {
-
               fs.writeFile(fileCache, JSON.stringify(results), function (err) {
                 facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
                   options['botfacts'] = botfacts;

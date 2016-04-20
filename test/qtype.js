@@ -7,7 +7,7 @@ describe('Super Script QType Matching', function(){
   before(help.before("qtype"));
 
   describe('Simple Question Matching (qSubType)', function(){
-    it("should reply to simple string", function(done) {
+    xit("should reply to simple string", function(done) {
       bot.reply("user1", "which way to the bathroom?", function(err, reply) {
         reply.string.should.eql("Down the hall on the left");
         done();
@@ -29,7 +29,7 @@ describe('Super Script QType Matching', function(){
         done();
       });
     });
-    
+
     // HUN:ind should be ordered higher up the queue.
     it("should reply to QType string B (fine grained)", function(done) {
       bot.reply("user1", "Who can clean the house?", function(err, reply) {
