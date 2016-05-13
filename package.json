@@ -1,13 +1,14 @@
 {
   "name": "superscript",
-  "version": "0.11.26",
+  "version": "0.12.0",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "index.js",
   "scripts": {
     "lint": "eslint --env node lib *.js",
-    "test": "mocha test -R spec -s 1700 -t 150000",
-    "dtest": "DEBUG=*,-mquery,-mocha*, mocha test -R spec -s 1700 -t 150000",
-    "itest": "DEBUG=SS* DEBUG_LEVEL=info mocha test -R spec -s 1700 -t 150000"
+    "test": "mocha test -R spec -s 1700 -t 300000",
+    "dtest": "DEBUG=*,-mquery,-mocha*, mocha test -R spec -s 1700 -t 300000",
+    "itest": "DEBUG=SS* DEBUG_LEVEL=info mocha test -R spec -s 1700 -t 300000",
+    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec test -s 1700 -t 300000"
   },
   "repository": {
     "type": "git",
@@ -27,8 +28,7 @@
     "Rob Ellis <rob@silentrob.me>",
     "Issam Hakimi <issam.hakimi@googlemail.com>",
     "Marius Ursache <hello@mariusursache.com>",
-    "Michael Lewkowitz <michael@igniter.com>",
-    "Zeh Fernandes <ozehfernandes@gmail.com>"
+    "Michael Lewkowitz <michael@igniter.com>"
   ],
   "licenses": [
     {
@@ -66,8 +66,8 @@
     "rimraf": "^2.4.4",
     "roman-numerals": "~0.3.2",
     "safe-eval": "^0.2.0",
-    "sfacts": "0.0.12",
-    "ss-parser": "^0.2.0",
+    "sfacts": "^0.2.0",
+    "ss-parser": "^0.4.0",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0"
   },
@@ -75,7 +75,9 @@
     "blanket": "~1.1.6",
     "bluebird": "^2.9.34",
     "conceptnet": "silentrob/conceptnet",
+    "coveralls": "^2.11.9",
     "eslint": "^0.23.0",
+    "istanbul": "^0.4.3",
     "mkdirp": "^0.5.0",
     "mocha": "1.21.1",
     "mongodb": "^2.0.39",

@@ -3,4 +3,6 @@ node_js:
   - "0.12"
 services:
   - mongodb
-  
+script: "npm run-script test-travis"
+# Send coverage data to Coveralls
+after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
