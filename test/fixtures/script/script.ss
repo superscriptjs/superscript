@@ -99,14 +99,11 @@
   + it's all good in the hood
   - normalize trigger test
 
-
   // Replies accross triggers should be allowd, even if the reply is identical
   + trigger one
   - generic reply
   + trigger two
   - generic reply
-
-
 
   // Reply Flags
   + reply flags
