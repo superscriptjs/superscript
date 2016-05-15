@@ -1,11 +1,14 @@
+/* global gFacts:true, bot:true, Promise */
+
 var script = require("../index");
 var sfact = require("sfacts");
 var fs = require("fs");
 var rmdir = require("rmdir");
 var async = require("async");
 var mongoose = require("mongoose");
+var mergex = require("deepmerge");
 
-var cnet, data, botData;
+var cnet, data, botData, bootstrap;
 
 // This is used just for some tests in reason.
 // cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
@@ -41,7 +44,7 @@ var removeModel = function(name) {
       resolve(removed);
     });
   });
-}
+};
 
 exports.after = function(end) {
 
@@ -77,7 +80,7 @@ exports.after = function(end) {
 
 };
 
-var imortFilePath = function(path, facts, callback) {
+var importFilePath = function(path, facts, callback) {
   if(!mongoose.connection.readyState) {
     mongoose.connect('mongodb://localhost/superscriptDB');
   }
@@ -113,12 +116,12 @@ exports.before = function(file) {
         bootstrap(function(err, facts) {
           var parse = require("ss-parser")(facts);
           parse.loadDirectory('./test/fixtures/' + file, function(err, result) {
-            options['factSystem'] = facts;
-            options['mongoose'] = mongoose;
+            options.factSystem = facts;
+            options.mongoose = mongoose;
 
             fs.writeFile(fileCache, JSON.stringify(result), function (err) {
               // Load the topic file into the MongoDB
-              imortFilePath(fileCache, facts, function() {
+              importFilePath(fileCache, facts, function() {
                 new script(options, function(err, botx) {
                   bot = botx;
                   done();
@@ -133,27 +136,28 @@ exports.before = function(file) {
         contents = JSON.parse(contents);
 
         bootstrap(function(err, facts) {
-          options['factSystem'] = facts;
-          options['mongoose'] = mongoose;
+          options.factSystem = facts;
+          options.mongoose   = mongoose;
 
           var sums = contents.checksums;
           var parse = require("ss-parser")(facts);
           var start = new Date().getTime();
+          var results;
+
           parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
-            parse.merge(contents, result, function(err, results) {
-              fs.writeFile(fileCache, JSON.stringify(results), function (err) {
-                facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
-                  options['botfacts'] = botfacts;
-                  bot = null;
-                  imortFilePath(fileCache, facts, function() {
-                    new script(options, function(err, botx) {
-                      bot = botx;
-                      done();
-                    }); // new bot
-                  }); // import file
-                }); // create user
-              }); // write file
-            }); // merged parsed data
+            results = mergex(contents, result);
+            fs.writeFile(fileCache, JSON.stringify(results), function (err) {
+              facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
+                options.botfacts = botfacts;
+                bot = null;
+                importFilePath(fileCache, facts, function() {
+                  new script(options, function(err, botx) {
+                    bot = botx;
+                    done();
+                  }); // new bot
+                }); // import file
+              }); // create user
+            }); // write file
           }); // Load files to parse
         });
       }

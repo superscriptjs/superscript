@@ -1,3 +1,4 @@
+/*global describe, it, bot, before, after */
 var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
