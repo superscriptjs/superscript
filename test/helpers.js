@@ -147,8 +147,8 @@ exports.before = function(file) {
           parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
             results = mergex(contents, result);
             fs.writeFile(fileCache, JSON.stringify(results), function (err) {
-              facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
-                options.botfacts = botfacts;
+              // facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
+                // options.botfacts = botfacts;
                 bot = null;
                 importFilePath(fileCache, facts, function() {
                   new script(options, function(err, botx) {
@@ -156,7 +156,7 @@ exports.before = function(file) {
                     done();
                   }); // new bot
                 }); // import file
-              }); // create user
+              // }); // create user
             }); // write file
           }); // Load files to parse
         });

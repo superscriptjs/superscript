@@ -38,6 +38,6 @@
   - previous capture test one <cap1>
 
   + previous capture two
-  - previous capture test two <pcap1>
+  - previous capture test two <p1cap1>
 
 < topic
