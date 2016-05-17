@@ -1,7 +1,7 @@
 var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
-
+var async = require("async");
 // This test needs to be manually run.
 // We done the frist block to create the DB
 // then the second to check to see if it works,
@@ -40,6 +40,24 @@ describe('Super Script User Persist', function(){
         reply.string.should.eql("Return ABCD");
         done();
       });
+    });
+  });
+
+
+  describe("Don't leak the user", function() {
+    var list = ["userA", "userB"];
+
+    it("ask user A", function(done) {
+      var itor = function(user, next) {
+        bot.reply(user, "this is a test", function(err, reply) {
+          reply.string.should.eql("this is user " + user);
+          next();
+        });        
+      }
+      async.each(list, itor, function() {
+        done();
+      });
+
     });
   });
 

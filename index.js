@@ -61,7 +61,6 @@ function SuperScript(options, callback) {
   this.scope.facts = this.factSystem;
   this.scope.topicSystem = this.topicSystem;
   this.scope.botfacts = this.memory;
-
   this.users = new Users(mongoose, this.factSystem);
 
   norm.loadData(function () {
@@ -353,8 +352,6 @@ SuperScript.prototype.getUsers = function (cb) {
 };
 
 SuperScript.prototype.getUser = function (userId, cb) {
-  debug.verbose("Fetching User", userId);
-
   this.users.findOne({id: userId}, function (err, usr) {
     cb(err, usr);
   });

@@ -1,3 +1,4 @@
+var _ = require("lodash");
 
 // This is used in a test to verify fall though works
 // TODO: Move this into a fixture.
@@ -70,3 +71,14 @@ exports.hasFirstName = function(bool, cb) {
     }
   });
 }
+
+exports.getUserId = function(cb) {
+  var userID = this.user.id;
+  var that = this;
+  // console.log("CMP1", _.isEqual(userID, that.user.id));
+  return that.bot.getUser("userB", function(err, user) {
+    console.log("CMP2", _.isEqual(userID, that.user.id));
+    cb(null, that.user.id);
+  });
+}
+

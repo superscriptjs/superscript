@@ -4,3 +4,6 @@
 
 + Get user token
 - Return ^get(name)
+
++ this is a test
+- this is user ^getUserId()
