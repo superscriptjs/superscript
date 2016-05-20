@@ -67,7 +67,7 @@
     "roman-numerals": "~0.3.2",
     "safe-eval": "^0.2.0",
     "sfacts": "^0.2.0",
-    "ss-parser": "^0.4.0",
+    "ss-parser": "^0.5.0",
     "string": "~1.8.1",
     "syllablistic": "~0.1.0"
   },
