@@ -33,13 +33,6 @@ function SuperScript(options, callback) {
   this._plugins = [];
   this.normalize = null;
   this.question = null;
-
-  // this is to turn off/on global sentence splitting / chunking
-  if(options.chunking || options.chunking === false) {
-    this.chunking = options.chunking;
-  } else {
-    this.chunking = true;
-  }
   
   Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
@@ -143,42 +136,46 @@ var messageItorHandle = function (user, system) {
 
 // This takes a message and breaks it into chucks to be passed though
 // the sytem. We put them back together on the other end.
+// FIXME: with chunking removed this is not needed.
 var messageFactory = function (options, cb) {
   
   var rawMsg = options.msg;
   var normalize = options.normalize;
-  var chunking = options.chunking;
   var messageParts = [];
   
   var cleanMsg = normalize.clean(rawMsg).trim();
-  // var cleanMsg = rawMsg.trim();
   debug.verbose("IN MessageFactory", cleanMsg);
   
-  if (chunking === true) {
-    messageParts = Utils.sentenceSplit(cleanMsg);
-  } else {
-    messageParts.push(cleanMsg);
-  }
-
-  messageParts = Utils.cleanArray(messageParts);
-
-  var itor = function (messageChunk, nextcb) {
-
-    var messageOptions = {
-      qtypes: options.question,
-      norm: normalize,
-      facts: options.factSystem,
-      original: rawMsg
-    };
-
-    new Message(messageChunk.trim(), messageOptions, function (tmsg) {
-      nextcb(null, tmsg);
-    });
+  var messageOptions = {
+    qtypes: options.question,
+    norm: normalize,
+    facts: options.factSystem,
+    original: rawMsg
   };
 
-  return async.mapSeries(messageParts, itor, function (err, messageArray) {
-    return cb(messageArray);
+  return new Message(cleanMsg, messageOptions, function (tmsg) {
+    return cb(null, [tmsg]);
   });
+
+  // messageParts.push(cleanMsg);
+  // messageParts = Utils.cleanArray(messageParts);
+
+  // var itor = function (messageChunk, nextcb) {
+  //   var messageOptions = {
+  //     qtypes: options.question,
+  //     norm: normalize,
+  //     facts: options.factSystem,
+  //     original: rawMsg
+  //   };
+
+  //   new Message(messageChunk, messageOptions, function (tmsg) {
+  //     nextcb(null, tmsg);
+  //   });
+  // };
+
+  // return async.mapSeries(messageParts, itor, function (err, messageArray) {
+  //   return cb(messageArray);
+  // });
 };
 
 util.inherits(SuperScript, EventEmitter);
@@ -268,11 +265,11 @@ SuperScript.prototype._reply = function(options, callback) {
       msg: options.msgString,
       question: self.question,
       normalize: self.normalize,
-      factSystem: self.factSystem,
-      chunking: self.chunking
+      factSystem: self.factSystem
     };
 
-    messageFactory(opt, function (messages) {
+    messageFactory(opt, function (err, messages) {
+      // FIXME: This will always be one now that we no longer chunk
       async.mapSeries(messages, messageItorHandle(user, system), function (err2, messageArray) {
         if (err2) {
           debug.error(err2);
