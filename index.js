@@ -123,8 +123,6 @@ var messageItorHandle = function (user, system) {
               // TODO - Seeing RangeError here. (investigate Mongoose 4.0)
               return next(null, newClientObject);
             });
-
-
           });
         });
       });
@@ -156,26 +154,6 @@ var messageFactory = function (options, cb) {
   return new Message(cleanMsg, messageOptions, function (tmsg) {
     return cb(null, [tmsg]);
   });
-
-  // messageParts.push(cleanMsg);
-  // messageParts = Utils.cleanArray(messageParts);
-
-  // var itor = function (messageChunk, nextcb) {
-  //   var messageOptions = {
-  //     qtypes: options.question,
-  //     norm: normalize,
-  //     facts: options.factSystem,
-  //     original: rawMsg
-  //   };
-
-  //   new Message(messageChunk, messageOptions, function (tmsg) {
-  //     nextcb(null, tmsg);
-  //   });
-  // };
-
-  // return async.mapSeries(messageParts, itor, function (err, messageArray) {
-  //   return cb(messageArray);
-  // });
 };
 
 util.inherits(SuperScript, EventEmitter);
@@ -192,7 +170,6 @@ SuperScript.prototype.message = function (msgString, callback) {
     callback(null, msgObj);
   });
 };
-
 
 // This is like doing a topicRedirect
 SuperScript.prototype.directReply = function (userId, topic, msg, callback) {
@@ -226,7 +203,6 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
 
   this._reply(options, callback);
 };
-
 
 SuperScript.prototype._reply = function(options, callback) {
   var self = this;
@@ -269,7 +245,7 @@ SuperScript.prototype._reply = function(options, callback) {
     };
 
     messageFactory(opt, function (err, messages) {
-      // FIXME: This will always be one now that we no longer chunk
+      // FIXME: `messages` will always be one now that we no longer chunk
       async.mapSeries(messages, messageItorHandle(user, system), function (err2, messageArray) {
         if (err2) {
           debug.error(err2);
@@ -312,11 +288,6 @@ SuperScript.prototype._reply = function(options, callback) {
 
         debug.verbose("Update and Reply to user '" + user.id + "'", reply);
         debug.info("[ Final Reply - '" + user.id + "']- '" + reply.string + "'");
-
-        // If we have a thread of messages, lets space them out.
-        if (reply.subReplies) {
-          
-        }
 
         return callback(err2, reply);
       });
