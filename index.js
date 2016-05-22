@@ -152,7 +152,8 @@ var messageFactory = function (options, cb) {
   };
 
   return new Message(cleanMsg, messageOptions, function (tmsg) {
-    return cb(null, [tmsg]);
+    var mset = _.isEmpty(tmsg) ? [] : [tmsg]
+    return cb(null, mset);
   });
 };
 
@@ -252,38 +253,12 @@ SuperScript.prototype._reply = function(options, callback) {
         }
 
         var reply = {};
-        messageArray = Utils.cleanArray(messageArray);
+        var messageArray = Utils.cleanArray(messageArray);
 
         if (_.isEmpty(messageArray)) {
           reply.string = "";
         } else if (messageArray.length === 1) {
           reply = messageArray[0];
-        } else {
-          // TODO - We will want to add some smarts on putting multiple
-          // lines back together - check for tail grammar or drop bits.
-          reply = messageArray[0];
-          var messageReplies = [];
-          reply.parts = [];
-          for (var i = 0; i < messageArray.length; i++) {
-            reply.parts[i] = {
-              string: messageArray[i].string,
-              threads: messageArray[i].threads,
-              triggerId: messageArray[i].triggerId,
-              topicName: messageArray[i].topicName
-            };
-
-            if (messageArray[i].string !== "") {
-              messageReplies.push(messageArray[i].string);
-            }
-
-            for (var nprop in messageArray[i]) {
-              if (nprop !== "createdAt" && nprop !== "string") {
-                reply[nprop] = messageArray[i][nprop];
-              }
-            }
-          }
-
-          reply.string = messageReplies.join(" ");
         }
 
         debug.verbose("Update and Reply to user '" + user.id + "'", reply);

@@ -194,10 +194,6 @@
 + can you smile
 - ^addMessageProp(emoji,smile) Sure can.
 
-
-+ property 1
-- ^addMessageProp(p1, foo) buz
-
 + object param one
 - ^objparam1()
 
@@ -225,9 +221,6 @@
 < topic
 
 > topic fish
-
-  + property 2
-  - ^addMessageProp(p2, bar) baz
 
   + I like fish
   - me too

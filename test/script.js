@@ -190,14 +190,14 @@ describe('SuperScript Scripting + Style Interface', function(){
     });
 
     it("should match *~2 star - One Star", function(done) {
-      bot.reply("user1", "It is a hot out2", function(err, reply) {
+      bot.reply("user1", "It is a hot out 2", function(err, reply) {
         ["pass 1","pass 2","pass 3"].should.containEql(reply.string);
         done();
       });
     });
 
     it("should match *~2 star - Two Star", function(done) {
-      bot.reply("user1", "It is a b hot out2", function(err, reply) {
+      bot.reply("user1", "It is a b hot out 2", function(err, reply) {
         ["pass 1","pass 2","pass 3"].should.containEql(reply.string);
         done();
       });
@@ -665,15 +665,6 @@ describe('SuperScript Scripting + Style Interface', function(){
       });
     });
 
-    it("Should have replyProp 2", function(done) {
-      bot.reply("user1", "Property 1. Property 2.", function(err, reply) {
-        reply.string.should.eql("buz baz");
-        reply.p1.should.eql("foo");
-        reply.p2.should.eql("bar");
-        done();
-      });
-    });
-
     it("Augment callback 1", function(done) {
       bot.reply("user1", "object param one", function(err, reply) {
         reply.string.should.eql("world");
@@ -823,16 +814,6 @@ describe('SuperScript Scripting + Style Interface', function(){
       Utils.sentenceSplit("should not burst 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE").should.have.length(1);
       Utils.sentenceSplit("burst test should pass rob@silentrob.me").should.have.length(1);
       done();
-    });
-
-  });
-
-  describe("chunk message", function(){
-    it("should split the message into two", function(done){
-      bot.reply("user1", "My name is Bill. What is your name?", function(err, reply) {
-        reply.string.should.eql("Hi Bill. My name is Brit.");
-        done();
-      });
     });
   });
 

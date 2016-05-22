@@ -8,10 +8,7 @@ var async = require("async");
 var mongoose = require("mongoose");
 var mergex = require("deepmerge");
 
-var cnet, data, botData, bootstrap;
-
-// This is used just for some tests in reason.
-// cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
+var data, botData, bootstrap;
 
 data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
@@ -102,10 +99,7 @@ var importFilePath = function(path, facts, callback) {
 exports.before = function(file) {
 
   var options = {
-    chunking: true,
-    scope: {
-      cnet : cnet
-    }
+    scope: {}
   };
 
   return function(done) {
