@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/silentrob/superscript.svg?branch=master)](https://travis-ci.org/silentrob/superscript)
-![Dependancies Status](https://david-dm.org/silentrob/superscript.svg)
+[![Build Status](https://travis-ci.org/superscriptjs/superscript.svg?branch=master)](https://travis-ci.org/silentrob/superscript)
+![Dependancies Status](https://david-dm.org/superscriptjs/superscript.svg)
 [![Slack chat](https://superscript-slackin.herokuapp.com/badge.svg)](https://superscript-slackin.herokuapp.com/)
 [![Code Climate](https://codeclimate.com/github/silentrob/superscript/badges/gpa.svg)](https://codeclimate.com/github/silentrob/superscript)
 
