@@ -18,6 +18,11 @@ SuperScript is a dialog system + bot engine for creating human-like conversation
 
     npm install --global superscript
 
+## Getting Started
+
+Check out the [`hello-superscript`](https://github.com/silentrob/hello-superscript) repo for a clean starting point to building your own bot.
+
+
 ## Documentation
 
 Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript. Or [read the wiki](https://github.com/silentrob/superscript/wiki)
@@ -28,8 +33,6 @@ Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how t
     - Hello Bot
 
 `+` matches all input types
-
-`?` matches only question input
 
 `-` Is the reply sent back to the user.
 
@@ -65,6 +68,7 @@ The above is just a tiny fraction of what the system is capable of doing. Please
 * [Sublime Text Syntax Highlighting](https://github.com/mariusursache/superscript-sublimetext)
 * [Atom Syntax Highlighting](https://github.com/DBozhinovski/language-superscript)
 *
+
 ### Further Reading
 
 * [Introducing SuperScript](https://medium.com/@rob_ellis/superscript-ce40e9720bef) on Medium
