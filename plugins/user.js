@@ -1,5 +1,6 @@
 var debug = require("debug")("SS:UserFacts");
 var _ = require("lodash");
+
 exports.save = function(key, value, cb) {
   var memory = this.user.memory;
   var userId = this.user.id;
@@ -25,9 +26,32 @@ exports.save = function(key, value, cb) {
       });  
     }
   });    
-
-
 }
+
+
+exports.delete = function(key, cb) {
+  var memory = this.user.memory;
+  var userId = this.user.id;
+  
+  if (arguments.length !== 2) {
+    console.log("WARNING\nValue not found in save function.");
+    if (_.isFunction(value)) {
+      cb = value;
+      value = "";
+    }
+  }
+
+  memory.db.get({subject:key, predicate: userId}, function(err, results) {
+    if (!_.isEmpty(results)) {
+      memory.db.del(results[0], function(){
+          cb(null,"");
+      });
+    } else {
+        cb(null, "");
+    }
+  });    
+}
+
 
 exports.hasItem = function(key, bool, cb) {
   
