@@ -110,7 +110,7 @@ var messageItorHandle = function (user, system) {
             var clientObject = {
               replyId: replyObj.replyId,
               createdAt: replyMessageObject.createdAt || new Date(),
-              string: msgString || "", // replyMessageObject.raw || "",
+              string: msgString || "there must be some default answer", // replyMessageObject.raw || "",
               topicName: replyObj.topicName,
               subReplies: replyObj.subReplies,
               debug: log
