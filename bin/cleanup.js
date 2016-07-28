@@ -72,7 +72,8 @@ function createFresh () {
          * @return {Promise} Resolved when import is complete
          */
 
-        // console.log('Importing', data);
+        //console.log('Importing', data);
+        console.log('Importing to DB');
         return new Promise(function(resolve, reject) {
           mongoose.connect(mongoURL)
 
