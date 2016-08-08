@@ -60,6 +60,7 @@
     "node-tense": "0.0.4",
     "parts-of-speech": "^0.3.0",
     "pluralize": "2.0.0",
+    "progress": "^1.1.8",
     "qtypes": "git://github.com/cnstntn-kndrtv/qtypes.git#Russian",
     "require-dir": "0.3.0",
     "rhyme": "0.0.3",

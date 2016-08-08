@@ -72,7 +72,6 @@ function createFresh () {
          * @return {Promise} Resolved when import is complete
          */
 
-        //console.log('Importing', data);
         console.log('Importing to DB');
         return new Promise(function(resolve, reject) {
           mongoose.connect(mongoURL)
@@ -102,9 +101,9 @@ MongoClient.connectAsync(mongoURL)
         console.log(e);
     })
     .then(function(data) {
-        console.log('Everything imported');
+        console.log('\nEverything imported');
         return 0;
     }, function(e) {
-        console.log('Import error', e);
+        console.log('\nImport error', e);
     })
     .then(process.exit);
