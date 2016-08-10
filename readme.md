@@ -16,12 +16,29 @@ SuperScript is a dialog system + bot engine for creating human-like conversation
 
 ## Install
 
-    npm install --global superscript
+    npm install superscript
 
 ## Getting Started
 
 Check out the [`hello-superscript`](https://github.com/silentrob/hello-superscript) repo for a clean starting point to building your own bot.
 
+## NOTE 0.12.0 
+
+This version is designed to work with Node 0.12 and Node 5.5.0 and up to 5.latest 
+You may need to reinstall your node_modules folder.
+
+    `npm install`
+    `npm update`
+
+Then manually extract the WordNet dictionary: 
+
+    `cd node_modules/wordnet-db`
+    `node unpack.js WNdb-3.1.tar.gz`
+
+    and if you run the tests.
+
+    `cd node_modules/wndb-with-exceptions`
+    `node unpack.js WNdb-3.0.tar.gz`
 
 ## Documentation
 

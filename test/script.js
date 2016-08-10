@@ -4,7 +4,7 @@ var help = require("./helpers");
 var async = require("async");
 var Utils = require("../lib/utils");
 
-describe.only('SuperScript Scripting + Style Interface', function(){
+describe('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -916,7 +916,7 @@ describe.only('SuperScript Scripting + Style Interface', function(){
   });
 
 
-  describe('GH-243', function() {
+  describe.skip('GH-243', function() {
     it("Should pass data back into filter function on input", function(done) {
       bot.reply("user1", "filter by logic", function(err, reply) {
         reply.string.should.eql("logic");
