@@ -47,6 +47,7 @@
     "debug": "^2.2.0",
     "debug-levels": "^0.2.0",
     "deepmerge": "^0.2.7",
+    "figlet": "^1.1.2",
     "lemmer": "0.1.6",
     "lodash": "^4.12.0",
     "mkdirp": "^0.5.0",

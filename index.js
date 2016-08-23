@@ -15,8 +15,23 @@ var getreply = require("./lib/getreply");
 var Utils = require("./lib/utils");
 var processHelpers = require("./lib/reply/common");
 var mergex = require("deepmerge");
+var figlet = require('figlet');
 
 function SuperScript(options, callback) {
+  // logo
+  figlet.text('SuperScript', {
+      font: 'Big',
+      horizontalLayout: 'default',
+      verticalLayout: 'default'
+  }, function(err, data) {
+      if (err) {
+          console.log('SuperScript');
+          console.dir(err);
+          return;
+      }
+      console.log(data);
+  });
+  
   EventEmitter.call(this);
   var mongoose;
   var self = this;
