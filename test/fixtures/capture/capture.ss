@@ -1,4 +1,5 @@
 > topic:keep random
+
   + new capture (interface|face)
   - capture test <cap>
 
@@ -29,5 +30,14 @@
 
   + *(1-1) is bigger than *(1-1)
   - <cap1> is bigger than <cap2>
+
+  + *(1-5) is related to *(1-5)
+  - <cap1> is <cap2>
+
+  + previous capture one (*)
+  - previous capture test one <cap1>
+
+  + previous capture two
+  - previous capture test two <p1cap1>
 
 < topic

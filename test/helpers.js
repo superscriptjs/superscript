@@ -1,21 +1,21 @@
+/* global gFacts:true, bot:true, Promise */
+
 var script = require("../index");
 var sfact = require("sfacts");
 var fs = require("fs");
 var rmdir = require("rmdir");
 var async = require("async");
 var mongoose = require("mongoose");
-  
-var cnet, data, botData;
+var mergex = require("deepmerge");
 
-// This is used just for some tests in reason.
-// cnet = require("conceptnet")({host:'127.0.0.1', user:'root', pass:''});
+var data, botData, bootstrap;
 
 data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
-  // './test/fixtures/concepts/trigrams.tbl', 
+  // './test/fixtures/concepts/trigrams.tbl',
   // './test/fixtures/concepts/concepts.top',
-  // './test/fixtures/concepts/verb.top', 
-  // './test/fixtures/concepts/color.tbl', 
+  // './test/fixtures/concepts/verb.top',
+  // './test/fixtures/concepts/color.tbl',
   // './test/fixtures/concepts/opp.tbl'
 ];
 
@@ -31,6 +31,18 @@ exports.bootstrap = bootstrap = function(cb) {
   });
 };
 
+var removeModel = function(name) {
+  return new Promise(function(resolve, reject){
+    mongoose.connection.models[name].remove(function(error, removed) {
+      if(error) {
+        return reject(error);
+      }
+      delete mongoose.connection.models[name];
+      resolve(removed);
+    });
+  });
+};
+
 exports.after = function(end) {
 
   var itor = function(item, next) {
@@ -42,29 +54,33 @@ exports.after = function(end) {
       }
     });
   };
-
   if (bot) {
     bot.factSystem.db.close(function(){
       // Kill the globals
       gFacts = null;
       bot = null;
       async.each(['./factsystem', './systemDB'], itor, function(){
-        delete mongoose.connection.models['Topic'];
-        delete mongoose.connection.models['Gambit'];
-        delete mongoose.connection.models['User'];
-        mongoose.connection.models = {};
-        mongoose.connection.db.dropDatabase();
-        end();
+        Promise.all(Object.keys(mongoose.connection.models).map(removeModel)).then(function(){
+          end();
+        }, function(error) {
+          console.log(error.trace);
+          throw error;
+        });
+        //mongoose.connection.models = {};
+        //mongoose.connection.db.dropDatabase();
+        //end();
       });
     });
   } else {
     end();
   }
- 
+
 };
 
-var imortFilePath = function(path, facts, callback) {
-  mongoose.connect('mongodb://localhost/superscriptDB');
+var importFilePath = function(path, facts, callback) {
+  if(!mongoose.connection.readyState) {
+    mongoose.connect('mongodb://localhost/superscriptDB');
+  }
   var TopicSystem = require("../lib/topics/index")(mongoose, facts);
   TopicSystem.importerFile(path, callback);
 
@@ -83,13 +99,10 @@ var imortFilePath = function(path, facts, callback) {
 exports.before = function(file) {
 
   var options = {
-    scope: {
-      cnet : cnet
-    }
+    scope: {}
   };
 
   return function(done) {
-
     var fileCache = './test/fixtures/cache/'+ file +'.json';
     fs.exists(fileCache, function (exists) {
 
@@ -97,12 +110,12 @@ exports.before = function(file) {
         bootstrap(function(err, facts) {
           var parse = require("ss-parser")(facts);
           parse.loadDirectory('./test/fixtures/' + file, function(err, result) {
-            options['factSystem'] = facts;
-            options['mongoose'] = mongoose;
+            options.factSystem = facts;
+            options.mongoose = mongoose;
 
             fs.writeFile(fileCache, JSON.stringify(result), function (err) {
               // Load the topic file into the MongoDB
-              imortFilePath(fileCache, facts, function() {
+              importFilePath(fileCache, facts, function() {
                 new script(options, function(err, botx) {
                   bot = botx;
                   done();
@@ -115,29 +128,30 @@ exports.before = function(file) {
         console.log("Loading Cached Script");
         var contents = fs.readFileSync(fileCache, 'utf-8');
         contents = JSON.parse(contents);
-        
+
         bootstrap(function(err, facts) {
-          options['factSystem'] = facts;
-          options['mongoose'] = mongoose;
+          options.factSystem = facts;
+          options.mongoose   = mongoose;
 
           var sums = contents.checksums;
           var parse = require("ss-parser")(facts);
-          parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
-            parse.merge(contents, result, function(err, results) {
+          var start = new Date().getTime();
+          var results;
 
-              fs.writeFile(fileCache, JSON.stringify(results), function (err) {
-                facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
-                  options['botfacts'] = botfacts;
-                  bot = null;
-                  imortFilePath(fileCache, facts, function() {
-                    new script(options, function(err, botx) {
-                      bot = botx;
-                      done();
-                    }); // new bot
-                  }); // import file
-                }); // create user
-              }); // write file
-            }); // merged parsed data
+          parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
+            results = mergex(contents, result);
+            fs.writeFile(fileCache, JSON.stringify(results), function (err) {
+              // facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
+                // options.botfacts = botfacts;
+                bot = null;
+                importFilePath(fileCache, facts, function() {
+                  new script(options, function(err, botx) {
+                    bot = botx;
+                    done();
+                  }); // new bot
+                }); // import file
+              // }); // create user
+            }); // write file
           }); // Load files to parse
         });
       }

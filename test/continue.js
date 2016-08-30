@@ -7,8 +7,36 @@ describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
-  describe('Match and continue', function(){
+  describe('Dynamic Conversations', function() {
+    it("set some conversation state", function(done) {
+      bot.reply("user1", "__start__", function(err, reply) {
+        bot.getUser("user1", function(err, user) {
+          reply.string.should.eql("match here");
+          user.conversationState.id.should.eql(123);
+          bot.reply("user1", "I really hope this works!", function(err, reply) {
+            reply.string.should.eql("winning");
+            done();
+          });
+        });
 
+      });
+    });
+
+    it("and again", function(done) {
+      bot.reply("user1", "__start__", function(err, reply) {
+        bot.reply("user1", "boo ya", function(err, reply) {
+          bot.getUser("user1", function(err, user) {
+            reply.string.should.eql("YES");
+            done();
+          });
+        });
+      });
+    });
+
+
+  });
+
+  describe('Match and continue', function(){
     it("should continue", function(done) {
       bot.reply("user1", "i went to highschool", function(err, reply) {
         reply.string.should.eql("did you finish ?");
@@ -28,7 +56,7 @@ describe('Super Script Continue System aka Conversation', function(){
         });
       });
     });
-    
+
     it("should continue 3 - no", function(done) {
       bot.reply("user1", "i like to travel", function(err, reply) {
         reply.string.should.eql("have you been to Madird?");
@@ -73,7 +101,7 @@ describe('Super Script Continue System aka Conversation', function(){
     it("Threaded Conversation", function(done) {
       bot.reply("user1", "conversation", function(err, reply) {
         reply.string.should.eql("Are you happy?");
-        
+
         // This is the reply to the conversation
         bot.reply("user1", "yes", function(err, reply) {
           reply.string.should.eql("OK, so you are happy");
@@ -138,13 +166,29 @@ describe('Super Script Continue System aka Conversation', function(){
             bot.reply("user3", "break out", function (err, reply) {
               reply.string.should.eql("okay nevermind");
 
+              // We should have exhausted "okay nevermind" and break out completely
               bot.reply("user3", "break out", function (err, reply) {
                 reply.string.should.eql("okay we are free");
                 done();
               });
+
             });
           });
         });
+      });
+    });
+  });
+
+  describe("GH-207 Pass stars forward", function() {
+    it("should pass stars forward", function(done) {
+      bot.reply("user4", "start 2 foo or win", function(err, reply) {
+        reply.string.should.eql("reply 2 foo");
+
+        bot.reply("user4", "second match bar", function(err, reply) {
+          reply.string.should.eql("reply 3 bar foo win");
+          done();
+        });
+
       });
     });
   });

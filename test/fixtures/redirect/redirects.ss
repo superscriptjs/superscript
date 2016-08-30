@@ -47,6 +47,11 @@
 - ^topicRedirect(weather,__to_say__)
 
 
+// GH-227
++ issue 227
+- ^one()^topicRedirect(weather,__to_say__)
+
+
 // GH-156
 + test missing topic
 - ^topicRedirect(supercalifragilisticexpialidocious,hello) Test OK.
@@ -76,7 +81,7 @@
 + _two_thing
 - two thing
 
-> topic weather
+> topic:keep weather
 
 	+ __to_say__
 	- Is it hot
@@ -140,3 +145,4 @@
   + *
   - {keep} Should not match post.
 < topic
+

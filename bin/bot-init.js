@@ -64,11 +64,15 @@ fs.mkdir(botPath, function(err, res){
   }
 
   if (program.client == "slack") {
-    pkg.dependencies['slack-client'] = '~1.2.2'; 
+    pkg.dependencies['slack-client'] = '~1.2.2';
+  }
+
+  if (program.client == "hangout") {
+    pkg.dependencies['simple-xmpp'] = '~1.3.0';
   }
 
   var firstRule = "+ ~emohello [*~2]\n- Hi!\n- Hi, how are you?\n- How are you?\n- Hello\n- Howdy\n- Ola"
-   
+
   write(path.join(botPath, path.sep, 'package.json'), JSON.stringify(pkg, null, 2));
   write(path.join(botPath, path.sep, 'topics', path.sep, 'main.ss'), firstRule);
 });

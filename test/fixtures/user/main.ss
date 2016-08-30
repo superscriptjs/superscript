@@ -1,6 +1,9 @@
 
-+ hello my name is *
-- Nice to meet you <cap1>. ^save(name,<cap1>)
++ Save user token (*)
+- ^save(name, <cap>) User token <cap> has been saved.
 
-+ hello again
-- Hi ^get(name)
++ Get user token
+- Return ^get(name)
+
++ this is a test
+- this is user ^getUserId()

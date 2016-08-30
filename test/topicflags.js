@@ -2,7 +2,6 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-
 // We need to revisit userConnect 
 describe('Super Script Topics', function(){
 
@@ -81,11 +80,18 @@ describe('Super Script Topics', function(){
 
   describe('Topic Flow', function() {
 
+    it("topic flow 0", function(done) {
+      bot.reply("user1", "respond test", function(err, reply) {
+        reply.string.should.eql("final");
+        done();
+      });
+    });
+
     it("topic flow 1", function(done){
-      bot.reply("user1", "testing hidden", function(err, reply) {
+      bot.reply("user 10", "testing hidden", function(err, reply) {
         reply.string.should.eql("some reply");
 
-        bot.reply("user1", "yes", function(err, reply) {
+        bot.reply("user 10", "yes", function(err, reply) {
           reply.string.should.eql("this should work.");
           done();
         });
@@ -93,7 +99,7 @@ describe('Super Script Topics', function(){
       });
     });
 
-     it("topic flow 2", function(done){
+    it("topic flow 2", function(done){
       bot.reply("user2", "testing hidden", function(err, reply) {
         reply.string.should.eql("some reply");
 
@@ -102,6 +108,19 @@ describe('Super Script Topics', function(){
           done();
         });
 
+      });
+    });
+
+  });
+
+  describe('Topics - NoStay Flag', function() {
+    it("topic should have keep flag", function(done){
+      bot.reply("User1", "testing nostay", function(err, reply) {
+        reply.string.should.eql("topic test pass");
+        bot.reply("User1", "something else", function(err, reply) {
+          reply.string.should.eql("reply in random");
+          done();
+        });
       });
     });
 
@@ -119,6 +138,7 @@ describe('Super Script Topics', function(){
     it("should keep topic for reuse", function(done){
       bot.reply("user1", "set topic to keeptopic", function(err, reply) {
         reply.string.should.eql("Okay we are going to keeptopic");
+
         bot.getUser("user1", function(err, cu){
           cu.getTopic().should.eql("keeptopic");
           bot.reply("user1", "i have one thing to say", function(err, reply) {
@@ -132,7 +152,8 @@ describe('Super Script Topics', function(){
         });
       });
     });
-    
+  
+
     it("should not repeat itself", function(done){
       // Manually reset the topic
       bot.findOrCreateUser("user1", function(err, user){

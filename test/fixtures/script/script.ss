@@ -47,6 +47,13 @@
   + test 2 min max *(0-1)
   - {keep} min max test
 
+  // Min Max emo GH-221
+  + *(1-2) test test
+  - {keep} emo reply
+
+  // GH-211
+  + test *(1-99)
+  - {keep} test <cap1>
 
   // Test 2 Star match
   + It is *2 cold out
@@ -92,14 +99,11 @@
   + it's all good in the hood
   - normalize trigger test
 
-
   // Replies accross triggers should be allowd, even if the reply is identical
   + trigger one
   - generic reply
   + trigger two
   - generic reply
-
-
 
   // Reply Flags
   + reply flags
@@ -108,6 +112,9 @@
 
   + reply flags 2
   - {keep} keep this
+
+  + error with function (*)
+  - ^num(<cap1>)
 
   // Custom functions!
   + custom *1
@@ -142,7 +149,6 @@
   ^ b\n
   ^ ^one()\n\n
   ^ more
-
 
   // We pull in wordnet and system facts
   + I ~like shoe
@@ -188,10 +194,15 @@
 + can you smile
 - ^addMessageProp(emoji,smile) Sure can.
 
++ object param one
+- ^objparam1()
 
-+ property 1
-- ^addMessageProp(p1, foo) buz
++ object param two
+- ^objparam2() ^addMessageProp(foo, bar)
 
+// Object params though topicRedirect
++ object param three
+-  ^addMessageProp(foo, bar) ^topicRedirect(test_topic, __objParams__)
 
 // Reply Filter functions
 + okay my name is <name>
@@ -201,18 +212,26 @@
 ?:WH * your name
 - My name is Brit.
 
+< topic
 
+// Object params though topicRedirect (related topic)
+> topic:keep test_topic
+  + __objParams__
+  - ^objparam1()
 < topic
 
 > topic fish
-
-  + property 2
-  - ^addMessageProp(p2, bar) baz
 
   + I like fish
   - me too
 < topic
 
+
++ generic message
+- {keep} generic reply ^showScope()
+
++ generic message two
+- {keep} generic reply ^showScope()
 
 
 // Style Tests
@@ -316,5 +335,32 @@
 
   + *~5
   % * what is your last name?
-  - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random}
+  - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random} {clear  }
 < topic
+
+
+> topic:keep:system generic
+  
+  + __simple__
+  - ^break()
+
+  + *
+  - no match
+< topic
+
+
+// GH-243
++ filter by *1
+- {^word(<cap1>,logic)} logic
+- {^word(<cap1>,though)} though
+- {^word(<cap1>,ai)} ai
+
+
++ scope though redirect
+- ^topicRedirect(__A__, __B__)
+
+> topic:keep:system __A__
+  + __B__
+  - ^showScope()
+< topic
+

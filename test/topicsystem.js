@@ -22,10 +22,35 @@ describe('SuperScript TopicsSystem', function(){
         done();
       });
     });
+    
+    it("Should break in function with third param", function(done){
+      bot.reply("userx", "force break", function(err, reply){
+        reply.string.should.eql("");
+        done();
+      });
+    });
+
+    it("Should continue in function with third param", function(done){
+      bot.reply("userx", "force continue", function(err, reply){
+        reply.string.should.eql("force one force two");
+        done();
+      });
+    });
+
+    it("Should continue with a {CONTINUE} tag", function(done){
+      bot.reply("userx", "break with continue", function(err, reply){
+        reply.string.should.eql("ended test passed");
+        done();
+      });
+    });
+    
+
   });
 
+
+
   // Test Single gambit 
-  describe('Test Gambit', function () {
+  describe.skip('Test Gambit', function () {
     // this is a testing input for the editor
     // We want a string in and false or matches out
     it("Should try string agaist gambit", function(done){
@@ -64,7 +89,7 @@ describe('SuperScript TopicsSystem', function(){
 
 
   // Test Entire topic for Match
-  describe('Test Topic', function() {
+  describe.skip('Test Topic', function() {
     // this is a testing input for the editor
     // We want a string in and false or matches out
     it("Should try string agaist topic", function(done){
@@ -93,6 +118,54 @@ describe('SuperScript TopicsSystem', function(){
 
       });
     });
+  });
+
+
+  // it("Post Order Topics", function(done){
+  //   bot.reply("I like to spend time fishing", function(err, reply){
+  //     console.log(reply);
+  //     reply.string.should.containEql("fishing");
+  //     done();
+  //   });
+  // });
+
+
+  describe("log-debug", function() {
+    it("Should show steps - redirect", function(done) {
+      bot.reply("user", "generic redirect", function(err, reply) {
+        reply.debug.matched_gambit[0].topic.should.containEql("random");
+        reply.debug.matched_gambit[0].subset[0].topic.should.containEql("test");
+        done();
+      });
+    });
+
+    it("Should show steps - respond", function(done) {
+      bot.reply("user", "generic respond", function(err, reply) {
+        reply.debug.matched_gambit[0].topic.should.containEql("random");
+        reply.debug.matched_gambit[0].subset[0].topic.should.containEql("test");
+        done();
+      });
+    });
+
+  });
+
+
+  describe("gh-240", function() {
+    it("should stop with topicRedirect", function(done) {
+      bot.reply("user", "test empty", function(err, reply) {
+        reply.string.should.containEql("");
+        done();
+      });
+    });
+    
+    it("should stop with respond", function(done) {
+      bot.reply("user", "test respond", function(err, reply) {
+        reply.string.should.containEql("");
+        done();
+      });
+    });
+
+
   });
 
   after(help.after);

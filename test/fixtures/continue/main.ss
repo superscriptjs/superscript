@@ -120,4 +120,24 @@
   % lastreply one ok
   - lastreply exists
 
+// GH-206
++ __start__
+- match here {id=123, bool=true,   str="string"  }
+
+%% (bool == true)
+  + boo ya
+  - YES
+
+%% (id == 123)
+- winning
+
+// GH-207
+
++ start 2 (*) or *1
+- reply 2 <cap1>
+
+  + second match (*)
+  % reply 2 *
+  - reply 3 <cap1> <p1cap1> <p1cap2>
+
 < topic

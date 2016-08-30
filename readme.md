@@ -1,10 +1,11 @@
-[![Build Status](https://travis-ci.org/silentrob/superscript.svg?branch=master)](https://travis-ci.org/silentrob/superscript)
-![Dependancies Status](https://david-dm.org/silentrob/superscript.svg)
+[![Build Status](https://travis-ci.org/superscriptjs/superscript.svg?branch=master)](https://travis-ci.org/silentrob/superscript)
+[![Dependancies Status](https://david-dm.org/superscriptjs/superscript.svg)](https://david-dm.org/superscriptjs/superscript)
 [![Slack chat](https://superscript-slackin.herokuapp.com/badge.svg)](https://superscript-slackin.herokuapp.com/)
+[![Code Climate](https://codeclimate.com/github/silentrob/superscript/badges/gpa.svg)](https://codeclimate.com/github/silentrob/superscript)
 
 # SuperScript
 
-SuperScript is a dialog system + bot engine for creating human-like conversation chat bots. It exposes an expressive script for crafting dialogue and features text-expansion using wordnet and Information Retrieval and extraction using ConceptNet. 
+SuperScript is a dialog system + bot engine for creating human-like conversation chat bots. It exposes an expressive script for crafting dialogue and features text-expansion using wordnet and Information Retrieval and extraction using ConceptNet.
 
 ## What comes in the box
 
@@ -15,9 +16,31 @@ SuperScript is a dialog system + bot engine for creating human-like conversation
 
 ## Install
 
-    npm install --global superscript
+    npm install superscript
 
-## Documentation 
+## Getting Started
+
+Check out the [`hello-superscript`](https://github.com/silentrob/hello-superscript) repo for a clean starting point to building your own bot.
+
+## NOTE 0.12.0 
+
+This version is designed to work with Node 0.12 and Node 5.5.0 and up to 5.latest 
+You may need to reinstall your node_modules folder.
+
+    `npm install`
+    `npm update`
+
+Then manually extract the WordNet dictionary: 
+
+    `cd node_modules/wordnet-db`
+    `node unpack.js WNdb-3.1.tar.gz`
+
+    and if you run the tests.
+
+    `cd node_modules/wndb-with-exceptions`
+    `node unpack.js WNdb-3.0.tar.gz`
+
+## Documentation
 
 Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript. Or [read the wiki](https://github.com/silentrob/superscript/wiki)
 
@@ -28,13 +51,11 @@ Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how t
 
 `+` matches all input types
 
-`?` matches only question input
-
 `-` Is the reply sent back to the user.
 
-    
+
 ### Optional and Alternates - Script Authoring
-    
+
     + [hey] hello (nice|mean) human
     - Hello Bot
 
@@ -63,7 +84,8 @@ The above is just a tiny fraction of what the system is capable of doing. Please
 
 * [Sublime Text Syntax Highlighting](https://github.com/mariusursache/superscript-sublimetext)
 * [Atom Syntax Highlighting](https://github.com/DBozhinovski/language-superscript)
-* 
+*
+
 ### Further Reading
 
 * [Introducing SuperScript](https://medium.com/@rob_ellis/superscript-ce40e9720bef) on Medium
@@ -79,10 +101,10 @@ The above is just a tiny fraction of what the system is capable of doing. Please
 
 ## Thanks
 
-SuperScript is based off of a fork of RiveScript with idiom brought in from ChatScript. Without the work of Noah Petherbridge and Bruce Wilcox, this project would not be possible. 
+SuperScript is based off of a fork of RiveScript with idiom brought in from ChatScript. Without the work of Noah Petherbridge and Bruce Wilcox, this project would not be possible.
 
 ## License
 
 [The MIT License (MIT)](LICENSE.md)
 
-Copyright © 2014-2015 Rob Ellis
+Copyright © 2014-2016 Rob Ellis

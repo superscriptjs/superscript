@@ -6,13 +6,14 @@ var qtypes = require("qtypes");
 var _ = require("lodash");
 var norm = require("node-normalizer");
 var requireDir = require("require-dir");
-var debug = require("debug")("Script");
+var debug = require("debug-levels")("SS:Script");
 var facts = require("sfacts");
 var gTopicsSystem = require("./lib/topics/index");
 var Message = require("./lib/message");
 var Users = require("./lib/users");
 var getreply = require("./lib/getreply");
 var Utils = require("./lib/utils");
+var processHelpers = require("./lib/reply/common");
 var mergex = require("deepmerge");
 
 function SuperScript(options, callback) {
@@ -32,7 +33,7 @@ function SuperScript(options, callback) {
   this._plugins = [];
   this.normalize = null;
   this.question = null;
-
+  
   Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
@@ -49,17 +50,17 @@ function SuperScript(options, callback) {
 
   this.scope = {};
   this.scope = _.extend(options.scope || {});
+  this.scope.bot = this;
   this.scope.facts = this.factSystem;
   this.scope.topicSystem = this.topicSystem;
   this.scope.botfacts = this.memory;
-
   this.users = new Users(mongoose, this.factSystem);
 
   norm.loadData(function () {
     self.normalize = norm;
     new qtypes(function (question) {
       self.question = question;
-      debug("System Loaded, waiting for replies");
+      debug.verbose("System Loaded, waiting for replies");
       callback(null, self);
     });
   });
@@ -74,71 +75,85 @@ var messageItorHandle = function (user, system) {
       message: msg
     };
 
-    getreply(options, function (err, replyObj) {
-      // Convert the reply into a message object too.
-
-      var msgString = "";
-      var messageOptions = {
-        qtypes: system.question,
-        norm: system.normalize,
-        facts: system.facts
-      };
-
-      if (replyObj) {
-        messageOptions.replyId = replyObj.id;
-        msgString = replyObj.string;
-      } else {
-        replyObj = {};
+    processHelpers.getTopic(options.system.topicsSystem, system.topicName, function (err, topicData) {
+      if (topicData) {
+        options.aTopics = [];
+        options.aTopics.push(topicData);        
       }
 
-      new Message(msgString, messageOptions, function (replyMessageObject) {
-        user.updateHistory(msg, replyMessageObject);
+      getreply(options, function (err, replyObj) {
+        // Convert the reply into a message object too.
 
-        // We send back a smaller message object to the clients.
-        var clientObject = {
-          replyId: replyObj.replyId,
-          createdAt: replyMessageObject.createdAt || new Date(),
-          string: msgString || "", // replyMessageObject.raw || "",
-          gambitId: replyObj.gambitId,
-          topicName: replyObj.topicName,
-          subReplies: replyObj.subReplies,
+        var msgString = "";
+        var messageOptions = {
+          qtypes: system.question,
+          norm: system.normalize,
+          facts: system.facts
         };
 
-        var newClientObject = mergex(clientObject, replyObj.props || {});
+        if (replyObj) {
+          messageOptions.replyId = replyObj.replyId;
+          msgString = replyObj.string;
 
-        user.save(function () {
-          return next(err, newClientObject);
+          if (replyObj.clearConvo) {
+            messageOptions.clearConvo = replyObj.clearConvo;
+          }
+
+        } else {
+          replyObj = {};
+        }
+
+        new Message(msgString, messageOptions, function (replyMessageObject) {
+          user.updateHistory(msg, replyMessageObject, replyObj, function(err, log) {
+
+            // We send back a smaller message object to the clients.
+            var clientObject = {
+              replyId: replyObj.replyId,
+              createdAt: replyMessageObject.createdAt || new Date(),
+              string: msgString || "", // replyMessageObject.raw || "",
+              topicName: replyObj.topicName,
+              subReplies: replyObj.subReplies,
+              debug: log
+            };
+
+            var newClientObject = mergex(clientObject, replyObj.props || {});
+
+            user.save(function (err, res) {
+              debug.verbose(err, res);
+              // TODO - Seeing RangeError here. (investigate Mongoose 4.0)
+              return next(null, newClientObject);
+            });
+          });
         });
       });
     });
   };
+
   return messageItor;
 };
 
 // This takes a message and breaks it into chucks to be passed though
 // the sytem. We put them back together on the other end.
-var messageFactory = function (rawMsg, question, normalize, facts, cb) {
-
-  var messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
-
-  messageParts = Utils.cleanArray(messageParts);
-
-  var itor = function (messageChunk, next) {
-
-    var messageOptions = {
-      qtypes: question,
-      norm: normalize,
-      facts: facts,
-      original: rawMsg
-    };
-
-    new Message(messageChunk.trim(), messageOptions, function (tmsg) {
-      next(null, tmsg);
-    });
+// FIXME: with chunking removed this is not needed.
+var messageFactory = function (options, cb) {
+  
+  var rawMsg = options.msg;
+  var normalize = options.normalize;
+  var messageParts = [];
+  
+  var cleanMsg = normalize.clean(rawMsg).trim();
+  debug.verbose("IN MessageFactory", cleanMsg);
+  
+  var messageOptions = {
+    qtypes: options.question,
+    norm: normalize,
+    facts: options.factSystem,
+    original: rawMsg
   };
 
-  return async.mapSeries(messageParts, itor, function (err, messageArray) {
-    return cb(messageArray);
+  return new Message(cleanMsg, messageOptions, function (tmsg) {
+    var mset = _.isEmpty(tmsg) ? [] : [tmsg]
+    return cb(null, mset);
   });
 };
 
@@ -157,16 +172,40 @@ SuperScript.prototype.message = function (msgString, callback) {
   });
 };
 
+// This is like doing a topicRedirect
+SuperScript.prototype.directReply = function (userId, topic, msg, callback) {
+  debug.log("[ New DirectReply - '" + userId + "']- " +  msg);
+  var options = {
+    userId: userId,
+    topicName: topic,
+    msgString: msg,
+    extraScope: {}
+  };
+
+  this._reply(options, callback);
+
+};
 
 // Convert msg into message object, then check for a match
-SuperScript.prototype.reply = function (userId, msg, callback) {
+SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
   if (arguments.length === 2 && typeof msg === "function") {
     callback = msg;
     msg = userId;
     userId = Math.random().toString(36).substr(2, 5);
+    extraScope = {};
   }
 
-  debug("Message Recieved from '" + userId + "'", msg);
+  debug.log("[ New Message - '" + userId + "']- " +  msg);
+  var options = {
+    userId: userId,
+    msgString: msg,
+    extraScope: extraScope
+  };
+
+  this._reply(options, callback);
+};
+
+SuperScript.prototype._reply = function(options, callback) {
   var self = this;
 
   // Ideally these will come from a cache, but self is a exercise for a rainy day
@@ -176,6 +215,10 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
     topicsSystem: self.topicSystem,
     plugins: self._plugins,
     scope: self.scope,
+    messageScope: options.extraScope,
+
+    // Pass in the topic if it
+    topicName: options.topicName || null,
 
     // Message
     question: self.question,
@@ -184,77 +227,56 @@ SuperScript.prototype.reply = function (userId, msg, callback) {
     editMode: self.editMode
   };
 
-  var properties = { id: userId };
   var prop = {
     currentTopic: "random",
     status: 0,
     conversation: 0, volley: 0, rally: 0
   };
 
-  this.users.findOrCreate(properties, prop, function (err1, user) {
+  this.users.findOrCreate({ id: options.userId }, prop, function (err1, user) {
     if (err1) {
-      console.log(err1);
+      debug.error(err1);
     }
-    messageFactory(msg, self.question, self.normalize, self.factSystem, function (messages) {
+
+    var opt = {
+      msg: options.msgString,
+      question: self.question,
+      normalize: self.normalize,
+      factSystem: self.factSystem
+    };
+
+    messageFactory(opt, function (err, messages) {
+      // FIXME: `messages` will always be one now that we no longer chunk
       async.mapSeries(messages, messageItorHandle(user, system), function (err2, messageArray) {
         if (err2) {
-          console.log(err2);
+          debug.error(err2);
         }
 
         var reply = {};
-        messageArray = Utils.cleanArray(messageArray);
+        var messageArray = Utils.cleanArray(messageArray);
 
         if (_.isEmpty(messageArray)) {
           reply.string = "";
         } else if (messageArray.length === 1) {
           reply = messageArray[0];
-        } else {
-          // TODO - We will want to add some smarts on putting multiple
-          // lines back together - check for tail grammar or drop bits.
-          reply = messageArray[0];
-          var messageReplies = [];
-          reply.parts = [];
-          for (var i = 0; i < messageArray.length; i++) {
-            reply.parts[i] = {
-              string: messageArray[i].string,
-              threads: messageArray[i].threads,
-              triggerId: messageArray[i].triggerId,
-              topicName: messageArray[i].topicName
-            };
-
-            if (messageArray[i].string !== "") {
-              messageReplies.push(messageArray[i].string);
-            }
-
-            for (var nprop in messageArray[i]) {
-              if (nprop !== "createdAt" && nprop !== "string") {
-                reply[nprop] = messageArray[i][nprop];
-              }
-            }
-          }
-
-          reply.string = messageReplies.join(" ");
         }
 
-        debug("Update and Reply to user '" + user.id + "'", reply);
-
-        // If we have a thread of messages, lets space them out.
-        if (reply.subReplies) {
-          
-        }
+        debug.verbose("Update and Reply to user '" + user.id + "'", reply);
+        debug.info("[ Final Reply - '" + user.id + "']- '" + reply.string + "'");
 
         return callback(err2, reply);
       });
     });
   });
-};
+}
+
 
 SuperScript.prototype.loadPlugins = function (path) {
   var plugins = requireDir(path);
 
   for (var file in plugins) {
     for (var func in plugins[file]) {
-      debug("Loading Plugin", path, func);
+      debug.verbose("Loading Plugin", path, func);
       this._plugins[func] = plugins[file][func];
     }
   }
@@ -273,8 +295,6 @@ SuperScript.prototype.getUsers = function (cb) {
 };
 
 SuperScript.prototype.getUser = function (userId, cb) {
-  debug("Fetching User", userId);
-
   this.users.findOne({id: userId}, function (err, usr) {
     cb(err, usr);
   });
