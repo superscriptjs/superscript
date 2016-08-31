@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint --env node lib *.js",
     "test": "mocha test -R spec -s 1700 -t 300000",
+    "profile": "mocha test -R spec -s 1700 -t 300000 --prof --log-timer-events",
     "dtest": "DEBUG=*,-mquery,-mocha*, mocha test -R spec -s 1700 -t 300000",
     "itest": "DEBUG=SS* DEBUG_LEVEL=info mocha test -R spec -s 1700 -t 300000",
     "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec test -s 1700 -t 300000"
