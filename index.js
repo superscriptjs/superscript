@@ -174,7 +174,7 @@ SuperScript.prototype.message = function (msgString, callback) {
 
 // This is like doing a topicRedirect
 SuperScript.prototype.directReply = function (userId, topic, msg, callback) {
-  debug.log("[ New DirectReply - '" + userId + "']- " +  msg);
+  debug.log("[ New DirectReply - '%s']- %s", userId, msg)
   var options = {
     userId: userId,
     topicName: topic,
@@ -195,7 +195,7 @@ SuperScript.prototype.reply = function (userId, msg, callback, extraScope) {
     extraScope = {};
   }
 
-  debug.log("[ New Message - '" + userId + "']- " +  msg);
+  debug.log("[ New Message - '%s']- %s", userId, msg)
   var options = {
     userId: userId,
     msgString: msg,
@@ -261,8 +261,8 @@ SuperScript.prototype._reply = function(options, callback) {
           reply = messageArray[0];
         }
 
-        debug.verbose("Update and Reply to user '" + user.id + "'", reply);
-        debug.info("[ Final Reply - '" + user.id + "']- '" + reply.string + "'");
+        debug.verbose("Update and Reply to user '%s'", user.id, reply)
+        debug.info("[ Final Reply - '%s']- '%s'", user.id, reply.string)
 
         return callback(err2, reply);
       });
