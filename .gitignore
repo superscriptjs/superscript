@@ -10,3 +10,10 @@ dump.rdb
 dump/*
 coverage
 *.sw*
+
+# Node profiler logs
+isolate-*-v8.log
+
+# IDEA/WebStorm Project Files
+.idea
+*.iml
