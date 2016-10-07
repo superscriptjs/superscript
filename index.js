@@ -33,7 +33,7 @@ function SuperScript(options, callback) {
   this._plugins = [];
   this.normalize = null;
   this.question = null;
-  
+
   Utils.mkdirSync("./plugins");
   this.loadPlugins("./plugins");
   this.loadPlugins(process.cwd() + "/plugins");
@@ -78,7 +78,7 @@ var messageItorHandle = function (user, system) {
     processHelpers.getTopic(options.system.topicsSystem, system.topicName, function (err, topicData) {
       if (topicData) {
         options.aTopics = [];
-        options.aTopics.push(topicData);        
+        options.aTopics.push(topicData);
       }
 
       getreply(options, function (err, replyObj) {
@@ -136,19 +136,22 @@ var messageItorHandle = function (user, system) {
 // the sytem. We put them back together on the other end.
 // FIXME: with chunking removed this is not needed.
 var messageFactory = function (options, cb) {
-  
+
   var rawMsg = options.msg;
   var normalize = options.normalize;
   var messageParts = [];
-  
+
   var cleanMsg = normalize.clean(rawMsg).trim();
   debug.verbose("IN MessageFactory", cleanMsg);
-  
+
+  var hasExtraScope = options.extraScope ? true : false;
+
   var messageOptions = {
     qtypes: options.question,
     norm: normalize,
     facts: options.factSystem,
-    original: rawMsg
+    original: rawMsg,
+    extraScope: hasExtraScope
   };
 
   return new Message(cleanMsg, messageOptions, function (tmsg) {
@@ -242,7 +245,8 @@ SuperScript.prototype._reply = function(options, callback) {
       msg: options.msgString,
       question: self.question,
       normalize: self.normalize,
-      factSystem: self.factSystem
+      factSystem: self.factSystem,
+      extraScope: options.extraScope
     };
 
     messageFactory(opt, function (err, messages) {
