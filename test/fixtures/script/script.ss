@@ -340,9 +340,9 @@
 
 
 > topic:keep:system generic
-  
+
   + __simple__
-  - ^break()
+  - ^breakFunc()
 
   + *
   - no match
@@ -363,4 +363,3 @@
   + __B__
   - ^showScope()
 < topic
-
