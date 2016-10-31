@@ -59,24 +59,32 @@ const before = function before(file) {
   };
 
   const afterParse = (fileCache, result, callback) => {
-    fs.writeFile(fileCache, JSON.stringify(result), (err) => {
-      options.importFile = fileCache;
-      SuperScript(options, (err, botInstance) => {
+    fs.exists(`${__dirname}/fixtures/cache`, (exists) => {
+      if (!exists) {
+        fs.mkdirSync(`${__dirname}/fixtures/cache`);
+      }
+      return fs.writeFile(fileCache, JSON.stringify(result), (err) => {
         if (err) {
           return callback(err);
         }
-        bot = botInstance;
-        return callback();
+        options.importFile = fileCache;
+        return SuperScript(options, (err, botInstance) => {
+          if (err) {
+            return callback(err);
+          }
+          bot = botInstance;
+          return callback();
+        });
       });
     });
   };
 
   return (done) => {
-    const fileCache = `./test/fixtures/cache/${file}.json`;
+    const fileCache = `${__dirname}/fixtures/cache/${file}.json`;
     fs.exists(fileCache, (exists) => {
       if (!exists) {
         bootstrap((err, factSystem) => {
-          parser.loadDirectory(`./test/fixtures/${file}`, { factSystem }, (err, result) => {
+          parser.loadDirectory(`${__dirname}/fixtures/${file}`, { factSystem }, (err, result) => {
             if (err) {
               done(err);
             }
@@ -93,7 +101,7 @@ const before = function before(file) {
             done(err);
           }
           const checksums = contents.checksums;
-          parser.loadDirectory(`./test/fixtures/${file}`, { factSystem, cache: checksums }, (err, result) => {
+          parser.loadDirectory(`${__dirname}/fixtures/${file}`, { factSystem, cache: checksums }, (err, result) => {
             if (err) {
               done(err);
             }

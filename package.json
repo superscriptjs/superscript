@@ -11,7 +11,7 @@
     "profile": "mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --prof --log-timer-events --recursive",
     "dtest": "DEBUG=*,-mquery,-mocha*, mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --recursive",
     "itest": "DEBUG=SS* DEBUG_LEVEL=info mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --recursive",
-    "test-travis": "DEBUG=* ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --compilers js:babel-register -R spec test -s 1700 -t 300000 --recursive"
+    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --compilers js:babel-register -R spec test -s 1700 -t 300000 --recursive"
   },
   "repository": {
     "type": "git",
@@ -60,7 +60,8 @@
     "sfacts": "^1.0.0-alpha2",
     "ss-parser": "^1.0.0-alpha1",
     "string": "^3.3.1",
-    "syllablistic": "^0.1.0"
+    "syllablistic": "^0.1.0",
+    "wordnet-db": "^3.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
