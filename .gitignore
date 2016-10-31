@@ -1,11 +1,9 @@
 .DS_Store
+lib/*
 node_modules/*
 logs/*
 npm-debug.log
 test/fixtures/cache/*
-systemDB
-factsystem
-botfacts
 dump.rdb
 dump/*
 coverage

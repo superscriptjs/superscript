@@ -1,39 +1,39 @@
-var mocha = require("mocha");
-var should  = require("should");
-var help = require("./helpers");
+/* global describe, it, before, after */
 
-describe('Super Script Conversation', function(){
+import mocha from 'mocha';
+import should from 'should';
+import helpers from './helpers';
 
-  before(help.before("convo"));
+describe('SuperScript Conversation', () => {
+  before(helpers.before('convo'));
 
-  describe('Volley', function() {
-    
-    it("should have volley", function(done) {
-      bot.reply("user1", "Can you skip rope?", function(err, reply) {
-        bot.getUser("user1", function(e, user){
+  describe('Volley', () => {
+    it('should have volley', (done) => {
+      helpers.getBot().reply('user1', 'Can you skip rope?', (err, reply) => {
+        helpers.getBot().getUser('user1', (e, user) => {
           user.volley.should.eql(0);
-          done();          
+          done();
         });
       });
     });
 
-    it("should have volley 1", function(done) {
-      bot.reply("user1", "Can you jump rope?", function(err, reply) {
-        bot.getUser("user1", function(e, user){
+    it('should have volley 1', (done) => {
+      helpers.getBot().reply('user1', 'Can you jump rope?', (err, reply) => {
+        helpers.getBot().getUser('user1', (e, user) => {
           user.volley.should.eql(1);
           user.rally.should.eql(1);
 
-          bot.reply("user1", "Have you done it lately?", function(err, reply) {
-            bot.getUser("user1", function(e, user){
+          helpers.getBot().reply('user1', 'Have you done it lately?', (err, reply) => {
+            helpers.getBot().getUser('user1', (e, user) => {
               user.volley.should.eql(0);
               user.rally.should.eql(0);
               done();
             });
           });
-        });        
+        });
       });
     });
   });
-  
-  after(help.after);
+
+  after(helpers.after);
 });

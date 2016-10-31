@@ -1,52 +1,51 @@
-var mocha = require("mocha");
-var should  = require("should");
-var help = require("./helpers");
+/* global describe, it, before, after */
 
-describe('Super Script QType Matching', function(){
+import mocha from 'mocha';
+import should from 'should';
+import helpers from './helpers';
 
-  before(help.before("qtype"));
+describe('SuperScript QType Matching', () => {
+  before(helpers.before('qtype'));
 
-  describe('Simple Question Matching (qSubType)', function(){
-    xit("should reply to simple string", function(done) {
-      bot.reply("user1", "which way to the bathroom?", function(err, reply) {
-        reply.string.should.eql("Down the hall on the left");
+  describe('Simple Question Matching (qSubType)', () => {
+    xit('should reply to simple string', (done) => {
+      helpers.getBot().reply('user1', 'which way to the bathroom?', (err, reply) => {
+        reply.string.should.eql('Down the hall on the left');
         done();
       });
     });
 
-    it("should not match", function(done) {
-      bot.reply("user1", "My mom cleans the bathroom.", function(err, reply) {
-        reply.string.should.eql("");
+    it('should not match', (done) => {
+      helpers.getBot().reply('user1', 'My mom cleans the bathroom.', (err, reply) => {
+        reply.string.should.eql('');
         done();
       });
     });
   });
 
-  describe('Advanced Question Matching (qType)', function(){
-    it("should reply to QType string YN QType", function(done) {
-      bot.reply("user1", "Do you like to clean?", function(err, reply) {
-        reply.string.should.eql("a");
+  describe('Advanced Question Matching (qType)', () => {
+    it('should reply to QType string YN QType', (done) => {
+      helpers.getBot().reply('user1', 'Do you like to clean?', (err, reply) => {
+        reply.string.should.eql('a');
         done();
       });
     });
 
     // HUN:ind should be ordered higher up the queue.
-    it("should reply to QType string B (fine grained)", function(done) {
-      bot.reply("user1", "Who can clean the house?", function(err, reply) {
-        reply.string.should.eql("a");
+    it('should reply to QType string B (fine grained)', (done) => {
+      helpers.getBot().reply('user1', 'Who can clean the house?', (err, reply) => {
+        reply.string.should.eql('a');
         done();
       });
     });
 
-    it("should reply to QType string C", function(done) {
-      bot.reply("user1", "How fast can you clean?", function(err, reply) {
-        reply.string.should.eql("c");
+    it('should reply to QType string C', (done) => {
+      helpers.getBot().reply('user1', 'How fast can you clean?', (err, reply) => {
+        reply.string.should.eql('c');
         done();
       });
     });
-
   });
 
-  after(help.after);
-
+  after(helpers.after);
 });

@@ -1,0 +1,24 @@
+src/*
+test/*
+example/*
+.github/*
+.babelrc
+.eslintrc
+.travis.yml
+changes.md
+contribute.md
+LICENSE.md
+readme.md
+logs/*
+test/fixtures/cache/*
+dump.rdb
+dump/*
+coverage
+*.sw*
+
+# Node profiler logs
+isolate-*-v8.log
+
+# IDEA/WebStorm Project Files
+.idea
+*.iml

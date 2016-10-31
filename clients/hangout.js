@@ -1,59 +1,50 @@
-var xmpp 			= require('simple-xmpp');
-var net             = require("net");
-var superscript     = require("superscript");
-var mongoose        = require("mongoose");
-var facts           = require("sfacts");
-var factSystem      = facts.create('hangoutFacts');
+import SuperScript from 'superscript';
+import xmpp from 'simple-xmpp';
 
-mongoose.connect('mongodb://localhost/superscriptDB');
+const receiveData = function receiveData(from, bot, data) {
+  // Handle incoming messages.
+  let message = `${data}`;
 
-var options = {};
-var sockets = [];
+  message = message.replace(/[\x0D\x0A]/g, '');
 
-var TopicSystem = require("superscript/lib/topics/index")(mongoose, factSystem);
-
-options['factSystem'] = factSystem;
-options['mongoose'] = mongoose;
-
-
-//You need authorize this authentication method in Google account.
-var botHandle = function(err, bot) {
-  	xmpp.connect({
-        jid                 : 'EMAIL ADRESS',
-        password        	: 'PASSWORD',
-        host                : 'talk.google.com',
-        port                : 5222,
-        reconnect			: true
-	});
-
-	xmpp.on('online', function(data) {
-	    console.log('Connected with JID: ' + data.jid.user);
-	    console.log('Yes, I\'m connected!');
-	});
-
-	xmpp.on('chat', function(from, message) {
-		receiveData(from, bot, message);
-	});
-
-	xmpp.on('error', function(err) {
-	    console.error(err);
-	});
+  bot.reply(from, message.trim(), (err, reply) => {
+    xmpp.send(from, reply.string);
+  });
 };
 
-var receiveData = function(from, bot, data) {
-	// Handle incoming messages.
-	var message = "" + data;
+// You need authorize this authentication method in Google account.
+const botHandle = function botHandle(err, bot) {
+  xmpp.connect({
+    jid: 'EMAIL ADRESS',
+    password: 'PASSWORD',
+    host: 'talk.google.com',
+    port: 5222,
+    reconnect: true,
+  });
 
-	message = message.replace(/[\x0D\x0A]/g, "");
+  xmpp.on('online', (data) => {
+    console.log(`Connected with JID: ${data.jid.user}`);
+    console.log('Yes, I\'m connected!');
+  });
 
-	bot.reply(from, message.trim(), function(err, reply){
-		xmpp.send(from, reply.string);
-	});
+  xmpp.on('chat', (from, message) => {
+    receiveData(from, bot, message);
+  });
+
+  xmpp.on('error', (err) => {
+    console.error(err);
+  });
 };
 
 // Main entry point
-TopicSystem.importerFile('./data.json', function(){
-  new superscript(options, function(err, botInstance){
-    botHandle(null, botInstance);
-  });
+const options = {
+  factSystem: {
+    name: 'hangoutFacts',
+    clean: true,
+  },
+  importFile: './data.json',
+};
+
+SuperScript(options, (err, bot) => {
+  botHandle(null, bot);
 });

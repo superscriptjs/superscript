@@ -1,28 +1,29 @@
 {
   "name": "superscript",
-  "version": "0.12.2",
+  "version": "1.0.0-alpha2",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
-  "main": "index.js",
+  "main": "lib/bot/index.js",
   "scripts": {
-    "lint": "eslint --env node lib *.js",
-    "test": "mocha test -R spec -s 1700 -t 300000",
-    "profile": "mocha test -R spec -s 1700 -t 300000 --prof --log-timer-events",
-    "dtest": "DEBUG=*,-mquery,-mocha*, mocha test -R spec -s 1700 -t 300000",
-    "itest": "DEBUG=SS* DEBUG_LEVEL=info mocha test -R spec -s 1700 -t 300000",
-    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec test -s 1700 -t 300000"
+    "build": "babel src --presets babel-preset-es2015 --out-dir lib",
+    "lint": "eslint --env node src *.js",
+    "test": "mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --recursive",
+    "prepublish": "npm run build",
+    "profile": "mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --prof --log-timer-events --recursive",
+    "dtest": "DEBUG=*,-mquery,-mocha*, mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --recursive",
+    "itest": "DEBUG=SS* DEBUG_LEVEL=info mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --recursive",
+    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --compilers js:babel-register -R spec test -s 1700 -t 300000 --recursive"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/silentrob/superscript"
+    "url": "https://github.com/superscriptjs/superscript"
   },
   "homepage": "http://superscriptjs.com",
   "bugs": {
-    "url": "https://github.com/silentrob/superscript/issues"
+    "url": "https://github.com/superscriptjs/superscript/issues"
   },
   "bin": {
-    "parse": "bin/parse.js",
-    "bot-init": "bin/bot-init.js",
-    "bot-cleanup": "bin/cleanup.js"
+    "parse": "lib/bin/parse.js",
+    "bot-init": "lib/bin/bot-init.js"
   },
   "author": "Rob Ellis",
   "contributors": [
@@ -30,66 +31,50 @@
     "Issam Hakimi <issam.hakimi@googlemail.com>",
     "Marius Ursache <hello@mariusursache.com>",
     "Michael Lewkowitz <michael@igniter.com>",
-    "John Wehr <johnwehr@gmail.com>"
+    "John Wehr <johnwehr@gmail.com>",
+    "Ben James <benhjames@sky.com>"
   ],
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/silentrob/superscript/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "dependencies": {
-    "async": "^1.5.2",
+    "async": "^2.1.2",
     "async-replace": "^1.0.1",
-    "bluebird": "^3.0.5",
-    "checksum": "^0.1.1",
     "commander": "^2.4.0",
-    "crc": "^3.0.0",
     "debug": "^2.2.0",
     "debug-levels": "^0.2.0",
-    "deepmerge": "^0.2.7",
     "lemmer": "0.1.6",
-    "lodash": "^4.12.0",
-    "mkdirp": "^0.5.0",
+    "lodash": "^4.16.5",
+    "mkdirp": "^0.5.1",
     "moment": "^2.13.0",
-    "mongodb": "^2.2.9",
     "mongoose": "^4.5.10",
     "mongoose-findorcreate": "^0.1.2",
-    "mongoose-path-tree": "^1.3.5",
     "natural": "^0.4.0",
-    "node-normalizer": "^0.1.4",
-    "node-tense": "0.0.4",
+    "node-normalizer": "^1.0.0-alpha3",
     "parts-of-speech": "^0.3.0",
-    "pluralize": "2.0.0",
-    "qtypes": "^0.1.6",
+    "pluralize": "^3.0.0",
+    "qtypes": "^1.0.0-alpha1",
     "re2": "^1.3.3",
-    "require-dir": "0.3.0",
-    "rhyme": "0.0.3",
-    "rimraf": "^2.4.4",
-    "roman-numerals": "~0.3.2",
-    "safe-eval": "^0.2.0",
-    "sfacts": "^0.2.0",
-    "ss-parser": "^0.5.0",
+    "require-dir": "^0.3.1",
+    "rhymes": "^1.0.1",
+    "roman-numerals": "^0.3.2",
+    "safe-eval": "^0.3.0",
+    "sfacts": "^1.0.0-alpha2",
+    "ss-parser": "^1.0.0-alpha1",
     "string": "^3.3.1",
-    "syllablistic": "~0.1.0"
+    "syllablistic": "^0.1.0",
+    "wordnet-db": "^3.1.2"
   },
   "devDependencies": {
-    "blanket": "~1.1.6",
-    "bluebird": "^2.9.34",
+    "babel-cli": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-register": "^6.18.0",
     "coveralls": "^2.11.9",
-    "eslint": "^0.23.0",
-    "istanbul": "^0.4.3",
-    "mkdirp": "^0.5.0",
+    "eslint": "^3.7.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.4.1",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.0.2",
-    "mongodb": "^2.0.39",
-    "rimraf": "^2.4.2",
-    "rmdir": "^1.0.4",
     "should": "^11.1.0"
-  },
-  "config": {
-    "blanket": {
-      "pattern": "/lib",
-      "data-cover-never": "node_modules"
-    }
   }
 }

@@ -28,7 +28,7 @@
 	- ^save(key, value)
 
 	+ force break
-	- ^break()
+	- ^breakFunc()
 
 	+ force continue
 	- ^nobreak() force one
@@ -38,7 +38,7 @@
 
 < topic
 > topic:keep outdoors ( fishing hunting camping ) ^sometest()
-	
+
 	+ I like to *
 	- i like to spend time outdoors
 
@@ -55,7 +55,7 @@
 
   + I like to spend time *
   - fishing
-  
+
 	+ I like to *
 	- me too
 
@@ -81,7 +81,7 @@
 
     + test respond
     - {END}
-    
+
     + __something__
     - Something
 
