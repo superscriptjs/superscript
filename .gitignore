@@ -4,10 +4,6 @@ node_modules/*
 logs/*
 npm-debug.log
 test/fixtures/cache/*
-systemDB
-plugins/*
-factsystem
-botfacts
 dump.rdb
 dump/*
 coverage
