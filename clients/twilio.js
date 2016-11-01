@@ -72,7 +72,6 @@ const botHandle = function (err, bot) {
 // Main entry point
 const options = {
   factSystem: {
-    name: 'twilioFacts',
     clean: true,
   },
   importFile: './data.json',

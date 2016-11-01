@@ -18,11 +18,10 @@ describe('Message Interface', () => {
 
   before((done) => {
     const options = {
-      name: 'testMessage',
       clean: true,
       importData: data,
     };
-    createFactSystem(options, (err, facts) => {
+    createFactSystem('mongodb://localhost/messagetest', options, (err, facts) => {
       factSystem = facts;
       done(err);
     });
@@ -145,7 +144,7 @@ describe('Message Interface', () => {
   after((done) => {
     if (factSystem) {
       factSystem.db.close(() => {
-        sfacts.clean('testMessage', done);
+        sfacts.clean('mongodb://localhost/messagetest', done);
       });
     } else {
       done();

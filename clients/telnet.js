@@ -75,7 +75,6 @@ const botHandle = function botHandle(err, bot) {
 // Main entry point
 const options = {
   factSystem: {
-    name: 'telnetFacts',
     clean: true,
   },
   importFile: './data.json',

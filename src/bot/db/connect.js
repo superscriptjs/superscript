@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-export default (mongoURI, dbName) => {
-  const db = mongoose.createConnection(`${mongoURI}${dbName}`);
+export default (mongoURI) => {
+  const db = mongoose.createConnection(`${mongoURI}`);
 
   db.on('error', console.error);
 

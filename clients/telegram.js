@@ -3,7 +3,6 @@ import SuperScript from 'superscript';
 
 const options = {
   factSystem: {
-    name: 'telegramFacts',
     clean: true,
   },
   importFile: './data.json',

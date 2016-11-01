@@ -14,16 +14,9 @@ import Message from './message';
 const debug = debuglog('SS:SuperScript');
 
 class SuperScript {
-  /**
-   * Creates a new SuperScript instance. Since SuperScript doesn't use global state,
-   * you may have multiple instances at once.
-   * @param {Object} options - Any configuration settings you want to use.
-   * @param {String} options.URL - The database URL you want to connect to.
-   * @param {String} options.factSystemName - The name you want to give to the fact system created.
-   */
   constructor(options) {
     // Create a new database connection
-    this.db = connect(options.mongoURI, options.mongoDB);
+    this.db = connect(options.mongoURI);
 
     this.plugins = [];
 
@@ -203,24 +196,40 @@ class SuperScript {
 }
 
 const defaultOptions = {
-  mongoURI: 'mongodb://localhost/',
-  mongoDB: 'superscriptDB',
+  mongoURI: 'mongodb://localhost/superscriptDB',
   importFile: null,
   factSystem: {
-    name: 'botFacts',
     clean: false,
-    importData: null,
+    importFiles: null,
   },
   scope: {},
   editMode: false,
 };
 
+/**
+ * Creates a new SuperScript instance. Since SuperScript doesn't use global state,
+ * you may have multiple instances at once for a single bot.
+ * @param {Object} options - Any configuration settings you want to use.
+ * @param {String} options.mongoURI - The database URL you want to connect to.
+ *                 This will be used for both the chat and fact system.
+ * @param {String} options.importFile - Use this if you want to re-import your parsed
+ *                 '*.json' file. Otherwise SuperScript will use whatever it currently
+ *                 finds in the database.
+ * @param {Object} options.factSystem - Settings to use for the fact system.
+ * @param {Boolean} options.factSystem.clean - If you want to remove everything in the
+ *                  fact system upon launch. Otherwise SuperScript will keep facts from
+ *                  the last time it was run.
+ * @param {Array} options.factSystem.importFiles - Any additional data you want to
+ *                import into the fact system.
+ * @param {Object} options.scope - Any extra scope you want to pass into your plugins.
+ * @param {Boolean} options.editMode - Used in the editor.
+ */
 const create = function create(options = {}, callback) {
   options = _.merge(defaultOptions, options);
   const bot = new SuperScript(options);
 
   // Uses schemas to create models for the db connection to use
-  createFactSystem(options.factSystem, (err, factSystem) => {
+  createFactSystem(options.mongoURI, options.factSystem, (err, factSystem) => {
     if (err) {
       return callback(err);
     }

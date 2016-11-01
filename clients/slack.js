@@ -90,7 +90,6 @@ const botHandle = function botHandle(err, bot) {
 // Main entry point
 const options = {
   factSystem: {
-    name: 'slackFacts',
     clean: true,
   },
   importFile: './data.json',

@@ -39,7 +39,6 @@ const botHandle = function botHandle(err, bot) {
 // Main entry point
 const options = {
   factSystem: {
-    name: 'hangoutFacts',
     clean: true,
   },
   importFile: './data.json',
