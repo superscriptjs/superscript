@@ -14,26 +14,25 @@ const debug = debuglog('SS:Importer');
 const KEEP_REGEX = new RegExp('\{keep\}', 'i');
 const FILTER_REGEX = /\{\s*\^(\w+)\(([\w<>,\s]*)\)\s*\}/i;
 
-const rawToGambitData = function rawToGambitData(gambitId, itemData) {
+const rawToGambitData = function rawToGambitData(gambitId, gambit) {
   const gambitData = {
     id: gambitId,
-    isQuestion: itemData.options.isQuestion,
-    isCondition: itemData.options.isConditional,
-    qType: itemData.options.qType === false ? '' : itemData.options.qType,
-    qSubType: itemData.options.qSubType === false ? '' : itemData.options.qSubType,
-    filter: itemData.options.filter === false ? '' : itemData.options.filter,
-    trigger: itemData.trigger,
+    isQuestion: false,
+    qType: '',
+    qSubType: '',
+    conditions: gambit.conditional,
+    filter: gambit.trigger.filter || '',
+    trigger: gambit.trigger.clean,
   };
 
-  // This is to capture anything pre 5.1
-  if (itemData.raw) {
-    gambitData.input = itemData.raw;
-  } else {
-    gambitData.input = itemData.trigger;
+  if (gambit.question) {
+    gambitData.isQuestion = true;
+    gambitData.qType = gambit.question.questionType;
+    gambitData.qSubType = gambit.question.questionSubType;
   }
 
-  if (itemData.redirect !== null) {
-    gambitData.redirect = itemData.redirect;
+  if (gambit.redirect) {
+    gambitData.redirect = gambit.redirect;
   }
 
   return gambitData;
@@ -51,13 +50,18 @@ const importData = function importData(chatSystem, data, callback) {
   const eachReplyItor = function eachReplyItor(gambit) {
     return (replyId, nextReply) => {
       debug.verbose('Reply process: %s', replyId);
-      const replyString = data.replies[replyId];
-      const properties = { id: replyId, reply: replyString, parent: gambit._id };
+      const properties = {
+        id: replyId,
+        reply: data.replies[replyId],
+        parent: gambit._id,
+      };
+
       let match = properties.reply.match(KEEP_REGEX);
       if (match) {
         properties.keep = true;
         properties.reply = Utils.trim(properties.reply.replace(match[0], ''));
       }
+
       match = properties.reply.match(FILTER_REGEX);
       if (match) {
         properties.filter = `^${match[1]}(${match[2]})`;
@@ -75,19 +79,19 @@ const importData = function importData(chatSystem, data, callback) {
 
   const eachGambitItor = function eachGambitItor(topic) {
     return (gambitId, nextGambit) => {
-      if (!_.isUndefined(data.gambits[gambitId].options.conversations)) {
+      const gambit = data.gambits[gambitId];
+      if (gambit.conversation) {
         gambitsWithConversation.push(gambitId);
         nextGambit();
-      } else if (data.gambits[gambitId].topic === topic.name) {
+      } else if (gambit.topic === topic.name) {
         debug.verbose('Gambit process: %s', gambitId);
-        const gambitRawData = data.gambits[gambitId];
-        const gambitData = rawToGambitData(gambitId, gambitRawData);
+        const gambitData = rawToGambitData(gambitId, gambit);
 
         topic.createGambit(gambitData, (err, gambit) => {
           if (err) {
             console.error(err);
           }
-          async.eachSeries(gambitRawData.replies, eachReplyItor(gambit), (err) => {
+          async.eachSeries(gambit.replies, eachReplyItor(gambit), (err) => {
             if (err) {
               console.error(err);
             }
@@ -100,18 +104,18 @@ const importData = function importData(chatSystem, data, callback) {
     };
   };
 
-  const eachTopicItor = function eachTopicItor(topicName, nextTopic) {
-    debug.verbose(`Find or create topic with name '${topicName}'`);
+  const eachTopicItor = function eachTopicItor(topic, nextTopic) {
+    debug.verbose(`Find or create topic with name '${topic.name}'`);
     const topicProperties = {
-      name: topicName,
-      keep: data.topics[topicName].flags.indexOf('keep') !== -1,
-      nostay: data.topics[topicName].flags.indexOf('nostay') !== -1,
-      system: data.topics[topicName].flags.indexOf('system') !== -1,
-      keywords: data.topics[topicName].keywords ? data.topics[topicName].keywords : [],
-      filter: (data.topics[topicName].filter) ? data.topics[topicName].filter : '',
+      name: topic.name,
+      keep: topic.flags.indexOf('keep') !== -1,
+      nostay: topic.flags.indexOf('nostay') !== -1,
+      system: topic.flags.indexOf('system') !== -1,
+      keywords: topic.keywords,
+      filter: topic.filter || '',
     };
 
-    Topic.findOrCreate({ name: topicName }, topicProperties, (err, topic) => {
+    Topic.findOrCreate({ name: topic.name }, topicProperties, (err, topic) => {
       if (err) {
         console.error(err);
       }
@@ -120,7 +124,7 @@ const importData = function importData(chatSystem, data, callback) {
         if (err) {
           console.error(err);
         }
-        debug.verbose(`All gambits for ${topicName} processed.`);
+        debug.verbose(`All gambits for ${topic.name} processed.`);
         nextTopic();
       });
     });
@@ -154,16 +158,17 @@ const importData = function importData(chatSystem, data, callback) {
 
   debug.info('Cleaning database: removing all data.');
 
+  // Remove everything before we start importing
   async.each([Condition, Gambit, Reply, Topic, User],
     (model, nextModel) => {
       model.remove({}, err => nextModel());
     },
     (err) => {
-      async.eachSeries(Object.keys(data.topics), eachTopicItor, () => {
+      async.eachSeries(data.topics, eachTopicItor, () => {
         async.eachSeries(_.uniq(gambitsWithConversation), (gambitId, nextGambit) => {
           const gambitRawData = data.gambits[gambitId];
 
-          const conversations = gambitRawData.options.conversations || [];
+          const conversations = gambitRawData.conversations || [];
           if (conversations.length === 0) {
             return nextGambit();
           }
@@ -190,7 +195,7 @@ const importData = function importData(chatSystem, data, callback) {
             });
           });
         }, () => {
-          // Move on to conditions
+          /* // Move on to conditions
           const conditionItor = function conditionItor(conditionId, next) {
             const condition = data.conditions[conditionId];
             Topic.findOne({ name: condition.topic }, (err, topic) => {
@@ -206,7 +211,8 @@ const importData = function importData(chatSystem, data, callback) {
           async.eachSeries(Object.keys(data.conditions), conditionItor, () => {
             debug.verbose('All conditions processed');
             callback(null, 'done');
-          });
+          });*/
+          callback(null, 'done');
         });
       });
     }

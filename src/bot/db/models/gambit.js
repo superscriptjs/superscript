@@ -10,7 +10,7 @@ import findOrCreate from 'mongoose-findorcreate';
 import norm from 'node-normalizer';
 import debuglog from 'debug-levels';
 import async from 'async';
-import regexReply from 'ss-parser/lib/regexReply';
+import parser from 'ss-parser';
 
 import helpers from '../helpers';
 import Utils from '../../utils';
@@ -40,7 +40,7 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     isQuestion: { type: Boolean, default: false },
 
     // If this gambit is nested inside a conditional block
-    isCondition: { type: Boolean, default: false },
+    conditions: [{ type: String, default: '' }],
 
     // If the trigger is a Answer Type Match
     qType: { type: String, default: '' },
@@ -72,9 +72,8 @@ const createGambitModel = function createGambitModel(db, factSystem) {
 
     // If input was supplied, we want to use it to generate the trigger
     if (self.input) {
-      const input = norm.clean(self.input);
       // We want to convert the input into a trigger.
-      regexReply.parse(Utils.quotemeta(input, true), factSystem, (trigger) => {
+      parser.normalizeTrigger(Utils.quotemeta(self.input, true), factSystem, (trigger) => {
         self.trigger = trigger;
         next();
       });

@@ -3,6 +3,7 @@
 import async from 'async';
 import _ from 'lodash';
 import debuglog from 'debug-levels';
+import safeEval from 'safe-eval';
 
 import Utils from '../utils';
 import postParse from '../postParse';
@@ -126,10 +127,47 @@ const _afterHandle = function _afterHandle(match, gambit, topic, cb) {
   cb(null, matches);
 };
 
+/* This is a function to determine whether a certain key has been set to a certain value.
+ * The double percentage sign (%%) syntax is used in the script to denote that a gambit
+ * must meet a condition before being executed, e.g.
+ *
+ * %% (userKilledAlice === true)
+ * + I love you.
+ * - I still haven't forgiven you, you know.
+ *
+ * The context is whatever a user has previously set in any replies. So in this example,
+ * if a user has set {userKilledAlice = true}, then the gambit is matched.
+ */
+const processConditions = function processConditions(conditions, options) {
+  const context = options.user.conversationState || {};
+
+  return _.every(conditions, (condition) => {
+    debug.verbose('Check condition - Context: ', context);
+    debug.verbose('Check condition - Condition: ', condition.condition);
+
+    try {
+      const result = safeEval(condition, context);
+      if (result) {
+        debug.verbose('--- Condition TRUE ---');
+        return true;
+      }
+      return false;
+    } catch (e) {
+      debug.verbose(`Error in condition checking: ${e.stack}`);
+      return false;
+    }
+  });
+};
+
 /**
- * Takes a gambit (trigger) and a message, and returns non-null if they match.
+ * Takes a gambit and a message, and returns non-null if they match.
  */
 const doesMatch = function (gambit, message, options, callback) {
+  if (gambit.conditions.length > 0) {
+    processConditions();
+  }
+
+
   let match = false;
 
   // Replace <noun1>, <adverb1> etc. with the actual words in user message
@@ -146,13 +184,11 @@ const doesMatch = function (gambit, message, options, callback) {
         if (!match) {
           match = message.lemString.match(pattern);
         }
-      } else {
-        if ((!_.isEmpty(gambit.qType) && message.questionType.indexOf(gambit.qType) !== -1) ||
+      } else if ((!_.isEmpty(gambit.qType) && message.questionType.indexOf(gambit.qType) !== -1) ||
           message.questionSubType === gambit.qSubType) {
-          match = message.clean.match(pattern);
-          if (!match) {
-            match = message.lemString.match(pattern);
-          }
+        match = message.clean.match(pattern);
+        if (!match) {
+          match = message.lemString.match(pattern);
         }
       }
     } else {
@@ -255,27 +291,25 @@ const _eachGambitHandle = function (message, options) {
           debug.verbose('Calling Plugin Function', pluginName);
           plugins[pluginName].apply(filterScope, args);
         }
-      } else {
-        if (gambit.redirect !== '') {
+      } else if (gambit.redirect !== '') {
           // If there's no filter, check if there's a redirect
           // TODO: Check this works/is sane
-          debug.verbose('Found Redirect Match with topic');
-          chatSystem.Topic.findTriggerByTrigger(gambit.redirect, (err, trigger) => {
-            if (err) {
-              console.log(err);
-            }
+        debug.verbose('Found Redirect Match with topic');
+        chatSystem.Topic.findTriggerByTrigger(gambit.redirect, (err, trigger) => {
+          if (err) {
+            console.log(err);
+          }
 
-            debug.verbose('Redirecting to New Gambit', trigger);
-            gambit = trigger;
+          debug.verbose('Redirecting to New Gambit', trigger);
+          gambit = trigger;
             // Tag the message with the found Trigger we matched on
-            message.gambitId = gambit._id;
-            _afterHandle(match, gambit, topic, callback);
-          });
-        } else {
-          // Tag the message with the found Trigger we matched on
           message.gambitId = gambit._id;
           _afterHandle(match, gambit, topic, callback);
-        }
+        });
+      } else {
+          // Tag the message with the found Trigger we matched on
+        message.gambitId = gambit._id;
+        _afterHandle(match, gambit, topic, callback);
       }
     }); // end regexReply
   };
