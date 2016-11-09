@@ -53,7 +53,6 @@ const createTopicModel = function createTopicModel(db) {
     filter: { type: String, default: '' },
     keywords: { type: Array },
     gambits: [{ type: String, ref: 'Gambit' }],
-    conditions: [{ type: String, ref: 'Condition' }],
   });
 
   topicSchema.pre('save', function (next) {
@@ -65,40 +64,6 @@ const createTopicModel = function createTopicModel(db) {
     }
     next();
   });
-
-  topicSchema.methods.createCondition = function (conditionData, callback) {
-    if (!conditionData) {
-      return callback('No data');
-    }
-
-    if (_.isEmpty(conditionData.gambits)) {
-      return callback('No gambits');
-    } else {
-      const gambits = [];
-      const gambitLookup = (gambit_id, next) => {
-        db.model('Gambit').findOne({ id: gambit_id }, (error, gambit) => {
-          gambits.push(gambit._id);
-          next();
-        });
-      };
-
-      async.each(conditionData.gambits, gambitLookup, () => {
-        conditionData.gambits = gambits;
-        const Condition = db.model('Condition');
-        const condition = new Condition(conditionData);
-
-        condition.save((err) => {
-          if (err) {
-            return callback(err);
-          }
-          this.conditions.addToSet(condition._id);
-          this.save((err) => {
-            callback(err, condition);
-          });
-        });
-      });
-    }
-  };
 
   // This will create the Gambit and add it to the model
   topicSchema.methods.createGambit = function (gambitData, callback) {

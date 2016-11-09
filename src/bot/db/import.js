@@ -40,7 +40,6 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
 };
 
 const importData = function importData(chatSystem, data, callback) {
-  const Condition = chatSystem.Condition;
   const Topic = chatSystem.Topic;
   const Gambit = chatSystem.Gambit;
   const Reply = chatSystem.Reply;
@@ -162,7 +161,7 @@ const importData = function importData(chatSystem, data, callback) {
   debug.info('Cleaning database: removing all data.');
 
   // Remove everything before we start importing
-  async.each([Condition, Gambit, Reply, Topic, User],
+  async.each([Gambit, Reply, Topic, User],
     (model, nextModel) => {
       model.remove({}, err => nextModel());
     },
@@ -203,23 +202,6 @@ const importData = function importData(chatSystem, data, callback) {
             });
           });
         }, () => {
-          /* // Move on to conditions
-          const conditionItor = function conditionItor(conditionId, next) {
-            const condition = data.conditions[conditionId];
-            Topic.findOne({ name: condition.topic }, (err, topic) => {
-              topic.createCondition(condition, (err, condition) => {
-                if (err) {
-                  console.log(err);
-                }
-                next();
-              });
-            });
-          };
-
-          async.eachSeries(Object.keys(data.conditions), conditionItor, () => {
-            debug.verbose('All conditions processed');
-            callback(null, 'done');
-          });*/
           callback(null, 'done');
         });
       });

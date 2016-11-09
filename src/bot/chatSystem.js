@@ -12,21 +12,18 @@
   able to live in several topics.
  */
 
-import createConditionModel from './db/models/condition';
 import createGambitModel from './db/models/gambit';
 import createReplyModel from './db/models/reply';
 import createTopicModel from './db/models/topic';
 import createUserModel from './db/models/user';
 
 const createChatSystem = function createChatSystem(db, factSystem) {
-  const Condition = createConditionModel(db);
   const Gambit = createGambitModel(db, factSystem);
   const Reply = createReplyModel(db);
   const Topic = createTopicModel(db);
   const User = createUserModel(db, factSystem);
 
   return {
-    Condition,
     Gambit,
     Reply,
     Topic,

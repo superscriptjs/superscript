@@ -222,9 +222,9 @@ const doesMatch = function doesMatch(gambit, message, options, callback) {
 const _eachGambitHandle = function (message, options) {
   const filterRegex = /\s*\^(\w+)\(([\w<>,\|\s]*)\)\s*/i;
 
-  // This takes a gambit that is a child of a topic, reply or condition and checks if
+  // This takes a gambit that is a child of a topic or reply and checks if
   // it matches the user's message or not.
-  return function (gambit, callback) {
+  return (gambit, callback) => {
     const plugins = options.system.plugins;
     const scope = options.system.scope;
     const topic = options.topic || 'reply';
