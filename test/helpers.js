@@ -28,7 +28,7 @@ const data = [
 
 // If you want to use data in tests, then use bootstrap
 const bootstrap = function bootstrap(cb) {
-  sfacts.load('mongodb://localhost/superscripttest', data, false, (err, facts) => {
+  sfacts.load('mongodb://localhost/superscripttest', data, true, (err, facts) => {
     if (err) {
       console.error(err);
     }
@@ -41,9 +41,10 @@ const after = function after(end) {
     bot.factSystem.db.close(() => {
       // Kill the globals and remove any fact systems
       bot = null;
-      async.each(['mongodb://localhost/superscripttest'], (item, next) => {
+      /* async.each(['mongodb://localhost/superscripttest'], (item, next) => {
         sfacts.clean(item, next);
-      }, () => end());
+      }, () => end());*/
+      end();
     });
   } else {
     end();

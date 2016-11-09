@@ -63,24 +63,19 @@ const createGambitModel = function createGambitModel(db, factSystem) {
   });
 
   gambitSchema.pre('save', function (next) {
-    const self = this;
-
     // FIXME: This only works when the replies are populated which is not always the case.
-    // self.replies = _.uniq(self.replies, function(item, key, id) {
+    // this.replies = _.uniq(this.replies, (item, key, id) => {
     //   return item.id;
     // });
 
-    // If input was supplied, we want to use it to generate the trigger
-    if (self.input) {
-      // We want to convert the input into a trigger.
-      parser.normalizeTrigger(Utils.quotemeta(self.input, true), factSystem, (trigger) => {
-        self.trigger = trigger;
+    // If we created the trigger in an external editor, normalize the trigger before saving it.
+    if (this.input && !this.trigger) {
+      return parser.normalizeTrigger(this.input, factSystem, (err, cleanTrigger) => {
+        this.trigger = cleanTrigger;
         next();
       });
-    } else {
-      // Otherwise we populate the trigger normally
-      next();
     }
+    next();
   });
 
   gambitSchema.methods.addReply = function (replyData, callback) {

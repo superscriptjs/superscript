@@ -3,5 +3,6 @@ extends:
   airbnb
 
 rules:
+  handle-callback-err: [2, "^(err|error)$"]
   no-plusplus: [2, { allowForLoopAfterthoughts: true }]
-  handle-callback-err: [2, "^(err|error)$" ]
+  no-underscore-dangle: [2, { allow: ["_id"] }]

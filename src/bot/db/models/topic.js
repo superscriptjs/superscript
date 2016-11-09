@@ -9,7 +9,7 @@ import _ from 'lodash';
 import async from 'async';
 import findOrCreate from 'mongoose-findorcreate';
 import debuglog from 'debug-levels';
-import safeEval from 'safe-eval';
+import parser from 'ss-parser';
 
 import Sort from '../sort';
 import helpers from '../helpers';
@@ -135,60 +135,8 @@ const createTopicModel = function createTopicModel(db) {
       }
 
       const newList = Sort.sortTriggerSet(newGambitList);
-      this.gambits = newList.map(gambit =>
-         gambit._id
-      );
+      this.gambits = newList.map(gambit => gambit._id);
       this.save(callback);
-    });
-  };
-
-  /* This is a function to determine whether a certain key has been set to a certain value.
-   * The double percentage sign (%%) syntax is used in the script to denote that a gambit
-   * must meet a condition before being executed, e.g.
-   *
-   * %% (userKilledAlice === true)
-   * + I love you.
-   * - I still haven't forgiven you, you know.
-   *
-   * The context is whatever a user has previously set in any replies. So in this example,
-   * if a user has set {userKilledAlice = true}, then the gambit is matched.
-   */
-  topicSchema.methods.checkConditions = function checkConditions(message, options, callback) {
-    const user = options.user;
-    const topic = this.name;
-
-    const conditionItor = function conditionItor(condition, next) {
-      const context = user.conversationState || {};
-
-      debug.verbose('CheckItor - Context: ', context);
-      debug.verbose('CheckItor - Condition: ', condition.condition);
-
-      try {
-        // TODO: Investigate why conditions are tied to topics and not gambits, which seems more intuitive
-        if (safeEval(condition.condition, context)) {
-          debug.verbose('--- Condition TRUE ---');
-
-          options.topic = topic;
-
-          condition.doesMatch(message, options, next);
-        } else {
-          next(false);
-        }
-      } catch (e) {
-        debug.verbose(`Error in condition checking: ${e.stack}`);
-        next(false);
-      }
-    };
-
-    async.mapSeries(this.conditions, conditionItor, (err, res) => {
-      debug.verbose(`Results from conditions: ${res}`);
-      res = _.filter(res, x => x);
-      debug.verbose(`Results from conditions (filtered): ${res}`);
-      if (err || _.isEmpty(res)) {
-        return callback(true, []);
-      } else {
-        callback(err, _.flatten(res));
-      }
     });
   };
 
@@ -296,14 +244,19 @@ const createTopicModel = function createTopicModel(db) {
 
       pendingTopics.push({ name: '__pre__', type: 'TOPIC' });
 
-      for (i = 0; i < scoredTopics.length; i++) {
-        if (scoredTopics[i].name !== '__post__' && scoredTopics[i].name !== '__pre__') {
+      for (let i = 0; i < scoredTopics.length; i++) {
+        if (scoredTopics[i].name !== '__pre__' && scoredTopics[i].name !== '__post__') {
           pendingTopics.push(scoredTopics[i]);
         }
       }
 
-      for (i = 0; i < otherTopics.length; i++) {
-        if (otherTopics[i].name !== '__post__' && otherTopics[i].name !== '__pre__') {
+      // Search random as the highest priority after current topic and pre
+      if (!_.find(pendingTopics, { name: 'random' }) && _.find(otherTopics, { name: 'random' })) {
+        pendingTopics.push({ name: 'random', type: 'TOPIC' });
+      }
+
+      for (let i = 0; i < otherTopics.length; i++) {
+        if (otherTopics[i].name !== '__pre__' && otherTopics[i].name !== '__post__') {
           otherTopics[i].type = 'TOPIC';
           pendingTopics.push(otherTopics[i]);
         }

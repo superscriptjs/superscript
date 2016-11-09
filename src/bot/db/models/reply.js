@@ -23,9 +23,9 @@ const createReplyModel = function createReplyModel(db) {
     helpers.findMatchingGambitsForMessage(db, 'reply', this._id, message, options, callback);
   };
 
-  replySchema.methods.sortGambits = function (callback) {
+  replySchema.methods.sortGambits = function sortGambits(callback) {
     const self = this;
-    const expandReorder = function (gambitId, cb) {
+    const expandReorder = (gambitId, cb) => {
       db.model('Gambit').findById(gambitId, (err, gambit) => {
         cb(err, gambit);
       });
@@ -37,9 +37,7 @@ const createReplyModel = function createReplyModel(db) {
       }
 
       const newList = Sort.sortTriggerSet(newGambitList);
-      self.gambits = newList.map((g) => {
-        return g._id;
-      });
+      self.gambits = newList.map(g => g._id);
       self.save(callback);
     });
   };

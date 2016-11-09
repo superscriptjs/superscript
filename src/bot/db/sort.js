@@ -17,8 +17,8 @@ const initSortTrack = function initSortTrack() {
   };
 };
 
-const sortTriggerSet = function sortTriggerSet(triggers) {
-  let trig;
+const sortTriggerSet = function sortTriggerSet(gambits) {
+  let gambit;
   let cnt;
   let inherits;
 
@@ -30,9 +30,9 @@ const sortTriggerSet = function sortTriggerSet(triggers) {
   };
 
   // Sort triggers by their weights.
-  for (let i = 0; i < triggers.length; i++) {
-    trig = triggers[i];
-    const match = trig.input.match(/\{weight=(\d+)\}/i);
+  for (let i = 0; i < gambits.length; i++) {
+    gambit = gambits[i];
+    const match = gambit.input.match(/\{weight=(\d+)\}/i);
     let weight = 0;
     if (match && match[1]) {
       weight = match[1];
@@ -41,7 +41,7 @@ const sortTriggerSet = function sortTriggerSet(triggers) {
     if (!prior[weight]) {
       prior[weight] = [];
     }
-    prior[weight].push(trig);
+    prior[weight].push(gambit);
   }
 
   const sortFwd = (a, b) => (b - a);
@@ -61,50 +61,50 @@ const sortTriggerSet = function sortTriggerSet(triggers) {
     const track = {};
 
     for (let j = 0; j < prior[p].length; j++) {
-      trig = prior[p][j];
+      gambit = prior[p][j];
 
       inherits = -1;
       if (!track[inherits]) {
         track[inherits] = initSortTrack();
       }
 
-      if (trig.qType !== '') {
+      if (gambit.qType) {
         // Qtype included
-        cnt = trig.qType.length;
-        debug(`Has a qType with ${trig.qType.length} length.`);
+        cnt = gambit.qType.length;
+        debug(`Has a qType with ${gambit.qType.length} length.`);
 
         if (!track[inherits].qtype[cnt]) {
           track[inherits].qtype[cnt] = [];
         }
-        track[inherits].qtype[cnt].push(trig);
-      } else if (trig.input.indexOf('*') > -1) {
+        track[inherits].qtype[cnt].push(gambit);
+      } else if (gambit.input.indexOf('*') > -1) {
         // Wildcard included.
-        cnt = Utils.wordCount(trig.input);
+        cnt = Utils.wordCount(gambit.input);
         debug(`Has a * wildcard with ${cnt} words.`);
         if (cnt > 1) {
           if (!track[inherits].wild[cnt]) {
             track[inherits].wild[cnt] = [];
           }
-          track[inherits].wild[cnt].push(trig);
+          track[inherits].wild[cnt].push(gambit);
         } else {
-          track[inherits].star.push(trig);
+          track[inherits].star.push(gambit);
         }
-      } else if (trig.input.indexOf('[') > -1) {
+      } else if (gambit.input.indexOf('[') > -1) {
         // Optionals included.
-        cnt = Utils.wordCount(trig.input);
+        cnt = Utils.wordCount(gambit.input);
         debug(`Has optionals with ${cnt} words.`);
         if (!track[inherits].option[cnt]) {
           track[inherits].option[cnt] = [];
         }
-        track[inherits].option[cnt].push(trig);
+        track[inherits].option[cnt].push(gambit);
       } else {
         // Totally atomic.
-        cnt = Utils.wordCount(trig.input);
+        cnt = Utils.wordCount(gambit.input);
         debug(`Totally atomic trigger and ${cnt} words.`);
         if (!track[inherits].atomic[cnt]) {
           track[inherits].atomic[cnt] = [];
         }
-        track[inherits].atomic[cnt].push(trig);
+        track[inherits].atomic[cnt].push(gambit);
       }
     }
 

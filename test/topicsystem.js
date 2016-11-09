@@ -74,6 +74,8 @@ describe('SuperScript TopicsSystem', () => {
               gam.doesMatch(msg, options, (e, r) => {
                 r.should.exist;
                 gam.input = 'this is a create *~2';
+                // Clear the normalized trigger created in the first step.
+                gam.trigger = '';
                 gam.save(() => {
                   helpers.getBot().message('this is a create hello world', (err, msg) => {
                     gam.doesMatch(msg, options, (e, r) => {

@@ -8,7 +8,7 @@ describe('SuperScript QType Matching', () => {
   before(helpers.before('qtype'));
 
   describe('Simple Question Matching (qSubType)', () => {
-    xit('should reply to simple string', (done) => {
+    it('should reply to simple string', (done) => {
       helpers.getBot().reply('user1', 'which way to the bathroom?', (err, reply) => {
         reply.string.should.eql('Down the hall on the left');
         done();

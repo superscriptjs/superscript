@@ -23,12 +23,13 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
     conditions: gambit.conditional,
     filter: gambit.trigger.filter || '',
     trigger: gambit.trigger.clean,
+    input: gambit.trigger.raw,
   };
 
-  if (gambit.question) {
+  if (gambit.trigger.question !== null) {
     gambitData.isQuestion = true;
-    gambitData.qType = gambit.question.questionType;
-    gambitData.qSubType = gambit.question.questionSubType;
+    gambitData.qType = gambit.trigger.question.questionType;
+    gambitData.qSubType = gambit.trigger.question.questionSubtype;
   }
 
   if (gambit.redirect) {
@@ -81,17 +82,18 @@ const importData = function importData(chatSystem, data, callback) {
     return (gambitId, nextGambit) => {
       const gambit = data.gambits[gambitId];
       if (gambit.conversation) {
+        debug.verbose('Gambit has conversation (deferring process): %s', gambitId);
         gambitsWithConversation.push(gambitId);
         nextGambit();
       } else if (gambit.topic === topic.name) {
         debug.verbose('Gambit process: %s', gambitId);
         const gambitData = rawToGambitData(gambitId, gambit);
 
-        topic.createGambit(gambitData, (err, gambit) => {
+        topic.createGambit(gambitData, (err, mongoGambit) => {
           if (err) {
             console.error(err);
           }
-          async.eachSeries(gambit.replies, eachReplyItor(gambit), (err) => {
+          async.eachSeries(gambit.replies, eachReplyItor(mongoGambit), (err) => {
             if (err) {
               console.error(err);
             }
@@ -104,8 +106,9 @@ const importData = function importData(chatSystem, data, callback) {
     };
   };
 
-  const eachTopicItor = function eachTopicItor(topic, nextTopic) {
-    debug.verbose(`Find or create topic with name '${topic.name}'`);
+  const eachTopicItor = function eachTopicItor(topicName, nextTopic) {
+    const topic = data.topics[topicName];
+    debug.verbose(`Find or create topic with name '${topicName}'`);
     const topicProperties = {
       name: topic.name,
       keep: topic.flags.indexOf('keep') !== -1,
@@ -115,12 +118,12 @@ const importData = function importData(chatSystem, data, callback) {
       filter: topic.filter || '',
     };
 
-    Topic.findOrCreate({ name: topic.name }, topicProperties, (err, topic) => {
+    Topic.findOrCreate({ name: topic.name }, topicProperties, (err, mongoTopic) => {
       if (err) {
         console.error(err);
       }
 
-      async.eachSeries(Object.keys(data.gambits), eachGambitItor(topic), (err) => {
+      async.eachSeries(Object.keys(data.gambits), eachGambitItor(mongoTopic), (err) => {
         if (err) {
           console.error(err);
         }
@@ -164,20 +167,25 @@ const importData = function importData(chatSystem, data, callback) {
       model.remove({}, err => nextModel());
     },
     (err) => {
-      async.eachSeries(data.topics, eachTopicItor, () => {
+      async.eachSeries(Object.keys(data.topics), eachTopicItor, () => {
         async.eachSeries(_.uniq(gambitsWithConversation), (gambitId, nextGambit) => {
           const gambitRawData = data.gambits[gambitId];
 
-          const conversations = gambitRawData.conversations || [];
+          const conversations = gambitRawData.conversation || [];
           if (conversations.length === 0) {
             return nextGambit();
           }
 
           const gambitData = rawToGambitData(gambitId, gambitRawData);
+          // TODO: gambit.parent should be able to be multiple replies, not just conversations[0]
           const replyId = conversations[0];
 
           // TODO??: Add reply.addGambit(...)
           Reply.findOne({ id: replyId }, (err, reply) => {
+            if (!reply) {
+              console.error(`Gambit ${gambitId} is supposed to have conversations (has %), but none were found.`);
+              nextGambit();
+            }
             const gambit = new Gambit(gambitData);
             async.eachSeries(gambitRawData.replies, eachReplyItor(gambit), (err) => {
               debug.verbose('All replies processed.');

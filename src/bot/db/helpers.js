@@ -85,18 +85,13 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
   if (type === 'topic') {
     debug.verbose('Looking back Topic', id);
     db.model('Topic').findOne({ _id: id }, 'gambits')
-      .populate({ path: 'gambits', match: { isCondition: false } })
+      .populate({ path: 'gambits' })
       .exec(execHandle);
   } else if (type === 'reply') {
     options.topic = 'reply';
     debug.verbose('Looking back at Conversation', id);
     db.model('Reply').findOne({ _id: id }, 'gambits')
-      .populate({ path: 'gambits', match: { isCondition: false } })
-      .exec(execHandle);
-  } else if (type === 'condition') {
-    debug.verbose('Looking back at Conditions', id);
-    db.model('Condition').findOne({ _id: id }, 'gambits')
-      .populate('gambits')
+      .populate({ path: 'gambits' })
       .exec(execHandle);
   } else {
     debug.verbose('We should never get here');
@@ -143,7 +138,7 @@ const processConditions = function processConditions(conditions, options) {
 
   return _.every(conditions, (condition) => {
     debug.verbose('Check condition - Context: ', context);
-    debug.verbose('Check condition - Condition: ', condition.condition);
+    debug.verbose('Check condition - Condition: ', condition);
 
     try {
       const result = safeEval(condition, context);
@@ -151,6 +146,7 @@ const processConditions = function processConditions(conditions, options) {
         debug.verbose('--- Condition TRUE ---');
         return true;
       }
+      debug.verbose('--- Condition FALSE ---');
       return false;
     } catch (e) {
       debug.verbose(`Error in condition checking: ${e.stack}`);
@@ -162,11 +158,15 @@ const processConditions = function processConditions(conditions, options) {
 /**
  * Takes a gambit and a message, and returns non-null if they match.
  */
-const doesMatch = function (gambit, message, options, callback) {
-  if (gambit.conditions.length > 0) {
-    processConditions();
+const doesMatch = function doesMatch(gambit, message, options, callback) {
+  if (gambit.conditions && gambit.conditions.length > 0) {
+    const conditionsMatch = processConditions(gambit.conditions, options);
+    if (!conditionsMatch) {
+      debug.verbose('Conditions did not match');
+      callback(null, false);
+      return;
+    }
   }
-
 
   let match = false;
 
@@ -174,18 +174,29 @@ const doesMatch = function (gambit, message, options, callback) {
   postParse(gambit.trigger, message, options.user, (regexp) => {
     const pattern = new RegExp(`^${regexp}$`, 'i');
 
-    debug.verbose(`Try to match (clean)'${message.clean}' against ${gambit.trigger} (${regexp})`);
-    debug.verbose(`Try to match (lemma)'${message.lemString}' against ${gambit.trigger} (${regexp})`);
+    debug.verbose(`Try to match (clean)'${message.clean}' against ${gambit.trigger} (${pattern})`);
+    debug.verbose(`Try to match (lemma)'${message.lemString}' against ${gambit.trigger} (${pattern})`);
 
     // Match on the question type (qtype / qsubtype)
     if (gambit.isQuestion && message.isQuestion) {
-      if (_.isEmpty(gambit.qSubType) && _.isEmpty(gambit.qType) && message.isQuestion === true) {
+      debug.verbose('Gambit and message are questions, testing against question types');
+      if (_.isEmpty(gambit.qType) && _.isEmpty(gambit.qSubType)) {
+        // Gambit does not specify what type of question it should be, so just match
         match = message.clean.match(pattern);
         if (!match) {
           match = message.lemString.match(pattern);
         }
-      } else if ((!_.isEmpty(gambit.qType) && message.questionType.indexOf(gambit.qType) !== -1) ||
-          message.questionSubType === gambit.qSubType) {
+      } else if (!_.isEmpty(gambit.qType) && _.isEmpty(gambit.qSubType) &&
+        (message.questionType === gambit.qType || message.questionSubType.indexOf(gambit.qType) !== -1)) {
+        // Gambit specifies question type only
+        match = message.clean.match(pattern);
+        if (!match) {
+          match = message.lemString.match(pattern);
+        }
+      } else if (!_.isEmpty(gambit.qType) && !_.isEmpty(gambit.qSubType)
+        && message.questionSubType.indexOf(gambit.qType) !== -1
+        && message.questionSubType.indexOf(gambit.qSubType) !== -1) {
+        // Gambit specifies both question type and question sub type
         match = message.clean.match(pattern);
         if (!match) {
           match = message.lemString.match(pattern);

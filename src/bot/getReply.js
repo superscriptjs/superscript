@@ -18,28 +18,13 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
     if (topicData.type === 'TOPIC') {
       system.chatSystem.Topic.findOne({ _id: topicData.id })
         .populate('gambits')
-        .populate('conditions')
         .exec((err, topic) => {
           if (err) {
             console.error(err);
           }
           if (topic) {
-            topic.checkConditions(messageObject, options, (err, matches) => {
-              debug.verbose('Checking for conditions in %s', topic.name);
-
-              if (!_.isEmpty(matches)) {
-                callback(err, matches);
-              } else {
-                // TODO: Seems overkill to clear entire conversation state - should just kill state that
-                // exists within the topic
-                options.user.clearConversationState(() => {
-                  debug.verbose("Topic either has no conditions or couldn't find any matches using the topic conditions");
-                  debug.verbose(`Defaulting to finding match for topic ${topic.name}`);
-                  // We do realtime post processing on the input against the user object
-                  topic.findMatch(messageObject, options, callback);
-                });
-              }
-            });
+            // We do realtime post processing on the input against the user object
+            topic.findMatch(messageObject, options, callback);
           } else {
             // We call back if there is no topic Object
             // Non-existant topics return false
@@ -431,10 +416,15 @@ const afterFindPendingTopics = function afterFindPendingTopics(pendingTopics, me
       let matches = _.flatten(_.filter(results, n => n));
 
       // TODO - This sort should happen in the process sort logic.
-      // Let's sort the matches by qType.length
-      matches = matches.sort((a, b) =>
-         a.gambit.qType.length < b.gambit.qType.length
-      );
+      // Try matching most specific question matches first
+      matches = matches.sort((a, b) => {
+        const questionTypeA = a.gambit.qType || '';
+        const questionSubTypeA = a.gambit.qSubType || '';
+        const questionTypeB = b.gambit.qType || '';
+        const questionSubTypeB = b.gambit.qSubType || '';
+        return questionTypeA.concat(questionSubTypeA).length <
+          questionTypeB.concat(questionSubTypeB).length;
+      });
 
       debug.verbose(`Matching gambits are: ${matches}`);
 

@@ -123,8 +123,8 @@ class Message {
       this.dict.add('pos', this.posWords);
 
       // Classify Question
-      this.questionType = qtypes.classify(this.lemString);
-      this.questionSubType = qtypes.questionType(this.clean);
+      this.questionType = qtypes.questionType(this.clean);
+      this.questionSubType = qtypes.classify(this.lemString);
       this.isQuestion = qtypes.isQuestion(this.raw);
 
       // TODO: This is currently unused - why?

@@ -63,14 +63,14 @@ describe('Message Interface', () => {
 
   it('should find compare', (done) => {
     Message.createMessage('So do you like dogs or cats.', { factSystem }, (mo) => {
-      mo.questionSubType.should.eql('CH');
+      mo.questionType.should.eql('CH');
       done();
     });
   });
 
   it('should find compare words 2', (done) => {
     Message.createMessage('What is bigger a dog or cat?', { factSystem }, (mo) => {
-      mo.questionSubType.should.eql('CH');
+      mo.questionType.should.eql('CH');
       done();
     });
   });
