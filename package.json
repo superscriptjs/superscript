@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "1.0.0-alpha4",
+  "version": "1.0.0-alpha5",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "lib/bot/index.js",
   "scripts": {
@@ -22,8 +22,9 @@
     "url": "https://github.com/superscriptjs/superscript/issues"
   },
   "bin": {
-    "parse": "lib/bin/parse.js",
-    "bot-init": "lib/bin/bot-init.js"
+    "bot-init": "lib/bin/bot-init.js",
+    "cleanup": "lib/bin/cleanup.js",
+    "parse": "lib/bin/parse.js"
   },
   "author": "Rob Ellis",
   "contributors": [
