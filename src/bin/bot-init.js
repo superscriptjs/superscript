@@ -35,9 +35,8 @@ fs.mkdir(botPath, (err, res) => {
     process.exit(1);
   }
 
-  fs.mkdirSync(path.join(botPath, path.sep, 'topics'));
+  fs.mkdirSync(path.join(botPath, path.sep, 'chat'));
   fs.mkdirSync(path.join(botPath, path.sep, 'plugins'));
-  fs.mkdirSync(path.join(botPath, path.sep, 'logs'));
   fs.mkdirSync(path.join(botPath, path.sep, 'src'));
 
   // TODO: Pull out plugins that have dialogue and move them to the new bot.
@@ -50,8 +49,7 @@ fs.mkdir(botPath, (err, res) => {
     version: '0.0.0',
     private: true,
     dependencies: {
-      superscript: 'latest',
-      debug: '~2.0.0',
+      superscript: 'alpha',
     },
     devDependencies: {
       'babel-cli': '^6.16.0',
@@ -63,6 +61,8 @@ fs.mkdir(botPath, (err, res) => {
     },
   };
 
+  // TODO: Write dependencies for other clients
+
   if (program.client === 'slack') {
     pkg.dependencies['slack-client'] = '~1.2.2';
   }
@@ -71,8 +71,8 @@ fs.mkdir(botPath, (err, res) => {
     pkg.dependencies['simple-xmpp'] = '~1.3.0';
   }
 
-  const firstRule = '+ ~emohello [*~2]\n- Hi!\n- Hi, how are you?\n- How are you?\n- Hello\n- Howdy\n- Ola';
+  const firstRule = '+ ~emohello *~2\n- Hi!\n- Hi, how are you?\n- How are you?\n- Hello\n- Howdy\n- Ola';
 
   write(path.join(botPath, path.sep, 'package.json'), JSON.stringify(pkg, null, 2));
-  write(path.join(botPath, path.sep, 'topics', path.sep, 'main.ss'), firstRule);
+  write(path.join(botPath, path.sep, 'chat', path.sep, 'main.ss'), firstRule);
 });
