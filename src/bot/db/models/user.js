@@ -7,9 +7,15 @@ import mongoose from 'mongoose';
 
 const debug = debuglog('SS:User');
 
-mkdirp.sync(`${process.cwd()}/logs/`);
+const createUserModel = function createUserModel(db, factSystem, logPath) {
+  if (logPath) {
+    try {
+      mkdirp.sync(logPath);
+    } catch (e) {
+      console.error(`Could not create logs folder at ${logPath}: ${e}`);
+    }
+  }
 
-const createUserModel = function createUserModel(db, factSystem) {
   const userSchema = mongoose.Schema({
     id: String,
     status: Number,
@@ -80,7 +86,14 @@ const createUserModel = function createUserModel(db, factSystem) {
     };
 
     const cleanId = this.id.replace(/\W/g, '');
-    fs.appendFileSync(`${process.cwd()}/logs/${cleanId}_trans.txt`, `${JSON.stringify(log)}\r\n`);
+    if (logPath) {
+      const filePath = `${logPath}/${cleanId}_trans.txt`;
+      try {
+        fs.appendFileSync(filePath, `${JSON.stringify(log)}\r\n`);
+      } catch (e) {
+        console.error(`Could not write log to file ${filePath}`);
+      }
+    }
 
     // Did we successfully volley?
     // In order to keep the conversation flowing we need to have rythum and this means we always

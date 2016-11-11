@@ -153,16 +153,6 @@ const isTag = function isTag(posTag, wordClass) {
   return !!(tags[wordClass].indexOf(posTag) > -1);
 };
 
-const mkdirSync = function mkdirSync(path) {
-  try {
-    fs.mkdirSync(path);
-  } catch (e) {
-    if (e.code !== 'EEXIST') {
-      throw e;
-    }
-  }
-};
-
 const genId = function genId() {
   let text = '';
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -258,7 +248,6 @@ export default {
   indefiniteList,
   isTag,
   makeSentense,
-  mkdirSync,
   pennToWordnet,
   pickItem,
   quotemeta,

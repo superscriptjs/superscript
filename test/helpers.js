@@ -56,6 +56,7 @@ const before = function before(file) {
     factSystem: {
       clean: false,
     },
+    logPath: null,
   };
 
   const afterParse = (fileCache, result, callback) => {

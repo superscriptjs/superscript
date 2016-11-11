@@ -2,7 +2,6 @@ import _ from 'lodash';
 import requireDir from 'require-dir';
 import debuglog from 'debug-levels';
 
-import Utils from './utils';
 import processHelpers from './reply/common';
 import connect from './db/connect';
 import createFactSystem from './factSystem';
@@ -21,8 +20,9 @@ class SuperScript {
     this.plugins = [];
 
     // For user plugins
-    Utils.mkdirSync('../plugins');
-    this.loadPlugins('../plugins');
+    if (options.pluginsPath) {
+      this.loadPlugins(options.pluginsPath);
+    }
     // Built-in plugins
     this.loadPlugins(`${__dirname}/../plugins`);
 
@@ -39,18 +39,22 @@ class SuperScript {
   }
 
   loadPlugins(path) {
-    const plugins = requireDir(path);
+    try {
+      const plugins = requireDir(path);
 
-    for (const file in plugins) {
-      // For transpiled ES6 plugins
-      if (plugins[file].default) {
-        plugins[file] = plugins[file].default;
-      }
+      for (const file in plugins) {
+        // For transpiled ES6 plugins with default export
+        if (plugins[file].default) {
+          plugins[file] = plugins[file].default;
+        }
 
-      for (const func in plugins[file]) {
-        debug.verbose('Loading plugin: ', path, func);
-        this.plugins[func] = plugins[file][func];
+        for (const func in plugins[file]) {
+          debug.verbose('Loading plugin: ', path, func);
+          this.plugins[func] = plugins[file][func];
+        }
       }
+    } catch (e) {
+      console.error(`Could not load plugins from ${path}: ${e}`);
     }
   }
 
@@ -204,6 +208,8 @@ const defaultOptions = {
   },
   scope: {},
   editMode: false,
+  pluginsPath: null,
+  logPath: `${process.cwd()}/logs`,
 };
 
 /**
@@ -223,6 +229,10 @@ const defaultOptions = {
  *                import into the fact system.
  * @param {Object} options.scope - Any extra scope you want to pass into your plugins.
  * @param {Boolean} options.editMode - Used in the editor.
+ * @param {String} options.pluginsPath - A path to the plugins written by you. This loads
+ *                 the entire directory recursively.
+ * @param {String} options.logPath - If null, logging will be off. Otherwise writes
+ *                 conversation transcripts to the path.
  */
 const create = function create(options = {}, callback) {
   options = _.merge(defaultOptions, options);
@@ -235,7 +245,7 @@ const create = function create(options = {}, callback) {
     }
 
     bot.factSystem = factSystem;
-    bot.chatSystem = createChatSystem(bot.db, bot.factSystem);
+    bot.chatSystem = createChatSystem(bot.db, bot.factSystem, options.logPath);
 
     // We want a place to store bot related data
     bot.memory = bot.factSystem.createUserDB('botfacts');

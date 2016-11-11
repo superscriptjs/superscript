@@ -17,11 +17,11 @@ import createReplyModel from './db/models/reply';
 import createTopicModel from './db/models/topic';
 import createUserModel from './db/models/user';
 
-const createChatSystem = function createChatSystem(db, factSystem) {
+const createChatSystem = function createChatSystem(db, factSystem, logPath) {
   const Gambit = createGambitModel(db, factSystem);
   const Reply = createReplyModel(db);
   const Topic = createTopicModel(db);
-  const User = createUserModel(db, factSystem);
+  const User = createUserModel(db, factSystem, logPath);
 
   return {
     Gambit,
