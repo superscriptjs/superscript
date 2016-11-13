@@ -5,12 +5,12 @@
 
 // const debug = debuglog('Message Plugin');
 
-const addMessageProp = function addMessageProp(key, value, cb) {
+const addMessageProp = function addMessageProp(key, value, callback) {
   if (key !== '' && value !== '') {
-    this.message.props[key] = value;
+    return callback(null, { [key]: value });
   }
 
-  cb(null, '');
+  return callback(null, '');
 };
 
 /*

@@ -19,7 +19,7 @@ const patchList = function (fullEntities, things) {
   const stopList = ['I'];
 
   things = things.filter(item =>
-     !(stopList.indexOf(item) !== -1)
+     !(stopList.indexOf(item) !== -1),
   );
 
   for (let i = 0; i < fullEntities.length; i++) {
@@ -56,7 +56,7 @@ class Message {
    * @param {String} options.original - The original message text.
    * @param {Object} options.factSystem - The fact system to use.
    * @param {String} [options.replyId] - If the message is based on a reply.
-   * @param {String} [options.clearConvo] - If you want to clear the conversation.
+   * @param {String} [options.clearConversation] - If you want to clear the conversation.
    */
   constructor(message, options) {
     debug.verbose(`Creating message from string: ${message}`);
@@ -68,8 +68,8 @@ class Message {
       this.replyId = options.replyId;
     }
 
-    if (options.clearConvo) {
-      this.clearConvo = options.clearConvo;
+    if (options.clearConversation) {
+      this.clearConversation = options.clearConversation;
     }
 
     this.factSystem = options.factSystem;
@@ -115,7 +115,7 @@ class Message {
       this.lemString = this.lemWords.join(' ');
 
       this.posWords = this.taggedWords.map(hash =>
-         hash[1]
+         hash[1],
       );
       this.posString = this.posWords.join(' ');
 
@@ -149,16 +149,16 @@ class Message {
       this.date = this.fetchDate();
 
       this.names = _.uniq(this.names, name =>
-         name.toLowerCase()
+         name.toLowerCase(),
       );
 
       // Nouns with Names removed.
       const lowerCaseNames = this.names.map(name =>
-         name.toLowerCase()
+         name.toLowerCase(),
       );
 
       this.cNouns = _.filter(this.nouns, item =>
-         !_.includes(lowerCaseNames, item.toLowerCase())
+         !_.includes(lowerCaseNames, item.toLowerCase()),
       );
 
       this.checkMath();
@@ -170,7 +170,7 @@ class Message {
       this.fetchNamedEntities((entities) => {
         const complexNouns = this.fetchComplexNouns('nouns');
         const fullEntities = entities.map(item =>
-           item.join(' ')
+           item.join(' '),
         );
 
         this.entities = patchList(fullEntities, complexNouns);
@@ -207,7 +207,7 @@ class Message {
 
     async.map(this.taggedWords, itor, (err, lemWords) => {
       const result = _.map(_.flatten(lemWords), lemWord =>
-         lemWord.split('#')[0]
+         lemWord.split('#')[0],
       );
       callback(err, result);
     });
@@ -339,7 +339,7 @@ class Message {
     const bigrams = ngrams.bigrams(this.taggedWords);
 
     const sentenceBigrams = _.map(bigrams, bigram =>
-       _.map(bigram, item => item[0])
+       _.map(bigram, item => item[0]),
     );
 
     const itor = (item, cb) => {
@@ -384,32 +384,32 @@ class Message {
     }
 
     const nouns = _.filter(_.map(tags, item =>
-       tester(item) ? item[0] : null
+       tester(item) ? item[0] : null,
     ), Boolean);
 
     const nounBigrams = ngrams.bigrams(nouns);
 
     // Get a list of term
     const neTest = _.map(bigrams, bigram =>
-       _.map(bigram, item => tester(item))
+       _.map(bigram, item => tester(item)),
     );
 
     // TODO: Work out what this is
     const thing = _.map(neTest, (item, key) =>
-       _.every(item, _.identity) ? bigrams[key] : null
+       _.every(item, _.identity) ? bigrams[key] : null,
     );
 
     // Return full names from the list
     const fullnames = _.map(_.filter(thing, Boolean), item =>
        (_.map(item, item2 =>
-         item2[0]
-      )).join(' ')
+         item2[0],
+      )).join(' '),
     );
 
     debug.verbose(`Full names found from lookupType ${lookupType}: ${fullnames}`);
 
     const x = _.map(nounBigrams, item =>
-       _.includes(fullnames, item.join(' '))
+       _.includes(fullnames, item.join(' ')),
     );
 
     // FIXME: This doesn't do anything (result not used)

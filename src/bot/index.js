@@ -164,8 +164,8 @@ class SuperScript {
               messageOptions.replyId = replyObj.replyId;
               replyMessage = replyObj.string;
 
-              if (replyObj.clearConvo) {
-                messageOptions.clearConvo = replyObj.clearConvo;
+              if (replyObj.clearConversation) {
+                messageOptions.clearConversation = replyObj.clearConversation;
               }
             } else {
               replyObj = {};

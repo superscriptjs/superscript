@@ -51,6 +51,7 @@
     "natural": "^0.4.0",
     "node-normalizer": "^1.0.0-alpha3",
     "parts-of-speech": "^0.3.0",
+    "pegjs": "^0.10.0",
     "pluralize": "^3.0.0",
     "qtypes": "^1.0.0-alpha1",
     "re2": "^1.3.3",

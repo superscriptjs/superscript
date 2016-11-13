@@ -30,7 +30,7 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
             // Non-existant topics return false
             callback(null, false);
           }
-        }
+        },
       );
     } else if (topicData.type === 'REPLY') {
       system.chatSystem.Reply.findOne({ _id: topicData.id })
@@ -45,7 +45,7 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
           } else {
             callback(null, false);
           }
-        }
+        },
       );
     } else {
       debug.verbose("We shouldn't hit this! 'topicData.type' should be 'TOPIC' or 'REPLY'");
@@ -57,21 +57,22 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
 const afterHandle = function afterHandle(user, callback) {
   // Note, the first arg is the ReplyBit (normally the error);
   // We are breaking the matchItorHandle flow on data stream.
-  return (replyBit, matchSet) => {
-    debug.verbose('MatchSet', replyBit, matchSet);
+  return (continueSearching, matchSet) => {
+    debug.verbose(`Continue searching: ${continueSearching}`);
+    debug.verbose(`Set of matches: ${matchSet}`);
 
     // remove empties
     matchSet = _.compact(matchSet);
 
     const minMatchSet = [];
     let props = {};
-    let clearConvo = false;
+    let clearConversation = false;
     let lastTopicToMatch = null;
     let lastStarSet = null;
     let lastReplyId = null;
     let replyString = '';
     let lastSubReplies = null;
-    let lastBreakBit = null;
+    let lastContinueMatching = null;
 
     for (let i = 0; i < matchSet.length; i++) {
       const item = matchSet[i];
@@ -98,10 +99,10 @@ const afterHandle = function afterHandle(user, callback) {
       lastStarSet = item.stars;
       lastReplyId = item.reply._id;
       lastSubReplies = item.subReplies;
-      lastBreakBit = item.breakBit;
+      lastContinueMatching = item.continueMatching;
 
-      if (item.clearConvo) {
-        clearConvo = item.clearConvo;
+      if (item.clearConversation) {
+        clearConversation = item.clearConversation;
       }
     }
 
@@ -119,13 +120,13 @@ const afterHandle = function afterHandle(user, callback) {
     const cbdata = {
       replyId: lastReplyId,
       props,
-      clearConvo,
+      clearConversation,
       topicName: lastTopicToMatch,
       minMatchSet,
       string: replyStr,
       subReplies: threadsArr[1],
       stars: lastStarSet,
-      breakBit: lastBreakBit,
+      continueMatching: lastContinueMatching,
     };
 
     debug.verbose('afterHandle', cbdata);
@@ -276,21 +277,24 @@ const filterRepliesByFunction = function filterRepliesByFunction(potentialReplie
             replyObj.matched_reply_string = reply.reply.reply;
             replyObj.matched_topic_string = reply.topic;
 
-            debug.verbose('ProcessTags Return', replyObj);
+            debug.verbose('Reply object after processing tags: ', replyObj);
 
-            if (replyObj.breakBit === false) {
-              debug.info('Forcing CHECK MORE Mbit');
-              callback(null, replyObj);
-            } else if (replyObj.breakBit === true || replyObj.reply.reply !== '') {
+            if (replyObj.continueMatching === false) {
+              debug.info('Continue matching is set to false: returning.');
               callback(true, replyObj);
-            } else {
-              debug.info('Forcing CHECK MORE Empty Reply');
+            } else if (replyObj.continueMatching === true || replyObj.reply.reply === '') {
+              debug.info('Continue matching is set to true or reply is not empty: continuing.');
+              // By calling back with error set as 'true', we break out of async flow
+              // and return the reply to the user.
               callback(null, replyObj);
+            } else {
+              debug.info('Reply is not empty: returning.');
+              callback(true, replyObj);
             }
           } else {
-            debug.verbose('ProcessTags Empty');
+            debug.verbose('No reply object was received from processTags so check for more.');
             if (err) {
-              debug.verbose('There was an err in processTags', err);
+              debug.verbose('There was an error in processTags', err);
             }
             callback(null, null);
           }
@@ -357,7 +361,7 @@ const matchItorHandle = function matchItorHandle(message, options) {
           // Find a reply for the match.
           filterRepliesByFunction(potentialReplies, options, callback);
         });
-      }
+      },
     );
   };
 };
@@ -426,11 +430,15 @@ const afterFindPendingTopics = function afterFindPendingTopics(pendingTopics, me
           questionTypeB.concat(questionSubTypeB).length;
       });
 
-      debug.verbose(`Matching gambits are: ${matches}`);
+      debug.verbose('Matching gambits are: ');
+      matches.forEach((match) => {
+        debug.verbose(`Trigger: ${match.gambit.input}`);
+        debug.verbose(`Replies: ${match.gambit.replies.map(reply => reply.reply).join('\n')}`);
+      });
 
       // Was `eachSeries`
       async.mapSeries(matches, matchItorHandle(messageObject, options), afterHandle(options.user, callback));
-    }
+    },
   );
 };
 

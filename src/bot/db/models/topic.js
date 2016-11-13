@@ -181,7 +181,7 @@ const createTopicModel = function createTopicModel(db) {
 
     const removeMissingTopics = function removeMissingTopics(topics) {
       return _.filter(topics, topic =>
-         topic.id
+         topic.id,
       );
     };
 
@@ -194,17 +194,17 @@ const createTopicModel = function createTopicModel(db) {
       scoredTopics.unshift({ name: currentTopic, type: 'TOPIC' });
 
       let otherTopics = _.map(allTopics, topic =>
-         ({ id: topic._id, name: topic.name, system: topic.system })
+         ({ id: topic._id, name: topic.name, system: topic.system }),
       );
 
       // This gets a list if all the remaining topics.
       otherTopics = _.filter(otherTopics, topic =>
-         !_.find(scoredTopics, { name: topic.name })
+         !_.find(scoredTopics, { name: topic.name }),
       );
 
       // We remove the system topics
       otherTopics = _.filter(otherTopics, topic =>
-         topic.system === false
+         topic.system === false,
       );
 
       pendingTopics.push({ name: '__pre__', type: 'TOPIC' });
@@ -250,11 +250,11 @@ const createTopicModel = function createTopicModel(db) {
         const delta = new Date() - lastReply.createdAt;
         if (delta <= 1000 * 300) {
           const replyId = lastReply.replyId;
-          const clearBit = lastReply.clearConvo;
+          const clearConversation = lastReply.clearConversation;
 
-          debug('Last reply: ', lastReply.original, replyId, clearBit);
+          debug('Last reply: ', lastReply.original, replyId, clearConversation);
 
-          if (clearBit === true) {
+          if (clearConversation === true) {
             debug('Conversation RESET by clearBit');
             callback(null, removeMissingTopics(pendingTopics));
           } else {
@@ -268,7 +268,7 @@ const createTopicModel = function createTopicModel(db) {
                   helpers.walkReplyParent(db, reply._id, (err, replyThreads) => {
                     debug.verbose(`Threads found by walkReplyParent: ${replyThreads}`);
                     replyThreads = replyThreads.map(item =>
-                       ({ id: item, type: 'REPLY' })
+                       ({ id: item, type: 'REPLY' }),
                     );
 
                     // This inserts the array replyThreads into pendingTopics after the first topic

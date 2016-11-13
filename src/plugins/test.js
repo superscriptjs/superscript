@@ -54,7 +54,7 @@ const objparam2 = function objparam2(cb) {
 
 
 const showScope = function showScope(cb) {
-  cb(null, `${this.message_props.key} ${this.user.id} ${this.message.clean}`);
+  cb(null, `${this.extraScope.key} ${this.user.id} ${this.message.clean}`);
 };
 
 const word = function word(word1, word2, cb) {

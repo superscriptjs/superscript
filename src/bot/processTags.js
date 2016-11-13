@@ -30,13 +30,16 @@
  */
 
 import _ from 'lodash';
-import replace from 'async-replace';
+import async from 'async';
 import RE2 from 're2';
 import debuglog from 'debug-levels';
+import peg from 'pegjs';
+import fs from 'fs';
 
 import Utils from './utils';
 import processHelpers from './reply/common';
 import regexes from './regexes';
+import wordnet from './reply/wordnet';
 
 import inlineRedirect from './reply/inlineRedirect';
 import topicRedirect from './reply/topicRedirect';
@@ -45,282 +48,396 @@ import customFunction from './reply/customFunction';
 
 const debug = debuglog('SS:ProcessTags');
 
-// xxx: RegExp instead of RE2 because it is passed to async-replace
-const WORDNET_REGEX = /(~)(\w[\w]+)/g;
+const grammar = fs.readFileSync(`${__dirname}/reply/reply-grammar.pegjs`, 'utf-8');
+// Change trace to true to debug peg
+const parser = peg.generate(grammar, { trace: false });
+
+const captureGrammar = fs.readFileSync(`${__dirname}/reply/capture-grammar.pegjs`, 'utf-8');
+// Change trace to true to debug peg
+const captureParser = peg.generate(captureGrammar, { trace: false });
+
+/* topicRedirect
+/ respond
+/ redirect
+/ customFunction
+/ newTopic
+/ capture
+/ previousCapture
+/ clearConversation
+/ continueSearching
+/ endSearching
+/ previousInput
+/ previousReply
+/ wordnetLookup
+/ alternates
+/ delay
+/ setState
+/ string*/
+
+const processCapture = function processCapture(tag, replyObj, options) {
+  const starID = (tag.starID || 1) - 1;
+  debug.verbose(`Processing capture: <cap${starID + 1}>`);
+  const replacedCapture = (starID < replyObj.stars.length) ? replyObj.stars[starID] : '';
+  debug.verbose(`Replacing <cap${starID + 1}> with "${replacedCapture}"`);
+  return replacedCapture;
+};
+
+const processPreviousCapture = function processPreviousCapture(tag, replyObj, options) {
+  // This is to address GH-207, pulling the stars out of the history and
+  // feeding them forward into new replies. It allows us to save a tiny bit of
+  // context though a conversation cycle.
+  // TODO: handle captures within captures, but only 1 level deep
+  const starID = (tag.starID || 1) - 1;
+  const conversationID = (tag.conversationID || 1) - 1;
+  debug.verbose(`Processing previous capture: <p${conversationID + 1}cap${starID + 1}>`);
+  let replacedCapture = '';
+
+  if (options.user.__history__.stars[conversationID] && options.user.__history__.stars[conversationID][starID]) {
+    replacedCapture = options.user.__history__.stars[conversationID][starID];
+    debug.verbose(`Replacing <p${conversationID + 1}cap${starID + 1}> with "${replacedCapture}"`);
+  } else {
+    debug.verbose('Attempted to use previous capture data, but none was found in user history.');
+  }
+  return replacedCapture;
+};
+
+const processPreviousInput = function processPreviousInput(tag, replyObj, options) {
+  if (tag.inputID === null) {
+    debug.verbose('Processing previous input <input>');
+    // This means <input> instead of <input1>, <input2> etc. so give the current input back
+    const replacedInput = options.message.clean;
+    return replacedInput;
+  }
+
+  const inputID = (tag.inputID || 1) - 1;
+  debug.verbose(`Processing previous input <input${inputID + 1}>`);
+  let replacedInput = '';
+  if (!options.user.__history__.input) {
+    // Nothing yet in the history
+    replacedInput = '';
+  } else {
+    replacedInput = options.user.__history__.input[inputID].clean;
+  }
+  debug.verbose(`Replacing <input${inputID + 1}> with "${replacedInput}"`);
+  return replacedInput;
+};
+
+const processPreviousReply = function processPreviousReply(tag, replyObj, options) {
+  const replyID = (tag.replyID || 1) - 1;
+  debug.verbose(`Processing previous reply <reply${replyID + 1}>`);
+  let replacedReply = '';
+  if (!options.user.__history__.reply) {
+    // Nothing yet in the history
+    replacedReply = '';
+  } else {
+    replacedReply = options.user.__history__.reply[replyID];
+  }
+  debug.verbose(`Replacing <reply{replyID + 1}> with "${replacedReply}"`);
+  return replacedReply;
+};
+
+const processCaptures = function processCaptures(tag, replyObj, options) {
+  switch (tag.type) {
+    case 'capture': {
+      return processCapture(tag, replyObj, options);
+    }
+    case 'previousCapture': {
+      return processPreviousCapture(tag, replyObj, options);
+    }
+    case 'previousInput': {
+      return processPreviousInput(tag, replyObj, options);
+    }
+    case 'previousReply': {
+      return processPreviousReply(tag, replyObj, options);
+    }
+    default: {
+      console.error(`Capture tag type does not exist: ${tag.type}`);
+      return '';
+    }
+  }
+};
+
+const preprocess = function preprocess(reply, replyObj, options) {
+  const captureTags = captureParser.parse(reply);
+  let cleanedReply = captureTags.map((tag) => {
+    // Don't do anything to non-captures
+    if (typeof tag === 'string') {
+      return tag;
+    }
+    // It's a capture e.g. <cap2>, so replace it with the captured star in replyObj.stars
+    return processCaptures(tag, replyObj, options);
+  });
+  cleanedReply = cleanedReply.join('');
+  return cleanedReply;
+};
+
+const postAugment = function postAugment(replyObject, callback) {
+  return (err, augmentedReplyObject) => {
+    if (err) {
+      // If we get an error, we back out completely and reject the reply.
+      debug.verbose('We got an error back from one of the handlers', err);
+      return callback(err, '');
+    }
+
+    // console.log(replyObject);
+
+    replyObject.continueMatching = augmentedReplyObject.continueMatching;
+    replyObject.clearConversation = augmentedReplyObject.clearConversation;
+    replyObject.topic = augmentedReplyObject.topicName;
+    replyObject.props = _.merge(replyObject.props, augmentedReplyObject.props);
+    // update the root id with the reply id (it may have changed in respond)
+    replyObject.reply._id = augmentedReplyObject.replyId;
+
+    // We also want to transfer forward any message props too
+    // options.reply = replyObject.reply;
+
+    if (augmentedReplyObject.subReplies) {
+      if (replyObject.subReplies) {
+        replyObject.subReplies = replyObject.subReplies.concat(augmentedReplyObject.subReplies);
+      } else {
+        replyObject.subReplies = augmentedReplyObject.subReplies;
+      }
+    }
+
+    replyObject.minMatchSet = augmentedReplyObject.minMatchSet;
+    // console.log(replyString);
+    return callback(null, augmentedReplyObject.string);
+  };
+};
+
+const processTopicRedirect = function processTopicRedirect(tag, replyObj, options, callback) {
+  debug.verbose(`Processing topic redirect ^topicRedirect(${tag.topicName},${tag.topicTrigger})`);
+  options.depth = options.depth + 1;
+  topicRedirect(tag.topicName, tag.topicTrigger, options, postAugment(replyObj, callback));
+};
+
+const processRespond = function processRespond(tag, replyObj, options, callback) {
+  debug.verbose(`Processing respond: ^respond(${tag.topicName})`);
+  options.depth = options.depth + 1;
+  respond(tag.topicName, options, postAugment(replyObj, callback));
+};
+
+const processRedirect = function processRedirect(tag, replyObj, options, callback) {
+  debug.verbose(`Processing inline redirect: {@${tag.trigger}}`);
+  options.depth = options.depth + 1;
+  inlineRedirect(tag.trigger, options, postAugment(replyObj, callback));
+};
+
+const processCustomFunction = function processCustomFunction(tag, replyObj, options, callback) {
+  if (tag.args === null) {
+    debug.verbose(`Processing custom function: ^${tag.functionName}()`);
+    return customFunction(tag.functionName, [], replyObj, options, callback);
+  }
+
+  // If there's a wordnet lookup as a parameter, expand it first
+  return async.map(tag.functionArgs, (arg, next) => {
+    if (typeof arg === 'string') {
+      return next(null, arg);
+    }
+    return processWordnetLookup(arg, replyObj, options, next);
+  }, (err, args) => {
+    if (err) {
+      console.error(err);
+    }
+    debug.verbose(`Processing custom function: ^${tag.functionName}(${args.join(', ')})`);
+    return customFunction(tag.functionName, args, replyObj, options, callback);
+  });
+};
+
+const processNewTopic = function processNewTopic(tag, replyObj, options, callback) {
+  debug.verbose(`Processing new topic: ${tag.topicName}`);
+  const newTopic = tag.topicName;
+  options.user.setTopic(newTopic);
+  callback(null, '');
+};
+
+const processClearConversation = function processClearConversation(tag, replyObj, options, callback) {
+  debug.verbose('Processing clear conversation: setting clear conversation to true');
+  replyObj.clearConversation = true;
+  callback(null, '');
+};
+
+const processContinueSearching = function processContinueSearching(tag, replyObj, options, callback) {
+  debug.verbose('Processing continue searching: setting continueMatching to true');
+  replyObj.continueMatching = true;
+  callback(null, '');
+};
+
+const processEndSearching = function processEndSearching(tag, replyObj, options, callback) {
+  debug.verbose('Processing end searching: setting continueMatching to false');
+  replyObj.continueMatching = false;
+  callback(null, '');
+};
+
+const processWordnetLookup = function processWordnetLookup(tag, replyObj, options, callback) {
+  debug.verbose(`Processing wordnet lookup for word: ~${tag.term}`);
+  wordnet.lookup(tag.term, '~', (err, words) => {
+    if (err) {
+      console.error(err);
+    }
+
+    words = words.map(item => item.replace(/_/g, ' '));
+    debug.verbose(`Terms found in wordnet: ${words}`);
+
+    const replacedWordnet = Utils.pickItem(words);
+    debug.verbose(`Wordnet replaced term: ${replacedWordnet}`);
+    callback(null, replacedWordnet);
+  });
+};
+
+const processAlternates = function processAlternates(tag, replyObj, options, callback) {
+  debug.verbose(`Processing alternates: ${tag.alternates}`);
+  const alternates = tag.alternates;
+  const random = Utils.getRandomInt(0, alternates.length - 1);
+  const result = alternates[random];
+  callback(null, result);
+};
+
+const processDelay = function processDelay(tag, replyObj, options, callback) {
+  callback(null, `{delay=${tag.delayLength}}`);
+};
+
+const processSetState = function processSetState(tag, replyObj, options, callback) {
+  debug.verbose(`Processing setState: ${JSON.stringify(tag.stateToSet)}`);
+  const stateToSet = tag.stateToSet;
+  const newState = {};
+  stateToSet.forEach((keyValuePair) => {
+    const key = keyValuePair.key;
+    let value = keyValuePair.value;
+
+    // Value is a string
+    value = value.replace(/["']/g, '');
+
+    // Value is an integer
+    if (/^[\d]+$/.test(value)) {
+      value = +value;
+    }
+
+    // Value is a boolean
+    if (value === 'true') {
+      value = true;
+    } else if (value === 'false') {
+      value = false;
+    }
+
+    newState[key] = value;
+  });
+  debug.verbose(`New state: ${JSON.stringify(newState)}`);
+  options.user.conversationState = _.merge(options.user.conversationState, newState);
+  options.user.markModified('conversationState');
+  callback(null, '');
+};
+
+const processTag = function processTag(tag, replyObj, options, next) {
+  if (typeof tag === 'string') {
+    next(null, tag);
+  } else {
+    const tagType = tag.type;
+    switch (tagType) {
+      case 'topicRedirect': {
+        processTopicRedirect(tag, replyObj, options, next);
+        break;
+      }
+      case 'respond': {
+        processRespond(tag, replyObj, options, next);
+        break;
+      }
+      case 'customFunction': {
+        processCustomFunction(tag, replyObj, options, next);
+        break;
+      }
+      case 'newTopic': {
+        processNewTopic(tag, replyObj, options, next);
+        break;
+      }
+      case 'clearConversation': {
+        processClearConversation(tag, replyObj, options, next);
+        break;
+      }
+      case 'continueSearching': {
+        processContinueSearching(tag, replyObj, options, next);
+        break;
+      }
+      case 'endSearching': {
+        processEndSearching(tag, replyObj, options, next);
+        break;
+      }
+      case 'wordnetLookup': {
+        processWordnetLookup(tag, replyObj, options, next);
+        break;
+      }
+      case 'redirect': {
+        processRedirect(tag, replyObj, options, next);
+        break;
+      }
+      case 'alternates': {
+        processAlternates(tag, replyObj, options, next);
+        break;
+      }
+      case 'delay': {
+        processDelay(tag, replyObj, options, next);
+        break;
+      }
+      case 'setState': {
+        processSetState(tag, replyObj, options, next);
+        break;
+      }
+      default: {
+        next(`No such tag type: ${tagType}`);
+        break;
+      }
+    }
+  }
+};
+
 
 const processReplyTags = function processReplyTags(replyObj, options, callback) {
-  const system = options.system;
-
   debug.verbose('Depth: ', options.depth);
 
   let replyString = replyObj.reply.reply;
-  debug.info("Reply '%s'", replyString);
+  debug.info(`Reply before processing reply tags: "${replyString}"`);
+  // console.log(`Reply before processing reply tags: "${replyString}"`);
 
   // Let's set the currentTopic to whatever we matched on, providing it isn't already set
   // The reply text might override that later.
   if (_.isEmpty(options.user.pendingTopic)) {
     options.user.setTopic(replyObj.topic);
   }
+  options.topic = replyObj.topic;
 
-  // If the reply has {topic=newTopic} syntax, get newTopic and the cleaned string.
-  const { replyString: cleanedTopicReply, newTopic } = processHelpers.topicSetter(replyString);
-  replyString = cleanedTopicReply;
+  // Deals with captures as a preprocessing step (avoids tricksy logic having captures
+  // as function parameters)
+  const preprocessed = preprocess(replyString, replyObj, options);
+  const replyTags = parser.parse(preprocessed);
 
-  if (newTopic !== '') {
-    debug.verbose('New topic found: ', newTopic);
-    options.user.setTopic(newTopic);
-  }
-
-  // Appends replyObj.stars to stars
-  const stars = [''];
-  stars.push(...replyObj.stars);
-
-  // Expand captures
-  replyString = new RE2('<cap(\\d*)>', 'ig').replace(replyString, (match, param) => {
-    const index = param ? Number.parseInt(param) : 1;
-    return index < stars.length ? stars[index] : match;
-  });
-
-  // So this is to address GH-207, pulling the stars out of the history and
-  // feeding them forward into new replies. It allows us to save a tiny bit of
-  // context though a conversation cycle.
-  const matches = regexes.pcaptures.match(replyString);
-  if (matches) {
-    // TODO: xxx: handle captures within captures, but only 1 level deep
-    for (let i = 0; i < matches.length; i++) {
-      const match = regexes.pcapture.match(matches[i]);
-      const historyPtr = +match[1] - 1;
-      const starPtr = +match[2] - 1;
-      if (options.user.__history__.stars[historyPtr] && options.user.__history__.stars[historyPtr][starPtr]) {
-        const term = options.user.__history__.stars[historyPtr][starPtr];
-        replyString = replyString.replace(matches[i], term);
-      } else {
-        debug.verbose('Attempted to use previous capture data, but none was found in user history.');
-      }
+  async.mapSeries(replyTags, (tag, next) => {
+    if (typeof tag === 'string') {
+      next(null, tag);
+    } else {
+      processTag(tag, replyObj, options, next);
     }
-  }
-
-  // clean up the reply by unescaping newlines and hashes
-  replyString = new RE2('\\\\(n|#)', 'ig')
-    .replace(Utils.trim(replyString), (match, param) =>
-       param === '#' ? '#' : '\n'
-    );
-
-  let clearConvoBit = false;
-  // There SHOULD only be 0 or 1.
-  const clearMatch = regexes.clear.match(replyString);
-  if (clearMatch) {
-    debug.verbose('Adding Clear Conversation Bit');
-    replyString = replyString.replace(clearMatch[0], '');
-    replyString = replyString.trim();
-    clearConvoBit = true;
-  }
-
-  let mbit = null;
-  const continueMatch = regexes.continue.match(replyString);
-  if (continueMatch) {
-    debug.verbose('Adding CONTINUE Conversation Bit');
-    replyString = replyString.replace(continueMatch[0], '');
-    replyString = replyString.trim();
-    mbit = false;
-  }
-
-  const endMatch = regexes.end.match(replyString);
-  if (endMatch) {
-    debug.verbose('Adding END Conversation Bit');
-    replyString = replyString.replace(endMatch[0], '');
-    replyString = replyString.trim();
-    mbit = true;
-  }
-
-  // <input> and <reply>
-  // Special case, we have no items in the history yet.
-  // This could only happen if we are trying to match the first input.
-  // Kinda edgy.
-
-  const message = options.message;
-  if (!_.isNull(message)) {
-    replyString = new RE2('<input>', 'ig').replace(replyString, message.clean);
-  }
-
-  replyString = new RE2('<(input|reply)([1-9]?)>', 'ig')
-    .replace(replyString, (match, param1, param2) => {
-      const data = param1 === 'input' ? options.user.__history__.input : options.user.__history__.reply;
-      return data[param2 ? Number.parseInt(param2) - 1 : 0];
-    });
-
-  replace(replyString, WORDNET_REGEX, processHelpers.wordnetReplace, (err, wordnetReply) => {
-    const originalReply = replyString;
-    replyString = wordnetReply;
-
-    // Inline redirector.
-    const redirectMatch = regexes.redirect.match(replyString);
-    const topicRedirectMatch = regexes.topic.match(replyString);
-    let respondMatch = regexes.respond.match(replyString);
-    const customFunctionMatch = regexes.customFn.match(replyString);
-
-    let match = false;
-    if (redirectMatch || topicRedirectMatch || respondMatch || customFunctionMatch) {
-      const obj = [];
-      obj.push({ name: 'redirectMatch', index: (redirectMatch) ? redirectMatch.index : -1 });
-      obj.push({ name: 'topicRedirectMatch', index: (topicRedirectMatch) ? topicRedirectMatch.index : -1 });
-      obj.push({ name: 'respondMatch', index: (respondMatch) ? respondMatch.index : -1 });
-      obj.push({ name: 'customFunctionMatch', index: (customFunctionMatch) ? customFunctionMatch.index : -1 });
-
-      match = _.result(_.find(_.sortBy(obj, 'index'), chr =>
-         chr.index >= 0
-      ), 'name');
-      debug.verbose(`Augmenting function found: ${match}`);
+  }, (err, processedReplyParts) => {
+    if (err) {
+      console.error(`There was an error processing reply tags: ${err}`);
     }
+    // const processedReply = processedReplyParts.join('');
+    // console.log(processedReply);
+    replyString = processedReplyParts.join('');
+    // console.log(replyString);
 
-    const augmentCallbackHandle = function augmentCallbackHandle(err, replyString, messageProps, getReplyObject, mbit1) {
-      if (err) {
-        // If we get an error, we back out completely and reject the reply.
-        debug.verbose('We got an error back from one of the handlers', err);
-        return callback(err, {});
-      } else {
-        let newReplyObject;
-        if (_.isEmpty(getReplyObject)) {
-          newReplyObject = replyObj;
-          newReplyObject.reply.reply = replyString;
-
-          // This is a new bit to stop us from matching more.
-          if (mbit !== null) {
-            newReplyObject.breakBit = mbit;
-          }
-          // If the function has the bit set, override the existing one
-          if (mbit1 !== null) {
-            newReplyObject.breakBit = mbit1;
-          }
-
-          // Clear the conversation thread (this is on the next cycle)
-          newReplyObject.clearConvo = clearConvoBit;
-        } else {
-          // TODO: we flush everything except stars..
-
-          debug.verbose('getReplyObject', getReplyObject);
-          newReplyObject = replyObj;
-          newReplyObject.reply = getReplyObject.reply;
-          newReplyObject.topic = getReplyObject.topicName;
-          // update the root id with the reply id (it may have changed in respond)
-          newReplyObject.id = getReplyObject.reply.id;
-
-          // This is a new bit to stop us from matching more.
-          if (mbit !== null) {
-            newReplyObject.breakBit = mbit;
-          }
-          // If the function has the bit set, override the existing one
-          if (mbit1 !== null) {
-            newReplyObject.breakBit = mbit1;
-          }
-
-          if (getReplyObject.clearConvo === true) {
-            newReplyObject.clearConvo = getReplyObject.clearConvo;
-          } else {
-            newReplyObject.clearConvo = clearConvoBit;
-          }
-
-          if (getReplyObject.subReplies) {
-            if (newReplyObject.subReplies && _.isArray(newReplyObject.subReplies)) {
-              newReplyObject.subReplies.concat(getReplyObject.subReplies);
-            } else {
-              newReplyObject.subReplies = getReplyObject.subReplies;
-            }
-          }
-
-          // We also want to transfer forward any message props too
-          if (getReplyObject.props) {
-            newReplyObject.props = getReplyObject.props;
-          }
-
-          newReplyObject.minMatchSet = getReplyObject.minMatchSet;
-        }
-
-        debug.verbose('Return back to replies to re-process for more tags', newReplyObject);
-        // Okay Lets call this function again
-        return processReplyTags(newReplyObject, options, callback);
-      }
-    };
-
-    // TODO: Fix this replyOptions object
-    // This is the options for the (get)reply function, used for recursive traversal.
-    const replyOptions = {
-      topic: replyObj.topic,
-      depth: options.depth + 1,
-      message,
-      system,
-      user: options.user,
-    };
-
-    if (redirectMatch && match === 'redirectMatch') {
-      return inlineRedirect(replyString, redirectMatch, replyOptions, augmentCallbackHandle);
-    }
-
-    if (topicRedirectMatch && match === 'topicRedirectMatch') {
-      return topicRedirect(replyString, stars, topicRedirectMatch, replyOptions, augmentCallbackHandle);
-    }
-
-    if (respondMatch && match === 'respondMatch') {
-      // In some edge cases you could name a topic with a ~ and wordnet will remove it.
-      // respond needs a topic so we re-try again with the origional reply.
-      if (respondMatch[1] === '') {
-        replyString = originalReply;
-        respondMatch = regexes.respond.match(replyString);
-      }
-
-      return respond(replyString, respondMatch, replyOptions, augmentCallbackHandle);
-    }
-
-    if (customFunctionMatch && match === 'customFunctionMatch') {
-      return customFunction(replyString, customFunctionMatch, replyOptions, augmentCallbackHandle);
-    }
+    // clean up the reply by unescaping newlines and hashes
+    replyString = new RE2('\\\\(n|#)', 'ig')
+      .replace(Utils.trim(replyString), (match, param) =>
+         param === '#' ? '#' : '\n',
+      );
 
     // Using global callback and user.
-    const afterHandle = function afterHandle(callback) {
-      return (err, finalReply) => {
-        if (err) {
-          console.log(err);
-        }
+    replyObj.reply.reply = Utils.decodeCommas(new RE2('\\\\s', 'g').replace(replyString, ' '));
 
-        // This will update the reply with wordnet replaced changes and alternates
-        finalReply = processHelpers.processAlternates(finalReply);
+    // console.log(`Final result: ${replyObj.reply.reply}`);
+    debug.verbose('Calling back with', replyObj);
 
-        const msgStateMatch = regexes.state.match(finalReply);
-        if (msgStateMatch && finalReply.indexOf('delay') === -1) {
-          for (let i = 0; i < msgStateMatch.length; i++) {
-            const stateObj = processHelpers.addStateData(msgStateMatch[i]);
-            debug.verbose('Found Conversation State', stateObj);
-            options.user.conversationState = _.merge(options.user.conversationState, stateObj);
-            options.user.markModified('conversationState');
-            finalReply = finalReply.replace(msgStateMatch[i], '');
-          }
-          finalReply = finalReply.trim();
-        }
-
-        replyObj.reply.reply = Utils.decodeCommas(new RE2('\\\\s', 'g').replace(finalReply, ' '));
-
-        if (clearConvoBit && clearConvoBit === true) {
-          replyObj.clearConvo = clearConvoBit;
-        }
-
-        // This is a new bit to stop us from matching more.
-        if (!replyObj.breakBit && mbit !== null) {
-          replyObj.breakBit = mbit;
-        }
-
-        debug.verbose('Calling back with', replyObj);
-
-        if (!replyObj.props && message.props) {
-          replyObj.props = message.props;
-        } else {
-          replyObj.props = _.merge(replyObj.props, message.props);
-        }
-
-        callback(err, replyObj);
-      };
-    };
-
-    replace(replyString, WORDNET_REGEX, processHelpers.wordnetReplace, afterHandle(callback));
+    callback(err, replyObj);
   });
 };
 
