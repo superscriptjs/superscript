@@ -52,7 +52,7 @@ const postParse = function postParse(regexp, message, user, callback) {
 
     const inputOrReplyRE = new RE2('<(input|reply)([1-9])?>', 'g');
     if (inputOrReplyRE.search(regexp) !== -1) {
-      const history = user.__history__;
+      const history = user.history;
       regexp = inputOrReplyRE.replace(regexp, (c, p1, p2) => {
         const index = p2 ? Number.parseInt(p2) : 0;
         return history[p1][index] ? history[p1][index].raw : c;

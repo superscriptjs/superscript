@@ -243,7 +243,7 @@ const createTopicModel = function createTopicModel(db) {
 
       // If we are currently in a conversation, we want the entire chain added
       // to the topics to search
-      const lastReply = user.__history__.reply[0];
+      const lastReply = user.history.reply[0];
       if (!_.isEmpty(lastReply)) {
         // If the message is less than 5 minutes old we continue
         // TODO: Make this time configurable

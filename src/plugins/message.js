@@ -45,7 +45,7 @@ const addMessageProp = function addMessageProp(key, value, callback) {
 //   var user = this.user;
 //   message.pronounMap = {};
 
-//   if (user['__history__']['input'].length !== 0) {
+//   if (user['history']['input'].length !== 0) {
 //     console.log(message.pronouns);
 //     for (var i = 0; i < message.pronouns.length;i++) {
 //       var pn = message.pronouns[i];

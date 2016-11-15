@@ -30,7 +30,7 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
     slot1: Object,
     slot2: Object,
     conversationState: Object,
-    __history__: {
+    history: {
       input: [],
       reply: [],
       topic: [],
@@ -40,10 +40,10 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
 
   userSchema.pre('save', function (next) {
     debug.verbose('Pre-Save Hook');
-    this.__history__.input = this.__history__.input.slice(0, 15);
-    this.__history__.reply = this.__history__.reply.slice(0, 15);
-    this.__history__.topic = this.__history__.topic.slice(0, 15);
-    this.__history__.stars = this.__history__.stars.slice(0, 15);
+    this.history.input = this.history.input.slice(0, 15);
+    this.history.reply = this.history.reply.slice(0, 15);
+    this.history.topic = this.history.topic.slice(0, 15);
+    this.history.stars = this.history.stars.slice(0, 15);
     next();
   });
 
@@ -118,10 +118,10 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
     msg.factSystem = null;
     reply.factSystem = null;
 
-    this.__history__.stars.unshift(stars);
-    this.__history__.input.unshift(msg);
-    this.__history__.reply.unshift(reply);
-    this.__history__.topic.unshift(this.currentTopic);
+    this.history.stars.unshift(stars);
+    this.history.input.unshift(msg);
+    this.history.reply.unshift(reply);
+    this.history.topic.unshift(this.currentTopic);
 
     if (this.pendingTopic !== undefined && this.pendingTopic !== '') {
       const pendingTopic = this.pendingTopic;
@@ -129,7 +129,7 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
 
       db.model('Topic').findOne({ name: pendingTopic }, (err, topicData) => {
         if (topicData && topicData.nostay === true) {
-          this.currentTopic = this.__history__.topic[0];
+          this.currentTopic = this.history.topic[0];
         } else {
           this.currentTopic = pendingTopic;
         }

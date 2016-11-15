@@ -92,8 +92,8 @@ const processPreviousCapture = function processPreviousCapture(tag, replyObj, op
   debug.verbose(`Processing previous capture: <p${conversationID + 1}cap${starID + 1}>`);
   let replacedCapture = '';
 
-  if (options.user.__history__.stars[conversationID] && options.user.__history__.stars[conversationID][starID]) {
-    replacedCapture = options.user.__history__.stars[conversationID][starID];
+  if (options.user.history.stars[conversationID] && options.user.history.stars[conversationID][starID]) {
+    replacedCapture = options.user.history.stars[conversationID][starID];
     debug.verbose(`Replacing <p${conversationID + 1}cap${starID + 1}> with "${replacedCapture}"`);
   } else {
     debug.verbose('Attempted to use previous capture data, but none was found in user history.');
@@ -112,11 +112,11 @@ const processPreviousInput = function processPreviousInput(tag, replyObj, option
   const inputID = (tag.inputID || 1) - 1;
   debug.verbose(`Processing previous input <input${inputID + 1}>`);
   let replacedInput = '';
-  if (!options.user.__history__.input) {
+  if (!options.user.history.input) {
     // Nothing yet in the history
     replacedInput = '';
   } else {
-    replacedInput = options.user.__history__.input[inputID].clean;
+    replacedInput = options.user.history.input[inputID].clean;
   }
   debug.verbose(`Replacing <input${inputID + 1}> with "${replacedInput}"`);
   return replacedInput;
@@ -126,11 +126,11 @@ const processPreviousReply = function processPreviousReply(tag, replyObj, option
   const replyID = (tag.replyID || 1) - 1;
   debug.verbose(`Processing previous reply <reply${replyID + 1}>`);
   let replacedReply = '';
-  if (!options.user.__history__.reply) {
+  if (!options.user.history.reply) {
     // Nothing yet in the history
     replacedReply = '';
   } else {
-    replacedReply = options.user.__history__.reply[replyID];
+    replacedReply = options.user.history.reply[replyID];
   }
   debug.verbose(`Replacing <reply{replyID + 1}> with "${replacedReply}"`);
   return replacedReply;

@@ -20,8 +20,8 @@ const historyLookup = function historyLookup(user, options) {
       item[0] === 'cost';
   };
 
-  for (let i = 0; i < user.__history__.input.length; i++) {
-    let pobj = user.__history__.input[i];
+  for (let i = 0; i < user.history.input.length; i++) {
+    let pobj = user.history.input[i];
 
     if (pobj !== undefined) {
       // TODO - See why we are getting a nested array.

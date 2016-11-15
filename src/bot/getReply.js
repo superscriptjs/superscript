@@ -161,12 +161,12 @@ const filterRepliesBySeen = function filterRepliesBySeen(filteredResults, option
         // If the trigger is very open ie "*", you should consider putting a {keep} flag on it.
 
         for (let i = 0; i <= 10; i++) {
-          const topicItem = options.user.__history__.topic[i];
+          const topicItem = options.user.history.topic[i];
 
           if (topicItem !== undefined) {
             // TODO: Come back to this and check names make sense
-            const pastGambit = options.user.__history__.reply[i];
-            const pastInput = options.user.__history__.input[i];
+            const pastGambit = options.user.history.reply[i];
+            const pastInput = options.user.history.input[i];
 
             // Sometimes the history has null messages because we spoke first.
             if (pastGambit && pastInput) {
