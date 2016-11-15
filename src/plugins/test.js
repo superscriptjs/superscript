@@ -15,8 +15,7 @@ const num = function num(n, cb) {
 };
 
 const changetopic = function changetopic(n, cb) {
-  this.user.setTopic(n);
-  cb(null, '');
+  this.user.setTopic(n, () => cb(null, ''));
 };
 
 const changefunctionreply = function changefunctionreply(newtopic, cb) {

@@ -247,8 +247,7 @@ const processCustomFunction = function processCustomFunction(tag, replyObj, opti
 const processNewTopic = function processNewTopic(tag, replyObj, options, callback) {
   debug.verbose(`Processing new topic: ${tag.topicName}`);
   const newTopic = tag.topicName;
-  options.user.setTopic(newTopic);
-  callback(null, '');
+  options.user.setTopic(newTopic, () => callback(null, ''));
 };
 
 const processClearConversation = function processClearConversation(tag, replyObj, options, callback) {
@@ -398,11 +397,6 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
   debug.info(`Reply before processing reply tags: "${replyString}"`);
   // console.log(`Reply before processing reply tags: "${replyString}"`);
 
-  // Let's set the currentTopic to whatever we matched on, providing it isn't already set
-  // The reply text might override that later.
-  if (_.isEmpty(options.user.pendingTopic)) {
-    options.user.setTopic(replyObj.topic);
-  }
   options.topic = replyObj.topic;
 
   // Deals with captures as a preprocessing step (avoids tricksy logic having captures
@@ -437,7 +431,11 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
     // console.log(`Final result: ${replyObj.reply.reply}`);
     debug.verbose('Calling back with', replyObj);
 
-    callback(err, replyObj);
+    if (_.isEmpty(options.user.pendingTopic)) {
+      return options.user.setTopic(replyObj.topic, () => callback(err, replyObj));
+    }
+
+    return callback(err, replyObj);
   });
 };
 

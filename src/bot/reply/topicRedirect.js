@@ -8,7 +8,6 @@ const debug = debuglog('SS:Reply:topicRedirect');
 
 const topicRedirect = function topicRedirect(topicName, topicTrigger, options, callback) {
   debug.verbose(`Topic redirection to topic: ${topicName}, trigger: ${topicTrigger}`);
-  options.user.setTopic(topicName);
 
   // Here we are looking for gambits in the NEW topic.
   processHelpers.getTopic(options.system.chatSystem, topicName, (err, topicData) => {

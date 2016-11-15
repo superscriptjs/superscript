@@ -21,14 +21,11 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
     status: Number,
     currentTopic: String,
     pendingTopic: String,
-    conversationStartedAt: Date,
     lastMessageSentAt: Date,
     volley: Number,
     rally: Number,
-    conversation: Number,
     prevAns: Number,
-    slot1: Object,
-    slot2: Object,
+    conversation: Number,
     conversationState: Object,
     history: {
       input: [],
@@ -52,16 +49,17 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
     this.save(callback);
   };
 
-  userSchema.methods.setTopic = function (topic) {
+  userSchema.methods.setTopic = function (topic, callback) {
     if (topic !== '' || topic !== 'undefined') {
       debug.verbose('setTopic', topic);
       this.pendingTopic = topic;
-      /* this.save(function() {
-        // We should probably have a callback here.
-        debug.verbose("setTopic Complete");
-      });*/
+      this.save(() => {
+        debug.verbose('setTopic Complete');
+        callback(null);
+      });
     } else {
       debug.warn('Trying to set topic to someting invalid');
+      callback(null);
     }
   };
 
