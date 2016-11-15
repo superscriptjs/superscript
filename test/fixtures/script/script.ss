@@ -363,3 +363,10 @@
   + __B__
   - ^showScope()
 < topic
+
++ __preview
+- {@__preview_question_kickoff} ^addMessageProp(topLevelProp,myProp)
+
++ __preview_question_kickoff
+- Do you want to play word games? Yes? ^addMessageProp(subProp,mySubProp1)
+- Let's play word games OK? ^addMessageProp(subProp,mySubProp2)

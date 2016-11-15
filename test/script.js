@@ -913,6 +913,16 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('GH-301: addMessageProp should work through redirects', () => {
+    it('Should return multiple props', (done) => {
+      helpers.getBot().reply('user1', '__preview', (err, reply) => {
+        should.exist(reply.topLevelProp);
+        should.exist(reply.subProp);
+        done();
+      });
+    });
+  });
+
 
   after(helpers.after);
 });
