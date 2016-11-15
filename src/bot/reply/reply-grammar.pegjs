@@ -146,8 +146,8 @@ setState
   }
 
 stringCharacter
-  = !"((" "\\" character:[ns] { return `\\${character}`; }
-//  / !"((" "\\" character:[s] { return ` `; }
+  = !"((" "\\" character:[n] { return `\n`; }
+  / !"((" "\\" character:[s] { return `\\s`; }
   / !"((" "\\" character:. { return character; }
   / !"((" character:[^^{<~] { return character; }
 

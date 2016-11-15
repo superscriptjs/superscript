@@ -395,7 +395,6 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
 
   let replyString = replyObj.reply.reply;
   debug.info(`Reply before processing reply tags: "${replyString}"`);
-  // console.log(`Reply before processing reply tags: "${replyString}"`);
 
   options.topic = replyObj.topic;
 
@@ -414,22 +413,12 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
     if (err) {
       console.error(`There was an error processing reply tags: ${err}`);
     }
-    // const processedReply = processedReplyParts.join('');
-    // console.log(processedReply);
-    replyString = processedReplyParts.join('');
-    // console.log(replyString);
 
-    // clean up the reply by unescaping newlines and hashes
-    replyString = new RE2('\\\\(n|#)', 'ig')
-      .replace(Utils.trim(replyString), (match, param) =>
-         param === '#' ? '#' : '\n',
-      );
+    replyString = processedReplyParts.join('').trim();
 
-    // Using global callback and user.
-    replyObj.reply.reply = Utils.decodeCommas(new RE2('\\\\s', 'g').replace(replyString, ' '));
+    replyObj.reply.reply = new RE2('\\\\s', 'g').replace(replyString, ' ');
 
-    // console.log(`Final result: ${replyObj.reply.reply}`);
-    debug.verbose('Calling back with', replyObj);
+    debug.verbose('Final reply object from processTags: ', replyObj);
 
     if (_.isEmpty(options.user.pendingTopic)) {
       return options.user.setTopic(replyObj.topic, () => callback(err, replyObj));

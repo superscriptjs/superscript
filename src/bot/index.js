@@ -208,7 +208,7 @@ const defaultOptions = {
   },
   scope: {},
   editMode: false,
-  pluginsPath: null,
+  pluginsPath: `${process.cwd()}/plugins`,
   logPath: `${process.cwd()}/logs`,
 };
 

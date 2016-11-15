@@ -18,7 +18,6 @@ if (!program.args[0]) {
 const botName = program.args[0];
 const botPath = path.join(process.cwd(), path.sep, botName);
 const ssRoot = path.join(__dirname, '../../');
-console.log('Creating %s bot with a %s client.', program.args[0], program.client);
 
 const write = function write(path, str, mode = 0o666) {
   fs.writeFileSync(path, str, { mode });
@@ -39,10 +38,6 @@ fs.mkdir(botPath, (err, res) => {
   fs.mkdirSync(path.join(botPath, path.sep, 'plugins'));
   fs.mkdirSync(path.join(botPath, path.sep, 'src'));
 
-  // TODO: Pull out plugins that have dialogue and move them to the new bot.
-  fs.createReadStream(`${ssRoot}clients${path.sep}${program.client}.js`)
-    .pipe(fs.createWriteStream(`${botPath + path.sep}src${path.sep}server.js`));
-
   // package.json
   const pkg = {
     name: botName,
@@ -57,19 +52,37 @@ fs.mkdir(botPath, (err, res) => {
     },
     scripts: {
       build: 'babel src --presets babel-preset-es2015 --out-dir lib',
-      start: 'npm run build && node lib/server.js',
     },
   };
 
-  // TODO: Write dependencies for other clients
+  const clients = program.client.split(',');
 
-  if (program.client === 'slack') {
-    pkg.dependencies['slack-client'] = '~1.2.2';
-  }
+  clients.forEach((client) => {
+    if (['telnet', 'slack'].indexOf(client) === -1) {
+      console.log(`Cannot create bot with client type: ${client}`);
+      return;
+    }
 
-  if (program.client === 'hangout') {
-    pkg.dependencies['simple-xmpp'] = '~1.3.0';
-  }
+    console.log(`Creating ${program.args[0]} bot with a ${client} client.`);
+
+    const clientName = client.charAt(0).toUpperCase() + client.slice(1);
+
+    // TODO: Pull out plugins that have dialogue and move them to the new bot.
+    fs.createReadStream(`${ssRoot}clients${path.sep}${client}.js`)
+      .pipe(fs.createWriteStream(`${botPath + path.sep}src${path.sep}server${clientName}.js`));
+
+    pkg.scripts[`start${clientName}`] = `npm run build && node lib/server${clientName}.js`;
+
+    // TODO: Write dependencies for other clients
+
+    if (client === 'slack') {
+      pkg.dependencies['slack-client'] = '~1.2.2';
+    }
+
+    if (client === 'hangout') {
+      pkg.dependencies['simple-xmpp'] = '~1.3.0';
+    }
+  });
 
   const firstRule = '+ ~emohello *~2\n- Hi!\n- Hi, how are you?\n- How are you?\n- Hello\n- Howdy\n- Ola';
 

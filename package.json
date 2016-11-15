@@ -1,10 +1,10 @@
 {
   "name": "superscript",
-  "version": "1.0.0-alpha5",
+  "version": "1.0.0-alpha6",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "lib/bot/index.js",
   "scripts": {
-    "build": "babel src --presets babel-preset-es2015 --out-dir lib",
+    "build": "babel src --presets babel-preset-es2015 --out-dir lib --copy-files",
     "lint": "eslint --env node src *.js",
     "test": "mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --recursive",
     "prepublish": "npm run build",

@@ -57,6 +57,7 @@ const before = function before(file) {
       clean: false,
     },
     logPath: null,
+    pluginsPath: null,
   };
 
   const afterParse = (fileCache, result, callback) => {
