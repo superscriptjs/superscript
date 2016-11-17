@@ -77,8 +77,7 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
         _eachGambitHandle(message, options),
         (err3, matches) => {
           callback(null, _.flatten(matches));
-        }
-      );
+        });
     });
   };
 

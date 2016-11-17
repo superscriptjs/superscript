@@ -50,7 +50,7 @@
 - end
 
 > topic:system system_recurr
-  
+
   + test recursion
   - ^respond(hidden)
 
@@ -69,7 +69,7 @@
 
 /*
   non-Keep Flag Test
-  This topic will get depleated and stay empty after all 
+  This topic will get depleated and stay empty after all
   Gambits have been exausted.
 */
 > topic dry
@@ -93,7 +93,7 @@
 + respond test
 - ^respond(~respond_test)
 
-> topic:system ~respond_test 
+> topic:system ~respond_test
 
   + *
   - ^respond(~respond_test2)
@@ -103,14 +103,14 @@
 > topic:system ~respond_test2
 
   + *
-  - final
+  - final {topic=random}
 
 < topic
 
 
 /*
   NoStay Flag Test
-  The nostay flag means the topic will change automatically back 
+  The nostay flag means the topic will change automatically back
   to the previous one after saying the gambit.
 */
 

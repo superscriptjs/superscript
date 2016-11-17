@@ -73,6 +73,7 @@ const afterHandle = function afterHandle(user, callback) {
     let replyString = '';
     let lastSubReplies = null;
     let lastContinueMatching = null;
+    let lastReplyIds = null;
 
     for (let i = 0; i < matchSet.length; i++) {
       const item = matchSet[i];
@@ -100,6 +101,7 @@ const afterHandle = function afterHandle(user, callback) {
       lastReplyId = item.reply._id;
       lastSubReplies = item.subReplies;
       lastContinueMatching = item.continueMatching;
+      lastReplyIds = item.replyIds;
 
       if (item.clearConversation) {
         clearConversation = item.clearConversation;
@@ -119,6 +121,7 @@ const afterHandle = function afterHandle(user, callback) {
 
     const cbdata = {
       replyId: lastReplyId,
+      replyIds: lastReplyIds,
       props,
       clearConversation,
       topicName: lastTopicToMatch,

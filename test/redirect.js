@@ -137,5 +137,21 @@ describe('SuperScript Redirects', () => {
     });
   });
 
+  describe('GH-309: conversations should work with redirects', () => {
+    it('Should be part of a conversation', (done) => {
+      helpers.getBot().reply('user2', '__preview', (err, r1) => {
+        ['Do you want to play word games?', "Let's play word games"].should.containEql(r1.string);
+        helpers.getBot().reply('user2', 'yes', (err, r2) => {
+          r2.string.should.eql("Great, let's play!");
+          helpers.getBot().reply('user2', 'hello', (err, r3) => {
+            r3.string.should.eql("OK, let's play!");
+            done();
+          });
+        });
+      });
+    });
+  });
+
+
   after(helpers.after);
 });

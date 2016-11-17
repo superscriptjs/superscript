@@ -251,30 +251,33 @@ const createTopicModel = function createTopicModel(db) {
         if (delta <= 1000 * 300) {
           const replyId = lastReply.replyId;
           const clearConversation = lastReply.clearConversation;
-
-          debug('Last reply: ', lastReply.original, replyId, clearConversation);
-
           if (clearConversation === true) {
             debug('Conversation RESET by clearBit');
             callback(null, removeMissingTopics(pendingTopics));
           } else {
             db.model('Reply')
-              .findOne({ _id: replyId })
-              .exec((err, reply) => {
-                if (!reply) {
+              .find({ _id: { $in: lastReply.replyIds } })
+              .exec((err, replies) => {
+                if (err) {
+                  console.error(err);
+                }
+                if (replies === []) {
                   debug("We couldn't match the last reply. Continuing.");
                   callback(null, removeMissingTopics(pendingTopics));
                 } else {
-                  helpers.walkReplyParent(db, reply._id, (err, replyThreads) => {
-                    debug.verbose(`Threads found by walkReplyParent: ${replyThreads}`);
-                    replyThreads = replyThreads.map(item =>
-                       ({ id: item, type: 'REPLY' }),
-                    );
-
+                  debug('Last reply: ', lastReply.original, replyId, clearConversation);
+                  let replyThreads = [];
+                  async.eachSeries(replies, (reply, next) => {
+                    helpers.walkReplyParent(db, reply._id, (err, threads) => {
+                      debug.verbose(`Threads found by walkReplyParent: ${threads}`);
+                      threads.forEach(thread => replyThreads.push(thread));
+                      next();
+                    });
+                  }, (err) => {
+                    replyThreads = replyThreads.map(item => ({ id: item, type: 'REPLY' }));
                     // This inserts the array replyThreads into pendingTopics after the first topic
                     replyThreads.unshift(1, 0);
                     Array.prototype.splice.apply(pendingTopics, replyThreads);
-
                     callback(null, removeMissingTopics(pendingTopics));
                   });
                 }

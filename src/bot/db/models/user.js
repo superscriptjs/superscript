@@ -115,6 +115,7 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
     // Don't serialize MongoDOWN to Mongo
     msg.factSystem = null;
     reply.factSystem = null;
+    reply.replyIds = replyObj.replyIds;
 
     this.history.stars.unshift(stars);
     this.history.input.unshift(msg);

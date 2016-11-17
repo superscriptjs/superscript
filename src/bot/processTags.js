@@ -171,7 +171,7 @@ const preprocess = function preprocess(reply, replyObj, options) {
   return cleanedReply;
 };
 
-const postAugment = function postAugment(replyObject, callback) {
+const postAugment = function postAugment(replyObject, tag, callback) {
   return (err, augmentedReplyObject) => {
     if (err) {
       // If we get an error, we back out completely and reject the reply.
@@ -179,17 +179,17 @@ const postAugment = function postAugment(replyObject, callback) {
       return callback(err, '');
     }
 
-    // console.log(replyObject);
-
     replyObject.continueMatching = augmentedReplyObject.continueMatching;
     replyObject.clearConversation = augmentedReplyObject.clearConversation;
     replyObject.topic = augmentedReplyObject.topicName;
     replyObject.props = _.merge(replyObject.props, augmentedReplyObject.props);
-    // update the root id with the reply id (it may have changed in respond)
-    replyObject.reply._id = augmentedReplyObject.replyId;
 
-    // We also want to transfer forward any message props too
-    // options.reply = replyObject.reply;
+    // Keep track of all the ids of all the triggers we go through via redirects
+    if (augmentedReplyObject.replyIds) {
+      augmentedReplyObject.replyIds.forEach((replyId) => {
+        replyObject.replyIds.push(replyId);
+      });
+    }
 
     if (augmentedReplyObject.subReplies) {
       if (replyObject.subReplies) {
@@ -200,7 +200,6 @@ const postAugment = function postAugment(replyObject, callback) {
     }
 
     replyObject.minMatchSet = augmentedReplyObject.minMatchSet;
-    // console.log(replyString);
     return callback(null, augmentedReplyObject.string);
   };
 };
@@ -208,19 +207,19 @@ const postAugment = function postAugment(replyObject, callback) {
 const processTopicRedirect = function processTopicRedirect(tag, replyObj, options, callback) {
   debug.verbose(`Processing topic redirect ^topicRedirect(${tag.topicName},${tag.topicTrigger})`);
   options.depth = options.depth + 1;
-  topicRedirect(tag.topicName, tag.topicTrigger, options, postAugment(replyObj, callback));
+  topicRedirect(tag.topicName, tag.topicTrigger, options, postAugment(replyObj, tag, callback));
 };
 
 const processRespond = function processRespond(tag, replyObj, options, callback) {
   debug.verbose(`Processing respond: ^respond(${tag.topicName})`);
   options.depth = options.depth + 1;
-  respond(tag.topicName, options, postAugment(replyObj, callback));
+  respond(tag.topicName, options, postAugment(replyObj, tag, callback));
 };
 
 const processRedirect = function processRedirect(tag, replyObj, options, callback) {
   debug.verbose(`Processing inline redirect: {@${tag.trigger}}`);
   options.depth = options.depth + 1;
-  inlineRedirect(tag.trigger, options, postAugment(replyObj, callback));
+  inlineRedirect(tag.trigger, options, postAugment(replyObj, tag, callback));
 };
 
 const processCustomFunction = function processCustomFunction(tag, replyObj, options, callback) {
@@ -402,6 +401,8 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
   // as function parameters)
   const preprocessed = preprocess(replyString, replyObj, options);
   const replyTags = parser.parse(preprocessed);
+
+  replyObj.replyIds = [replyObj.reply._id];
 
   async.mapSeries(replyTags, (tag, next) => {
     if (typeof tag === 'string') {

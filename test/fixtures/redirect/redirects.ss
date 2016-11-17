@@ -89,7 +89,7 @@
 	// Dummy entry
 	+ pass the cheese <name>
 	- Thanks <cap1>
- 
+
 < topic
 
 
@@ -98,7 +98,7 @@
 - ^topicRedirect(<cap1>,__to_say__)
 
 > topic school
-	
+
 	+ __to_say__
 	- I'm majoring in CS.
 
@@ -113,7 +113,7 @@
 
 	+ __to_say__
 	- Say that.
- 
+
 < topic
 
 
@@ -124,7 +124,7 @@
 
 	+ __to_say__
 	- Capture forward <cap1>
- 
+
 < topic
 
 
@@ -146,3 +146,24 @@
   - {keep} Should not match post.
 < topic
 
+> topic:keep preview_words (preview)
++ __preview
+- {@__preview_question_kickoff}
+
+    + ~yes
+    % {@__preview_question_kickoff}
+    - Great, let's play!
+
+    + ~no
+    % {@__preview_question_kickoff}
+    - No? Alright, let's play a differnt game!
+
+    + (*)
+    % {@__preview_question_kickoff}
+    - OK, let's play!
+
++ __preview_question_kickoff
+- Do you want to play word games?
+- Let's play word games
+
+< topic
