@@ -14,6 +14,10 @@ const debug = debuglog('SS:Importer');
 const KEEP_REGEX = new RegExp('\{keep\}', 'i');
 const FILTER_REGEX = /\{\s*\^(\w+)\(([\w<>,\s]*)\)\s*\}/i;
 
+// Whenever and only when a breaking change is made to ss-parser, this needs
+// to be updated.
+const MIN_SUPPORTED_SCRIPT_VERSION = 1;
+
 const rawToGambitData = function rawToGambitData(gambitId, gambit) {
   const gambitData = {
     id: gambitId,
@@ -40,6 +44,10 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
 };
 
 const importData = function importData(chatSystem, data, callback) {
+  if (!data.version || data.version < MIN_SUPPORTED_SCRIPT_VERSION) {
+    return callback(`Error: Your script has version ${data.version} but the minimum supported version is ${MIN_SUPPORTED_SCRIPT_VERSION}.\nPlease either re-parse your file with a supported parser version, or update SuperScript.`);
+  }
+
   const Topic = chatSystem.Topic;
   const Gambit = chatSystem.Gambit;
   const Reply = chatSystem.Reply;
@@ -205,7 +213,7 @@ const importData = function importData(chatSystem, data, callback) {
           callback(null, 'done');
         });
       });
-    }
+    },
   );
 };
 
