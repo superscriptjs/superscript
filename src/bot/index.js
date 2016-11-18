@@ -19,12 +19,13 @@ class SuperScript {
 
     this.plugins = [];
 
+    // Built-in plugins
+    this.loadPlugins(`${__dirname}/../plugins`);
+
     // For user plugins
     if (options.pluginsPath) {
       this.loadPlugins(options.pluginsPath);
     }
-    // Built-in plugins
-    this.loadPlugins(`${__dirname}/../plugins`);
 
     // This is a kill switch for filterBySeen which is useless in the editor.
     this.editMode = options.editMode || false;
