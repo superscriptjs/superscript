@@ -98,55 +98,6 @@ describe.skip('History Lookup Interface', () => {
     });
   });
 
-  // Name lookup with QType Resolver (ENTY:sport)
-  // My friend Bob likes to play tennis. What game does Bob like to play?
-  // What is the name of my friend who likes to play tennis?
-  it('memory problem 1', (done) => {
-    Message.createMessage('My friend Bob likes to play tennis.', { factSystem }, (msgObj) => {
-      user.updateHistory(msgObj, '');
-      Message.createMessage('What game does Bob like to play?', { factSystem }, (msgObj2) => {
-        // AutoReply ENTY:Sport
-        const h = History(user, { nouns: msgObj2.nouns });
-        h.length.should.eql(1);
-        cnet.resolveFacts(h[0].cNouns, 'sport', (err, res) => {
-          res.length.should.eql(1);
-          res[0].should.eql('tennis');
-
-          // update the history with the new msg obj.
-          user.updateHistory(msgObj2, '');
-
-          Message.createMessage('What is the name of my friend who likes to play tennis?', { factSystem }, (msgObj3) => {
-            const h2 = History(user, { nouns: msgObj3.nouns });
-            h2.length.should.eql(1);
-            h2[0].names[0].should.eql('Bob');
-            done();
-          });
-        });
-      });
-    });
-  });
-
-  // My friend John likes to fish for trout.  What does John like to fish for?
-  // What is the name of my friend who fishes for trout?
-  it('memory problem 2', (done) => {
-    Message.createMessage('My friend John likes to fish for trout.', { factSystem }, (msgObj) => {
-      user.updateHistory(msgObj, '');
-      Message.createMessage('What does John like to fish for?', { factSystem }, (msgObj2) => {
-        const h = History(user, { nouns: msgObj2.nouns });
-        h.length.should.eql(1);
-        cnet.resolveFacts(h[0].cNouns, 'food', (err, res) => {
-          res.length.should.eql(2);
-          res.should.containEql('fish');
-          res.should.containEql('trout');
-          Message.createMessage('What is the name of my friend who fishes for trout?', { factSystem }, (msgObj3) => {
-            const h2 = History(user, { nouns: msgObj3.nouns });
-            h2[0].names[0].should.eql('John');
-            done();
-          });
-        });
-      });
-    });
-  });
 
   // The ball was hit by Bill. What did Bill hit?
   // Who hit the ball?
