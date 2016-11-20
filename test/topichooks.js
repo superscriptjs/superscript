@@ -23,7 +23,7 @@ describe('SuperScript Topic Hooks', () => {
       });
     });
 
-    xit('normal topic should be called', (done) => {
+    it('normal topic should be called', (done) => {
       helpers.getBot().chatSystem.Topic.findOne({ name: 'random' }, (err, res) => {
         res.gambits.should.have.lengthOf(1);
         done();

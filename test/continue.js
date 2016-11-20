@@ -83,9 +83,7 @@ describe('SuperScript Continue System aka Conversation', () => {
       });
     });
 
-    // This needs a whole load of work to make work again.
-    // Essentially we need to store a list of all matched replies.
-    it.skip('GH-84 - compound reply convo.', (done) => {
+    it('GH-84 - compound reply convo.', (done) => {
       helpers.getBot().reply('user1', 'test complex', (err, reply) => {
         reply.string.should.eql('reply test super compound');
         helpers.getBot().reply('user1', 'cool', (err, reply) => {

@@ -9,14 +9,15 @@ describe('SuperScript Topics', () => {
   before(helpers.before('topicflags'));
 
   describe('Topic Functions', () => {
-    // This test is failing and Im not sure if random or system topics should be included
-    it.skip('should fetch a list of topics', (done) => {
+    // The length of this should equal five (at present): this excludes system topics which
+    // are not searched by default, and includes the random topic (it always does).
+    it('should fetch a list of topics', (done) => {
       helpers.getBot().findOrCreateUser('user1', (err, user) => {
         const message = { lemString: 'hello world' };
 
         helpers.getBot().chatSystem.Topic.findPendingTopicsForUser(user, message, (e, topics) => {
           topics.should.not.be.empty;
-          topics.should.have.length(7);
+          topics.should.have.length(5);
           done();
         });
       });

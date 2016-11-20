@@ -8,7 +8,7 @@ describe('SuperScript Redirects', () => {
   before(helpers.before('redirect'));
 
   describe('Dont trim whitespace from redirect (GH-92)', () => {
-    xit('this needs to work..', (done) => {
+    it('this needs to work..', (done) => {
       helpers.getBot().reply('user1', 'GitHub issue 92', (err, reply) => {
         reply.string.should.eql('testing redirects one thing two thing');
         done();
@@ -17,7 +17,7 @@ describe('SuperScript Redirects', () => {
   });
 
   describe('Redirect Interface', () => {
-    xit('should redirect on match', (done) => {
+    it('should redirect on match', (done) => {
       helpers.getBot().reply('user1', 'testing redirects', (err, reply) => {
         reply.string.should.eql('redirect test pass');
         done();

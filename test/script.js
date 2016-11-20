@@ -231,8 +231,7 @@ describe('SuperScript Scripting + Style Interface', () => {
 
     // We exausted this reply in the last test.
     // NB: this test will fail if run on its own.
-    // We lost this functionality when we started walking the tree.
-    it.skip('Should pass 2', (done) => {
+    it('Should pass 2', (done) => {
       helpers.getBot().reply('user1', 'trigger one', (err, reply) => {
         reply.string.should.eql('');
         done();
@@ -578,7 +577,7 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
-  describe.skip('Custom functions 4 - user topic change', () => {
+  describe('Custom functions 4 - user topic change', () => {
     it('Change topic', (done) => {
       helpers.getBot().reply('user3', 'call function with new topic', (err, reply) => {
         helpers.getBot().reply('user3', 'i like fish', (err, reply) => {
@@ -588,7 +587,8 @@ describe('SuperScript Scripting + Style Interface', () => {
       });
     });
 
-    it('Change topic 2', (done) => {
+    // This will require processing function tags before any other reply tags
+    it.skip('Change topic 2', (done) => {
       helpers.getBot().reply('user4', 'reply with a new topic from function', (err, reply) => {
         helpers.getBot().getUser('user4', (err, user) => {
           user.currentTopic.should.eql('fish');
@@ -897,16 +897,16 @@ describe('SuperScript Scripting + Style Interface', () => {
   });
 
 
-  describe.skip('GH-243', () => {
+  describe('GH-243', () => {
     it('Should pass data back into filter function on input', (done) => {
-      helpers.getBot().reply('user1', 'filter by logic', (err, reply) => {
+      helpers.getBot().reply('user2', 'filter by logic', (err, reply) => {
         reply.string.should.eql('logic');
         done();
       });
     });
 
     it('Should pass data back into filter function on input 2', (done) => {
-      helpers.getBot().reply('user1', 'filter by ai', (err, reply) => {
+      helpers.getBot().reply('user2', 'filter by ai', (err, reply) => {
         reply.string.should.eql('ai');
         done();
       });
