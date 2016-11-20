@@ -1,11 +1,13 @@
 [![Build Status](https://travis-ci.org/superscriptjs/superscript.svg?branch=master)](https://travis-ci.org/superscriptjs/superscript)
-[![Dependancies Status](https://david-dm.org/superscriptjs/superscript.svg)](https://david-dm.org/superscriptjs/superscript)
-[![Slack chat](https://superscript-slackin.herokuapp.com/badge.svg)](https://superscript-slackin.herokuapp.com/)
+[![Dependencies Status](https://david-dm.org/superscriptjs/superscript.svg)](https://david-dm.org/superscriptjs/superscript)
+[![Slack Chat](https://superscript-slackin.herokuapp.com/badge.svg)](https://superscript-slackin.herokuapp.com/)
 [![Code Climate](https://codeclimate.com/github/silentrob/superscript/badges/gpa.svg)](https://codeclimate.com/github/silentrob/superscript)
 
 # SuperScript
 
-SuperScript is a dialog system + bot engine for creating human-like conversation chat bots. It exposes an expressive script for crafting dialogue and features text-expansion using wordnet and Information Retrieval and extraction using ConceptNet.
+SuperScript is a dialog system + bot engine for creating human-like conversation chat bots. It exposes an expressive script for crafting dialogue and features text-expansion using WordNet and information retrieval and extraction using a fact system built on a [Level](https://github.com/Level/level) interface.
+
+Note: This version (v1.x) is designed to work with and tested against the latest Node 4.x, 5.x and 6.x.
 
 ## What comes in the box
 
@@ -20,29 +22,37 @@ SuperScript is a dialog system + bot engine for creating human-like conversation
 
 ## Getting Started
 
-Check out the [`hello-superscript`](https://github.com/silentrob/hello-superscript) repo for a clean starting point to building your own bot.
+### bot-init
 
-## NOTE 0.12.0 
+If you've installed superscript globally (`npm install -g superscript`), a good way to get your new bot up and running is by running the `bot-init` script:
 
-This version is designed to work with Node 0.12 and Node 5.5.0 and up to 5.latest 
-You may need to reinstall your node_modules folder.
+    bot-init myBotName --clients telnet,slack
 
-    `npm install`
-    `npm update`
+This will create a bot in a new 'myBotName' folder in your current directory. You can specify the clients you want with the `--clients` flag (currently bot-init only supports Slack and Telnet).
 
-Then manually extract the WordNet dictionary: 
+Then all you need to do is run:
 
-    `cd node_modules/wordnet-db`
-    `node unpack.js WNdb-3.1.tar.gz`
+```
+cd myBotName
+npm install
+parse
+npm run build
+npm run start
+```
 
-    and if you run the tests.
+The `parse` step is another script that will compile your SuperScript script. By default, it will look at the `chat` folder in your current directory.
 
-    `cd node_modules/wndb-with-exceptions`
-    `node unpack.js WNdb-3.0.tar.gz`
+### Clone a template
+
+Alternatively, check out the [`hello-superscript`](https://github.com/silentrob/hello-superscript) repo for a clean starting point to building your own bot. There's no guarantee at present that this is using the latest version of SuperScript.
+
+## Upgrading to v1.x
+
+Information on upgrading to v1.x can be found [on the wiki](https://github.com/superscriptjs/superscript/wiki/Upgrade_Guide).
 
 ## Documentation
 
-Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript. Or [read the wiki](https://github.com/silentrob/superscript/wiki)
+Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript. Or [read the wiki](https://github.com/superscriptjs/superscript/wiki)
 
 ### Example Script - Script Authoring
 
@@ -80,11 +90,10 @@ Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how t
 The above is just a tiny fraction of what the system is capable of doing. Please see the [full documentation](http://superscriptjs.com) to learn more.
 
 
-### Additonal Resources
+### Additional Resources
 
 * [Sublime Text Syntax Highlighting](https://github.com/mariusursache/superscript-sublimetext)
 * [Atom Syntax Highlighting](https://github.com/DBozhinovski/language-superscript)
-*
 
 ### Further Reading
 

@@ -6,7 +6,7 @@ import parser from 'ss-parser';
 
 program
   .version('1.0.0')
-  .option('-p, --path [type]', 'Input path', './topics')
+  .option('-p, --path [type]', 'Input path', './chat')
   .option('-o, --output [type]', 'Output options', 'data.json')
   .option('-f, --force [type]', 'Force save if output file already exists', false)
   .parse(process.argv);
