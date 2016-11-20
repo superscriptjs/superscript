@@ -80,6 +80,17 @@ const getUserId = function getUserId(cb) {
   });
 };
 
+const hasName = function hasName(bool, cb) {
+  this.user.getVar('name', (e, name) => {
+    if (name !== null) {
+      cb(null, (bool === 'true'));
+    } else {
+      // We have no name
+      cb(null, (bool === 'false'));
+    }
+  });
+};
+
 export default {
   bail,
   breakFunc,
@@ -88,6 +99,7 @@ export default {
   changetopic,
   getUserId,
   hasFirstName,
+  hasName,
   nobreak,
   num,
   objparam1,
