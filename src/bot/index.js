@@ -4,31 +4,54 @@ import debuglog from 'debug-levels';
 
 import processHelpers from './reply/common';
 import connect from './db/connect';
-import createFactSystem from './factSystem';
-import createChatSystem from './chatSystem';
+import factSystem from './factSystem';
+import chatSystem from './chatSystem';
 import getReply from './getReply';
 import Importer from './db/import';
 import Message from './message';
+import logger from './logger';
 
 const debug = debuglog('SS:SuperScript');
 
+const plugins = [];
+let editMode = false;
+let scope = {};
+
+const loadPlugins = function loadPlugins(path) {
+  try {
+    const pluginFiles = requireDir(path);
+
+    Object.keys(pluginFiles).forEach((file) => {
+      // For transpiled ES6 plugins with default export
+      if (pluginFiles[file].default) {
+        pluginFiles[file] = pluginFiles[file].default;
+      }
+
+      Object.keys(pluginFiles[file]).forEach((func) => {
+        debug.verbose('Loading plugin: ', path, func);
+        plugins[func] = pluginFiles[file][func];
+      });
+    });
+  } catch (e) {
+    console.error(`Could not load plugins from ${path}: ${e}`);
+  }
+};
+
 class SuperScript {
-  constructor(options) {
-    // Create a new database connection
-    this.db = connect(options.mongoURI);
+  constructor(tenantId) {
+    this.factSystem = factSystem.createFactSystemForTenant(tenantId);
+    this.chatSystem = chatSystem.createChatSystemForTenant(tenantId);
 
-    this.plugins = [];
+    // We want a place to store bot related data
+    this.memory = this.factSystem.createUserDB('botfacts');
 
-    // Built-in plugins
-    this.loadPlugins(`${__dirname}/../plugins`);
+    this.scope = scope;
+    this.scope.bot = this;
+    this.scope.facts = this.factSystem;
+    this.scope.chatSystem = this.chatSystem;
+    this.scope.botfacts = this.memory;
 
-    // For user plugins
-    if (options.pluginsPath) {
-      this.loadPlugins(options.pluginsPath);
-    }
-
-    // This is a kill switch for filterBySeen which is useless in the editor.
-    this.editMode = options.editMode || false;
+    this.plugins = plugins;
   }
 
   importFile(filePath, callback) {
@@ -37,26 +60,6 @@ class SuperScript {
       debug.verbose('System loaded, waiting for replies');
       callback(err);
     });
-  }
-
-  loadPlugins(path) {
-    try {
-      const plugins = requireDir(path);
-
-      for (const file in plugins) {
-        // For transpiled ES6 plugins with default export
-        if (plugins[file].default) {
-          plugins[file] = plugins[file].default;
-        }
-
-        for (const func in plugins[file]) {
-          debug.verbose('Loading plugin: ', path, func);
-          this.plugins[func] = plugins[file][func];
-        }
-      }
-    } catch (e) {
-      console.error(`Could not load plugins from ${path}: ${e}`);
-    }
   }
 
   getUsers(callback) {
@@ -130,7 +133,7 @@ class SuperScript {
       extraScope: options.extraScope,
       chatSystem: this.chatSystem,
       factSystem: this.factSystem,
-      editMode: this.editMode,
+      editMode,
     };
 
     this.findOrCreateUser(options.userId, (err, user) => {
@@ -198,6 +201,10 @@ class SuperScript {
       });
     });
   }
+
+  static getBot(tenantId) {
+    return new SuperScript(tenantId);
+  }
 }
 
 const defaultOptions = {
@@ -214,8 +221,7 @@ const defaultOptions = {
 };
 
 /**
- * Creates a new SuperScript instance. Since SuperScript doesn't use global state,
- * you may have multiple instances at once for a single bot.
+ * Setup SuperScript. You may only run this a single time since it writes to global state.
  * @param {Object} options - Any configuration settings you want to use.
  * @param {String} options.mongoURI - The database URL you want to connect to.
  *                 This will be used for both the chat and fact system.
@@ -235,28 +241,32 @@ const defaultOptions = {
  * @param {String} options.logPath - If null, logging will be off. Otherwise writes
  *                 conversation transcripts to the path.
  */
-const create = function create(options = {}, callback) {
+const setup = function setup(options = {}, callback) {
   options = _.merge(defaultOptions, options);
-  const bot = new SuperScript(options);
+  logger.setLogPath(options.logPath);
 
   // Uses schemas to create models for the db connection to use
-  createFactSystem(options.mongoURI, options.factSystem, (err, factSystem) => {
+  factSystem.createFactSystem(options.mongoURI, options.factSystem, (err) => {
     if (err) {
       return callback(err);
     }
 
-    bot.factSystem = factSystem;
-    bot.chatSystem = createChatSystem(bot.db, bot.factSystem, options.logPath);
+    const db = connect(options.mongoURI);
+    chatSystem.createChatSystem(db);
 
-    // We want a place to store bot related data
-    bot.memory = bot.factSystem.createUserDB('botfacts');
+    // Built-in plugins
+    loadPlugins(`${__dirname}/../plugins`);
 
-    bot.scope = {};
-    bot.scope = _.extend(options.scope || {});
-    bot.scope.bot = bot;
-    bot.scope.facts = bot.factSystem;
-    bot.scope.chatSystem = bot.chatSystem;
-    bot.scope.botfacts = bot.memory;
+    // For user plugins
+    if (options.pluginsPath) {
+      loadPlugins(options.pluginsPath);
+    }
+
+    // This is a kill switch for filterBySeen which is useless in the editor.
+    editMode = options.editMode || false;
+    scope = options.scope || {};
+
+    const bot = new SuperScript('master');
 
     if (options.importFile) {
       return bot.importFile(options.importFile, err => callback(err, bot));
@@ -265,4 +275,6 @@ const create = function create(options = {}, callback) {
   });
 };
 
-export default create;
+export default {
+  setup,
+};

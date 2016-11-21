@@ -1,30 +1,27 @@
 /**
-
   A Gambit is a Trigger + Reply or Reply Set
   - We define a Reply as a subDocument in Mongo.
-
 **/
 
 import mongoose from 'mongoose';
 import findOrCreate from 'mongoose-findorcreate';
-import norm from 'node-normalizer';
+import mongoTenant from 'mongo-tenant';
 import debuglog from 'debug-levels';
 import async from 'async';
 import parser from 'ss-parser';
 
 import helpers from '../helpers';
 import Utils from '../../utils';
+import factSystem from '../../factSystem';
 
 const debug = debuglog('SS:Gambit');
 
 /**
-
   A trigger is the matching rule behind a piece of input. It lives in a topic or several topics.
   A trigger also contains one or more replies.
-
 **/
 
-const createGambitModel = function createGambitModel(db, factSystem) {
+const createGambitModel = function createGambitModel(db) {
   const gambitSchema = new mongoose.Schema({
     id: { type: String, index: true, default: Utils.genId() },
 
@@ -70,7 +67,8 @@ const createGambitModel = function createGambitModel(db, factSystem) {
 
     // If we created the trigger in an external editor, normalize the trigger before saving it.
     if (this.input && !this.trigger) {
-      return parser.normalizeTrigger(this.input, factSystem, (err, cleanTrigger) => {
+      const facts = factSystem.createFactSystemForTenant(this.getTenantId());
+      return parser.normalizeTrigger(this.input, facts, (err, cleanTrigger) => {
         this.trigger = cleanTrigger;
         next();
       });
@@ -83,7 +81,7 @@ const createGambitModel = function createGambitModel(db, factSystem) {
       return callback('No data');
     }
 
-    const Reply = db.model('Reply');
+    const Reply = db.model('Reply').byTenant(this.getTenantId());
     const reply = new Reply(replyData);
     reply.save((err) => {
       if (err) {
@@ -105,7 +103,7 @@ const createGambitModel = function createGambitModel(db, factSystem) {
 
     const clearReply = function (replyId, cb) {
       self.replies.pull({ _id: replyId });
-      db.model('Reply').remove({ _id: replyId }, (err) => {
+      db.model('Reply').byTenant(this.getTenantId()).remove({ _id: replyId }, (err) => {
         if (err) {
           console.log(err);
         }
@@ -125,15 +123,15 @@ const createGambitModel = function createGambitModel(db, factSystem) {
 
   gambitSchema.methods.getRootTopic = function (cb) {
     if (!this.parent) {
-      db.model('Topic')
+      db.model('Topic').byTenant(this.getTenantId())
         .findOne({ gambits: { $in: [this._id] } })
         .exec((err, doc) => {
           cb(err, doc.name);
         });
     } else {
-      helpers.walkGambitParent(db, this._id, (err, gambits) => {
+      helpers.walkGambitParent(db, this.getTenantId(), this._id, (err, gambits) => {
         if (gambits.length !== 0) {
-          db.model('Topic')
+          db.model('Topic').byTenant(this.getTenantId())
             .findOne({ gambits: { $in: [gambits.pop()] } })
             .exec((err, topic) => {
               cb(null, topic.name);
@@ -146,6 +144,7 @@ const createGambitModel = function createGambitModel(db, factSystem) {
   };
 
   gambitSchema.plugin(findOrCreate);
+  gambitSchema.plugin(mongoTenant);
 
   return db.model('Gambit', gambitSchema);
 };

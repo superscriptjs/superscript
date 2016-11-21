@@ -4,18 +4,14 @@ import debuglog from 'debug-levels';
 import findOrCreate from 'mongoose-findorcreate';
 import mkdirp from 'mkdirp';
 import mongoose from 'mongoose';
+import mongoTenant from 'mongo-tenant';
+
+import factSystem from '../../factSystem';
+import logger from '../../logger';
 
 const debug = debuglog('SS:User');
 
-const createUserModel = function createUserModel(db, factSystem, logPath) {
-  if (logPath) {
-    try {
-      mkdirp.sync(logPath);
-    } catch (e) {
-      console.error(`Could not create logs folder at ${logPath}: ${e}`);
-    }
-  }
-
+const createUserModel = function createUserModel(db) {
   const userSchema = mongoose.Schema({
     id: String,
     status: Number,
@@ -84,14 +80,7 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
     };
 
     const cleanId = this.id.replace(/\W/g, '');
-    if (logPath) {
-      const filePath = `${logPath}/${cleanId}_trans.txt`;
-      try {
-        fs.appendFileSync(filePath, `${JSON.stringify(log)}\r\n`);
-      } catch (e) {
-        console.error(`Could not write log to file ${filePath}`);
-      }
-    }
+    logger.log(`${JSON.stringify(log)}\r\n`, `${cleanId}_trans.txt`);
 
     // Did we successfully volley?
     // In order to keep the conversation flowing we need to have rythum and this means we always
@@ -126,7 +115,7 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
       const pendingTopic = this.pendingTopic;
       this.pendingTopic = null;
 
-      db.model('Topic').findOne({ name: pendingTopic }, (err, topicData) => {
+      db.model('Topic').byTenant(this.getTenantId()).findOne({ name: pendingTopic }, (err, topicData) => {
         if (topicData && topicData.nostay === true) {
           this.currentTopic = this.history.topic[0];
         } else {
@@ -187,9 +176,10 @@ const createUserModel = function createUserModel(db, factSystem, logPath) {
   };
 
   userSchema.plugin(findOrCreate);
+  userSchema.plugin(mongoTenant);
 
   userSchema.virtual('memory').get(function () {
-    return factSystem.createUserDB(this.id);
+    return factSystem.createFactSystemForTenant(this.getTenantId()).createUserDB(this.id);
   });
 
   return db.model('User', userSchema);

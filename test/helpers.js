@@ -70,7 +70,7 @@ const before = function before(file) {
           return callback(err);
         }
         options.importFile = fileCache;
-        return SuperScript(options, (err, botInstance) => {
+        return SuperScript.setup(options, (err, botInstance) => {
           if (err) {
             return callback(err);
           }

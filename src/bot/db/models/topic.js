@@ -4,6 +4,7 @@
 **/
 
 import mongoose from 'mongoose';
+import mongoTenant from 'mongo-tenant';
 import natural from 'natural';
 import _ from 'lodash';
 import async from 'async';
@@ -71,7 +72,7 @@ const createTopicModel = function createTopicModel(db) {
       return callback('No data');
     }
 
-    const Gambit = db.model('Gambit');
+    const Gambit = db.model('Gambit').byTenant(this.getTenantId());
     const gambit = new Gambit(gambitData);
     gambit.save((err) => {
       if (err) {
@@ -86,7 +87,7 @@ const createTopicModel = function createTopicModel(db) {
 
   topicSchema.methods.sortGambits = function (callback) {
     const expandReorder = (gambitId, cb) => {
-      db.model('Gambit').findById(gambitId, (err, gambit) => {
+      db.model('Gambit').byTenant(this.getTenantId()).findById(gambitId, (err, gambit) => {
         if (err) {
           console.log(err);
         }
@@ -108,7 +109,7 @@ const createTopicModel = function createTopicModel(db) {
   topicSchema.methods.findMatch = function findMatch(message, options, callback) {
     options.topic = this.name;
 
-    helpers.findMatchingGambitsForMessage(db, 'topic', this._id, message, options, callback);
+    helpers.findMatchingGambitsForMessage(db, this.getTenantId(), 'topic', this._id, message, options, callback);
   };
 
   // Lightweight match for one topic
@@ -123,7 +124,7 @@ const createTopicModel = function createTopicModel(db) {
       });
     };
 
-    db.model('Topic').findOne({ name: this.name }, 'gambits')
+    db.model('Topic').byTenant(this.getTenantId()).findOne({ name: this.name }, 'gambits')
       .populate('gambits')
       .exec((err, mgambits) => {
         if (err) {
@@ -138,13 +139,13 @@ const createTopicModel = function createTopicModel(db) {
   topicSchema.methods.clearGambits = function (callback) {
     const clearGambit = (gambitId, cb) => {
       this.gambits.pull({ _id: gambitId });
-      db.model('Gambit').findById(gambitId, (err, gambit) => {
+      db.model('Gambit').byTenant(this.getTenantId()).findById(gambitId, (err, gambit) => {
         if (err) {
           debug.error(err);
         }
 
         gambit.clearReplies(() => {
-          db.model('Gambit').remove({ _id: gambitId }, (err) => {
+          db.model('Gambit').byTenant(this.getTenantId()).remove({ _id: gambitId }, (err) => {
             if (err) {
               debug.error(err);
             }
@@ -166,7 +167,7 @@ const createTopicModel = function createTopicModel(db) {
 
   // This will find a gambit in any topic
   topicSchema.statics.findTriggerByTrigger = function (input, callback) {
-    db.model('Gambit').findOne({ input }).exec(callback);
+    db.model('Gambit').byTenant(this.getTenantId()).findOne({ input }).exec(callback);
   };
 
   topicSchema.statics.findByName = function (name, callback) {
@@ -255,7 +256,7 @@ const createTopicModel = function createTopicModel(db) {
             debug('Conversation RESET by clearBit');
             callback(null, removeMissingTopics(pendingTopics));
           } else {
-            db.model('Reply')
+            db.model('Reply').byTenant(this.getTenantId())
               .find({ _id: { $in: lastReply.replyIds } })
               .exec((err, replies) => {
                 if (err) {
@@ -268,7 +269,7 @@ const createTopicModel = function createTopicModel(db) {
                   debug('Last reply: ', lastReply.original, replyId, clearConversation);
                   let replyThreads = [];
                   async.eachSeries(replies, (reply, next) => {
-                    helpers.walkReplyParent(db, reply._id, (err, threads) => {
+                    helpers.walkReplyParent(db, this.getTenantId(), reply._id, (err, threads) => {
                       debug.verbose(`Threads found by walkReplyParent: ${threads}`);
                       threads.forEach(thread => replyThreads.push(thread));
                       next();
@@ -294,6 +295,7 @@ const createTopicModel = function createTopicModel(db) {
   };
 
   topicSchema.plugin(findOrCreate);
+  topicSchema.plugin(mongoTenant);
 
   return db.model('Topic', topicSchema);
 };
