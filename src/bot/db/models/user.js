@@ -6,6 +6,7 @@ import mkdirp from 'mkdirp';
 import mongoose from 'mongoose';
 import mongoTenant from 'mongo-tenant';
 
+import modelNames from '../modelNames';
 import factSystem from '../../factSystem';
 import logger from '../../logger';
 
@@ -115,7 +116,7 @@ const createUserModel = function createUserModel(db) {
       const pendingTopic = this.pendingTopic;
       this.pendingTopic = null;
 
-      db.model('Topic').byTenant(this.getTenantId()).findOne({ name: pendingTopic }, (err, topicData) => {
+      db.model(modelNames.topic).byTenant(this.getTenantId()).findOne({ name: pendingTopic }, (err, topicData) => {
         if (topicData && topicData.nostay === true) {
           this.currentTopic = this.history.topic[0];
         } else {
@@ -182,7 +183,7 @@ const createUserModel = function createUserModel(db) {
     return factSystem.createFactSystemForTenant(this.getTenantId()).createUserDB(this.id);
   });
 
-  return db.model('User', userSchema);
+  return db.model(modelNames.user, userSchema);
 };
 
 export default createUserModel;

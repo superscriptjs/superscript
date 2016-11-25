@@ -38,7 +38,7 @@ const loadPlugins = function loadPlugins(path) {
 };
 
 class SuperScript {
-  constructor(tenantId) {
+  constructor(tenantId = 'master') {
     this.factSystem = factSystem.createFactSystemForTenant(tenantId);
     this.chatSystem = chatSystem.createChatSystemForTenant(tenantId);
 

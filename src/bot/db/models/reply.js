@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import mongoTenant from 'mongo-tenant';
 import async from 'async';
 
+import modelNames from '../modelNames';
 import Utils from '../../utils';
 import Sort from '../sort';
 import helpers from '../helpers';
@@ -12,11 +13,11 @@ const createReplyModel = function createReplyModel(db) {
     reply: { type: String, required: '{reply} is required.' },
     keep: { type: Boolean, default: false },
     filter: { type: String, default: '' },
-    parent: { type: String, ref: 'Gambit' },
+    parent: { type: String, ref: modelNames.gambit },
 
     // Replies could referece other gambits
     // This forms the basis for the 'previous' - These are Children
-    gambits: [{ type: String, ref: 'Gambit' }],
+    gambits: [{ type: String, ref: modelNames.gambit }],
   });
 
   // This method is similar to the topic.findMatch
@@ -27,7 +28,7 @@ const createReplyModel = function createReplyModel(db) {
   replySchema.methods.sortGambits = function sortGambits(callback) {
     const self = this;
     const expandReorder = (gambitId, cb) => {
-      db.model('Gambit').byTenant(this.getTenantId()).findById(gambitId, (err, gambit) => {
+      db.model(modelNames.gambit).byTenant(this.getTenantId()).findById(gambitId, (err, gambit) => {
         cb(err, gambit);
       });
     };
@@ -45,7 +46,7 @@ const createReplyModel = function createReplyModel(db) {
 
   replySchema.plugin(mongoTenant);
 
-  return db.model('Reply', replySchema);
+  return db.model(modelNames.reply, replySchema);
 };
 
 export default createReplyModel;

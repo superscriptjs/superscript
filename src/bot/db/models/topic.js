@@ -12,6 +12,7 @@ import findOrCreate from 'mongoose-findorcreate';
 import debuglog from 'debug-levels';
 import parser from 'ss-parser';
 
+import modelNames from '../modelNames';
 import Sort from '../sort';
 import helpers from '../helpers';
 
@@ -53,7 +54,7 @@ const createTopicModel = function createTopicModel(db) {
     nostay: { type: Boolean, default: false },
     filter: { type: String, default: '' },
     keywords: { type: Array },
-    gambits: [{ type: String, ref: 'Gambit' }],
+    gambits: [{ type: String, ref: modelNames.gambit }],
   });
 
   topicSchema.pre('save', function (next) {
@@ -72,7 +73,7 @@ const createTopicModel = function createTopicModel(db) {
       return callback('No data');
     }
 
-    const Gambit = db.model('Gambit').byTenant(this.getTenantId());
+    const Gambit = db.model(modelNames.gambit).byTenant(this.getTenantId());
     const gambit = new Gambit(gambitData);
     gambit.save((err) => {
       if (err) {
@@ -87,7 +88,7 @@ const createTopicModel = function createTopicModel(db) {
 
   topicSchema.methods.sortGambits = function (callback) {
     const expandReorder = (gambitId, cb) => {
-      db.model('Gambit').byTenant(this.getTenantId()).findById(gambitId, (err, gambit) => {
+      db.model(modelNames.gambit).byTenant(this.getTenantId()).findById(gambitId, (err, gambit) => {
         if (err) {
           console.log(err);
         }
@@ -124,7 +125,7 @@ const createTopicModel = function createTopicModel(db) {
       });
     };
 
-    db.model('Topic').byTenant(this.getTenantId()).findOne({ name: this.name }, 'gambits')
+    db.model(modelNames.topic).byTenant(this.getTenantId()).findOne({ name: this.name }, 'gambits')
       .populate('gambits')
       .exec((err, mgambits) => {
         if (err) {
@@ -139,13 +140,13 @@ const createTopicModel = function createTopicModel(db) {
   topicSchema.methods.clearGambits = function (callback) {
     const clearGambit = (gambitId, cb) => {
       this.gambits.pull({ _id: gambitId });
-      db.model('Gambit').byTenant(this.getTenantId()).findById(gambitId, (err, gambit) => {
+      db.model(modelNames.gambit).byTenant(this.getTenantId()).findById(gambitId, (err, gambit) => {
         if (err) {
           debug.error(err);
         }
 
         gambit.clearReplies(() => {
-          db.model('Gambit').byTenant(this.getTenantId()).remove({ _id: gambitId }, (err) => {
+          db.model(modelNames.gambit).byTenant(this.getTenantId()).remove({ _id: gambitId }, (err) => {
             if (err) {
               debug.error(err);
             }
@@ -167,7 +168,7 @@ const createTopicModel = function createTopicModel(db) {
 
   // This will find a gambit in any topic
   topicSchema.statics.findTriggerByTrigger = function (input, callback) {
-    db.model('Gambit').byTenant(this.getTenantId()).findOne({ input }).exec(callback);
+    db.model(modelNames.gambit).byTenant(this.getTenantId()).findOne({ input }).exec(callback);
   };
 
   topicSchema.statics.findByName = function (name, callback) {
@@ -256,7 +257,7 @@ const createTopicModel = function createTopicModel(db) {
             debug('Conversation RESET by clearBit');
             callback(null, removeMissingTopics(pendingTopics));
           } else {
-            db.model('Reply').byTenant(this.getTenantId())
+            db.model(modelNames.reply).byTenant(this.getTenantId())
               .find({ _id: { $in: lastReply.replyIds } })
               .exec((err, replies) => {
                 if (err) {
@@ -297,7 +298,7 @@ const createTopicModel = function createTopicModel(db) {
   topicSchema.plugin(findOrCreate);
   topicSchema.plugin(mongoTenant);
 
-  return db.model('Topic', topicSchema);
+  return db.model(modelNames.topic, topicSchema);
 };
 
 export default createTopicModel;

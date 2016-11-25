@@ -10,6 +10,7 @@ import debuglog from 'debug-levels';
 import async from 'async';
 import parser from 'ss-parser';
 
+import modelNames from '../modelNames';
 import helpers from '../helpers';
 import Utils from '../../utils';
 import factSystem from '../../factSystem';
@@ -47,10 +48,10 @@ const createGambitModel = function createGambitModel(db) {
     filter: { type: String, default: '' },
 
     // An array of replies.
-    replies: [{ type: String, ref: 'Reply' }],
+    replies: [{ type: String, ref: modelNames.reply }],
 
     // Save a reference to the parent Reply, so we can walk back up the tree
-    parent: { type: String, ref: 'Reply' },
+    parent: { type: String, ref: modelNames.reply },
 
     // This will redirect anything that matches elsewhere.
     // If you want to have a conditional rediect use reply redirects
@@ -81,7 +82,7 @@ const createGambitModel = function createGambitModel(db) {
       return callback('No data');
     }
 
-    const Reply = db.model('Reply').byTenant(this.getTenantId());
+    const Reply = db.model(modelNames.reply).byTenant(this.getTenantId());
     const reply = new Reply(replyData);
     reply.save((err) => {
       if (err) {
@@ -103,7 +104,7 @@ const createGambitModel = function createGambitModel(db) {
 
     const clearReply = function (replyId, cb) {
       self.replies.pull({ _id: replyId });
-      db.model('Reply').byTenant(this.getTenantId()).remove({ _id: replyId }, (err) => {
+      db.model(modelNames.reply).byTenant(this.getTenantId()).remove({ _id: replyId }, (err) => {
         if (err) {
           console.log(err);
         }
@@ -123,7 +124,7 @@ const createGambitModel = function createGambitModel(db) {
 
   gambitSchema.methods.getRootTopic = function (cb) {
     if (!this.parent) {
-      db.model('Topic').byTenant(this.getTenantId())
+      db.model(modelNames.topic).byTenant(this.getTenantId())
         .findOne({ gambits: { $in: [this._id] } })
         .exec((err, doc) => {
           cb(err, doc.name);
@@ -131,7 +132,7 @@ const createGambitModel = function createGambitModel(db) {
     } else {
       helpers.walkGambitParent(db, this.getTenantId(), this._id, (err, gambits) => {
         if (gambits.length !== 0) {
-          db.model('Topic').byTenant(this.getTenantId())
+          db.model(modelNames.topic).byTenant(this.getTenantId())
             .findOne({ gambits: { $in: [gambits.pop()] } })
             .exec((err, topic) => {
               cb(null, topic.name);
@@ -146,7 +147,7 @@ const createGambitModel = function createGambitModel(db) {
   gambitSchema.plugin(findOrCreate);
   gambitSchema.plugin(mongoTenant);
 
-  return db.model('Gambit', gambitSchema);
+  return db.model('ss_gambit', gambitSchema);
 };
 
 export default createGambitModel;

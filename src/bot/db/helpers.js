@@ -5,13 +5,14 @@ import _ from 'lodash';
 import debuglog from 'debug-levels';
 import safeEval from 'safe-eval';
 
+import modelNames from './modelNames';
 import Utils from '../utils';
 import postParse from '../postParse';
 
 const debug = debuglog('SS:Common');
 
 const _walkReplyParent = function _walkReplyParent(db, tenantId, replyId, replyIds, cb) {
-  db.model('Reply').byTenant(tenantId).findById(replyId)
+  db.model(modelNames.reply).byTenant(tenantId).findById(replyId)
     .populate('parent')
     .exec((err, reply) => {
       if (err) {
@@ -34,7 +35,7 @@ const _walkReplyParent = function _walkReplyParent(db, tenantId, replyId, replyI
 };
 
 const _walkGambitParent = function _walkGambitParent(db, tenantId, gambitId, gambitIds, cb) {
-  db.model('Gambit').byTenant(tenantId).findOne({ _id: gambitId })
+  db.model(modelNames.gambit).byTenant(tenantId).findOne({ _id: gambitId })
     .populate('parent')
     .exec((err, gambit) => {
       if (err) {
@@ -65,7 +66,7 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
 
     const populateGambits = function populateGambits(gambit, next) {
       debug.verbose('Populating gambit');
-      db.model('Reply').byTenant(tenantId).populate(gambit, { path: 'replies' }, next);
+      db.model(modelNames.reply).byTenant(tenantId).populate(gambit, { path: 'replies' }, next);
     };
 
     async.each(gambitsParent.gambits, populateGambits, (err) => {
@@ -83,13 +84,13 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
 
   if (type === 'topic') {
     debug.verbose('Looking back Topic', id);
-    db.model('Topic').byTenant(tenantId).findOne({ _id: id }, 'gambits')
+    db.model(modelNames.topic).byTenant(tenantId).findOne({ _id: id }, 'gambits')
       .populate({ path: 'gambits' })
       .exec(execHandle);
   } else if (type === 'reply') {
     options.topic = 'reply';
     debug.verbose('Looking back at Conversation', id);
-    db.model('Reply').byTenant(tenantId).findOne({ _id: id }, 'gambits')
+    db.model(modelNames.reply).byTenant(tenantId).findOne({ _id: id }, 'gambits')
       .populate({ path: 'gambits' })
       .exec(execHandle);
   } else {
