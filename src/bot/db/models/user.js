@@ -7,12 +7,10 @@ import mongoose from 'mongoose';
 import mongoTenant from 'mongo-tenant';
 
 import modelNames from '../modelNames';
-import factSystem from '../../factSystem';
-import logger from '../../logger';
 
 const debug = debuglog('SS:User');
 
-const createUserModel = function createUserModel(db) {
+const createUserModel = function createUserModel(db, factSystem, logger) {
   const userSchema = mongoose.Schema({
     id: String,
     status: Number,
@@ -180,7 +178,7 @@ const createUserModel = function createUserModel(db) {
   userSchema.plugin(mongoTenant);
 
   userSchema.virtual('memory').get(function () {
-    return factSystem.createFactSystemForTenant(this.getTenantId()).createUserDB(this.id);
+    return factSystem.getFactSystem(this.getTenantId()).createUserDB(this.id);
   });
 
   return db.model(modelNames.user, userSchema);

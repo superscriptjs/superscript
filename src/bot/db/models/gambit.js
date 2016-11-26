@@ -13,7 +13,6 @@ import parser from 'ss-parser';
 import modelNames from '../modelNames';
 import helpers from '../helpers';
 import Utils from '../../utils';
-import factSystem from '../../factSystem';
 
 const debug = debuglog('SS:Gambit');
 
@@ -22,7 +21,7 @@ const debug = debuglog('SS:Gambit');
   A trigger also contains one or more replies.
 **/
 
-const createGambitModel = function createGambitModel(db) {
+const createGambitModel = function createGambitModel(db, factSystem) {
   const gambitSchema = new mongoose.Schema({
     id: { type: String, index: true, default: Utils.genId() },
 
@@ -68,7 +67,7 @@ const createGambitModel = function createGambitModel(db) {
 
     // If we created the trigger in an external editor, normalize the trigger before saving it.
     if (this.input && !this.trigger) {
-      const facts = factSystem.createFactSystemForTenant(this.getTenantId());
+      const facts = factSystem.getFactSystem(this.getTenantId());
       return parser.normalizeTrigger(this.input, facts, (err, cleanTrigger) => {
         this.trigger = cleanTrigger;
         next();
