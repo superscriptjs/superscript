@@ -8,7 +8,7 @@ const options = {
   importFile: './data.json',
 };
 
-SuperScript(options, (err, bot) => {
+SuperScript.setup(options, (err, bot) => {
   if (err) {
     console.error(err);
   }
