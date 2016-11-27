@@ -50,7 +50,69 @@ const after = function after(end) {
   }
 };
 
-const before = function before(file) {
+const parse = function parse(file, callback) {
+  const fileCache = `${__dirname}/fixtures/cache/${file}.json`;
+  fs.exists(fileCache, (exists) => {
+    if (!exists) {
+      bootstrap((err, factSystem) => {
+        parser.loadDirectory(`${__dirname}/fixtures/${file}`, { factSystem }, (err, result) => {
+          if (err) {
+            return callback(err);
+          }
+          return callback(null, fileCache, result);
+        });
+      });
+    } else {
+      console.log(`Loading cached script from ${fileCache}`);
+      let contents = fs.readFileSync(fileCache, 'utf-8');
+      contents = JSON.parse(contents);
+
+      bootstrap((err, factSystem) => {
+        if (err) {
+          return callback(err);
+        }
+        const checksums = contents.checksums;
+        return parser.loadDirectory(`${__dirname}/fixtures/${file}`, { factSystem, cache: checksums }, (err, result) => {
+          if (err) {
+            return callback(err);
+          }
+          const results = _.merge(contents, result);
+          return callback(null, fileCache, results);
+        });
+      });
+    }
+  });
+};
+
+const saveToCache = function saveToCache(fileCache, result, callback) {
+  fs.exists(`${__dirname}/fixtures/cache`, (exists) => {
+    if (!exists) {
+      fs.mkdirSync(`${__dirname}/fixtures/cache`);
+    }
+    return fs.writeFile(fileCache, JSON.stringify(result), (err) => {
+      if (err) {
+        return callback(err);
+      }
+      return callback();
+    });
+  });
+};
+
+const parseAndSaveToCache = function parseAndSaveToCache(file, callback) {
+  parse(file, (err, fileCache, result) => {
+    if (err) {
+      return callback(err);
+    }
+    return saveToCache(fileCache, result, (err) => {
+      if (err) {
+        return callback(err);
+      }
+      return callback(null, fileCache);
+    });
+  });
+};
+
+const setupBot = function setupBot(fileCache, multitenant, callback) {
   const options = {
     mongoURI: 'mongodb://localhost/superscripttest',
     factSystem: {
@@ -58,60 +120,26 @@ const before = function before(file) {
     },
     logPath: null,
     pluginsPath: null,
+    importFile: fileCache,
+    useMultitenancy: multitenant,
   };
 
-  const afterParse = (fileCache, result, callback) => {
-    fs.exists(`${__dirname}/fixtures/cache`, (exists) => {
-      if (!exists) {
-        fs.mkdirSync(`${__dirname}/fixtures/cache`);
-      }
-      return fs.writeFile(fileCache, JSON.stringify(result), (err) => {
-        if (err) {
-          return callback(err);
-        }
-        options.importFile = fileCache;
-        return SuperScript.setup(options, (err, botInstance) => {
-          if (err) {
-            return callback(err);
-          }
-          bot = botInstance;
-          return callback();
-        });
-      });
-    });
-  };
+  return SuperScript.setup(options, (err, botInstance) => {
+    if (err) {
+      return callback(err);
+    }
+    bot = botInstance;
+    return callback();
+  });
+};
 
+const before = function before(file, multitenant = false) {
   return (done) => {
-    const fileCache = `${__dirname}/fixtures/cache/${file}.json`;
-    fs.exists(fileCache, (exists) => {
-      if (!exists) {
-        bootstrap((err, factSystem) => {
-          parser.loadDirectory(`${__dirname}/fixtures/${file}`, { factSystem }, (err, result) => {
-            if (err) {
-              done(err);
-            }
-            afterParse(fileCache, result, done);
-          });
-        });
-      } else {
-        console.log(`Loading cached script from ${fileCache}`);
-        let contents = fs.readFileSync(fileCache, 'utf-8');
-        contents = JSON.parse(contents);
-
-        bootstrap((err, factSystem) => {
-          if (err) {
-            done(err);
-          }
-          const checksums = contents.checksums;
-          parser.loadDirectory(`${__dirname}/fixtures/${file}`, { factSystem, cache: checksums }, (err, result) => {
-            if (err) {
-              done(err);
-            }
-            const results = _.merge(contents, result);
-            afterParse(fileCache, results, done);
-          });
-        });
+    parseAndSaveToCache(file, (err, fileCache) => {
+      if (err) {
+        return done(err);
       }
+      return setupBot(fileCache, multitenant, done);
     });
   };
 };
@@ -120,4 +148,6 @@ export default {
   after,
   before,
   getBot,
+  parseAndSaveToCache,
+  setupBot,
 };
