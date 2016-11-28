@@ -4,31 +4,30 @@ import debuglog from 'debug-levels';
 
 import processHelpers from './reply/common';
 import connect from './db/connect';
-import createFactSystem from './factSystem';
-import createChatSystem from './chatSystem';
+import factSystem from './factSystem';
+import chatSystem from './chatSystem';
 import getReply from './getReply';
 import Importer from './db/import';
 import Message from './message';
+import Logger from './logger';
 
 const debug = debuglog('SS:SuperScript');
 
 class SuperScript {
-  constructor(options) {
-    // Create a new database connection
-    this.db = connect(options.mongoURI);
+  constructor(coreChatSystem, coreFactSystem, plugins, scope, editMode, tenantId = 'master') {
+    this.chatSystem = coreChatSystem.getChatSystem(tenantId);
+    this.factSystem = coreFactSystem.getFactSystem(tenantId);
 
-    this.plugins = [];
+    // We want a place to store bot related data
+    this.memory = this.factSystem.createUserDB('botfacts');
 
-    // Built-in plugins
-    this.loadPlugins(`${__dirname}/../plugins`);
+    this.scope = scope;
+    this.scope.bot = this;
+    this.scope.facts = this.factSystem;
+    this.scope.chatSystem = this.chatSystem;
+    this.scope.botfacts = this.memory;
 
-    // For user plugins
-    if (options.pluginsPath) {
-      this.loadPlugins(options.pluginsPath);
-    }
-
-    // This is a kill switch for filterBySeen which is useless in the editor.
-    this.editMode = options.editMode || false;
+    this.plugins = plugins;
   }
 
   importFile(filePath, callback) {
@@ -37,26 +36,6 @@ class SuperScript {
       debug.verbose('System loaded, waiting for replies');
       callback(err);
     });
-  }
-
-  loadPlugins(path) {
-    try {
-      const plugins = requireDir(path);
-
-      for (const file in plugins) {
-        // For transpiled ES6 plugins with default export
-        if (plugins[file].default) {
-          plugins[file] = plugins[file].default;
-        }
-
-        for (const func in plugins[file]) {
-          debug.verbose('Loading plugin: ', path, func);
-          this.plugins[func] = plugins[file][func];
-        }
-      }
-    } catch (e) {
-      console.error(`Could not load plugins from ${path}: ${e}`);
-    }
   }
 
   getUsers(callback) {
@@ -179,7 +158,7 @@ class SuperScript {
                 const clientObject = {
                   replyId: replyObj.replyId,
                   createdAt: replyMessageObject.createdAt || new Date(),
-                  string: replyMessage || '', // replyMessageObject.raw || "",
+                  string: replyMessage || '',
                   topicName: replyObj.topicName,
                   subReplies: replyObj.subReplies,
                   debug: log,
@@ -200,6 +179,62 @@ class SuperScript {
   }
 }
 
+/**
+ *  This a class which has global settings for all bots on a certain database server,
+ *  so we can reuse parts of the chat and fact systems and share plugins, whilst still
+ *  being able to have multiple bots on different databases per server.
+ */
+class SuperScriptInstance {
+  constructor(coreChatSystem, coreFactSystem, options) {
+    this.coreChatSystem = coreChatSystem;
+    this.coreFactSystem = coreFactSystem;
+    this.editMode = options.editMode || false;
+    this.plugins = [];
+
+    // This is a kill switch for filterBySeen which is useless in the editor.
+    this.editMode = options.editMode || false;
+    this.scope = options.scope || {};
+
+    // Built-in plugins
+    this.loadPlugins(`${__dirname}/../plugins`);
+
+    // For user plugins
+    if (options.pluginsPath) {
+      this.loadPlugins(options.pluginsPath);
+    }
+  }
+
+  loadPlugins(path) {
+    try {
+      const pluginFiles = requireDir(path);
+
+      Object.keys(pluginFiles).forEach((file) => {
+        // For transpiled ES6 plugins with default export
+        if (pluginFiles[file].default) {
+          pluginFiles[file] = pluginFiles[file].default;
+        }
+
+        Object.keys(pluginFiles[file]).forEach((func) => {
+          debug.verbose('Loading plugin: ', path, func);
+          this.plugins[func] = pluginFiles[file][func];
+        });
+      });
+    } catch (e) {
+      console.error(`Could not load plugins from ${path}: ${e}`);
+    }
+  }
+
+  getBot(tenantId) {
+    return new SuperScript(this.coreChatSystem,
+      this.coreFactSystem,
+      this.plugins,
+      this.scope,
+      this.editMode,
+      tenantId,
+    );
+  }
+}
+
 const defaultOptions = {
   mongoURI: 'mongodb://localhost/superscriptDB',
   importFile: null,
@@ -211,11 +246,11 @@ const defaultOptions = {
   editMode: false,
   pluginsPath: `${process.cwd()}/plugins`,
   logPath: `${process.cwd()}/logs`,
+  useMultitenancy: false,
 };
 
 /**
- * Creates a new SuperScript instance. Since SuperScript doesn't use global state,
- * you may have multiple instances at once for a single bot.
+ * Setup SuperScript. You may only run this a single time since it writes to global state.
  * @param {Object} options - Any configuration settings you want to use.
  * @param {String} options.mongoURI - The database URL you want to connect to.
  *                 This will be used for both the chat and fact system.
@@ -234,30 +269,36 @@ const defaultOptions = {
  *                 the entire directory recursively.
  * @param {String} options.logPath - If null, logging will be off. Otherwise writes
  *                 conversation transcripts to the path.
+ * @param {Boolean} options.useMultitenancy - If true, will return a bot instance instead
+ *                  of a bot, so you can get different tenancies of a single server. Otherwise,
+ *                  returns a default bot in the 'master' tenancy.
  */
-const create = function create(options = {}, callback) {
+const setup = function setup(options = {}, callback) {
   options = _.merge(defaultOptions, options);
-  const bot = new SuperScript(options);
 
   // Uses schemas to create models for the db connection to use
-  createFactSystem(options.mongoURI, options.factSystem, (err, factSystem) => {
+  factSystem.setupFactSystem(options.mongoURI, options.factSystem, (err, coreFactSystem) => {
     if (err) {
       return callback(err);
     }
 
-    bot.factSystem = factSystem;
-    bot.chatSystem = createChatSystem(bot.db, bot.factSystem, options.logPath);
+    const db = connect(options.mongoURI);
+    const logger = new Logger(options.logPath);
+    const coreChatSystem = chatSystem.setupChatSystem(db, coreFactSystem, logger);
 
-    // We want a place to store bot related data
-    bot.memory = bot.factSystem.createUserDB('botfacts');
+    const instance = new SuperScriptInstance(coreChatSystem, coreFactSystem, options);
 
-    bot.scope = {};
-    bot.scope = _.extend(options.scope || {});
-    bot.scope.bot = bot;
-    bot.scope.facts = bot.factSystem;
-    bot.scope.chatSystem = bot.chatSystem;
-    bot.scope.botfacts = bot.memory;
+    /**
+     *  When you want to use multitenancy, don't return a bot, but instead an instance that can
+     *  get bots in different tenancies. Then you can just do:
+     *
+     *  instance.getBot('myBot');
+     */
+    if (options.useMultitenancy) {
+      return callback(null, instance);
+    }
 
+    const bot = instance.getBot('master');
     if (options.importFile) {
       return bot.importFile(options.importFile, err => callback(err, bot));
     }
@@ -265,4 +306,6 @@ const create = function create(options = {}, callback) {
   });
 };
 
-export default create;
+export default {
+  setup,
+};

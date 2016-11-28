@@ -1,7 +1,11 @@
+# SuperScript
 src/*
 test/*
 example/*
+logs/*
+coverage/*
 .github/*
+
 .babelrc
 .eslintrc
 .travis.yml
@@ -9,15 +13,19 @@ changes.md
 contribute.md
 LICENSE.md
 readme.md
-logs/*
-test/fixtures/cache/*
-dump.rdb
-dump/*
-coverage
-*.sw*
+
+# Node
+node_modules/*
+npm-debug.log
 
 # Node profiler logs
 isolate-*-v8.log
+
+# OS Files
+.DS_Store
+*.sw*
+dump.rdb
+dump/*
 
 # IDEA/WebStorm Project Files
 .idea

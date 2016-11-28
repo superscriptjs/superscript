@@ -5,13 +5,14 @@ import _ from 'lodash';
 import debuglog from 'debug-levels';
 import safeEval from 'safe-eval';
 
+import modelNames from './modelNames';
 import Utils from '../utils';
 import postParse from '../postParse';
 
 const debug = debuglog('SS:Common');
 
-const _walkReplyParent = function _walkReplyParent(db, replyId, replyIds, cb) {
-  db.model('Reply').findById(replyId)
+const _walkReplyParent = function _walkReplyParent(db, tenantId, replyId, replyIds, cb) {
+  db.model(modelNames.reply).byTenant(tenantId).findById(replyId)
     .populate('parent')
     .exec((err, reply) => {
       if (err) {
@@ -23,7 +24,7 @@ const _walkReplyParent = function _walkReplyParent(db, replyId, replyIds, cb) {
       if (reply) {
         replyIds.push(reply._id);
         if (reply.parent && reply.parent.parent) {
-          _walkReplyParent(db, reply.parent.parent, replyIds, cb);
+          _walkReplyParent(db, tenantId, reply.parent.parent, replyIds, cb);
         } else {
           cb(null, replyIds);
         }
@@ -33,8 +34,8 @@ const _walkReplyParent = function _walkReplyParent(db, replyId, replyIds, cb) {
     });
 };
 
-const _walkGambitParent = function _walkGambitParent(db, gambitId, gambitIds, cb) {
-  db.model('Gambit').findOne({ _id: gambitId })
+const _walkGambitParent = function _walkGambitParent(db, tenantId, gambitId, gambitIds, cb) {
+  db.model(modelNames.gambit).byTenant(tenantId).findOne({ _id: gambitId })
     .populate('parent')
     .exec((err, gambit) => {
       if (err) {
@@ -44,7 +45,7 @@ const _walkGambitParent = function _walkGambitParent(db, gambitId, gambitIds, cb
       if (gambit) {
         gambitIds.push(gambit._id);
         if (gambit.parent && gambit.parent.parent) {
-          _walkGambitParent(db, gambit.parent.parent, gambitIds, cb);
+          _walkGambitParent(db, tenantId, gambit.parent.parent, gambitIds, cb);
         } else {
           cb(null, gambitIds);
         }
@@ -56,7 +57,7 @@ const _walkGambitParent = function _walkGambitParent(db, gambitId, gambitIds, cb
 
 // This will find all the gambits to process by parent (topic or conversation)
 // and return ones that match the message
-const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db, type, id, message, options, callback) {
+const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db, tenantId, type, id, message, options, callback) {
   // Let's query for Gambits
   const execHandle = function execHandle(err, gambitsParent) {
     if (err) {
@@ -65,7 +66,7 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
 
     const populateGambits = function populateGambits(gambit, next) {
       debug.verbose('Populating gambit');
-      db.model('Reply').populate(gambit, { path: 'replies' }, next);
+      db.model(modelNames.reply).byTenant(tenantId).populate(gambit, { path: 'replies' }, next);
     };
 
     async.each(gambitsParent.gambits, populateGambits, (err) => {
@@ -83,13 +84,13 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
 
   if (type === 'topic') {
     debug.verbose('Looking back Topic', id);
-    db.model('Topic').findOne({ _id: id }, 'gambits')
+    db.model(modelNames.topic).byTenant(tenantId).findOne({ _id: id }, 'gambits')
       .populate({ path: 'gambits' })
       .exec(execHandle);
   } else if (type === 'reply') {
     options.topic = 'reply';
     debug.verbose('Looking back at Conversation', id);
-    db.model('Reply').findOne({ _id: id }, 'gambits')
+    db.model(modelNames.reply).byTenant(tenantId).findOne({ _id: id }, 'gambits')
       .populate({ path: 'gambits' })
       .exec(execHandle);
   } else {
@@ -325,12 +326,12 @@ const _eachGambitHandle = function (message, options) {
   };
 }; // end EachGambit
 
-const walkReplyParent = (db, replyId, cb) => {
-  _walkReplyParent(db, replyId, [], cb);
+const walkReplyParent = (db, tenantId, replyId, cb) => {
+  _walkReplyParent(db, tenantId, replyId, [], cb);
 };
 
-const walkGambitParent = (db, gambitId, cb) => {
-  _walkGambitParent(db, gambitId, [], cb);
+const walkGambitParent = (db, tenantId, gambitId, cb) => {
+  _walkGambitParent(db, tenantId, gambitId, [], cb);
 };
 
 export default {

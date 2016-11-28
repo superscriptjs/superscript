@@ -47,6 +47,7 @@
     "lodash": "^4.16.5",
     "mkdirp": "^0.5.1",
     "moment": "^2.13.0",
+    "mongo-tenant": "^1.0.1",
     "mongoose": "^4.5.10",
     "mongoose-findorcreate": "^0.1.2",
     "natural": "^0.4.0",
