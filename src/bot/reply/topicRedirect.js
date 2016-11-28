@@ -17,7 +17,7 @@ const topicRedirect = function topicRedirect(topicName, topicTrigger, options, c
     }
 
     const messageOptions = {
-      facts: options.system.factSystem,
+      factSystem: options.system.factSystem
     };
 
     Message.createMessage(topicTrigger, messageOptions, (redirectMessage) => {

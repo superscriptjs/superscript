@@ -8,11 +8,11 @@
    % What is your name
    - So your first name is <cap1>?
 
-    + ~yes
+    + yes
     % So your first name is *
     - Okay good.
 
-    + ~no
+    + no
     % So your first name is *
     - Oh, lets try this again... {@new conversation}
 
@@ -38,11 +38,11 @@
 
 + i like to travel
 - have you been to Madird?
-  + ~yes *
+  + yes *
   % have you been to Madird?
   - Madird is amazing.
 
-  + ~no *
+  + no *
   % have you been to Madird?
   - Madird is my favorite city.
 
@@ -72,11 +72,11 @@
 // Testing conversation exaustion GH-133 from slack
 + conversation
 - Are you happy?
-  + ~yes
+  + yes
   % are you happy
   - OK, so you are happy
 
-  + ~no
+  + no
   % are you happy
   - OK, so you are not happy
 

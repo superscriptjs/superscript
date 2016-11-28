@@ -57,7 +57,7 @@ describe('SuperScript Continue System aka Conversation', () => {
     it('should continue 3 - no', (done) => {
       helpers.getBot().reply('user1', 'i like to travel', (err, reply) => {
         reply.string.should.eql('have you been to Madird?');
-        helpers.getBot().reply('user1', 'never', (err, reply2) => {
+        helpers.getBot().reply('user1', 'no', (err, reply2) => {
           reply2.string.should.eql('Madird is my favorite city.');
           done();
         });

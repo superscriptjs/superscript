@@ -43,7 +43,7 @@
 
 
 // Redirect to a topic
-+ ~emohello *
++ hello *
 - ^topicRedirect(weather,__to_say__)
 
 
@@ -150,15 +150,15 @@
 + __preview
 - {@__preview_question_kickoff}
 
-    + ~yes
+    + yes
     % {@__preview_question_kickoff}
     - Great, let's play!
 
-    + ~no
+    + no
     % {@__preview_question_kickoff}
     - No? Alright, let's play a differnt game!
 
-    + (*)
+    + *
     % {@__preview_question_kickoff}
     - OK, let's play!
 
