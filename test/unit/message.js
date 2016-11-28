@@ -3,7 +3,7 @@ import should from 'should';
 import sfacts from 'sfacts';
 
 import Message from '../../src/bot/message';
-import factSystem from '../../src/bot/factSystem';
+import factSetup from '../../src/bot/factSystem';
 
 const data = [
   /* './data/names.top',
@@ -13,7 +13,7 @@ const data = [
   './data/concepts.top',*/
 ];
 
-describe.skip('Message Interface', () => {
+describe('Message Interface', () => {
   let factSystem;
 
   before((done) => {
@@ -21,7 +21,8 @@ describe.skip('Message Interface', () => {
       clean: true,
       importData: data,
     };
-    factSystem.createFactSystem('mongodb://localhost/messagetest', options, (err) => {
+    factSetup.setupFactSystem('mongodb://localhost/messagetest', options, (err, facts) => {
+      factSystem = facts.getFactSystem();
       done(err);
     });
   });
