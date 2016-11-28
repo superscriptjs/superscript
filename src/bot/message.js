@@ -6,7 +6,6 @@ import moment from 'moment';
 import Lemmer from 'lemmer';
 import async from 'async';
 import debuglog from 'debug-levels';
-// import normalize from 'node-normalizer';
 import lang from 'bot-lang';
 
 import math from './math';
@@ -78,9 +77,6 @@ class Message {
 
     // This version of the message is `EXACTLY AS WRITTEN` by the user
     this.original = message;
-    // console.log("Norm", normalize.clean(message).trim());
-    // console.log("LANG", lang.replace.all(message).trim());
-    
     this.raw = lang.replace.all(message).trim();
     this.clean = cleanMessage(this.raw).trim();
     // console.log("CLEAN", this.clean);

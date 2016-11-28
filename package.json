@@ -39,7 +39,7 @@
   "dependencies": {
     "async": "^2.1.2",
     "async-replace": "^1.0.1",
-    "bot-lang": "^1.0.2",
+    "bot-lang": "^1.0.3",
     "commander": "^2.4.0",
     "debug": "^2.2.0",
     "debug-levels": "^0.2.0",

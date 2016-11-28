@@ -91,6 +91,7 @@ describe('SuperScript Redirects', () => {
     // GH-227
     it('Missing function', (done) => {
       helpers.getBot().reply('user1', 'issue 227', (err, reply) => {
+        console.log(reply);
         reply.string.should.eql('oneIs it hot');
         done();
       });
