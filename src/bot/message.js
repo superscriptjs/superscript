@@ -6,7 +6,7 @@ import moment from 'moment';
 import Lemmer from 'lemmer';
 import async from 'async';
 import debuglog from 'debug-levels';
-import normalize from 'node-normalizer';
+import lang from 'bot-lang';
 
 import math from './math';
 import Dict from './dict';
@@ -42,7 +42,7 @@ const cleanMessage = function cleanMessage(message) {
   message = message.replace(/\s"\s?/g, ' ');
   message = message.replace(/\s'\s?/g, ' ');
   message = message.replace(/\s?!\s?/g, ' ');
-  message = message.replace(/\s?!\s?/g, ' ');
+  message = message.replace(/\?\s?/g, ' ');
   return message;
 };
 
@@ -77,8 +77,9 @@ class Message {
 
     // This version of the message is `EXACTLY AS WRITTEN` by the user
     this.original = message;
-    this.raw = normalize.clean(message).trim();
+    this.raw = lang.replace.all(message).trim();
     this.clean = cleanMessage(this.raw).trim();
+    // console.log("CLEAN", this.clean);
     debug.verbose('Message before cleaning: ', message);
     debug.verbose('Message after cleaning: ', this.clean);
 

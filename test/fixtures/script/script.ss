@@ -175,9 +175,6 @@
   + what [is] [the] * letter (in|of) the [english] alphabet
   - {keep} ^letterLookup()
 
-  + ~emohello
-  - Hello
-
   + call function with new topic
   - ^changetopic(fish)
 

@@ -623,15 +623,6 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
-  describe('Emo reply', () => {
-    it('Emo Hello 1', (done) => {
-      helpers.getBot().reply('user1', 'Hello', (err, reply) => {
-        reply.string.should.eql('Hello');
-        done();
-      });
-    });
-  });
-
   describe('Filter on Replies', () => {
     it('should save knowledge', (done) => {
       helpers.getBot().reply('r1user1', 'okay my name is Adam.', (err, reply) => {
