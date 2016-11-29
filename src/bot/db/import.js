@@ -64,16 +64,17 @@ const importData = function importData(chatSystem, data, callback) {
         parent: gambit._id,
       };
 
+      // TODO: Move this to ss-parser
       let match = properties.reply.match(KEEP_REGEX);
       if (match) {
         properties.keep = true;
-        properties.reply = Utils.trim(properties.reply.replace(match[0], ''));
+        properties.reply = properties.reply.replace(match[0], '').trim();
       }
 
       match = properties.reply.match(FILTER_REGEX);
       if (match) {
         properties.filter = `^${match[1]}(${match[2]})`;
-        properties.reply = Utils.trim(properties.reply.replace(match[0], ''));
+        properties.reply = properties.reply.replace(match[0], '').trim();
       }
 
       gambit.addReply(properties, (err) => {

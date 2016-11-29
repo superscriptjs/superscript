@@ -31,13 +31,11 @@
 
 import _ from 'lodash';
 import async from 'async';
-import RE2 from 're2';
 import debuglog from 'debug-levels';
 import peg from 'pegjs';
 import fs from 'fs';
 
 import Utils from './utils';
-import processHelpers from './reply/common';
 import regexes from './regexes';
 import wordnet from './reply/wordnet';
 
@@ -206,19 +204,19 @@ const postAugment = function postAugment(replyObject, tag, callback) {
 
 const processTopicRedirect = function processTopicRedirect(tag, replyObj, options, callback) {
   debug.verbose(`Processing topic redirect ^topicRedirect(${tag.topicName},${tag.topicTrigger})`);
-  options.depth = options.depth + 1;
+  options.depth += 1;
   topicRedirect(tag.topicName, tag.topicTrigger, options, postAugment(replyObj, tag, callback));
 };
 
 const processRespond = function processRespond(tag, replyObj, options, callback) {
   debug.verbose(`Processing respond: ^respond(${tag.topicName})`);
-  options.depth = options.depth + 1;
+  options.depth += 1;
   respond(tag.topicName, options, postAugment(replyObj, tag, callback));
 };
 
 const processRedirect = function processRedirect(tag, replyObj, options, callback) {
   debug.verbose(`Processing inline redirect: {@${tag.trigger}}`);
-  options.depth = options.depth + 1;
+  options.depth += 1;
   inlineRedirect(tag.trigger, options, postAugment(replyObj, tag, callback));
 };
 
@@ -417,7 +415,8 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
 
     replyString = processedReplyParts.join('').trim();
 
-    replyObj.reply.reply = new RE2('\\\\s', 'g').replace(replyString, ' ');
+    const spaceRegex = /\\s/g;
+    replyObj.reply.reply = replyString.replace(spaceRegex, ' ');
 
     debug.verbose('Final reply object from processTags: ', replyObj);
 
@@ -433,9 +432,9 @@ const processThreadTags = function processThreadTags(string) {
   const threads = [];
   const strings = [];
   string.split('\n').forEach((line) => {
-    const match = regexes.delay.match(line);
+    const match = line.match(regexes.delay);
     if (match) {
-      threads.push({ delay: match[1], string: Utils.trim(line.replace(match[0], '')) });
+      threads.push({ delay: match[1], string: line.replace(match[0], '').trim() });
     } else {
       strings.push(line);
     }

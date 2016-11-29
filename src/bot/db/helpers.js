@@ -8,6 +8,7 @@ import safeEval from 'safe-eval';
 import modelNames from './modelNames';
 import Utils from '../utils';
 import postParse from '../postParse';
+import regexes from '../regexes';
 
 const debug = debuglog('SS:Common');
 
@@ -99,7 +100,7 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
   }
 };
 
-const _afterHandle = function _afterHandle(match, gambit, topic, cb) {
+const processStars = function processStars(match, gambit, topic, cb) {
   debug.verbose(`Match found: ${gambit.input} in topic: ${topic}`);
   const stars = [];
   if (match.length > 1) {
@@ -220,8 +221,6 @@ const doesMatch = function doesMatch(gambit, message, options, callback) {
 
 // This is the main function that looks for a matching entry
 const _eachGambitHandle = function (message, options) {
-  const filterRegex = /\s*\^(\w+)\(([\w<>,\|\s]*)\)\s*/i;
-
   // This takes a gambit that is a child of a topic or reply and checks if
   // it matches the user's message or not.
   return (gambit, callback) => {
@@ -241,11 +240,11 @@ const _eachGambitHandle = function (message, options) {
       if (gambit.filter !== '') {
         debug.verbose(`We have a filter function: ${gambit.filter}`);
 
-        const filterFunction = gambit.filter.match(filterRegex);
+        const filterFunction = gambit.filter.match(regexes.filter);
         debug.verbose(`Filter function matched against regex gave: ${filterFunction}`);
 
-        const pluginName = Utils.trim(filterFunction[1]);
-        const parts = Utils.trim(filterFunction[2]).split(',');
+        const pluginName = filterFunction[1];
+        const parts = filterFunction[2].split(',');
 
         if (!plugins[pluginName]) {
           debug.verbose('Custom Filter Function not-found', pluginName);
@@ -292,7 +291,7 @@ const _eachGambitHandle = function (message, options) {
               } else {
                 // Tag the message with the found Trigger we matched on
                 message.gambitId = gambit._id;
-                _afterHandle(match, gambit, topic, callback);
+                processStars(match, gambit, topic, callback);
               }
             } else {
               callback(null, []);
@@ -315,12 +314,12 @@ const _eachGambitHandle = function (message, options) {
           gambit = trigger;
             // Tag the message with the found Trigger we matched on
           message.gambitId = gambit._id;
-          _afterHandle(match, gambit, topic, callback);
+          processStars(match, gambit, topic, callback);
         });
       } else {
           // Tag the message with the found Trigger we matched on
         message.gambitId = gambit._id;
-        _afterHandle(match, gambit, topic, callback);
+        processStars(match, gambit, topic, callback);
       }
     }); // end regexReply
   };

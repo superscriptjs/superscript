@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import debuglog from 'debug-levels';
 import async from 'async';
-import RE2 from 're2';
 
 import regexes from './regexes';
 import Utils from './utils';
@@ -92,7 +91,11 @@ const afterHandle = function afterHandle(user, callback) {
       minMatchSet.push(mmm);
 
       if (item && item.reply && item.reply.reply) {
-        replyString += `${item.reply.reply} `;
+        if (replyString === '') {
+          replyString += `${item.reply.reply}`;
+        } else {
+          replyString += ` ${item.reply.reply}`;
+        }
       }
 
       props = _.assign(props, item.props);
@@ -116,9 +119,6 @@ const afterHandle = function afterHandle(user, callback) {
       threadsArr[1] = lastSubReplies;
     }
 
-    // only remove one trailing space (because spaces may have been added deliberately)
-    const replyStr = new RE2('(?:^[ \\t]+)|(?:[ \\t]$)').replace(threadsArr[0], '');
-
     const cbdata = {
       replyId: lastReplyId,
       replyIds: lastReplyIds,
@@ -126,7 +126,7 @@ const afterHandle = function afterHandle(user, callback) {
       clearConversation,
       topicName: lastTopicToMatch,
       minMatchSet,
-      string: replyStr,
+      string: threadsArr[0],
       subReplies: threadsArr[1],
       stars: lastStarSet,
       continueMatching: lastContinueMatching,
@@ -222,9 +222,9 @@ const filterRepliesByFunction = function filterRepliesByFunction(potentialReplie
     // It returns true/false to aid in the selection.
 
     if (potentialReply.reply.filter !== '') {
-      const filterFunction = regexes.filter.match(potentialReply.reply.filter);
-      const pluginName = Utils.trim(filterFunction[1]);
-      const partsStr = Utils.trim(filterFunction[2]);
+      const filterFunction = potentialReply.reply.filter.match(regexes.filter);
+      const pluginName = filterFunction[1];
+      const partsStr = filterFunction[2];
       const args = Utils.replaceCapturedText(partsStr.split(','), [''].concat(potentialReply.stars));
 
       debug.verbose(`Filter function found with plugin name: ${pluginName}`);
@@ -254,7 +254,7 @@ const filterRepliesByFunction = function filterRepliesByFunction(potentialReplie
         // Let's remove it and try to carry on.
         console.log(`\nWARNING:\nYou have a missing filter function (${pluginName}) - your script will not behave as expected!"`);
         // Wow, worst variable name ever - sorry.
-        potentialReply = Utils.trim(potentialReply.reply.reply.replace(filterFunction[0], ''));
+        potentialReply = potentialReply.reply.reply.replace(filterFunction[0], '').trim();
         cb(null, true);
       }
     } else {

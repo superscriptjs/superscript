@@ -3,7 +3,6 @@ import fs from 'fs';
 import string from 'string';
 import debuglog from 'debug-levels';
 import pos from 'parts-of-speech';
-import RE2 from 're2';
 import regexes from './regexes';
 
 const debug = debuglog('SS:Utils');
@@ -11,25 +10,19 @@ const Lex = pos.Lexer;
 
 //--------------------------
 
-const encodeCommas = s => (s ? regexes.commas.replace(s, '<COMMA>') : s);
-
-const encodedCommasRE = new RE2('<COMMA>', 'g');
-const decodeCommas = s => (s ? encodedCommasRE.replace(s, '<COMMA>') : s);
-
 // TODO: rename to normlize to avoid confusion with string.trim() semantics
 /**
  * Remove extra whitespace from a string, while preserving new lines.
  * @param {string} text - the string to tidy up
  */
-const trim = (text = '') => regexes.space.inner.replace(regexes.whitespace.both.replace(text, ''), ' ');
+const trim = (text = '') => text.trim().replace(/[ \t]+/g, ' ');
 
-const wordSepRE = new RE2('[\\s*#_|]+');
 /**
  * Count the number of real words in a string
  * @param {string} text - the text to count
  * @returns {number} the number of words in `text`
  */
-const wordCount = text => wordSepRE.split(text).filter(w => w.length > 0).length;
+const wordCount = text => text.split(/[\s*#_|]+/).filter(w => w.length > 0).length;
 
 // If needed, switch to _ or lodash
 // Array.prototype.chunk = function (chunkSize) {
@@ -86,14 +79,14 @@ const sentenceSplit = function sentenceSplit(message) {
   return L;
 };
 
-const commandsRE = new RE2('[\\\\.+?${}=!:]', 'g');
-const nonCommandsRE = new RE2('[\\\\.+*?\\[^\\]$(){}=!<>|:]', 'g');
+const commandsRE = /[\\.+?${}=!:]/g;
+const nonCommandsRE = /[\\.+*?^\[\]$(){}=!<>|:]/g;
 /**
  * Escape a string sp that it can be used in a regular expression.
  * @param {string}  string   - the string to escape
  * @param {boolean} commands -
  */
-const quotemeta = (string, commands = false) => (commands ? commandsRE : nonCommandsRE).replace(string, c => `\\${c}`);
+const quotemeta = (string, commands = false) => string.replace(commands ? commandsRE : nonCommandsRE, c => `\\${c}`);
 
 const cleanArray = function cleanArray(actual) {
   const newArray = [];
@@ -105,13 +98,13 @@ const cleanArray = function cleanArray(actual) {
   return newArray;
 };
 
-const aRE = new RE2('^(([bcdgjkpqtuvwyz]|onc?e|onetime)$|e[uw]|uk|ur[aeiou]|use|ut([^t])|uni(l[^l]|[a-ko-z]))', 'i');
-const anRE = new RE2('^([aefhilmnorsx]$|hono|honest|hour|heir|[aeiou])', 'i');
-const upcaseARE = new RE2('^(UN$)');
-const upcaseANRE = new RE2('^$');
-const dashSpaceRE = new RE2('[- ]');
+const aRE = /^(([bcdgjkpqtuvwyz]|onc?e|onetime)$|e[uw]|uk|ur[aeiou]|use|ut([^t])|uni(l[^l]|[a-ko-z]))/i;
+const anRE = /^([aefhilmnorsx]$|hono|honest|hour|heir|[aeiou])/i;
+const upcaseARE = /^(UN$)/;
+const upcaseANRE = /^$/;
+const dashSpaceRE = /[- ]/;
 const indefiniteArticlerize = (word) => {
-  const first = dashSpaceRE.split(word, 2)[0];
+  const first = word.split(dashSpaceRE, 2)[0];
   const prefix = (anRE.test(first) || upcaseARE.test(first)) && !(aRE.test(first) || upcaseANRE.test(first)) ? 'an' : 'a';
   return `${prefix} ${word}`;
 };
@@ -130,11 +123,10 @@ const getRandomInt = function getRandomInt(min, max) {
   return Math.floor(Math.random() * ((max - min) + 1)) + min;
 };
 
-const underscoresRE = new RE2('_', 'g');
 const pickItem = function pickItem(arr) {
   // TODO - Item may have a wornet suffix meal~2 or meal~n
   const ind = getRandomInt(0, arr.length - 1);
-  return _.isString(arr[ind]) ? underscoresRE.replace(arr[ind], ' ') : arr[ind];
+  return _.isString(arr[ind]) ? arr[ind].replace(/_/g, ' ') : arr[ind];
 };
 
 // Capital first letter, and add period.
@@ -172,12 +164,9 @@ const genId = function genId() {
  * @param {Array<string>} strings - text to search for `<cap>` tags
  * @param {Array<string>} caps - replacement text
  */
-const replaceCapturedText = (strings, caps) => {
-  const encoded = caps.map(s => encodeCommas(s));
-  return strings
+const replaceCapturedText = (strings, caps) => strings
       .filter(s => !_.isEmpty(s))
-      .map(s => regexes.captures.replace(s, (m, p1) => encoded[Number.parseInt(p1 || 1)]));
-};
+      .map(s => s.replace(regexes.captures, (m, p1) => caps[Number.parseInt(p1 || 1)]));
 
 const walk = function walk(dir, done) {
   if (fs.statSync(dir).isFile()) {
@@ -239,8 +228,6 @@ const pennToWordnet = function pennToWordnet(pennTag) {
 
 export default {
   cleanArray,
-  encodeCommas,
-  decodeCommas,
   genId,
   getRandomInt,
   inArray,
