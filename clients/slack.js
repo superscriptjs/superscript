@@ -95,6 +95,6 @@ const options = {
   importFile: './data.json',
 };
 
-SuperScript(options, (err, bot) => {
+SuperScript.setup(options, (err, bot) => {
   botHandle(null, bot);
 });

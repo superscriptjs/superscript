@@ -77,7 +77,7 @@ const options = {
   importFile: './data.json',
 };
 
-SuperScript(options, (err, bot) => {
+SuperScript.setup(options, (err, bot) => {
   // Middleware
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));

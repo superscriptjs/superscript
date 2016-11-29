@@ -17,18 +17,29 @@ import createReplyModel from './db/models/reply';
 import createTopicModel from './db/models/topic';
 import createUserModel from './db/models/user';
 
-const createChatSystem = function createChatSystem(db, factSystem, logPath) {
-  const Gambit = createGambitModel(db, factSystem);
-  const Reply = createReplyModel(db);
-  const Topic = createTopicModel(db);
-  const User = createUserModel(db, factSystem, logPath);
+const setupChatSystem = function setupChatSystem(db, coreFactSystem, logger) {
+  const GambitCore = createGambitModel(db, coreFactSystem);
+  const ReplyCore = createReplyModel(db);
+  const TopicCore = createTopicModel(db);
+  const UserCore = createUserModel(db, coreFactSystem, logger);
 
-  return {
-    Gambit,
-    Reply,
-    Topic,
-    User,
+  const getChatSystem = function getChatSystem(tenantId = 'master') {
+    const Gambit = GambitCore.byTenant(tenantId);
+    const Reply = ReplyCore.byTenant(tenantId);
+    const Topic = TopicCore.byTenant(tenantId);
+    const User = UserCore.byTenant(tenantId);
+
+    return {
+      Gambit,
+      Reply,
+      Topic,
+      User,
+    };
   };
+
+  return { getChatSystem };
 };
 
-export default createChatSystem;
+export default {
+  setupChatSystem,
+};
