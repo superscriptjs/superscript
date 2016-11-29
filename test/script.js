@@ -10,214 +10,6 @@ import Utils from '../src/bot/utils';
 describe('SuperScript Scripting + Style Interface', () => {
   before(helpers.before('script'));
 
-  describe('Simple star Interface *', () => {
-    it('Unscaped', (done) => {
-      helpers.getBot().reply('user1', '+ this is unscaped', (err, reply) => {
-        reply.string.should.eql('This should pass');
-        done();
-      });
-    });
-
-    it('should reply to simple string', (done) => {
-      helpers.getBot().reply('user1', 'This is a test', (err, reply) => {
-        reply.string.should.eql('Test should pass one');
-        done();
-      });
-    });
-
-    it('should match single star', (done) => {
-      helpers.getBot().reply('user1', 'Should match single star', (err, reply) => {
-        ['pass 1', 'pass 2', 'pass 3'].should.containEql(reply.string);
-        done();
-      });
-    });
-
-    it('should allow empty star - new behaviour', (done) => {
-      helpers.getBot().reply('user1', 'Should match single', (err, reply) => {
-        ['pass 1', 'pass 2', 'pass 3'].should.containEql(reply.string);
-        done();
-      });
-    });
-
-    it('should match double star', (done) => {
-      helpers.getBot().reply('user1', 'Should match single star two', (err, reply) => {
-        ['pass 1', 'pass 2', 'pass 3'].should.containEql(reply.string);
-        done();
-      });
-    });
-
-    it('capture in reply', (done) => {
-      helpers.getBot().reply('user1', 'connect the win', (err, reply) => {
-        reply.string.should.eql('Test should pass');
-        done();
-      });
-    });
-
-    it('leading star', (done) => {
-      helpers.getBot().reply('user1', 'my bone', (err, reply) => {
-        reply.string.should.eql('win 1');
-        done();
-      });
-    });
-
-    it('trailing star', (done) => {
-      helpers.getBot().reply('user1', 'bone thug', (err, reply) => {
-        reply.string.should.eql('win 1');
-        done();
-      });
-    });
-
-    it('star star', (done) => {
-      helpers.getBot().reply('user1', 'my bone thug', (err, reply) => {
-        reply.string.should.eql('win 1');
-        done();
-      });
-    });
-
-    it('star star empty', (done) => {
-      helpers.getBot().reply('user1', 'bone', (err, reply) => {
-        reply.string.should.eql('win 1');
-        done();
-      });
-    });
-  });
-
-  describe('Exact length star interface *n', () => {
-    it('should match *2 star - Zero case', (done) => {
-      helpers.getBot().reply('user1', 'It is hot out', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('should match *2 star - One case', (done) => {
-      helpers.getBot().reply('user1', 'It is one hot out', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('should match *2 star - Two case', (done) => {
-      helpers.getBot().reply('user1', 'It is one two hot out', (err, reply) => {
-        reply.string.should.eql('Test three should pass');
-        done();
-      });
-    });
-
-    it('should match *2 star - Three case', (done) => {
-      helpers.getBot().reply('user1', 'It is one two three hot out', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('should match *1 star - End case', (done) => {
-      helpers.getBot().reply('user1', 'fixedwidth define love', (err, reply) => {
-        reply.string.should.eql('Test endstar should pass');
-        done();
-      });
-    });
-  });
-
-
-  // min max *(1-2)
-  describe('Mix stars for Mix and Max', () => {
-    it('min max star - Zero', (done) => {
-      helpers.getBot().reply('user1', 'min max', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('min max star - one', (done) => {
-      helpers.getBot().reply('user1', 'min max one', (err, reply) => {
-        reply.string.should.eql('min max test');
-        done();
-      });
-    });
-
-    it('min max star - two', (done) => {
-      helpers.getBot().reply('user1', 'min max one two', (err, reply) => {
-        reply.string.should.eql('min max test');
-        done();
-      });
-    });
-
-    it('min max star - three', (done) => {
-      helpers.getBot().reply('user1', 'min max one two three', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('min max star ~emo - gh-221', (done) => {
-      helpers.getBot().reply('user1', 'hello test test', (err, reply) => {
-        reply.string.should.eql('emo reply');
-        done();
-      });
-    });
-
-
-    it.skip('min max star - four', (done) => {
-      helpers.getBot().reply('user1', 'test one. two. three.', (err, reply) => {
-        reply.string.should.eql('test one. two. three.');
-        done();
-      });
-    });
-  });
-
-  describe('Variable length star interface *~n', () => {
-    it('should match *~2 star - End case', (done) => {
-      helpers.getBot().reply('user1', 'define love', (err, reply) => {
-        reply.string.should.eql('Test endstar should pass');
-        done();
-      });
-    });
-
-    it('should match *~2 star - Empty', (done) => {
-      helpers.getBot().reply('user1', 'var length', (err, reply) => {
-        ['pass 1'].should.containEql(reply.string);
-        done();
-      });
-    });
-
-
-    it('should match *~2 star - Zero Star', (done) => {
-      helpers.getBot().reply('user1', 'It is hot out 2', (err, reply) => {
-        ['pass 1', 'pass 2', 'pass 3'].should.containEql(reply.string);
-        done();
-      });
-    });
-
-    it('should match *~2 star - One Star', (done) => {
-      helpers.getBot().reply('user1', 'It is a hot out 2', (err, reply) => {
-        ['pass 1', 'pass 2', 'pass 3'].should.containEql(reply.string);
-        done();
-      });
-    });
-
-    it('should match *~2 star - Two Star', (done) => {
-      helpers.getBot().reply('user1', 'It is a b hot out 2', (err, reply) => {
-        ['pass 1', 'pass 2', 'pass 3'].should.containEql(reply.string);
-        done();
-      });
-    });
-
-    it('should match *~2 star - Three Star (fail)', (done) => {
-      helpers.getBot().reply('user1', 'It is a b c d hot out2', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('should match *~2 star - Return the resuling Star', (done) => {
-      helpers.getBot().reply('user1', 'It is foo bar cold out', (err, reply) => {
-        reply.string.should.eql('Two star result foo bar');
-        done();
-      });
-    });
-  });
-
   describe('Replies can be repeated accross triggers', () => {
     it('Replies accross trigger should pass', (done) => {
       helpers.getBot().reply('user1', 'trigger one', (err, reply) => {
@@ -233,94 +25,6 @@ describe('SuperScript Scripting + Style Interface', () => {
     // NB: this test will fail if run on its own.
     it('Should pass 2', (done) => {
       helpers.getBot().reply('user1', 'trigger one', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-  });
-
-  describe('Alternates Interface (a|b)', () => {
-    it('should match a or b - Not empty', (done) => {
-      helpers.getBot().reply('user1', 'what is it', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('should match a or b - should be A', (done) => {
-      helpers.getBot().reply('user1', 'what day is it', (err, reply) => {
-        reply.string.should.eql('Test four should pass');
-        done();
-      });
-    });
-
-    it('should match a or b - should be B', (done) => {
-      helpers.getBot().reply('user1', 'what week is it', (err, reply) => {
-        reply.string.should.eql('Test four should pass');
-        done();
-      });
-    });
-
-    it('should match a or b - word boundries A', (done) => {
-      helpers.getBot().reply('user1', 'what weekend is it', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('should match a or b - word boundries B', (done) => {
-      helpers.getBot().reply('user1', 'this or that', (err, reply) => {
-        reply.string.should.eql('alter boundry test');
-        done();
-      });
-    });
-
-    it('should match a or b - word boundries C', (done) => {
-      helpers.getBot().reply('user1', 'favorite', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
-    it('should match a or b - word boundries D', (done) => {
-      helpers.getBot().reply('user1', 'this a should e', (err, reply) => {
-        reply.string.should.eql('alter boundry test 2');
-        done();
-      });
-    });
-  });
-
-  describe('Optionals Interface [a|b|c]', () => {
-    it('should match empty case', (done) => {
-      helpers.getBot().reply('user1', 'i have a car', (err, reply) => {
-        reply.string.should.eql('Test five should pass');
-        done();
-      });
-    });
-
-    it('should match a', (done) => {
-      helpers.getBot().reply('user1', 'i have a red car', (err, reply) => {
-        reply.string.should.eql('Test five should pass');
-        done();
-      });
-    });
-
-    it('should match b', (done) => {
-      helpers.getBot().reply('user1', 'i have a blue car', (err, reply) => {
-        reply.string.should.eql('Test five should pass');
-        done();
-      });
-    });
-
-    it('should match c', (done) => {
-      helpers.getBot().reply('user1', 'i have a green car', (err, reply) => {
-        reply.string.should.eql('Test five should pass');
-        done();
-      });
-    });
-
-    it('should not match d', (done) => {
-      helpers.getBot().reply('user1', 'i have a black car', (err, reply) => {
         reply.string.should.eql('');
         done();
       });
@@ -408,7 +112,6 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
-
   describe('Custom functions', () => {
     it('should call a custom function with hyphen', (done) => {
       helpers.getBot().reply('user1', 'error with function thirty-two', (err, reply) => {
@@ -416,7 +119,6 @@ describe('SuperScript Scripting + Style Interface', () => {
         done();
       });
     });
-
 
     it('should call a custom function', (done) => {
       helpers.getBot().reply('user1', 'custom function', (err, reply) => {
@@ -468,7 +170,6 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
-
   // I moved this to 5 times because there was a odd chance that we could hit the keep message 2/3rds of the time
   describe('Reply Flags', () => {
     it('Keep Flag 2', (done) => {
@@ -478,70 +179,6 @@ describe('SuperScript Scripting + Style Interface', () => {
           reply.string.should.eql('keep this');
           done();
         });
-      });
-    });
-  });
-
-  describe('Custom functions 2 - plugin related', () => {
-    it('Alpha Length 1', (done) => {
-      helpers.getBot().reply('user1', 'How many characters in the word socks?', (err, reply) => {
-        reply.string.should.eql('5');
-        done();
-      });
-    });
-
-    it('Alpha Length 2', (done) => {
-      helpers.getBot().reply('user1', 'How many characters in the name Bill?', (err, reply) => {
-        reply.string.should.eql('4');
-        done();
-      });
-    });
-
-    it('Alpha Length 3', (done) => {
-      helpers.getBot().reply('user1', 'How many characters in the Alphabet?', (err, reply) => {
-        reply.string.should.eql('26');
-        done();
-      });
-    });
-
-    it('Alpha Length 4', (done) => {
-      helpers.getBot().reply('suser1', 'blank', (err, reply) => {
-        helpers.getBot().getUser('suser1', (err, u) => {
-          u.setVar('name', 'Bill', () => {
-            helpers.getBot().reply('suser1', 'How many characters in my name?', (err, reply) => {
-              reply.string.should.eql('There are 4 letters in your name.');
-              done();
-            });
-          });
-        });
-      });
-    });
-
-    it('Alpha Lookup 1', (done) => {
-      helpers.getBot().reply('user1', 'What letter comes after B', (err, reply) => {
-        reply.string.should.eql('C');
-        done();
-      });
-    });
-
-    it('Alpha Lookup 2', (done) => {
-      helpers.getBot().reply('user1', 'What letter comes before Z', (err, reply) => {
-        reply.string.should.eql('Y');
-        done();
-      });
-    });
-
-    it('Alpha Lookup 3', (done) => {
-      helpers.getBot().reply('user1', 'What is the last letter in the alphabet?', (err, reply) => {
-        reply.string.should.eql('It is Z.');
-        done();
-      });
-    });
-
-    it('Alpha Lookup 4', (done) => {
-      helpers.getBot().reply('user1', 'What is the first letter of the alphabet?', (err, reply) => {
-        reply.string.should.eql('It is A.');
-        done();
       });
     });
   });
@@ -600,7 +237,6 @@ describe('SuperScript Scripting + Style Interface', () => {
       });
     });
   });
-
 
   describe('Filter functions', () => {
     it('Trigger function', (done) => {
@@ -670,15 +306,6 @@ describe('SuperScript Scripting + Style Interface', () => {
       });
     });
   });
-
-  describe('Create Gambit Helper', () => {
-    it('contains concept', (done) => {
-      helpers.getBot().reply('user1', 'my husband likes fish', (err, reply) => {
-        done();
-      });
-    });
-  });
-
 
   describe('Wrapping lines', () => {
     it('should continue onto the next line', (done) => {
@@ -887,7 +514,6 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
-
   describe('GH-243', () => {
     it('Should pass data back into filter function on input', (done) => {
       helpers.getBot().reply('user2', 'filter by logic', (err, reply) => {
@@ -913,7 +539,6 @@ describe('SuperScript Scripting + Style Interface', () => {
       });
     });
   });
-
 
   after(helpers.after);
 });
