@@ -133,7 +133,7 @@
   - ^one() + ^one() = 2
 
   + custom 5 *1
-  - he ^plural(like) this
+  - he ^plural("like") this
 
   + custom 6 *1
   - he ^plural(~like) this
@@ -142,7 +142,7 @@
   - he ^plural(<cap1>) this
 
   + custom 8 *1
-  - ^num(4) + ^num(3) = 7
+  - ^num("4") + ^num("3") = 7
 
   + custom 9 *1
   - a\n
@@ -176,34 +176,34 @@
   - {keep} ^letterLookup()
 
   + call function with new topic
-  - ^changetopic(fish)
+  - ^changetopic("fish")
 
   + reply with a new topic from function
-  - ^changefunctionreply(fish)
+  - ^changefunctionreply("fish")
 
   // This will save the name to the internal fact system for this user.
   + My name is *1
-  - {keep} ^save(name, <cap1>) Hi <cap1>.
+  - {keep} ^save("name", <cap1>) Hi <cap1>.
 
   + ^not(filter|filterx) trigger *1 function
   - trigger filter reply
 
 + can you smile
-- ^addMessageProp(emoji,smile) Sure can.
+- ^addMessageProp("emoji","smile") Sure can.
 
 + object param one
 - ^objparam1()
 
 + object param two
-- ^objparam2() ^addMessageProp(foo, bar)
+- ^objparam2() ^addMessageProp("foo", "bar")
 
 // Object params though topicRedirect
 + object param three
--  ^addMessageProp(foo, bar) ^topicRedirect(test_topic, __objParams__)
+-  ^addMessageProp("foo", "bar") ^topicRedirect("test_topic", "__objParams__")
 
 // Reply Filter functions
 + okay my name is <name>
-- {^hasName(false)} ^save(name,<cap1>) Nice to meet you, <cap1>.
+- {^hasName(false)} ^save("name",<cap1>) Nice to meet you, <cap1>.
 - {^hasName(true)} I know, you already told me your name.
 
 ?:WH * your name
@@ -289,7 +289,7 @@
 
 // Sub Replies
 + redirect_rainbow
-- ^topicRedirect(rainbow,__delay__)
+- ^topicRedirect("rainbow","__delay__")
 
 > topic rainbow
   + __delay__
@@ -320,7 +320,7 @@
 
 // gh-173
 + name
-- {keep} ^respond(set_name)
+- {keep} ^respond("set_name")
 
 > topic:keep:system set_name
   + *
@@ -328,11 +328,11 @@
 
   + *~5
   % * is your first name?
-  - ^save(firstName, <cap>) Ok <cap>, what is your last name?
+  - ^save("firstName", <cap>) Ok <cap>, what is your last name?
 
   + *~5
   % * what is your last name?
-  - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random} {clear  }
+  - ^save("lastName", <cap>) Thanks, ^get("firstName") ^get("lastName")! {topic=random} {clear  }
 < topic
 
 
@@ -354,7 +354,7 @@
 
 
 + scope though redirect
-- ^topicRedirect(__A__, __B__)
+- ^topicRedirect("__A__", "__B__")
 
 > topic:keep:system __A__
   + __B__
@@ -362,8 +362,11 @@
 < topic
 
 + __preview
-- {@__preview_question_kickoff} ^addMessageProp(topLevelProp,myProp)
+- {@__preview_question_kickoff} ^addMessageProp("topLevelProp","myProp")
 
 + __preview_question_kickoff
-- Do you want to play word games? Yes? ^addMessageProp(subProp,mySubProp1)
-- Let's play word games OK? ^addMessageProp(subProp,mySubProp2)
+- Do you want to play word games? Yes? ^addMessageProp("subProp","mySubProp1")
+- Let's play word games OK? ^addMessageProp("subProp","mySubProp2")
+
++ let's test objects/arrays as custom function args
+- here's my answer ^testCustomArgs({myKey: "value"}, ['hey!'])

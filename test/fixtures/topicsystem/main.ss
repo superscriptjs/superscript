@@ -25,7 +25,7 @@
 > topic:keep __pre__
 
 	+ testing topic system
-	- ^save(key, value)
+	- ^save("key", "value")
 
 	+ force break
 	- ^breakFunc()
@@ -34,7 +34,7 @@
 	- ^nobreak() force one
 
 	+ testing flow
-	- ^save(key, value)
+	- ^save("key", "value")
 
 < topic
 > topic:keep outdoors ( fishing hunting camping ) ^sometest()
@@ -64,16 +64,16 @@
 
 // GH-240
 + test empty
-- ^topicRedirect(test, __empty__)
+- ^topicRedirect("test", "__empty__")
 
 + generic redirect
-- ^topicRedirect(test, __something__)
+- ^topicRedirect("test", "__something__")
 
 + generic respond
-- ^respond(test)
+- ^respond("test")
 
 + test respond
-- ^respond(test)
+- ^respond("test")
 
 > topic:keep test
     + __empty__

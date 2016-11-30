@@ -540,5 +540,14 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('custom functions should work with objects and arrays as parameters', () => {
+    it('Should understand objects and arrays as parameters', (done) => {
+      helpers.getBot().reply('user2', "let's test objects/arrays as custom function args", (err, reply) => {
+        reply.string.should.eql("here's my answer value hey!");
+        done();
+      });
+    });
+  });
+
   after(helpers.after);
 });

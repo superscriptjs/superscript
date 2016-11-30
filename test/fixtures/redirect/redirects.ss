@@ -44,17 +44,17 @@
 
 // Redirect to a topic
 + hello *
-- ^topicRedirect(weather,__to_say__)
+- ^topicRedirect("weather","__to_say__")
 
 
 // GH-227
 + issue 227
-- ^one()^topicRedirect(weather,__to_say__)
+- ^one()^topicRedirect("weather","__to_say__")
 
 
 // GH-156
 + test missing topic
-- ^topicRedirect(supercalifragilisticexpialidocious,hello) Test OK.
+- ^topicRedirect("supercalifragilisticexpialidocious","hello") Test OK.
 
 // GH-81 Function with redirect
 
@@ -95,7 +95,7 @@
 
 // Go to a topic Dynamically Spoiler alert it is school
 + i like *1
-- ^topicRedirect(<cap1>,__to_say__)
+- ^topicRedirect(<cap1>,"__to_say__")
 
 > topic school
 
@@ -107,7 +107,7 @@
 // Redirect to a topic 2
 
 + topic redirect test
-- Say this. ^topicRedirect(testx,__to_say__)
+- Say this. ^topicRedirect("testx","__to_say__")
 
 > topic testx
 
@@ -118,7 +118,7 @@
 
 
 + topic redirect to *1
-- ^topicRedirect(test2,__to_say__)
+- ^topicRedirect("test2","__to_say__")
 
 > topic test2
 
@@ -129,7 +129,7 @@
 
 
 + topic set systest
-- Setting systest. ^changetopic(systest)
+- Setting systest. ^changetopic("systest")
 
 > topic:system hidden
   + I am hidden

@@ -1,24 +1,57 @@
 start = reply
 
-functionArg
-  = arg:[^),]+ { return arg.join(""); }
+capture
+  = "<cap" starID:integer? ">"
+    {
+      return {
+        type: "capture",
+        starID: starID
+      };
+    }
+
+previousCapture
+  = "<p" conversationID:integer "cap" starID:integer? ">"
+    {
+      return {
+        type: "previousCapture",
+        starID,
+        conversationID
+      };
+    }
+
+previousInput
+  = "<input" inputID:integer? ">"
+    {
+      return {
+        type: "previousInput",
+        inputID: inputID
+      }
+    }
+
+previousReply
+  = "<reply" replyID:integer? ">"
+    {
+      return {
+        type: "previousReply",
+        replyID: replyID
+      }
+    }
 
 topicRedirect
-  = "^topicRedirect(" ws* topicName:functionArg ws* "," ws* topicTrigger:functionArg ")"
+  = "^topicRedirect(" args:customFunctionArgs ")"
     {
       return {
         type: "topicRedirect",
-        topicName,
-        topicTrigger
+        functionArgs: args ? `[${args}]` : null
       }
     }
 
 respond
-  = "^respond(" ws* topicName:functionArg ws* ")"
+  = "^respond(" args:customFunctionArgs ")"
     {
       return {
         type: "respond",
-        topicName: topicName
+        functionArgs: args ? `[${args}]` : null
       }
     }
 
@@ -31,19 +64,11 @@ redirect
       }
     }
 
-customFunctionArg
-  = ws* "[" arrayContents:[^\]]* "]" ws*
-    { return `[${arrayContents.join("") || ''}]`; }
-  / ws* "{" objectContents:[^}]* "}" ws*
-    { return `{${objectContents.join("") || ''}}`; }
-  / ws* wordnetLookup:wordnetLookup ws*
-    { return wordnetLookup; }
-  / ws* string:[^,)]+ ws*
-    { return string.join(""); }
+customFunctionLetter
+  = !")" letter:. { return letter }
 
 customFunctionArgs
-  = argFirst:customFunctionArg args:("," arg:customFunctionArg { return arg; })*
-    { return [argFirst].concat(args); }
+  = letters:customFunctionLetter+ { return letters.join("") }
 
 customFunction
   = "^" !"topicRedirect" !"respond" name:[A-Za-z0-9_]+ "(" args:customFunctionArgs? ")"
@@ -51,7 +76,7 @@ customFunction
       return {
         type: "customFunction",
         functionName: name.join(""),
-        functionArgs: args
+        functionArgs: args ? `[${args}]` : null
       };
     }
 
@@ -155,7 +180,11 @@ string
   = string:stringCharacter+ { return string.join(""); }
 
 replyToken
-  = topicRedirect
+  = capture
+  / previousCapture
+  / previousInput
+  / previousReply
+  / topicRedirect
   / respond
   / redirect
   / customFunction

@@ -28,13 +28,12 @@ describe('Test if the reply tags PEG parser works', () => {
   });
 
   it('match topicRedirects', () => {
-    const reply = 'hello ^topicRedirect(topicName,trigger) ';
+    const reply = 'hello ^topicRedirect("topicName","trigger") ';
     const expectedTags = [
       'hello ',
       {
         type: 'topicRedirect',
-        topicName: 'topicName',
-        topicTrigger: 'trigger',
+        functionArgs: '["topicName","trigger"]',
       },
       ' ',
     ];
@@ -42,12 +41,12 @@ describe('Test if the reply tags PEG parser works', () => {
   });
 
   it('match responds', () => {
-    const reply = 'hello ^respond(topicName) ';
+    const reply = 'hello ^respond("topicName") ';
     const expectedTags = [
       'hello ',
       {
         type: 'respond',
-        topicName: 'topicName',
+        functionArgs: '["topicName"]',
       },
       ' ',
     ];
@@ -55,13 +54,13 @@ describe('Test if the reply tags PEG parser works', () => {
   });
 
   it('match custom functions', () => {
-    const reply = 'the weather is ^getWeather(today,<cap>) today';
+    const reply = 'the weather is ^getWeather("today","<cap>") today';
     const expectedTags = [
       'the weather is ',
       {
         type: 'customFunction',
         functionName: 'getWeather',
-        functionArgs: ['today', '<cap>'],
+        functionArgs: '["today","<cap>"]',
       },
       ' today',
     ];

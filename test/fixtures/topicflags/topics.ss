@@ -20,13 +20,13 @@
 - Okay we are going to nostay {topic=nostay}
 
 ? why did *
-- ^respond(system_why)
+- ^respond("system_why")
 
 + test recursion
-- ^respond(system_recurr)
+- ^respond("system_recurr")
 
 + testing nostay
-- ^topicRedirect(nostay, _bounce_)
+- ^topicRedirect("nostay", "_bounce_")
 
 
 + something else
@@ -44,7 +44,7 @@
 
 // test topic flow
 + testing *
-- ^respond(newHidden)
+- ^respond("newHidden")
 
 + * go on
 - end
@@ -52,7 +52,7 @@
 > topic:system system_recurr
 
   + test recursion
-  - ^respond(hidden)
+  - ^respond("hidden")
 
 < topic
 
@@ -91,16 +91,16 @@
 
 
 + respond test
-- ^respond(~respond_test)
+- ^respond("respond_test")
 
-> topic:system ~respond_test
+> topic:system respond_test
 
   + *
-  - ^respond(~respond_test2)
+  - ^respond("respond_test2")
 
 < topic
 
-> topic:system ~respond_test2
+> topic:system respond_test2
 
   + *
   - final {topic=random}

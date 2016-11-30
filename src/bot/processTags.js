@@ -34,6 +34,7 @@ import async from 'async';
 import debuglog from 'debug-levels';
 import peg from 'pegjs';
 import fs from 'fs';
+import safeEval from 'safe-eval';
 
 import Utils from './utils';
 import regexes from './regexes';
@@ -50,9 +51,9 @@ const grammar = fs.readFileSync(`${__dirname}/reply/reply-grammar.pegjs`, 'utf-8
 // Change trace to true to debug peg
 const parser = peg.generate(grammar, { trace: false });
 
-const captureGrammar = fs.readFileSync(`${__dirname}/reply/capture-grammar.pegjs`, 'utf-8');
+const preprocessGrammar = fs.readFileSync(`${__dirname}/reply/preprocess-grammar.pegjs`, 'utf-8');
 // Change trace to true to debug peg
-const captureParser = peg.generate(captureGrammar, { trace: false });
+const preprocessParser = peg.generate(preprocessGrammar, { trace: false });
 
 /* topicRedirect
 / respond
@@ -72,15 +73,15 @@ const captureParser = peg.generate(captureGrammar, { trace: false });
 / setState
 / string*/
 
-const processCapture = function processCapture(tag, replyObj, options) {
+const processCapture = function processCapture(tag, replyObj, options, callback) {
   const starID = (tag.starID || 1) - 1;
   debug.verbose(`Processing capture: <cap${starID + 1}>`);
   const replacedCapture = (starID < replyObj.stars.length) ? replyObj.stars[starID] : '';
   debug.verbose(`Replacing <cap${starID + 1}> with "${replacedCapture}"`);
-  return replacedCapture;
+  callback(null, replacedCapture);
 };
 
-const processPreviousCapture = function processPreviousCapture(tag, replyObj, options) {
+const processPreviousCapture = function processPreviousCapture(tag, replyObj, options, callback) {
   // This is to address GH-207, pulling the stars out of the history and
   // feeding them forward into new replies. It allows us to save a tiny bit of
   // context though a conversation cycle.
@@ -96,15 +97,15 @@ const processPreviousCapture = function processPreviousCapture(tag, replyObj, op
   } else {
     debug.verbose('Attempted to use previous capture data, but none was found in user history.');
   }
-  return replacedCapture;
+  callback(null, replacedCapture);
 };
 
-const processPreviousInput = function processPreviousInput(tag, replyObj, options) {
+const processPreviousInput = function processPreviousInput(tag, replyObj, options, callback) {
   if (tag.inputID === null) {
     debug.verbose('Processing previous input <input>');
     // This means <input> instead of <input1>, <input2> etc. so give the current input back
     const replacedInput = options.message.clean;
-    return replacedInput;
+    return callback(null, replacedInput);
   }
 
   const inputID = (tag.inputID || 1) - 1;
@@ -117,10 +118,10 @@ const processPreviousInput = function processPreviousInput(tag, replyObj, option
     replacedInput = options.user.history.input[inputID].clean;
   }
   debug.verbose(`Replacing <input${inputID + 1}> with "${replacedInput}"`);
-  return replacedInput;
+  return callback(null, replacedInput);
 };
 
-const processPreviousReply = function processPreviousReply(tag, replyObj, options) {
+const processPreviousReply = function processPreviousReply(tag, replyObj, options, callback) {
   const replyID = (tag.replyID || 1) - 1;
   debug.verbose(`Processing previous reply <reply${replyID + 1}>`);
   let replacedReply = '';
@@ -131,42 +132,66 @@ const processPreviousReply = function processPreviousReply(tag, replyObj, option
     replacedReply = options.user.history.reply[replyID];
   }
   debug.verbose(`Replacing <reply{replyID + 1}> with "${replacedReply}"`);
-  return replacedReply;
+  return callback(null, replacedReply);
 };
 
-const processCaptures = function processCaptures(tag, replyObj, options) {
+const processWordnetLookup = function processWordnetLookup(tag, replyObj, options, callback) {
+  debug.verbose(`Processing wordnet lookup for word: ~${tag.term}`);
+  wordnet.lookup(tag.term, '~', (err, words) => {
+    if (err) {
+      console.error(err);
+    }
+
+    words = words.map(item => item.replace(/_/g, ' '));
+    debug.verbose(`Terms found in wordnet: ${words}`);
+
+    const replacedWordnet = Utils.pickItem(words);
+    debug.verbose(`Wordnet replaced term: ${replacedWordnet}`);
+    callback(null, replacedWordnet);
+  });
+};
+
+// Replacements are captures or wordnet lookups
+const processReplacement = function processReplacement(tag, replyObj, options, callback) {
   switch (tag.type) {
     case 'capture': {
-      return processCapture(tag, replyObj, options);
+      return processCapture(tag, replyObj, options, callback);
     }
     case 'previousCapture': {
-      return processPreviousCapture(tag, replyObj, options);
+      return processPreviousCapture(tag, replyObj, options, callback);
     }
     case 'previousInput': {
-      return processPreviousInput(tag, replyObj, options);
+      return processPreviousInput(tag, replyObj, options, callback);
     }
     case 'previousReply': {
-      return processPreviousReply(tag, replyObj, options);
+      return processPreviousReply(tag, replyObj, options, callback);
+    }
+    case 'wordnetLookup': {
+      return processWordnetLookup(tag, replyObj, options, callback);
     }
     default: {
-      console.error(`Capture tag type does not exist: ${tag.type}`);
-      return '';
+      return callback(`Replacement tag type does not exist: ${tag.type}`);
     }
   }
 };
 
-const preprocess = function preprocess(reply, replyObj, options) {
-  const captureTags = captureParser.parse(reply);
-  let cleanedReply = captureTags.map((tag) => {
-    // Don't do anything to non-captures
+const preprocess = function preprocess(reply, replyObj, options, callback) {
+  let captureTags = preprocessParser.parse(reply);
+  captureTags = _.flattenDeep(captureTags);
+  async.map(captureTags, (tag, next) => {
+    // Don't do anything to non-captures/wordnet terms
     if (typeof tag === 'string') {
-      return tag;
+      return next(null, tag);
     }
-    // It's a capture e.g. <cap2>, so replace it with the captured star in replyObj.stars
-    return processCaptures(tag, replyObj, options);
+    // It's a capture or wordnet lookup e.g. <cap2> or ~like, so replace it with
+    // the captured star in replyObj.stars or a random selection of wordnet term
+    return processReplacement(tag, replyObj, options, (err, replacement) => {
+      const escapedReplacement = `"${replacement}"`;
+      next(err, escapedReplacement);
+    });
+  }, (err, cleanTags) => {
+    callback(err, cleanTags.join(''));
   });
-  cleanedReply = cleanedReply.join('');
-  return cleanedReply;
 };
 
 const postAugment = function postAugment(replyObject, tag, callback) {
@@ -203,15 +228,34 @@ const postAugment = function postAugment(replyObject, tag, callback) {
 };
 
 const processTopicRedirect = function processTopicRedirect(tag, replyObj, options, callback) {
-  debug.verbose(`Processing topic redirect ^topicRedirect(${tag.topicName},${tag.topicTrigger})`);
+  let cleanedArgs = null;
+  try {
+    cleanedArgs = safeEval(tag.functionArgs);
+  } catch (err) {
+    return callback(`Error processing topicRedirect args: ${err}`);
+  }
+
+  const topicName = cleanedArgs[0];
+  const topicTrigger = cleanedArgs[1];
+
+  debug.verbose(`Processing topic redirect ^topicRedirect(${topicName},${topicTrigger})`);
   options.depth += 1;
-  topicRedirect(tag.topicName, tag.topicTrigger, options, postAugment(replyObj, tag, callback));
+  return topicRedirect(topicName, topicTrigger, options, postAugment(replyObj, tag, callback));
 };
 
 const processRespond = function processRespond(tag, replyObj, options, callback) {
-  debug.verbose(`Processing respond: ^respond(${tag.topicName})`);
+  let cleanedArgs = null;
+  try {
+    cleanedArgs = safeEval(tag.functionArgs);
+  } catch (err) {
+    return callback(`Error processing respond args: ${err}`);
+  }
+
+  const topicName = cleanedArgs[0];
+
+  debug.verbose(`Processing respond: ^respond(${topicName})`);
   options.depth += 1;
-  respond(tag.topicName, options, postAugment(replyObj, tag, callback));
+  return respond(topicName, options, postAugment(replyObj, tag, callback));
 };
 
 const processRedirect = function processRedirect(tag, replyObj, options, callback) {
@@ -221,24 +265,19 @@ const processRedirect = function processRedirect(tag, replyObj, options, callbac
 };
 
 const processCustomFunction = function processCustomFunction(tag, replyObj, options, callback) {
-  if (tag.args === null) {
+  if (tag.functionArgs === null) {
     debug.verbose(`Processing custom function: ^${tag.functionName}()`);
     return customFunction(tag.functionName, [], replyObj, options, callback);
   }
 
-  // If there's a wordnet lookup as a parameter, expand it first
-  return async.map(tag.functionArgs, (arg, next) => {
-    if (typeof arg === 'string') {
-      return next(null, arg);
-    }
-    return processWordnetLookup(arg, replyObj, options, next);
-  }, (err, args) => {
-    if (err) {
-      console.error(err);
-    }
-    debug.verbose(`Processing custom function: ^${tag.functionName}(${args.join(', ')})`);
-    return customFunction(tag.functionName, args, replyObj, options, callback);
-  });
+  let cleanArgs = null;
+  try {
+    cleanArgs = safeEval(tag.functionArgs);
+  } catch (e) {
+    return callback(`Error processing custom function arguments: ${e}`);
+  }
+
+  return customFunction(tag.functionName, cleanArgs, replyObj, options, callback);
 };
 
 const processNewTopic = function processNewTopic(tag, replyObj, options, callback) {
@@ -263,22 +302,6 @@ const processEndSearching = function processEndSearching(tag, replyObj, options,
   debug.verbose('Processing end searching: setting continueMatching to false');
   replyObj.continueMatching = false;
   callback(null, '');
-};
-
-const processWordnetLookup = function processWordnetLookup(tag, replyObj, options, callback) {
-  debug.verbose(`Processing wordnet lookup for word: ~${tag.term}`);
-  wordnet.lookup(tag.term, '~', (err, words) => {
-    if (err) {
-      console.error(err);
-    }
-
-    words = words.map(item => item.replace(/_/g, ' '));
-    debug.verbose(`Terms found in wordnet: ${words}`);
-
-    const replacedWordnet = Utils.pickItem(words);
-    debug.verbose(`Wordnet replaced term: ${replacedWordnet}`);
-    callback(null, replacedWordnet);
-  });
 };
 
 const processAlternates = function processAlternates(tag, replyObj, options, callback) {
@@ -330,6 +353,14 @@ const processTag = function processTag(tag, replyObj, options, next) {
   } else {
     const tagType = tag.type;
     switch (tagType) {
+      case 'capture':
+      case 'previousCapture':
+      case 'previousInput':
+      case 'previousReply':
+      case 'wordnetLookup': {
+        processReplacement(tag, replyObj, options, next);
+        break;
+      }
       case 'topicRedirect': {
         processTopicRedirect(tag, replyObj, options, next);
         break;
@@ -395,36 +426,41 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
 
   options.topic = replyObj.topic;
 
-  // Deals with captures as a preprocessing step (avoids tricksy logic having captures
-  // as function parameters)
-  const preprocessed = preprocess(replyString, replyObj, options);
-  const replyTags = parser.parse(preprocessed);
-
-  replyObj.replyIds = [replyObj.reply._id];
-
-  async.mapSeries(replyTags, (tag, next) => {
-    if (typeof tag === 'string') {
-      next(null, tag);
-    } else {
-      processTag(tag, replyObj, options, next);
-    }
-  }, (err, processedReplyParts) => {
+  // Deals with captures and wordnet lookups within functions as a preprocessing step
+  // e.g. ^myFunction(<cap1>, ~hey, "otherThing")
+  preprocess(replyString, replyObj, options, (err, preprocessed) => {
     if (err) {
-      console.error(`There was an error processing reply tags: ${err}`);
+      console.error(`There was an error preprocessing reply tags: ${err}`);
     }
 
-    replyString = processedReplyParts.join('').trim();
+    const replyTags = parser.parse(preprocessed);
 
-    const spaceRegex = /\\s/g;
-    replyObj.reply.reply = replyString.replace(spaceRegex, ' ');
+    replyObj.replyIds = [replyObj.reply._id];
 
-    debug.verbose('Final reply object from processTags: ', replyObj);
+    async.mapSeries(replyTags, (tag, next) => {
+      if (typeof tag === 'string') {
+        next(null, tag);
+      } else {
+        processTag(tag, replyObj, options, next);
+      }
+    }, (err, processedReplyParts) => {
+      if (err) {
+        console.error(`There was an error processing reply tags: ${err}`);
+      }
 
-    if (_.isEmpty(options.user.pendingTopic)) {
-      return options.user.setTopic(replyObj.topic, () => callback(err, replyObj));
-    }
+      replyString = processedReplyParts.join('').trim();
 
-    return callback(err, replyObj);
+      const spaceRegex = /\\s/g;
+      replyObj.reply.reply = replyString.replace(spaceRegex, ' ');
+
+      debug.verbose('Final reply object from processTags: ', replyObj);
+
+      if (_.isEmpty(options.user.pendingTopic)) {
+        return options.user.setTopic(replyObj.topic, () => callback(err, replyObj));
+      }
+
+      return callback(err, replyObj);
+    });
   });
 };
 

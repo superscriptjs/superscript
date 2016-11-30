@@ -91,6 +91,12 @@ const hasName = function hasName(bool, cb) {
   });
 };
 
+const testCustomArgs = function testCustomArgs(myObj, myArr, cb) {
+  const part1 = myObj.myKey;
+  const part2 = myArr[0];
+  cb(null, `${part1} ${part2}`);
+};
+
 export default {
   bail,
   breakFunc,
@@ -106,5 +112,6 @@ export default {
   objparam2,
   one,
   showScope,
+  testCustomArgs,
   word,
 };

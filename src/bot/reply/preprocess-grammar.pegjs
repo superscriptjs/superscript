@@ -1,4 +1,4 @@
-start = captures
+start = preprocess
 
 capture
   = "<cap" starID:integer? ">"
@@ -37,22 +37,50 @@ previousReply
       }
     }
 
-stringCharacter
-  = "\\" character:[<>] { return character; }
-  / character:[^<>] { return character; }
+wordnetLookup
+  = "~" term:[A-Za-z0-9_]+
+    {
+      return {
+        type: "wordnetLookup",
+        term: term.join("")
+      }
+    }
 
-string
-  = string:stringCharacter+ { return string.join(""); }
+nonReplacementChar
+  = "\\" character:[<>)~] { return character; }
+  / character:[^<>)~] { return character; }
 
-captureType
+nonReplacement
+  = chars:nonReplacementChar+ { return chars.join(""); }
+
+functionArg
   = capture
   / previousCapture
   / previousInput
   / previousReply
-  / string
+  / wordnetLookup
+  / nonReplacement
 
-captures
-  = captureType*
+functionArgs
+  = functionArg+
+
+function
+  = "^" name:[A-Za-z0-9_]+ "(" args:functionArgs? ")"
+    { return [`^${name.join("")}(`, args || '', ')']; }
+
+nonFunctionChar
+  = "\\" character:[\^] { return character; }
+  / character:[^\^] { return character; }
+
+nonFunction
+  = chars:nonFunctionChar+ { return chars.join(""); }
+
+preprocessType
+  = function
+  / nonFunction
+
+preprocess
+  = preprocessType*
 
 integer
   = numbers:[0-9]+
