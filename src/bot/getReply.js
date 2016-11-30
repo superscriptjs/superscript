@@ -382,8 +382,8 @@ const getReply = function getReply(messageObject, options, callback) {
   // This method can be called recursively.
   if (options.depth) {
     debug.verbose('Called Recursively', options.depth);
-    if (options.depth >= 50) {
-      console.error('getReply was called recursively 50 times - returning null reply.');
+    if (options.depth >= 20) {
+      console.error('getReply was called recursively 20 times - returning null reply.');
       return callback(null, null);
     }
   }
