@@ -549,5 +549,14 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('custom functions that return more tags should process them', () => {
+    it('Should process result of custom function', (done) => {
+      helpers.getBot().reply('user2', "what if there's more tags in custom func", (err, reply) => {
+        reply.string.should.eql('and the result is yay');
+        done();
+      });
+    });
+  });
+
   after(helpers.after);
 });

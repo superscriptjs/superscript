@@ -97,6 +97,10 @@ const testCustomArgs = function testCustomArgs(myObj, myArr, cb) {
   cb(null, `${part1} ${part2}`);
 };
 
+const testMoreTags = function testMoreTags(topic, trigger, cb) {
+  cb(null, `^topicRedirect("${topic}", "${trigger}")`);
+};
+
 export default {
   bail,
   breakFunc,
@@ -113,5 +117,6 @@ export default {
   one,
   showScope,
   testCustomArgs,
+  testMoreTags,
   word,
 };

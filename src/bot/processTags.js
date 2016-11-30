@@ -277,7 +277,30 @@ const processCustomFunction = function processCustomFunction(tag, replyObj, opti
     return callback(`Error processing custom function arguments: ${e}`);
   }
 
-  return customFunction(tag.functionName, cleanArgs, replyObj, options, callback);
+  return customFunction(tag.functionName, cleanArgs, replyObj, options, (err, response) => {
+    // The custom function might return something with more tags, so do it all again
+    preprocess(response, replyObj, options, (err, preprocessed) => {
+      if (err) {
+        return callback(`There was an error preprocessing reply tags: ${err}`);
+      }
+
+      const replyTags = parser.parse(preprocessed);
+
+      return async.mapSeries(replyTags, (tag, next) => {
+        if (typeof tag === 'string') {
+          next(null, tag);
+        } else {
+          processTag(tag, replyObj, options, next);
+        }
+      }, (err, processedReplyParts) => {
+        if (err) {
+          console.error(`There was an error processing reply tags: ${err}`);
+        }
+
+        callback(err, processedReplyParts.join('').trim());
+      });
+    });
+  });
 };
 
 const processNewTopic = function processNewTopic(tag, replyObj, options, callback) {
@@ -425,6 +448,7 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
   debug.info(`Reply before processing reply tags: "${replyString}"`);
 
   options.topic = replyObj.topic;
+  replyObj.replyIds = [replyObj.reply._id];
 
   // Deals with captures and wordnet lookups within functions as a preprocessing step
   // e.g. ^myFunction(<cap1>, ~hey, "otherThing")
@@ -434,8 +458,6 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
     }
 
     const replyTags = parser.parse(preprocessed);
-
-    replyObj.replyIds = [replyObj.reply._id];
 
     async.mapSeries(replyTags, (tag, next) => {
       if (typeof tag === 'string') {

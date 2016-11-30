@@ -370,3 +370,11 @@
 
 + let's test objects/arrays as custom function args
 - here's my answer ^testCustomArgs({myKey: "value"}, ['hey!'])
+
++ what if there's more tags in custom func
+- and the result is ^testMoreTags("super", "awesome")
+
+> topic:keep super
+  + awesome
+  - yay
+< topic
