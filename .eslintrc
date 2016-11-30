@@ -4,6 +4,7 @@ extends:
 
 rules:
   handle-callback-err: [2, "^(err|error)$"]
+  no-console: [0]
   no-plusplus: [2, { allowForLoopAfterthoughts: true }]
   no-underscore-dangle: [2, { allow: ["_id"] }]
   radix: [2, "as-needed"]

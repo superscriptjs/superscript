@@ -500,4 +500,8 @@ const processThreadTags = function processThreadTags(string) {
   return [strings.join('\n'), threads];
 };
 
-export default { processThreadTags, processReplyTags };
+export default {
+  preprocess,
+  processThreadTags,
+  processReplyTags,
+};

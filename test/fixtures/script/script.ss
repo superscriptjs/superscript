@@ -185,7 +185,7 @@
   + My name is *1
   - {keep} ^save("name", <cap1>) Hi <cap1>.
 
-  + ^not(filter|filterx) trigger *1 function
+  + ^not("filter|filterx") trigger *1 function
   - trigger filter reply
 
 + can you smile
@@ -203,8 +203,8 @@
 
 // Reply Filter functions
 + okay my name is <name>
-- {^hasName(false)} ^save("name",<cap1>) Nice to meet you, <cap1>.
-- {^hasName(true)} I know, you already told me your name.
+- {^hasName("false")} ^save("name",<cap1>) Nice to meet you, <cap1>.
+- {^hasName("true")} I know, you already told me your name.
 
 ?:WH * your name
 - My name is Brit.
@@ -348,9 +348,9 @@
 
 // GH-243
 + filter by *1
-- {^word(<cap1>,logic)} logic
-- {^word(<cap1>,though)} though
-- {^word(<cap1>,ai)} ai
+- {^word(<cap1>,"logic")} logic
+- {^word(<cap1>,"though")} though
+- {^word(<cap1>,"ai")} ai
 
 
 + scope though redirect

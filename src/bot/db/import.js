@@ -7,12 +7,10 @@ import async from 'async';
 import _ from 'lodash';
 import debuglog from 'debug-levels';
 
-import Utils from '../utils';
-
 const debug = debuglog('SS:Importer');
 
-const KEEP_REGEX = new RegExp('\{keep\}', 'i');
-const FILTER_REGEX = /\{\s*\^(\w+)\(([\w<>,\s]*)\)\s*\}/i;
+const KEEP_REGEX = /{keep}/i;
+const FILTER_REGEX = /{\s*\^(\w+)\(([^)]*)\)\s*}/i;
 
 // Whenever and only when a breaking change is made to ss-parser, this needs
 // to be updated.

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import debuglog from 'debug-levels';
 import async from 'async';
+import safeEval from 'safe-eval';
 
 import regexes from './regexes';
 import Utils from './utils';
@@ -222,41 +223,50 @@ const filterRepliesByFunction = function filterRepliesByFunction(potentialReplie
     // It returns true/false to aid in the selection.
 
     if (potentialReply.reply.filter !== '') {
-      const filterFunction = potentialReply.reply.filter.match(regexes.filter);
-      const pluginName = filterFunction[1];
-      const partsStr = filterFunction[2];
-      const args = Utils.replaceCapturedText(partsStr.split(','), [''].concat(potentialReply.stars));
+      const stars = { stars: potentialReply.stars };
+      processTags.preprocess(potentialReply.reply.filter, stars, options, (err, cleanFilter) => {
+        const filterFunction = cleanFilter.match(regexes.filter);
+        const functionName = filterFunction[1];
+        const functionArgs = filterFunction[2];
 
-      debug.verbose(`Filter function found with plugin name: ${pluginName}`);
+        debug.verbose(`Filter function found with plugin name: ${functionName}`);
 
-      if (system.plugins[pluginName]) {
-        args.push((err, filterReply) => {
-          if (err) {
-            console.log(err);
+        if (system.plugins[functionName]) {
+          let cleanArgs = null;
+          try {
+            cleanArgs = safeEval(`[${functionArgs}]`);
+          } catch (err) {
+            console.error(`Error in filter function arguments: ${err}`);
           }
 
-          if (filterReply === 'true' || filterReply === true) {
-            cb(err, true);
-          } else {
-            cb(err, false);
-          }
-        });
+          cleanArgs.push((err, filterReply) => {
+            if (err) {
+              console.error(err);
+            }
 
-        const filterScope = _.merge({}, system.scope);
-        filterScope.user = options.user;
-        filterScope.message = options.message;
-        filterScope.message_props = options.system.extraScope;
+            if (filterReply === 'true' || filterReply === true) {
+              cb(err, true);
+            } else {
+              cb(err, false);
+            }
+          });
 
-        debug.verbose(`Calling plugin function: ${pluginName} with args: ${args}`);
-        system.plugins[pluginName].apply(filterScope, args);
-      } else {
-        // If a function is missing, we kill the line and return empty handed
-        // Let's remove it and try to carry on.
-        console.log(`\nWARNING:\nYou have a missing filter function (${pluginName}) - your script will not behave as expected!"`);
-        // Wow, worst variable name ever - sorry.
-        potentialReply = potentialReply.reply.reply.replace(filterFunction[0], '').trim();
-        cb(null, true);
-      }
+          const filterScope = _.merge({}, system.scope);
+          filterScope.user = options.user;
+          filterScope.message = options.message;
+          filterScope.message_props = options.system.extraScope;
+
+          debug.verbose(`Calling plugin function: ${functionName} with args: ${cleanArgs}`);
+          system.plugins[functionName].apply(filterScope, cleanArgs);
+        } else {
+          // If a function is missing, we kill the line and return empty handed
+          // Let's remove it and try to carry on.
+          console.log(`\nWARNING:\nYou have a missing filter function (${pluginName}) - your script will not behave as expected!"`);
+          // Wow, worst variable name ever - sorry.
+          potentialReply = potentialReply.reply.reply.replace(filterFunction[0], '').trim();
+          cb(null, true);
+        }
+      });
     } else {
       cb(null, true);
     }

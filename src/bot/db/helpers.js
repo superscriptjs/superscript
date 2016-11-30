@@ -241,66 +241,62 @@ const _eachGambitHandle = function (message, options) {
         debug.verbose(`We have a filter function: ${gambit.filter}`);
 
         const filterFunction = gambit.filter.match(regexes.filter);
-        debug.verbose(`Filter function matched against regex gave: ${filterFunction}`);
+        const functionName = filterFunction[1];
+        const functionArgs = filterFunction[2];
 
-        const pluginName = filterFunction[1];
-        const parts = filterFunction[2].split(',');
+        debug.verbose(`Filter function found with plugin name: ${functionName}`);
 
-        if (!plugins[pluginName]) {
-          debug.verbose('Custom Filter Function not-found', pluginName);
-          callback(null, []);
+        if (!plugins[functionName]) {
+          debug.verbose(`Filter function plugin not found: ${functionName}`);
+          return callback(null, []);
         }
 
-        // These are the arguments to the function (cleaned version of parts)
-        const args = [];
-        for (let i = 0; i < parts.length; i++) {
-          if (parts[i] !== '') {
-            args.push(parts[i].trim());
+        let cleanArgs = null;
+        try {
+          cleanArgs = safeEval(`[${functionArgs}]`);
+        } catch (err) {
+          console.error(`Error in filter function arguments: ${err}`);
+        }
+
+        // The filterScope is what 'this' is during the execution of the plugin.
+        // This is so you can write plugins that can access, e.g. this.user or this.chatSystem
+        // Here we augment the global scope (system.scope) with any additional local scope for
+        // the current reply.
+        const filterScope = _.merge({}, scope);
+        filterScope.message = message;
+        // filterScope.message_props = options.localOptions.messageScope;
+        filterScope.user = options.user;
+
+        cleanArgs.push((err, filterReply) => {
+          if (err) {
+            console.error(err);
           }
-        }
 
-        if (plugins[pluginName]) {
-          // The filterScope is what 'this' is during the execution of the plugin.
-          // This is so you can write plugins that can access, e.g. this.user or this.chatSystem
-          // Here we augment the global scope (system.scope) with any additional local scope for
-          // the current reply.
-          const filterScope = _.merge({}, scope);
-          filterScope.message = message;
-//          filterScope.message_props = options.localOptions.messageScope;
-          filterScope.user = options.user;
+          debug.verbose(`Reply from filter function was: ${filterReply}`);
 
-          args.push((err, filterReply) => {
-            if (err) {
-              console.error(err);
-            }
+          if (filterReply === 'true' || filterReply === true) {
+            if (gambit.redirect !== '') {
+              debug.verbose('Found Redirect Match with topic %s', topic);
+              chatSystem.Topic.findTriggerByTrigger(gambit.redirect, (err2, trigger) => {
+                if (err2) {
+                  console.error(err2);
+                }
 
-            debug.verbose(`Reply from filter function was: ${filterReply}`);
-
-            // TODO: This seems weird... Investigate
-            if (filterReply === 'true' || filterReply === true) {
-              if (gambit.redirect !== '') {
-                debug.verbose('Found Redirect Match with topic %s', topic);
-                chatSystem.Topic.findTriggerByTrigger(gambit.redirect, (err2, trigger) => {
-                  if (err2) {
-                    console.error(err2);
-                  }
-
-                  gambit = trigger;
-                  callback(null, []);
-                });
-              } else {
-                // Tag the message with the found Trigger we matched on
-                message.gambitId = gambit._id;
-                processStars(match, gambit, topic, callback);
-              }
+                gambit = trigger;
+                callback(null, []);
+              });
             } else {
-              callback(null, []);
+              // Tag the message with the found Trigger we matched on
+              message.gambitId = gambit._id;
+              processStars(match, gambit, topic, callback);
             }
-          });
+          } else {
+            callback(null, []);
+          }
+        });
 
-          debug.verbose('Calling Plugin Function', pluginName);
-          plugins[pluginName].apply(filterScope, args);
-        }
+        debug.verbose(`Calling plugin function: ${functionName} with args: ${cleanArgs}`);
+        plugins[functionName].apply(filterScope, cleanArgs);
       } else if (gambit.redirect !== '') {
           // If there's no filter, check if there's a redirect
           // TODO: Check this works/is sane

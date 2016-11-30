@@ -3,5 +3,5 @@
 export default {
   captures: /<cap(\d{0,2})>/ig,
   delay: /{\s*delay\s*=\s*(\d+)\s*}/,
-  filter: /\^(\w+)\(([\w<>,|\s]*)\)/i,
+  filter: /\^(\w+)\(([^)]*)\)/i,
 };
