@@ -1,7 +1,7 @@
 import debuglog from 'debug-levels';
 
 import processHelpers from './common';
-import Message from '../message';
+import Message from 'ss-message';
 import getReply from '../getReply';
 
 const debug = debuglog('SS:Reply:topicRedirect');
@@ -20,7 +20,7 @@ const topicRedirect = function topicRedirect(topicName, topicTrigger, options, c
       factSystem: options.system.factSystem
     };
 
-    Message.createMessage(topicTrigger, messageOptions, (redirectMessage) => {
+    Message.createMessage(topicTrigger, messageOptions, (err, redirectMessage) => {
       options.pendingTopics = [topicData];
 
       getReply(redirectMessage, options, (err, redirectReply) => {

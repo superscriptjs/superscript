@@ -59,12 +59,12 @@ describe('SuperScript Topics', () => {
 
   describe('Topic - sort', () => {
     it('topic should not be orderd by default', (done) => {
-      helpers.getBot().reply('user1', 'this should catch some', (err, reply) => {
+      helpers.getBot().reply('user1', 'this must catch some', (err, reply) => {
         helpers.getBot().chatSystem.Topic.findByName('random', (err, topic) => {
-          topic.createGambit({ input: 'this should catch some more' }, (er, gam) => {
+          topic.createGambit({ input: 'this must catch some more' }, (er, gam) => {
             gam.addReply({ reply: 'New Reply' }, (err, rep) => {
               topic.sortGambits(() => {
-                helpers.getBot().reply('user1', 'this should catch some more', (err, reply) => {
+                helpers.getBot().reply('user1', 'this must catch some more', (err, reply) => {
                   reply.string.should.eql('New Reply');
                   done();
                 });
@@ -90,7 +90,7 @@ describe('SuperScript Topics', () => {
         reply.string.should.eql('some reply');
 
         helpers.getBot().reply('user 10', 'yes', (err, reply) => {
-          reply.string.should.eql('this should work.');
+          reply.string.should.eql('this must work.');
           done();
         });
       });

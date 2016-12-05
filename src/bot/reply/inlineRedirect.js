@@ -1,6 +1,6 @@
 import debuglog from 'debug-levels';
 
-import Message from '../message';
+import Message from 'ss-message';
 import processHelpers from './common';
 import getReply from '../getReply';
 
@@ -22,7 +22,7 @@ const inlineRedirect = function inlineRedirect(triggerTarget, options, callback)
       factSystem: options.system.factSystem,
     };
 
-    Message.createMessage(triggerTarget, messageOptions, (redirectMessage) => {
+    Message.createMessage(triggerTarget, messageOptions, (err, redirectMessage) => {
       options.pendingTopics = [topicData];
 
       getReply(redirectMessage, options, (err, redirectReply) => {

@@ -8,7 +8,7 @@ import factSystem from './factSystem';
 import chatSystem from './chatSystem';
 import getReply from './getReply';
 import Importer from './db/import';
-import Message from './message';
+import Message from 'ss-message';
 import Logger from './logger';
 
 const debug = debuglog('SS:SuperScript');
@@ -95,7 +95,7 @@ class SuperScript {
       factSystem: this.factSystem,
     };
 
-    Message.createMessage(messageString, options, (msgObj) => {
+    Message.createMessage(messageString, options, (err, msgObj) => {
       callback(null, msgObj);
     });
   }
@@ -121,7 +121,7 @@ class SuperScript {
         factSystem: this.factSystem,
       };
 
-      Message.createMessage(messageString, messageOptions, (messageObject) => {
+      Message.createMessage(messageString, messageOptions, (err, messageObject) => {
         processHelpers.getTopic(system.chatSystem, system.topicName, (err, topicData) => {
           const options = {
             user,
@@ -152,7 +152,7 @@ class SuperScript {
               console.log('There was no response matched.');
             }
 
-            Message.createMessage(replyMessage, messageOptions, (replyMessageObject) => {
+            Message.createMessage(replyMessage, messageOptions, (err, replyMessageObject) => {
               user.updateHistory(messageObject, replyMessageObject, replyObj, (err, log) => {
                 // We send back a smaller message object to the clients.
                 const clientObject = {

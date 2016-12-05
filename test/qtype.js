@@ -4,7 +4,7 @@ import mocha from 'mocha';
 import should from 'should';
 import helpers from './helpers';
 
-describe('SuperScript QType Matching', () => {
+describe.only('SuperScript QType Matching', () => {
   before(helpers.before('qtype'));
 
   describe('Simple Question Matching (qSubType)', () => {

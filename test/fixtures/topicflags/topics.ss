@@ -19,7 +19,7 @@
 + set topic to nostay
 - Okay we are going to nostay {topic=nostay}
 
-? why did *
++ why did *
 - ^respond("system_why")
 
 + test recursion
@@ -136,7 +136,7 @@
 
 + yes
 % some reply
-- this should work.
+- this must work.
 
 + no
 -  wont work

@@ -66,7 +66,6 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
     }
 
     const populateGambits = function populateGambits(gambit, next) {
-      debug.verbose('Populating gambit');
       db.model(modelNames.reply).byTenant(tenantId).populate(gambit, { path: 'replies' }, next);
     };
 

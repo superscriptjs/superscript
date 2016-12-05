@@ -115,7 +115,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Custom functions', () => {
     it('should call a custom function with hyphen', (done) => {
       helpers.getBot().reply('user1', 'error with function thirty-two', (err, reply) => {
-        reply.string.should.eql('thirty-two');
+        reply.string.should.eql('32');
         done();
       });
     });
@@ -156,14 +156,14 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
 
     it('should not freak out if function does not exist', (done) => {
-      helpers.getBot().reply('user1', 'custom4 function', (err, reply) => {
+      helpers.getBot().reply('user1', 'custom 4 function', (err, reply) => {
         reply.string.should.eql('one + one = 2');
         done();
       });
     });
 
     it('function in multi-line reply', (done) => {
-      helpers.getBot().reply('user1', 'custom9 function', (err, reply) => {
+      helpers.getBot().reply('user1', 'custom 9 function', (err, reply) => {
         reply.string.should.eql('a\nb\none\n\nmore');
         done();
       });
