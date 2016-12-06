@@ -191,14 +191,14 @@
 + can you smile
 - ^addMessageProp("emoji","smile") Sure can.
 
-+ object param one
++ object param 1
 - ^objparam1()
 
-+ object param two
++ object param 2
 - ^objparam2() ^addMessageProp("foo", "bar")
 
 // Object params though topicRedirect
-+ object param three
++ object param 3
 -  ^addMessageProp("foo", "bar") ^topicRedirect("test_topic", "__objParams__")
 
 // Reply Filter functions
@@ -206,7 +206,7 @@
 - {^hasName("false")} ^save("name",<cap1>) Nice to meet you, <cap1>.
 - {^hasName("true")} I know, you already told me your name.
 
-?:WH * your name
+? * your name
 - My name is Brit.
 
 < topic

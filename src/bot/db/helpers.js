@@ -180,27 +180,9 @@ const doesMatch = function doesMatch(gambit, message, options, callback) {
     // Match on the question type (qtype / qsubtype)
     if (gambit.isQuestion && message.isQuestion) {
       debug.verbose('Gambit and message are questions, testing against question types');
-      if (_.isEmpty(gambit.qType) && _.isEmpty(gambit.qSubType)) {
-        // Gambit does not specify what type of question it should be, so just match
-        match = message.clean.match(pattern);
-        if (!match) {
-          match = message.lemString.match(pattern);
-        }
-      } else if (!_.isEmpty(gambit.qType) && _.isEmpty(gambit.qSubType) &&
-        (message.questionType === gambit.qType || message.questionSubType.indexOf(gambit.qType) !== -1)) {
-        // Gambit specifies question type only
-        match = message.clean.match(pattern);
-        if (!match) {
-          match = message.lemString.match(pattern);
-        }
-      } else if (!_.isEmpty(gambit.qType) && !_.isEmpty(gambit.qSubType)
-        && message.questionSubType.indexOf(gambit.qType) !== -1
-        && message.questionSubType.indexOf(gambit.qSubType) !== -1) {
-        // Gambit specifies both question type and question sub type
-        match = message.clean.match(pattern);
-        if (!match) {
-          match = message.lemString.match(pattern);
-        }
+      match = message.clean.match(pattern);
+      if (!match) {
+        match = message.lemString.match(pattern);
       }
     } else {
       // This is a normal match

@@ -289,7 +289,7 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
 
     it('Augment callback 2', (done) => {
-      helpers.getBot().reply('user1', 'object param two', (err, reply) => {
+      helpers.getBot().reply('user1', 'object param 2', (err, reply) => {
         reply.string.should.eql('world');
         reply.foo.should.eql('bar');
         done();
@@ -298,7 +298,7 @@ describe('SuperScript Scripting + Style Interface', () => {
 
     // Params though redirects & Merge
     it('Augment callback 3', (done) => {
-      helpers.getBot().reply('user1', 'object param three', (err, reply) => {
+      helpers.getBot().reply('user1', 'object param 3', (err, reply) => {
         reply.string.should.eql('world');
         reply.foo.should.eql('bar');
         reply.attachments.should.eql([{ text: 'Optional text that appears *within* the attachment' }]);

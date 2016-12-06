@@ -9,33 +9,25 @@ describe('SuperScript substitution Interface', () => {
 
   describe('Message Subs', () => {
     it('name subsitution', (done) => {
-      helpers.getBot().reply('user1', 'Rob is here', (err, reply) => {
-        reply.string.should.eql('hi Rob');
+      helpers.getBot().reply('user1', 'Ashley is here', (err, reply) => {
+        reply.string.should.eql('hi Ashley');
         done();
       });
     });
 
     it('name subsitution - 2', (done) => {
-      helpers.getBot().reply('user1', 'Rob is taller than Heather', (err, reply) => {
-        reply.string.should.eql('Heather is shorter than Rob');
+      helpers.getBot().reply('user1', 'Ashley is taller than Heather', (err, reply) => {
+        reply.string.should.eql('Heather is shorter than Ashley');
         done();
       });
     });
 
     it('name subsitution - 3', (done) => {
-      helpers.getBot().reply('user1', 'Rob Ellis is taller than Heather Allen', (err, reply) => {
-        reply.string.should.eql('Heather Allen is shorter than Rob Ellis');
+      helpers.getBot().reply('user1', 'John Ellis is taller than Heather Allen', (err, reply) => {
+        reply.string.should.eql('Heather Allen is shorter than John Ellis');
         done();
       });
     });
-
-    it('name subsitution - 4', (done) => {
-      helpers.getBot().reply('user1', 'Rob is taller than Rob', (err, reply) => {
-        reply.string.should.eql('');
-        done();
-      });
-    });
-
 
     it('verb pronoun noun subsitution ', (done) => {
       helpers.getBot().reply('user1', 'She ran to Vancouver', (err, reply) => {
