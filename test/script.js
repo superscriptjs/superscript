@@ -7,6 +7,8 @@ import async from 'async';
 import helpers from './helpers';
 import Utils from '../src/bot/utils';
 
+// TODO re-test "okay my name is X" should match "my name is X"
+
 describe('SuperScript Scripting + Style Interface', () => {
   before(helpers.before('script'));
 
@@ -185,7 +187,7 @@ describe('SuperScript Scripting + Style Interface', () => {
 
   describe('Custom functions 3 - user fact system', () => {
     it('Should save and recall 1', (done) => {
-      helpers.getBot().reply('userX', 'My name is Bob', (err, reply) => {
+      helpers.getBot().reply('userX', 'save name Bob', (err, reply) => {
         reply.string.should.eql('Hi Bob.');
         helpers.getBot().getUser('userX', (err, u1) => {
           u1.getVar('name', (err, name) => {
@@ -197,7 +199,7 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
 
     it('Should save and recall 2', (done) => {
-      helpers.getBot().reply('suser2', 'My name is Ken', (err, reply) => {
+      helpers.getBot().reply('suser2', 'save name Ken', (err, reply) => {
         reply.string.should.eql('Hi Ken.');
         helpers.getBot().getUser('userX', (err, u1) => {
           helpers.getBot().getUser('suser2', (err, u2) => {
@@ -261,11 +263,25 @@ describe('SuperScript Scripting + Style Interface', () => {
 
   describe('Filter on Replies', () => {
     it('should save knowledge', (done) => {
-      helpers.getBot().reply('r1user1', 'okay my name is Adam.', (err, reply) => {
+      helpers.getBot().reply('r1user1', 'my name is Adam.', (err, reply) => {
         reply.string.should.containEql('Nice to meet you, Adam.');
-        helpers.getBot().reply('r1user1', 'okay my name is Adam.', (err, reply1) => {
-          reply1.string.should.containEql('I know, you already told me your name.');
-          done();
+
+        // The Reply HAS a filter
+        helpers.getBot().chatSystem.Reply.findOne({_id: reply.replyId}, (e, res) => {
+          res.filter.should.containEql('^hasName("false")');
+
+          // The user added the fact to the local sublevel
+          helpers.getBot().getUser('r1user1', (err, user) => {
+            user.memory.db.get({ subject: 'name', predicate: 'r1user1'}, (err, results) => {
+              results[0].object.should.containEql('Adam');
+
+              // Now lets hit the other reply / filter
+              helpers.getBot().reply('r1user1', 'my name is Adam.', (err, reply1) => {
+                reply1.string.should.containEql('I know, you already told me your name.');
+                done();
+              });
+            });
+          });
         });
       });
     });
@@ -342,35 +358,35 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Mix case test', () => {
     it('should match all capitals', (done) => {
       helpers.getBot().reply('user1', 'this is all capitals', (err, reply) => {
-        reply.string.should.eql('Test six should pass');
+        reply.string.should.eql('Test six must pass');
         done();
       });
     });
 
     it('should match some capitals', (done) => {
       helpers.getBot().reply('user1', 'this IS ALL capitals', (err, reply) => {
-        reply.string.should.eql('Test six should pass');
+        reply.string.should.eql('Test six must pass');
         done();
       });
     });
 
     it('should match with or without puct - 1', (done) => {
       helpers.getBot().reply('user1', 'Do you have a clue?', (err, reply) => {
-        reply.string.should.eql('Test seven should pass');
+        reply.string.should.eql('Test seven must pass');
         done();
       });
     });
 
     it('should match with or without puct - 2', (done) => {
       helpers.getBot().reply('user1', 'Do you have a cause', (err, reply) => {
-        reply.string.should.eql('Test seven should pass');
+        reply.string.should.eql('Test seven must pass');
         done();
       });
     });
 
     it('should match with extra spaces mixed in', (done) => {
       helpers.getBot().reply('user1', 'Do       you       have   a    condition', (err, reply) => {
-        reply.string.should.eql('Test seven should pass');
+        reply.string.should.eql('Test seven must pass');
         done();
       });
     });
@@ -386,28 +402,28 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Style - burst related', () => {
     it('should removed bursted commas', (done) => {
       helpers.getBot().reply('user1', 'John is older than Mary, and Mary is older than Sarah', (err, reply) => {
-        reply.string.should.eql('Test eight should pass');
+        reply.string.should.eql('Test eight must pass');
         done();
       });
     });
 
     it('should removed bursted commas 2', (done) => {
       helpers.getBot().reply('user1', 'Is it morning, noon, night?', (err, reply) => {
-        reply.string.should.eql('Test nine should pass');
+        reply.string.should.eql('Test nine must pass');
         done();
       });
     });
 
     it('should removed quotes', (done) => {
       helpers.getBot().reply('user1', 'remove quotes around "car"?', (err, reply) => {
-        reply.string.should.eql('Test ten should pass');
+        reply.string.should.eql('Test ten must pass');
         done();
       });
     });
 
     it('should keep reply quotes', (done) => {
       helpers.getBot().reply('user1', 'reply quotes', (err, reply) => {
-        reply.string.should.eql('Test "eleven" should pass');
+        reply.string.should.eql('Test "eleven" must pass');
         done();
       });
     });
@@ -422,10 +438,10 @@ describe('SuperScript Scripting + Style Interface', () => {
 
   describe('Keep the current topic when a special topic is matched', () => {
     it('Should redirect to the first gambit', (done) => {
-      helpers.getBot().reply('user1', 'first flow match', (err, reply) => {
+      helpers.getBot().reply('user1', 'flow match', (err, reply) => {
         reply.string.should.eql('You are in the first reply.');
 
-        helpers.getBot().reply('user1', 'second flow match', (err, reply) => {
+        helpers.getBot().reply('user1', 'next flow match', (err, reply) => {
           reply.string.should.eql('You are in the second reply. You are in the first reply.');
           done();
         });
@@ -433,7 +449,7 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
 
     it('Should redirect to the first gambit after matching __pre__', (done) => {
-      helpers.getBot().reply('user1', 'first flow match', (err, reply) => {
+      helpers.getBot().reply('user1', 'flow match', (err, reply) => {
         reply.string.should.eql('You are in the first reply.');
 
         helpers.getBot().reply('user1', 'flow redirection test', (err, reply) => {

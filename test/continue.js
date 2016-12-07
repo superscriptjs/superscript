@@ -44,6 +44,7 @@ describe('SuperScript Continue System aka Conversation', () => {
       });
     });
 
+    // Issue in ss-message/bot-lang removing leading yes
     it('should continue 2 - yes', (done) => {
       helpers.getBot().reply('user1', 'i like to travel', (err, reply) => {
         reply.string.should.eql('have you been to Madird?');

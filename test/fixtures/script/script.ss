@@ -83,10 +83,7 @@
 
   // Mix case testing
   + THIS IS ALL CAPITALS
-  - Test six should pass
-
-  + Do you have a clue
-  - Test seven should pass
+  - Test six must pass
 
   + this reply is random
   - yes this reply is ((awesome|random))
@@ -182,7 +179,7 @@
   - ^changefunctionreply("fish")
 
   // This will save the name to the internal fact system for this user.
-  + My name is *1
+  + save name *1
   - {keep} ^save("name", <cap1>) Hi <cap1>.
 
   + ^not("filter|filterx") trigger *1 function
@@ -202,7 +199,7 @@
 -  ^addMessageProp("foo", "bar") ^topicRedirect("test_topic", "__objParams__")
 
 // Reply Filter functions
-+ okay my name is <name>
++ my name is <name>
 - {^hasName("false")} ^save("name",<cap1>) Nice to meet you, <cap1>.
 - {^hasName("true")} I know, you already told me your name.
 
@@ -233,35 +230,32 @@
 
 // Style Tests
 
-
-
-
 // Mix case testing
 + THIS IS ALL CAPITALS
-- {keep} Test six should pass
+- {keep} Test six must pass
 
 + Do you have a clue
-- Test seven should pass
+- Test seven must pass
 
 + Do you have a cause
-- Test seven should pass
+- Test seven must pass
 
 + Do you have a condition
-- Test seven should pass
+- Test seven must pass
 
 + John is older than Mary and Mary is older than Sarah
-- Test eight should pass
+- Test eight must pass
 
-// Should match without commas
+// should match without commas
 + is it morning noon night
-- Test nine should pass
+- Test nine must pass
 
 // Remove Quotes
 + remove quotes around car
-- Test ten should pass
+- Test ten must pass
 
 + reply quotes
-- Test "eleven" should pass
+- Test "eleven" must pass
 
 // Test Multiple line output
 + tell me a poem
@@ -277,7 +271,7 @@
 + it's all good in the hood
 - normalize trigger test
 
-+ it's all good in the hood two
++ it's all good in the hood 2
 - normalize trigger test
 
 + I ~like basketball
@@ -308,14 +302,14 @@
 // Special topics flow with inline redirection
 > topic __pre__
   + flow redirection test
-  - Going back. {@first flow match}
+  - Going back. {@flow match}
 < topic
 
 > topic flow_test
-  + first flow match
+  + flow match
   - {keep} You are in the first reply.
-  + second flow match
-  - You are in the second reply. {@first flow match}
+  + next flow match
+  - You are in the second reply. {@flow match}
 < topic
 
 // gh-173
