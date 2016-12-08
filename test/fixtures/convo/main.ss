@@ -6,4 +6,4 @@
   - yep, can you?
   + *
   % yep, can you?
-  - We should hang out sometime.
+  - We must hang out sometime.

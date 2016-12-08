@@ -136,7 +136,7 @@
 + start 2 (*) or *1
 - reply 2 <cap1>
 
-  + second match (*)
+  + 2 match (*)
   % reply 2 *
   - reply 3 <cap1> <p1cap1> <p1cap2>
 

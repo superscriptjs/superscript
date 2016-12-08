@@ -176,8 +176,7 @@ describe('SuperScript Continue System aka Conversation', () => {
     it('should pass stars forward', (done) => {
       helpers.getBot().reply('user4', 'start 2 foo or win', (err, reply) => {
         reply.string.should.eql('reply 2 foo');
-
-        helpers.getBot().reply('user4', 'second match bar', (err, reply) => {
+        helpers.getBot().reply('user4', '2 match bar', (err, reply) => {
           reply.string.should.eql('reply 3 bar foo win');
           done();
         });

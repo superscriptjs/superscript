@@ -97,9 +97,9 @@
   - normalize trigger test
 
   // Replies accross triggers should be allowd, even if the reply is identical
-  + trigger one
+  + trigger 1
   - generic reply
-  + trigger two
+  + trigger 2
   - generic reply
 
   // Reply Flags
@@ -224,7 +224,7 @@
 + generic message
 - {keep} generic reply ^showScope()
 
-+ generic message two
++ generic message 2
 - {keep} generic reply ^showScope()
 
 

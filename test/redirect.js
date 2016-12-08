@@ -37,7 +37,7 @@ describe('SuperScript Redirects', () => {
   describe('Inline Redirect two message in one reply', () => {
     it('should redirect on match complex message', (done) => {
       helpers.getBot().reply('user1', 'this is an complex redirect', (err, reply) => {
-        reply.string.should.eql('this game is made up of 2 teams');
+        reply.string.should.eql('this game is made up of bar teams');
         done();
       });
     });
@@ -71,7 +71,7 @@ describe('SuperScript Redirects', () => {
     });
 
     it('should parse function and redirect', (done) => {
-      helpers.getBot().reply('user1', 'tell me a random fact two', (err, reply) => {
+      helpers.getBot().reply('user1', 'tell me a random fact 2', (err, reply) => {
         reply.string.should.not.be.empty;
         reply.string.should.containEql("Okay, here's a fact. one Would you like me to tell you another fact?");
         done();

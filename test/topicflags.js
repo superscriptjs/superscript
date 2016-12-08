@@ -134,9 +134,9 @@ describe('SuperScript Topics', () => {
 
         helpers.getBot().getUser('user1', (err, cu) => {
           cu.getTopic().should.eql('keeptopic');
-          helpers.getBot().reply('user1', 'i have one thing to say', (err, reply) => {
+          helpers.getBot().reply('user1', 'i have 1 thing to say', (err, reply) => {
             reply.string.should.eql('topic test pass');
-            helpers.getBot().reply('user1', 'i have one thing to say', (err, reply) => {
+            helpers.getBot().reply('user1', 'i have 1 thing to say', (err, reply) => {
               reply.string.should.eql('topic test pass');
               done();
             });

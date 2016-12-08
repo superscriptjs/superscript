@@ -73,7 +73,7 @@
   Gambits have been exausted.
 */
 > topic dry
-  + i have one thing to say
+  + i have 1 thing to say
   - dry topic test pass
 
   + this is a dry topic
@@ -85,7 +85,7 @@
   We use the keep flag to allow us to reuse the gambit over and over
 */
 > topic:keep keeptopic
-  + i have one thing to say
+  + i have 1 thing to say
   - topic test pass
 < topic
 

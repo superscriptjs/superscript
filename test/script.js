@@ -14,9 +14,9 @@ describe('SuperScript Scripting + Style Interface', () => {
 
   describe('Replies can be repeated accross triggers', () => {
     it('Replies accross trigger should pass', (done) => {
-      helpers.getBot().reply('user1', 'trigger one', (err, reply) => {
+      helpers.getBot().reply('user1', 'trigger 1', (err, reply) => {
         reply.string.should.eql('generic reply');
-        helpers.getBot().reply('user1', 'trigger two', (err, reply) => {
+        helpers.getBot().reply('user1', 'trigger 2', (err, reply) => {
           reply.string.should.eql('generic reply');
           done();
         });
@@ -514,7 +514,7 @@ describe('SuperScript Scripting + Style Interface', () => {
       // optional callback
       (err, results) => {
         results.should.containEql('generic reply A userA generic message');
-        results.should.containEql('generic reply B userB generic message two');
+        results.should.containEql('generic reply B userB generic message 2');
 
         done();
       });

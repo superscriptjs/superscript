@@ -10,7 +10,7 @@
 
 
 + this is an complex redirect
-- this {@message} is made up of {@two} teams
+- this {@message} is made up of {@bar} teams
 
 + message
 - game
@@ -18,8 +18,8 @@
 + one
 - 1
 
-+ two
-- 2
++ bar
+- bar
 
 
 + this is an nested redirect
@@ -64,7 +64,7 @@
 + _post_random_fact
 - Would you like me to tell you another fact?
 
-+ tell me a random fact two
++ tell me a random fact 2
 - {keep} Okay, here's a fact. {@_post_random_fact2}
 
 + _post_random_fact2
@@ -143,7 +143,7 @@
 
 > topic __post__
   + *
-  - {keep} Should not match post.
+  - {keep} must not match post.
 < topic
 
 > topic:keep preview_words (preview)
