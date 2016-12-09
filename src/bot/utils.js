@@ -1,12 +1,9 @@
 import _ from 'lodash';
 import fs from 'fs';
-import string from 'string';
 import debuglog from 'debug-levels';
-import pos from 'parts-of-speech';
 import regexes from './regexes';
 
 const debug = debuglog('SS:Utils');
-const Lex = pos.Lexer;
 
 //--------------------------
 
@@ -48,37 +45,6 @@ const inArray = function inArray(list, value) {
   }
 };
 
-const sentenceSplit = function sentenceSplit(message) {
-  const lexer = new Lex();
-  const bits = lexer.lex(message);
-  let R = [];
-  const L = [];
-  for (let i = 0; i < bits.length; i++) {
-    if (bits[i] === '.') {
-      // Push the punct
-      R.push(bits[i]);
-      L.push(R.join(' '));
-      R = [];
-    } else if (bits[i] === ',' &&
-      R.length >= 3 &&
-      _.includes(['who', 'what', 'where', 'when', 'why'], bits[i + 1])
-    ) {
-      R.push(bits[i]);
-      L.push(R.join(' '));
-      R = [];
-    } else {
-      R.push(bits[i]);
-    }
-  }
-
-  // if we havd left over R, push it into L (no punct was found)
-  if (R.length !== 0) {
-    L.push(R.join(' '));
-  }
-
-  return L;
-};
-
 const commandsRE = /[\\.+?${}=!:]/g;
 const nonCommandsRE = /[\\.+*?^\[\]$(){}=!<>|:]/g;
 /**
@@ -87,37 +53,6 @@ const nonCommandsRE = /[\\.+*?^\[\]$(){}=!<>|:]/g;
  * @param {boolean} commands -
  */
 const quotemeta = (string, commands = false) => string.replace(commands ? commandsRE : nonCommandsRE, c => `\\${c}`);
-
-const cleanArray = function cleanArray(actual) {
-  const newArray = [];
-  for (let i = 0; i < actual.length; i++) {
-    if (actual[i]) {
-      newArray.push(actual[i]);
-    }
-  }
-  return newArray;
-};
-
-const aRE = /^(([bcdgjkpqtuvwyz]|onc?e|onetime)$|e[uw]|uk|ur[aeiou]|use|ut([^t])|uni(l[^l]|[a-ko-z]))/i;
-const anRE = /^([aefhilmnorsx]$|hono|honest|hour|heir|[aeiou])/i;
-const upcaseARE = /^(UN$)/;
-const upcaseANRE = /^$/;
-const dashSpaceRE = /[- ]/;
-const indefiniteArticlerize = (word) => {
-  const first = word.split(dashSpaceRE, 2)[0];
-  const prefix = (anRE.test(first) || upcaseARE.test(first)) && !(aRE.test(first) || upcaseANRE.test(first)) ? 'an' : 'a';
-  return `${prefix} ${word}`;
-};
-
-const indefiniteList = (list) => {
-  const n = list.map(indefiniteArticlerize);
-  if (n.length > 1) {
-    const last = n.pop();
-    return `${n.join(', ')} and ${last}`;
-  } else {
-    return n.join(', ');
-  }
-};
 
 const getRandomInt = function getRandomInt(min, max) {
   return Math.floor(Math.random() * ((max - min) + 1)) + min;
@@ -212,34 +147,15 @@ const walk = function walk(dir, done) {
   });
 };
 
-const pennToWordnet = function pennToWordnet(pennTag) {
-  if (string(pennTag).startsWith('J')) {
-    return 'a';
-  } else if (string(pennTag).startsWith('V')) {
-    return 'v';
-  } else if (string(pennTag).startsWith('N')) {
-    return 'n';
-  } else if (string(pennTag).startsWith('R')) {
-    return 'r';
-  } else {
-    return null;
-  }
-};
-
 export default {
-  cleanArray,
   genId,
   getRandomInt,
   inArray,
-  indefiniteArticlerize,
-  indefiniteList,
   isTag,
   makeSentense,
-  pennToWordnet,
   pickItem,
   quotemeta,
   replaceCapturedText,
-  sentenceSplit,
   trim,
   walk,
   wordCount,

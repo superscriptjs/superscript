@@ -267,12 +267,12 @@ describe('SuperScript Scripting + Style Interface', () => {
         reply.string.should.containEql('Nice to meet you, Adam.');
 
         // The Reply HAS a filter
-        helpers.getBot().chatSystem.Reply.findOne({_id: reply.replyId}, (e, res) => {
+        helpers.getBot().chatSystem.Reply.findOne({ _id: reply.replyId }, (e, res) => {
           res.filter.should.containEql('^hasName("false")');
 
           // The user added the fact to the local sublevel
           helpers.getBot().getUser('r1user1', (err, user) => {
-            user.memory.db.get({ subject: 'name', predicate: 'r1user1'}, (err, results) => {
+            user.memory.db.get({ subject: 'name', predicate: 'r1user1' }, (err, results) => {
               results[0].object.should.containEql('Adam');
 
               // Now lets hit the other reply / filter
@@ -426,13 +426,6 @@ describe('SuperScript Scripting + Style Interface', () => {
         reply.string.should.eql('Test "eleven" must pass');
         done();
       });
-    });
-
-    it('dont burst urls', (done) => {
-      Utils.sentenceSplit('should not burst http://google.com').should.have.length(1);
-      Utils.sentenceSplit('should not burst 19bdnznUXdHEOlp0Pnp9JY0rug6VuA2R3zK4AACdFzhE').should.have.length(1);
-      Utils.sentenceSplit('burst test should pass rob@silentrob.me').should.have.length(1);
-      done();
     });
   });
 

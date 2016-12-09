@@ -4,28 +4,6 @@ import should from 'should';
 import utils from '../../src/bot/utils';
 
 describe('Util Helpers', () => {
-  it('should not care about sentences with no punctuation', () => {
-    utils.sentenceSplit('Hello world').should.eql(['Hello world']);
-  });
-
-  it('should simple split', () => {
-    utils.sentenceSplit('Hello world.').should.eql(['Hello world .']);
-  });
-
-  it('should double split', () => {
-    utils.sentenceSplit('Hello world. Hello wild world.').should.eql(['Hello world .', 'Hello wild world .']);
-  });
-
-  it('should indicate article', () => {
-    utils.indefiniteArticlerize('banana').should.equal('a banana');
-    utils.indefiniteArticlerize('apple').should.equal('an apple');
-    utils.indefiniteArticlerize('hour').should.equal('an hour');
-  });
-
-  it('should indicate article', () => {
-    utils.indefiniteList(['pear', 'banana', 'apple']).should.eql('a pear, a banana and an apple');
-  });
-
   it('should escape mustaches', () => {
     utils.quotemeta('hello{world}', true).should.equal('hello\\{world\\}');
     utils.quotemeta('hello{world}', false).should.equal('hello\\{world\\}');
