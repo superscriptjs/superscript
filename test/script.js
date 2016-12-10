@@ -567,5 +567,14 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('should use custom tags', () => {
+    it('should respond to different version of saying hello', (done) => {
+      helpers.getBot().reply('user3', 'hi', (err, reply) => {
+        reply.string.should.eql('Greetings!');
+        done();
+      });
+    });
+  });
+
   after(helpers.after);
 });

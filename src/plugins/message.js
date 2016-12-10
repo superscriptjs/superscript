@@ -6,4 +6,11 @@ const addMessageProp = function addMessageProp(key, value, callback) {
   return callback(null, '');
 };
 
-export default { addMessageProp };
+const hasTag = function hasTag(tag, callback) {
+  if (this.message.tags.indexOf(tag) !== -1) {
+    return callback(null, true);
+  }
+  return callback(null, false);
+};
+
+export default { addMessageProp, hasTag };

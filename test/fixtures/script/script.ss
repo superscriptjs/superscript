@@ -372,3 +372,6 @@
   + awesome
   - yay
 < topic
+
++ ^hasTag("hello") *
+- Greetings!
