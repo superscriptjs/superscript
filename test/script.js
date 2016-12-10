@@ -592,5 +592,14 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('gh-312', () => {
+    it('should not crash calling ^createUserFact', (done) => {
+      helpers.getBot().reply('user6', 'set a fact', (err, reply) => {
+        reply.string.should.eql('that is a cool fact');
+        done();
+      });
+    });
+  });
+
   after(helpers.after);
 });

@@ -59,9 +59,21 @@ const get = function get(key, cb) {
   });
 };
 
-const createUserFact = function createUserFact(s, v, o, cb) {
-  this.user.memory.create(s, v, o, false, () => {
-    cb(null, '');
+const createUserFact = function createUserFact(subject, predicate, object, cb) {
+  const memory = this.user.memory;
+
+  memory.db.get({ subject, predicate, object }, (err, results) => {
+    if (!_.isEmpty(results)) {
+      memory.db.del(results[0], () => {
+        memory.db.put({ subject, predicate, object }, () => {
+          cb(null, '');
+        });
+      });
+    } else {
+      memory.db.put({ subject, predicate, object }, (err) => {
+        cb(null, '');
+      });
+    }
   });
 };
 

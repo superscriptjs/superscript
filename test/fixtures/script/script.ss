@@ -378,3 +378,6 @@
 
 + ^hasTag("hello") *
 - Greetings!
+
++ set a fact
+- that is a cool fact ^createUserFact("thisfact", "cooler", "thatfact")
