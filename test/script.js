@@ -576,5 +576,21 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('gh-265', () => {
+    it('variable length issue simple case', (done) => {
+      helpers.getBot().reply('user5', 'i go by bus', (err, reply) => {
+        reply.string.should.eql('so you go by bus');
+        done();
+      });
+    });
+
+    it('variable length issue fail case', (done) => {
+      helpers.getBot().reply('user5', 'i go by something else', (err, reply) => {
+        reply.string.should.eql('so you go by something else');
+        done();
+      });
+    });
+  });
+
   after(helpers.after);
 });

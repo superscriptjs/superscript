@@ -206,6 +206,9 @@
 ? * your name
 - My name is Brit.
 
++ i go by *~4
+- {keep} so you go by <cap1>
+
 < topic
 
 // Object params though topicRedirect (related topic)
