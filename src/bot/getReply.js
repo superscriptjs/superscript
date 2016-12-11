@@ -432,17 +432,6 @@ const afterFindPendingTopics = function afterFindPendingTopics(pendingTopics, me
       // Remove the empty topics, and flatten the array down.
       let matches = _.flatten(_.filter(results, n => n));
 
-      // TODO - This sort should happen in the process sort logic.
-      // Try matching most specific question matches first
-      matches = matches.sort((a, b) => {
-        const questionTypeA = a.gambit.qType || '';
-        const questionSubTypeA = a.gambit.qSubType || '';
-        const questionTypeB = b.gambit.qType || '';
-        const questionSubTypeB = b.gambit.qSubType || '';
-        return questionTypeA.concat(questionSubTypeA).length <
-          questionTypeB.concat(questionSubTypeB).length;
-      });
-
       debug.verbose('Matching gambits are: ');
       matches.forEach((match) => {
         debug.verbose(`Trigger: ${match.gambit.input}`);

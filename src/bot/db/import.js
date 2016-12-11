@@ -20,8 +20,6 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
   const gambitData = {
     id: gambitId,
     isQuestion: false,
-    qType: '',
-    qSubType: '',
     conditions: gambit.conditional,
     filter: gambit.trigger.filter || '',
     trigger: gambit.trigger.clean,
@@ -30,8 +28,6 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
 
   if (gambit.trigger.question !== null) {
     gambitData.isQuestion = true;
-    gambitData.qType = gambit.trigger.question.questionType;
-    gambitData.qSubType = gambit.trigger.question.questionSubtype;
   }
 
   if (gambit.redirect) {

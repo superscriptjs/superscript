@@ -209,6 +209,10 @@
 + i go by *~4
 - {keep} so you go by <cap1>
 
+// Moved over from qtypes (isQuestion test)
+? * bathroom
+- {keep} Down the hall on the left
+
 < topic
 
 // Object params though topicRedirect (related topic)

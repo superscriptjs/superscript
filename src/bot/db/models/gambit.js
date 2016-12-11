@@ -39,10 +39,6 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     // If this gambit is nested inside a conditional block
     conditions: [{ type: String, default: '' }],
 
-    // If the trigger is a Answer Type Match
-    qType: { type: String, default: '' },
-    qSubType: { type: String, default: '' },
-
     // The filter function for the the expression
     filter: { type: String, default: '' },
 

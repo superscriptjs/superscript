@@ -177,7 +177,7 @@ const doesMatch = function doesMatch(gambit, message, options, callback) {
     debug.verbose(`Try to match (clean)'${message.clean}' against ${gambit.trigger} (${pattern})`);
     debug.verbose(`Try to match (lemma)'${message.lemString}' against ${gambit.trigger} (${pattern})`);
 
-    // Match on the question type (qtype / qsubtype)
+    // Match on isQuestion
     if (gambit.isQuestion && message.isQuestion) {
       debug.verbose('Gambit and message are questions, testing against question types');
       match = message.clean.match(pattern);

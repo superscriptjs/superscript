@@ -5,7 +5,6 @@ const debug = debuglog('Sort');
 
 const initSortTrack = function initSortTrack() {
   return {
-    qtype: {}, // Sort by Question Types Length
     atomic: {}, // Sort by number of whole words
     option: {}, // Sort optionals by number of words
     alpha: {}, // Sort alpha wildcards by no. of words
@@ -68,16 +67,7 @@ const sortTriggerSet = function sortTriggerSet(gambits) {
         track[inherits] = initSortTrack();
       }
 
-      if (gambit.qType) {
-        // Qtype included
-        cnt = gambit.qType.length;
-        debug(`Has a qType with ${gambit.qType.length} length.`);
-
-        if (!track[inherits].qtype[cnt]) {
-          track[inherits].qtype[cnt] = [];
-        }
-        track[inherits].qtype[cnt].push(gambit);
-      } else if (gambit.input.indexOf('*') > -1) {
+      if (gambit.input.indexOf('*') > -1) {
         // Wildcard included.
         cnt = Utils.wordCount(gambit.input);
         debug(`Has a * wildcard with ${cnt} words.`);
@@ -119,7 +109,7 @@ const sortTriggerSet = function sortTriggerSet(gambits) {
       const ip = trackSorted[j];
       debug(`ip=${ip}`);
 
-      const kinds = ['qtype', 'atomic', 'option', 'alpha', 'number', 'wild'];
+      const kinds = ['atomic', 'option', 'alpha', 'number', 'wild'];
       for (let k = 0; k < kinds.length; k++) {
         const kind = kinds[k];
 
