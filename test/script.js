@@ -122,7 +122,7 @@ describe('SuperScript Scripting + Style Interface', () => {
 
     it('should call a custom function', (done) => {
       helpers.getBot().reply('user1', 'custom function', (err, reply) => {
-        reply.string.should.eql('The Definition of function is perform duties attached to a particular office or place or function');
+        reply.string.should.eql('The Definition of function is perform as expected when applied');
         done();
       });
     });

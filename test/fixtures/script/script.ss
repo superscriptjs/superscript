@@ -182,7 +182,7 @@
   + save name *1
   - {keep} ^save("name", <cap1>) Hi <cap1>.
 
-  + ^not("filter|filterx") trigger *1 function
+  + {^not("filter|filterx")} trigger *1 function
   - trigger filter reply
 
 + can you smile
@@ -380,7 +380,7 @@
   - yay
 < topic
 
-+ ^hasTag("hello") *
++ {^hasTag("hello")} *
 - Greetings!
 
 + set a fact
