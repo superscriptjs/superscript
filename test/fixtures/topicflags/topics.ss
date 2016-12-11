@@ -142,3 +142,11 @@
 -  wont work
 
 < topic
+
++ test no stay
+- {keep} {@__testnostay__}
+
+> topic:nostay __testnostay__
+    + test no stay
+    - {keep} Mustn't stay here.
+< topic

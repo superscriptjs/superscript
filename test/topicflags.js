@@ -4,7 +4,6 @@ import mocha from 'mocha';
 import should from 'should';
 import helpers from './helpers';
 
-// We need to revisit userConnect
 describe('SuperScript Topics', () => {
   before(helpers.before('topicflags'));
 
@@ -17,7 +16,7 @@ describe('SuperScript Topics', () => {
 
         helpers.getBot().chatSystem.Topic.findPendingTopicsForUser(user, message, (e, topics) => {
           topics.should.not.be.empty;
-          topics.should.have.length(5);
+          topics.should.have.length(6);
           done();
         });
       });
@@ -168,6 +167,15 @@ describe('SuperScript Topics', () => {
             });
           });
         });
+      });
+    });
+  });
+
+  describe('gh-230', () => {
+    it('nostay should not discard responses', (done) => {
+      helpers.getBot().reply('user2', 'test no stay', (err, reply) => {
+        reply.string.should.eql("Mustn't stay here.");
+        done();
       });
     });
   });
