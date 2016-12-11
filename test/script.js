@@ -624,5 +624,14 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('gh-171', () => {
+    it('topicRedirects should not skip replies', (done) => {
+      helpers.getBot().reply('user8', 'redirect setup', (err, reply) => {
+        reply.string.should.eql('who are you?');
+        done();
+      });
+    });
+  });
+
   after(helpers.after);
 });

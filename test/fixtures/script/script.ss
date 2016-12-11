@@ -393,3 +393,15 @@
 + foo
 - {keep}Direct match
 < topic
+
++ redirect setup
+- {keep} ^topicRedirect("setup","setup")
+
+> topic:keep:system setup
+  + setup
+  - who are you?
+
+  + *~2
+  % who are you
+  - ^save(name,<cap>) Nice to meet you <cap>! {topic=random}
+< topic
