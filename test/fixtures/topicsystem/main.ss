@@ -37,7 +37,18 @@
 	- ^save("key", "value")
 
 < topic
-> topic:keep outdoors ( fishing hunting camping ) ^sometest()
+
+> topic:keep filter1 ^filterTopic()
+  + filter topic *
+  - filter pass topic1
+< topic
+
+> topic:keep filter2 ^filterTopic()
+  + filter topic *
+  - filter pass topic2
+< topic
+
+> topic:keep outdoors ( fishing hunting camping )
 
 	+ I like to *
 	- i like to spend time outdoors
@@ -51,7 +62,7 @@
 < topic
 
 
-> topic fishing ^sometest() ( fish fishing to_fish rod worms )
+> topic fishing (fish fishing to_fish rod worms)
 
   + I like to spend time *
   - fishing

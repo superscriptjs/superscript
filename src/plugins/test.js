@@ -101,6 +101,16 @@ const testMoreTags = function testMoreTags(topic, trigger, cb) {
   cb(null, `^topicRedirect("${topic}", "${trigger}")`);
 };
 
+// This function is called from the topic filter function
+// Return true if you want the method to filter it out
+const filterTopic = function(cb) {
+  if (this.topic.name === "filter2") {
+    cb(null, false);
+  } else {
+    cb(null, true);
+  }
+}
+
 export default {
   bail,
   breakFunc,
@@ -119,4 +129,5 @@ export default {
   testCustomArgs,
   testMoreTags,
   word,
+  filterTopic,
 };

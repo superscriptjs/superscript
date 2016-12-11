@@ -24,7 +24,38 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
           }
           if (topic) {
             // We do realtime post processing on the input against the user object
-            topic.findMatch(messageObject, options, callback);
+            if (topic.filter !== '') {
+              const filterFunction = topic.filter.match(regexes.filter);
+              const functionName = filterFunction[1];
+              debug.verbose(`Topic Filter function found with plugin name: ${functionName}`);
+              if (system.plugins[functionName]) {
+                const cleanArgs = [];
+                cleanArgs.push((err, filterReply) => {
+                  if (err) {
+                    console.error(err);
+                  }
+                  if (filterReply === 'true' || filterReply === true) {
+                    callback(null, false);
+                  } else {
+                    topic.findMatch(messageObject, options, callback);
+                  }
+                });
+                const filterScope = _.merge({}, system.scope);
+                filterScope.user = options.user;
+                filterScope.message = messageObject;
+                filterScope.topic = topic;
+                filterScope.message_props = options.system.extraScope;
+                debug.verbose(`Calling topic filter plugin function: ${functionName} with args: ${cleanArgs}`);
+                system.plugins[functionName].apply(filterScope, cleanArgs);
+              } else {
+                console.log(`\nWARNING:\nYou have a missing filter function (${functionName}) - your script will not behave as expected!"`);
+                // If the topic function does not exist, we process the topic like normal.
+                topic.findMatch(messageObject, options, callback);
+              }
+            } else {
+              // We look for a match in the topic.
+              topic.findMatch(messageObject, options, callback);
+            }
           } else {
             // We call back if there is no topic Object
             // Non-existant topics return false

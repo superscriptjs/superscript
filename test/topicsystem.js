@@ -128,14 +128,19 @@ describe('SuperScript TopicsSystem', () => {
   });
 
 
-  // it("Post Order Topics", function(done){
-  //   helpers.getBot().reply("I like to spend time fishing", function(err, reply){
-  //     console.log(reply);
-  //     reply.string.should.containEql("fishing");
-  //     done();
-  //   });
-  // });
+  describe('Topic Filter Functions', () => {
 
+    // Now lets see it it works, we call it twice and it should be filtered both times.
+    it('Should filter topic', (done) => {
+      helpers.getBot().reply('filter topic test', (err, reply) => {
+        reply.string.should.containEql('filter pass topic2');
+        helpers.getBot().reply('filter topic test', (err, reply) => {
+          reply.string.should.containEql('filter pass topic2');
+          done();
+        });
+      });
+    });
+  });
 
   describe.skip('log-debug', () => {
     it('Should show steps - redirect', (done) => {
