@@ -7,8 +7,6 @@ import async from 'async';
 import helpers from './helpers';
 import Utils from '../src/bot/utils';
 
-// TODO re-test "okay my name is X" should match "my name is X"
-
 describe('SuperScript Scripting + Style Interface', () => {
   before(helpers.before('script'));
 
@@ -596,6 +594,22 @@ describe('SuperScript Scripting + Style Interface', () => {
     it('should not crash calling ^createUserFact', (done) => {
       helpers.getBot().reply('user6', 'set a fact', (err, reply) => {
         reply.string.should.eql('that is a cool fact');
+        done();
+      });
+    });
+  });
+
+  describe('Simple Question Matching', () => {
+    it('should reply to simple string', (done) => {
+      helpers.getBot().reply('asdf', 'which way to the bathroom?', (err, reply) => {
+        reply.string.should.eql('Down the hall on the left');
+        done();
+      });
+    });
+
+    it('should not match', (done) => {
+      helpers.getBot().reply('asdf', 'My mom cleans the bathroom.', (err, reply) => {
+        reply.string.should.eql('');
         done();
       });
     });
