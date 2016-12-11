@@ -39,7 +39,7 @@
   "dependencies": {
     "async": "^2.1.4",
     "async-replace": "^1.0.1",
-    "bot-lang": "^1.0.5",
+    "bot-lang": "^1.0.6",
     "commander": "^2.4.0",
     "debug": "^2.3.3",
     "debug-levels": "^0.2.0",
@@ -57,7 +57,7 @@
     "roman-numerals": "^0.3.2",
     "safe-eval": "^0.3.0",
     "sfacts": "alpha",
-    "ss-message": "^1.0.2",
+    "ss-message": "^1.0.3",
     "ss-parser": "alpha",
     "syllablistic": "^0.1.0",
     "wordpos": "^1.1.0"
