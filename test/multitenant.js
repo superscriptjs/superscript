@@ -1,7 +1,7 @@
 /* global describe, it, before, after */
 
 import mocha from 'mocha';
-import should from 'should';
+import should from 'should/as-function';
 import helpers from './helpers';
 
 describe('SuperScript Multitenant', () => {
@@ -31,14 +31,14 @@ describe('SuperScript Multitenant', () => {
   describe('Different tenancy', () => {
     it('should reply to trigger in tenancy', (done) => {
       helpers.getBot().getBot('multitenant1').reply('user1', 'must reply to this', (err, reply) => {
-        reply.string.should.eql('in tenancy one');
+        should(reply.string).eql('in tenancy one');
         done();
       });
     });
 
     it('should not reply to trigger not in tenancy', (done) => {
       helpers.getBot().getBot('multitenant1').reply('user1', 'must not reply to this', (err, reply) => {
-        reply.string.should.eql('catch all');
+        should(reply.string).eql('catch all');
         done();
       });
     });

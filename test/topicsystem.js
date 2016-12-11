@@ -1,7 +1,7 @@
 /* global describe, it, before, after */
 
 import mocha from 'mocha';
-import should from 'should';
+import should from 'should/as-function';
 import helpers from './helpers';
 
 /*
@@ -19,28 +19,28 @@ describe('SuperScript TopicsSystem', () => {
   describe('TopicSystem', () => {
     it('Should skip empty replies until it finds a match', (done) => {
       helpers.getBot().reply('testing topic system', (err, reply) => {
-        ['we like it', 'i hate it'].should.containEql(reply.string);
+        should(['we like it', 'i hate it']).containEql(reply.string);
         done();
       });
     });
 
     it('Should break in function with third param', (done) => {
       helpers.getBot().reply('userx', 'force break', (err, reply) => {
-        reply.string.should.eql('');
+        should(reply.string).eql('');
         done();
       });
     });
 
     it('Should continue in function with third param', (done) => {
       helpers.getBot().reply('userx', 'force continue', (err, reply) => {
-        reply.string.should.eql('force one force two');
+        should(reply.string).eql('force one force two');
         done();
       });
     });
 
     it('Should continue with a {CONTINUE} tag', (done) => {
       helpers.getBot().reply('userx', 'break with continue', (err, reply) => {
-        reply.string.should.eql('ended test passed');
+        should(reply.string).eql('ended test passed');
         done();
       });
     });
@@ -57,7 +57,7 @@ describe('SuperScript TopicsSystem', () => {
           helpers.getBot().getUser('user1', (err, user) => {
             const options = { user };
             g.doesMatch(msg, options, (e, r) => {
-              r.should.exist;
+              should(r).exist;
               done();
             });
           });
@@ -72,14 +72,14 @@ describe('SuperScript TopicsSystem', () => {
             helpers.getBot().getUser('user1', (err, user) => {
               const options = { user };
               gam.doesMatch(msg, options, (e, r) => {
-                r.should.exist;
+                should(r).exist;
                 gam.input = 'this is a create *~2';
                 // Clear the normalized trigger created in the first step.
                 gam.trigger = '';
                 gam.save(() => {
                   helpers.getBot().message('this is a create hello world', (err, msg) => {
                     gam.doesMatch(msg, options, (e, r) => {
-                      r[1].should.eql('hello world');
+                      should(r[1]).eql('hello world');
                       done();
                     });
                   });
@@ -104,8 +104,8 @@ describe('SuperScript TopicsSystem', () => {
           helpers.getBot().getUser('user1', (err, user) => {
             options.user = user;
             topic.doesMatch(msg, options, (e, r) => {
-              r.should.not.be.empty;
-              r[0].input.should.containEql('I like to *');
+              should(r).not.be.empty;
+              should(r[0].input).containEql('I like to *');
               done();
             });
           });
@@ -117,10 +117,10 @@ describe('SuperScript TopicsSystem', () => {
   describe('TopicDiscovery', () => {
     it('Should find the right topic', (done) => {
       helpers.getBot().reply('i like to hunt', (err, reply) => {
-        reply.string.should.containEql('i like to spend time outdoors');
+        should(reply.string).containEql('i like to spend time outdoors');
 
         helpers.getBot().reply('i like to fish', (err, reply) => {
-          reply.string.should.containEql('me too');
+          should(reply.string).containEql('me too');
           done();
         });
       });
@@ -129,13 +129,12 @@ describe('SuperScript TopicsSystem', () => {
 
 
   describe('Topic Filter Functions', () => {
-
     // Now lets see it it works, we call it twice and it should be filtered both times.
     it('Should filter topic', (done) => {
       helpers.getBot().reply('filter topic test', (err, reply) => {
-        reply.string.should.containEql('filter pass topic2');
+        should(reply.string).containEql('filter pass topic2');
         helpers.getBot().reply('filter topic test', (err, reply) => {
-          reply.string.should.containEql('filter pass topic2');
+          should(reply.string).containEql('filter pass topic2');
           done();
         });
       });
@@ -145,16 +144,16 @@ describe('SuperScript TopicsSystem', () => {
   describe.skip('log-debug', () => {
     it('Should show steps - redirect', (done) => {
       helpers.getBot().reply('user', 'generic redirect', (err, reply) => {
-        reply.debug.matched_gambit[0].topic.should.containEql('random');
-        reply.debug.matched_gambit[0].subset[0].topic.should.containEql('test');
+        should(reply.debug.matched_gambit[0].topic).containEql('random');
+        should(reply.debug.matched_gambit[0].subset[0].topic).containEql('test');
         done();
       });
     });
 
     it('Should show steps - respond', (done) => {
       helpers.getBot().reply('user', 'generic respond', (err, reply) => {
-        reply.debug.matched_gambit[0].topic.should.containEql('random');
-        reply.debug.matched_gambit[0].subset[0].topic.should.containEql('test');
+        should(reply.debug.matched_gambit[0].topic).containEql('random');
+        should(reply.debug.matched_gambit[0].subset[0].topic).containEql('test');
         done();
       });
     });
@@ -164,14 +163,14 @@ describe('SuperScript TopicsSystem', () => {
   describe('gh-240', () => {
     it('should stop with topicRedirect', (done) => {
       helpers.getBot().reply('user', 'test empty', (err, reply) => {
-        reply.string.should.containEql('');
+        should(reply.string).containEql('');
         done();
       });
     });
 
     it('should stop with respond', (done) => {
       helpers.getBot().reply('user', 'test respond', (err, reply) => {
-        reply.string.should.containEql('');
+        should(reply.string).containEql('');
         done();
       });
     });

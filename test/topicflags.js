@@ -1,7 +1,7 @@
 /* global describe, it, before, after */
 
 import mocha from 'mocha';
-import should from 'should';
+import should from 'should/as-function';
 import helpers from './helpers';
 
 describe('SuperScript Topics', () => {
@@ -15,8 +15,8 @@ describe('SuperScript Topics', () => {
         const message = { lemString: 'hello world' };
 
         helpers.getBot().chatSystem.Topic.findPendingTopicsForUser(user, message, (e, topics) => {
-          topics.should.not.be.empty;
-          topics.should.have.length(6);
+          should(topics).not.be.empty;
+          should(topics).have.length(6);
           done();
         });
       });
@@ -24,7 +24,7 @@ describe('SuperScript Topics', () => {
 
     it('find topic by Name', (done) => {
       helpers.getBot().chatSystem.Topic.findByName('random', (err, topic) => {
-        topic.should.not.be.empty;
+        should(topic).not.be.empty;
         done();
       });
     });
@@ -33,7 +33,7 @@ describe('SuperScript Topics', () => {
   describe('Topics - System', () => {
     it('topic should have system flag', (done) => {
       helpers.getBot().reply('user1', 'this is a system topic', (err, reply) => {
-        reply.string.should.be.empty;
+        should(reply.string).be.empty;
         done();
       });
     });
@@ -42,15 +42,15 @@ describe('SuperScript Topics', () => {
     it('Go to hidden topic indirectly', (done) => {
       helpers.getBot().reply('user1', 'why did you run', (err, reply) => {
         // This really just makes sure the reply is not accesses directly
-        reply.string.should.eql('to get away from someone');
-        reply.topicName.should.eql('system_why');
+        should(reply.string).eql('to get away from someone');
+        should(reply.topicName).eql('system_why');
         done();
       });
     });
 
     it('topic recurrsion with respond', (done) => {
       helpers.getBot().reply('user1', 'test recursion', (err, reply) => {
-        reply.string.should.eql('');
+        should(reply.string).eql('');
         done();
       });
     });
@@ -64,7 +64,7 @@ describe('SuperScript Topics', () => {
             gam.addReply({ reply: 'New Reply' }, (err, rep) => {
               topic.sortGambits(() => {
                 helpers.getBot().reply('user1', 'this must catch some more', (err, reply) => {
-                  reply.string.should.eql('New Reply');
+                  should(reply.string).eql('New Reply');
                   done();
                 });
               });
@@ -79,17 +79,17 @@ describe('SuperScript Topics', () => {
   describe('Topic Flow', () => {
     it('topic flow 0', (done) => {
       helpers.getBot().reply('user1', 'respond test', (err, reply) => {
-        reply.string.should.eql('final');
+        should(reply.string).eql('final');
         done();
       });
     });
 
     it('topic flow 1', (done) => {
       helpers.getBot().reply('user 10', 'testing hidden', (err, reply) => {
-        reply.string.should.eql('some reply');
+        should(reply.string).eql('some reply');
 
         helpers.getBot().reply('user 10', 'yes', (err, reply) => {
-          reply.string.should.eql('this must work.');
+          should(reply.string).eql('this must work.');
           done();
         });
       });
@@ -97,10 +97,10 @@ describe('SuperScript Topics', () => {
 
     it('topic flow 2', (done) => {
       helpers.getBot().reply('user2', 'testing hidden', (err, reply) => {
-        reply.string.should.eql('some reply');
+        should(reply.string).eql('some reply');
 
         helpers.getBot().reply('user2', 'lets not go on', (err, reply) => {
-          reply.string.should.eql('end');
+          should(reply.string).eql('end');
           done();
         });
       });
@@ -110,9 +110,9 @@ describe('SuperScript Topics', () => {
   describe('Topics - NoStay Flag', () => {
     it('topic should have keep flag', (done) => {
       helpers.getBot().reply('User1', 'testing nostay', (err, reply) => {
-        reply.string.should.eql('topic test pass');
+        should(reply.string).eql('topic test pass');
         helpers.getBot().reply('User1', 'something else', (err, reply) => {
-          reply.string.should.eql('reply in random');
+          should(reply.string).eql('reply in random');
           done();
         });
       });
@@ -122,21 +122,21 @@ describe('SuperScript Topics', () => {
   describe('Topics - Keep', () => {
     it('topic should have keep flag', (done) => {
       helpers.getBot().chatSystem.Topic.findByName('keeptopic', (err, t) => {
-        t.keep.should.be.true;
+        should(t.keep).be.true;
         done();
       });
     });
 
     it('should keep topic for reuse', (done) => {
       helpers.getBot().reply('user1', 'set topic to keeptopic', (err, reply) => {
-        reply.string.should.eql('Okay we are going to keeptopic');
+        should(reply.string).eql('Okay we are going to keeptopic');
 
         helpers.getBot().getUser('user1', (err, cu) => {
-          cu.getTopic().should.eql('keeptopic');
+          should(cu.getTopic()).eql('keeptopic');
           helpers.getBot().reply('user1', 'i have 1 thing to say', (err, reply) => {
-            reply.string.should.eql('topic test pass');
+            should(reply.string).eql('topic test pass');
             helpers.getBot().reply('user1', 'i have 1 thing to say', (err, reply) => {
-              reply.string.should.eql('topic test pass');
+              should(reply.string).eql('topic test pass');
               done();
             });
           });
@@ -154,14 +154,14 @@ describe('SuperScript Topics', () => {
           // Now in dry topic
           helpers.getBot().getUser('user1', (err, su) => {
             const ct = su.getTopic();
-            ct.should.eql('dry');
+            should(ct).eql('dry');
 
             helpers.getBot().reply('user1', 'this is a dry topic', (err, reply) => {
-              reply.string.should.eql('dry topic test pass');
+              should(reply.string).eql('dry topic test pass');
               // Say it again...
               helpers.getBot().reply('user1', 'this is a dry topic', (err, reply) => {
                 // If something was said, we don't say it again
-                reply.string.should.eql('');
+                should(reply.string).eql('');
                 done();
               });
             });
@@ -174,7 +174,7 @@ describe('SuperScript Topics', () => {
   describe('gh-230', () => {
     it('nostay should not discard responses', (done) => {
       helpers.getBot().reply('user2', 'test no stay', (err, reply) => {
-        reply.string.should.eql("Mustn't stay here.");
+        should(reply.string).eql("Mustn't stay here.");
         done();
       });
     });

@@ -1,7 +1,7 @@
 /* global describe, it, before, after */
 
 import mocha from 'mocha';
-import should from 'should';
+import should from 'should/as-function';
 import async from 'async';
 import helpers from './helpers';
 
@@ -12,8 +12,8 @@ describe('SuperScript User Persist', () => {
     it('should return all users', (done) => {
       helpers.getBot().reply('userx', 'hello world', (err, reply) => {
         helpers.getBot().getUsers((err, list) => {
-          list.should.not.be.empty;
-          list[0].id.should.eql('userx');
+          should(list).not.be.empty;
+          should(list[0].id).eql('userx');
           done();
         });
       });
@@ -23,7 +23,7 @@ describe('SuperScript User Persist', () => {
   describe('Should save users session', () => {
     it('should save user session', (done) => {
       helpers.getBot().reply('iuser3', 'Save user token ABCD.', (err, reply) => {
-        reply.string.should.eql('User token ABCD has been saved.');
+        should(reply.string).eql('User token ABCD has been saved.');
         done();
       });
     });
@@ -31,7 +31,7 @@ describe('SuperScript User Persist', () => {
     it('it remember my name', (done) => {
       // Call startup again (same as before hook)
       helpers.getBot().reply('iuser3', 'Get user token', (err, reply) => {
-        reply.string.should.eql('Return ABCD');
+        should(reply.string).eql('Return ABCD');
         done();
       });
     });
@@ -44,7 +44,7 @@ describe('SuperScript User Persist', () => {
     it('ask user A', (done) => {
       const itor = function (user, next) {
         helpers.getBot().reply(user, 'this is a test', (err, reply) => {
-          reply.string.should.eql(`this is user ${user}`);
+          should(reply.string).eql(`this is user ${user}`);
           next();
         });
       };

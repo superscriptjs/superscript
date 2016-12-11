@@ -1,7 +1,7 @@
 /* global describe, it, before, after */
 
 import mocha from 'mocha';
-import should from 'should';
+import should from 'should/as-function';
 import helpers from './helpers';
 
 describe('SuperScript Redirects', () => {
@@ -10,7 +10,7 @@ describe('SuperScript Redirects', () => {
   describe('Dont trim whitespace from redirect (GH-92)', () => {
     it('this needs to work..', (done) => {
       helpers.getBot().reply('user1', 'GitHub issue 92', (err, reply) => {
-        reply.string.should.eql('testing redirects one thing two thing');
+        should(reply.string).eql('testing redirects one thing two thing');
         done();
       });
     });
@@ -19,7 +19,7 @@ describe('SuperScript Redirects', () => {
   describe('Redirect Interface', () => {
     it('should redirect on match', (done) => {
       helpers.getBot().reply('user1', 'testing redirects', (err, reply) => {
-        reply.string.should.eql('redirect test pass');
+        should(reply.string).eql('redirect test pass');
         done();
       });
     });
@@ -28,7 +28,7 @@ describe('SuperScript Redirects', () => {
   describe('Inline Redirect Interface', () => {
     it('should redirect on match', (done) => {
       helpers.getBot().reply('user1', 'this is an inline redirect', (err, reply) => {
-        reply.string.should.eql('lets redirect to redirect test pass');
+        should(reply.string).eql('lets redirect to redirect test pass');
         done();
       });
     });
@@ -37,7 +37,7 @@ describe('SuperScript Redirects', () => {
   describe('Inline Redirect two message in one reply', () => {
     it('should redirect on match complex message', (done) => {
       helpers.getBot().reply('user1', 'this is an complex redirect', (err, reply) => {
-        reply.string.should.eql('this game is made up of bar teams');
+        should(reply.string).eql('this game is made up of bar teams');
         done();
       });
     });
@@ -46,7 +46,7 @@ describe('SuperScript Redirects', () => {
   describe('Inline Redirect Interface nested inline redirects', () => {
     it('should redirect on match complex nested message', (done) => {
       helpers.getBot().reply('user1', 'this is an nested redirect', (err, reply) => {
-        reply.string.should.eql('this message contains secrets');
+        should(reply.string).eql('this message contains secrets');
         done();
       });
     });
@@ -55,7 +55,7 @@ describe('SuperScript Redirects', () => {
   describe('Inline Redirect recurrsion!', () => {
     it('should redirect should save itself', (done) => {
       helpers.getBot().reply('user1', 'this is a bad idea', (err, reply) => {
-        reply.string.should.not.be.empty;
+        should(reply.string).not.be.empty;
         done();
       });
     });
@@ -64,16 +64,16 @@ describe('SuperScript Redirects', () => {
   describe('Inline Redirect with function GH-81', () => {
     it('should parse function and redirect', (done) => {
       helpers.getBot().reply('user1', 'tell me a random fact', (err, reply) => {
-        reply.string.should.not.be.empty;
-        reply.string.should.containEql("Okay, here's a fact: one . Would you like me to tell you another fact?");
+        should(reply.string).not.be.empty;
+        should(reply.string).containEql("Okay, here's a fact: one . Would you like me to tell you another fact?");
         done();
       });
     });
 
     it('should parse function and redirect', (done) => {
       helpers.getBot().reply('user1', 'tell me a random fact 2', (err, reply) => {
-        reply.string.should.not.be.empty;
-        reply.string.should.containEql("Okay, here's a fact. one Would you like me to tell you another fact?");
+        should(reply.string).not.be.empty;
+        should(reply.string).containEql("Okay, here's a fact. one Would you like me to tell you another fact?");
         done();
       });
     });
@@ -83,7 +83,7 @@ describe('SuperScript Redirects', () => {
     // GH-156
     it("if redirect does not exist - don't crash", (done) => {
       helpers.getBot().reply('user1', 'test missing topic', (err, reply) => {
-        reply.string.should.eql('Test OK.');
+        should(reply.string).eql('Test OK.');
         done();
       });
     });
@@ -91,35 +91,35 @@ describe('SuperScript Redirects', () => {
     // GH-227
     it('Missing function', (done) => {
       helpers.getBot().reply('user1', 'issue 227', (err, reply) => {
-        reply.string.should.eql('oneIs it hot');
+        should(reply.string).eql('oneIs it hot');
         done();
       });
     });
 
     it('should redirect to new topic', (done) => {
       helpers.getBot().reply('user1', 'hello', (err, reply) => {
-        reply.string.should.eql('Is it hot');
+        should(reply.string).eql('Is it hot');
         done();
       });
     });
 
     it('should redirect to new topic dynamically', (done) => {
       helpers.getBot().reply('user1', 'i like school', (err, reply) => {
-        reply.string.should.eql("I'm majoring in CS.");
+        should(reply.string).eql("I'm majoring in CS.");
         done();
       });
     });
 
     it('should redirect to new topic Inline', (done) => {
       helpers.getBot().reply('user1', 'topic redirect test', (err, reply) => {
-        reply.string.should.eql('Say this. Say that.');
+        should(reply.string).eql('Say this. Say that.');
         done();
       });
     });
 
     xit('should redirect forward capture', (done) => {
       helpers.getBot().reply('user1', 'topic redirect to fishsticks', (err, reply) => {
-        reply.string.should.eql('Capture forward fishsticks');
+        should(reply.string).eql('Capture forward fishsticks');
         done();
       });
     });
@@ -128,9 +128,9 @@ describe('SuperScript Redirects', () => {
   describe('Set topic through plugin and match gambit in the topic in next reply', () => {
     it('should redirect to system topic', (done) => {
       helpers.getBot().reply('user1', 'topic set systest', (err, r1) => {
-        r1.string.should.eql('Setting systest.');
+        should(r1.string).eql('Setting systest.');
         helpers.getBot().reply('user1', 'where am I', (err, r2) => {
-          r2.string.should.eql('In systest.');
+          should(r2.string).eql('In systest.');
           done();
         });
       });
@@ -140,11 +140,11 @@ describe('SuperScript Redirects', () => {
   describe('GH-309: conversations should work with redirects', () => {
     it('Should be part of a conversation', (done) => {
       helpers.getBot().reply('user2', '__preview', (err, r1) => {
-        ['Do you want to play word games?', "Let's play word games"].should.containEql(r1.string);
+        should(['Do you want to play word games?', "Let's play word games"]).containEql(r1.string);
         helpers.getBot().reply('user2', 'yes', (err, r2) => {
-          r2.string.should.eql("Great, let's play!");
+          should(r2.string).eql("Great, let's play!");
           helpers.getBot().reply('user2', 'hello', (err, r3) => {
-            r3.string.should.eql("OK, let's play!");
+            should(r3.string).eql("OK, let's play!");
             done();
           });
         });

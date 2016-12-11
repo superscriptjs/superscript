@@ -1,7 +1,7 @@
 /* global describe, it, before, after */
 
 import mocha from 'mocha';
-import should from 'should';
+import should from 'should/as-function';
 import async from 'async';
 
 import helpers from './helpers';
@@ -13,9 +13,9 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Replies can be repeated accross triggers', () => {
     it('Replies accross trigger should pass', (done) => {
       helpers.getBot().reply('user1', 'trigger 1', (err, reply) => {
-        reply.string.should.eql('generic reply');
+        should(reply.string).eql('generic reply');
         helpers.getBot().reply('user1', 'trigger 2', (err, reply) => {
-          reply.string.should.eql('generic reply');
+          should(reply.string).eql('generic reply');
           done();
         });
       });
@@ -25,7 +25,7 @@ describe('SuperScript Scripting + Style Interface', () => {
     // NB: this test will fail if run on its own.
     it('Should pass 2', (done) => {
       helpers.getBot().reply('user1', 'trigger one', (err, reply) => {
-        reply.string.should.eql('');
+        should(reply.string).eql('');
         done();
       });
     });
@@ -34,14 +34,14 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Expand with WordNet', () => {
     it('should reply to simple string', (done) => {
       helpers.getBot().reply('user1', 'I love shoes', (err, reply) => {
-        reply.string.should.eql('Wordnet test one');
+        should(reply.string).eql('Wordnet test one');
         done();
       });
     });
 
     it('should not expand user-defined concepts greedly (word boundry protection)', (done) => {
       helpers.getBot().reply('user1', 'I love ballball', (err, reply) => {
-        reply.string.should.eql('');
+        should(reply.string).eql('');
         done();
       });
     });
@@ -49,7 +49,7 @@ describe('SuperScript Scripting + Style Interface', () => {
     // This works, but I dont like having to import the DB every time
     it.skip('should expand user-defined concepts too', (done) => {
       helpers.getBot().reply('user1', 'I love basketball', (err, reply) => {
-        reply.string.should.eql('Term expanded');
+        should(reply.string).eql('Term expanded');
         done();
       });
     });
@@ -57,9 +57,9 @@ describe('SuperScript Scripting + Style Interface', () => {
     // To match lemma version of wordnet expanded terms, make sure the whole line is lemmed.
     it.skip('should match both text and lemma', (done) => {
       helpers.getBot().reply('user1', 'My brother is fat', (err, reply) => {
-        reply.string.should.eql('Ouch');
+        should(reply.string).eql('Ouch');
         helpers.getBot().reply('user1', 'My brothers is fat', (err, reply) => {
-          reply.string.should.eql('Ouch');
+          should(reply.string).eql('Ouch');
           done();
         });
       });
@@ -69,14 +69,14 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Replies can have Optionals too!', () => {
     it('replies with optionals', (done) => {
       helpers.getBot().reply('user1', 'this reply is random', (err, reply) => {
-        ['yes this reply is awesome', 'yes this reply is random'].should.containEql(reply.string);
+        should(['yes this reply is awesome', 'yes this reply is random']).containEql(reply.string);
         done();
       });
     });
 
     it('replies with wordnet', (done) => {
       helpers.getBot().reply('user1', 'reply with wordnet', (err, reply) => {
-        ['i cotton people', 'i prefer people', 'i care for people', 'i love people', 'i please people'].should.containEql(reply.string);
+        should(['i cotton people', 'i prefer people', 'i care for people', 'i love people', 'i please people']).containEql(reply.string);
         done();
       });
     });
@@ -94,7 +94,7 @@ describe('SuperScript Scripting + Style Interface', () => {
              { delay: '500', string: 'blue' },
              { delay: '500', string: 'and black?' }] };
 
-        reply.should.containDeep(r);
+        should(reply).containDeep(r);
         done();
       });
     });
@@ -106,7 +106,7 @@ describe('SuperScript Scripting + Style Interface', () => {
           subReplies:
            [{ delay: '500', string: 'lots' }] };
 
-        reply.should.containDeep(r);
+        should(reply).containDeep(r);
         done();
       });
     });
@@ -115,56 +115,56 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Custom functions', () => {
     it('should call a custom function with hyphen', (done) => {
       helpers.getBot().reply('user1', 'error with function thirty-two', (err, reply) => {
-        reply.string.should.eql('32');
+        should(reply.string).eql('32');
         done();
       });
     });
 
     it('should call a custom function', (done) => {
       helpers.getBot().reply('user1', 'custom function', (err, reply) => {
-        reply.string.should.eql('The Definition of function is perform as expected when applied');
+        should(reply.string).eql('The Definition of function is perform as expected when applied');
         done();
       });
     });
 
     it('should continue if error is passed into callback', (done) => {
       helpers.getBot().reply('user1', 'custom 3 function', (err, reply) => {
-        reply.string.should.eql('backup plan');
+        should(reply.string).eql('backup plan');
         done();
       });
     });
 
     it('pass a param into custom function', (done) => {
       helpers.getBot().reply('user1', 'custom 5 function', (err, reply) => {
-        reply.string.should.eql('he likes this');
+        should(reply.string).eql('he likes this');
         done();
       });
     });
 
     it('pass a param into custom function1', (done) => {
       helpers.getBot().reply('user1', 'custom 6 function', (err, reply) => {
-        ['he cottons this', 'he prefers this', 'he cares for this', 'he loves this', 'he pleases this'].should.containEql(reply.string);
+        should(['he cottons this', 'he prefers this', 'he cares for this', 'he loves this', 'he pleases this']).containEql(reply.string);
         done();
       });
     });
 
     it('the same function twice with different params', (done) => {
       helpers.getBot().reply('user1', 'custom 8 function', (err, reply) => {
-        reply.string.should.eql('4 + 3 = 7');
+        should(reply.string).eql('4 + 3 = 7');
         done();
       });
     });
 
     it('should not freak out if function does not exist', (done) => {
       helpers.getBot().reply('user1', 'custom 4 function', (err, reply) => {
-        reply.string.should.eql('one + one = 2');
+        should(reply.string).eql('one + one = 2');
         done();
       });
     });
 
     it('function in multi-line reply', (done) => {
       helpers.getBot().reply('user1', 'custom 9 function', (err, reply) => {
-        reply.string.should.eql('a\nb\none\n\nmore');
+        should(reply.string).eql('a\nb\none\n\nmore');
         done();
       });
     });
@@ -174,9 +174,9 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Reply Flags', () => {
     it('Keep Flag 2', (done) => {
       helpers.getBot().reply('user1', 'reply flags 2', (err, reply) => {
-        reply.string.should.eql('keep this');
+        should(reply.string).eql('keep this');
         helpers.getBot().reply('user1', 'reply flags 2', (err, reply) => {
-          reply.string.should.eql('keep this');
+          should(reply.string).eql('keep this');
           done();
         });
       });
@@ -186,10 +186,10 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Custom functions 3 - user fact system', () => {
     it('Should save and recall 1', (done) => {
       helpers.getBot().reply('userX', 'save name Bob', (err, reply) => {
-        reply.string.should.eql('Hi Bob.');
+        should(reply.string).eql('Hi Bob.');
         helpers.getBot().getUser('userX', (err, u1) => {
           u1.getVar('name', (err, name) => {
-            name.should.eql('Bob');
+            should(name).eql('Bob');
             done();
           });
         });
@@ -198,13 +198,13 @@ describe('SuperScript Scripting + Style Interface', () => {
 
     it('Should save and recall 2', (done) => {
       helpers.getBot().reply('suser2', 'save name Ken', (err, reply) => {
-        reply.string.should.eql('Hi Ken.');
+        should(reply.string).eql('Hi Ken.');
         helpers.getBot().getUser('userX', (err, u1) => {
           helpers.getBot().getUser('suser2', (err, u2) => {
             u1.getVar('name', (err, res) => {
-              res.should.eql('Bob');
+              should(res).eql('Bob');
               u2.getVar('name', (err, res) => {
-                res.should.eql('Ken');
+                should(res).eql('Ken');
                 done();
               });
             });
@@ -218,7 +218,7 @@ describe('SuperScript Scripting + Style Interface', () => {
     it('Change topic', (done) => {
       helpers.getBot().reply('user3', 'call function with new topic', (err, reply) => {
         helpers.getBot().reply('user3', 'i like fish', (err, reply) => {
-          reply.string.should.eql('me too');
+          should(reply.string).eql('me too');
           done();
         });
       });
@@ -228,9 +228,9 @@ describe('SuperScript Scripting + Style Interface', () => {
     it.skip('Change topic 2', (done) => {
       helpers.getBot().reply('user4', 'reply with a new topic from function', (err, reply) => {
         helpers.getBot().getUser('user4', (err, user) => {
-          user.currentTopic.should.eql('fish');
+          should(user.currentTopic).eql('fish');
           helpers.getBot().reply('user4', 'i like fish', (err, reply) => {
-            reply.string.should.eql('me too');
+            should(reply.string).eql('me too');
             done();
           });
         });
@@ -241,9 +241,9 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Filter functions', () => {
     it('Trigger function', (done) => {
       helpers.getBot().reply('scuser5', 'trigger filter function', (err, reply) => {
-        reply.string.should.eql('');
+        should(reply.string).eql('');
         helpers.getBot().reply('scuser5', 'trigger filler function', (err, reply) => {
-          reply.string.should.eql('trigger filter reply');
+          should(reply.string).eql('trigger filter reply');
           done();
         });
       });
@@ -253,7 +253,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Should parse subfolder', () => {
     it('Item in folder should exist', (done) => {
       helpers.getBot().chatSystem.Topic.findOne({ name: 'suba' }, (e, res) => {
-        res.should.not.be.false;
+        should(res).not.be.false;
         done();
       });
     });
@@ -262,20 +262,20 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Filter on Replies', () => {
     it('should save knowledge', (done) => {
       helpers.getBot().reply('r1user1', 'my name is Adam.', (err, reply) => {
-        reply.string.should.containEql('Nice to meet you, Adam.');
+        should(reply.string).containEql('Nice to meet you, Adam.');
 
         // The Reply HAS a filter
         helpers.getBot().chatSystem.Reply.findOne({ _id: reply.replyId }, (e, res) => {
-          res.filter.should.containEql('^hasName("false")');
+          should(res.filter).containEql('^hasName("false")');
 
           // The user added the fact to the local sublevel
           helpers.getBot().getUser('r1user1', (err, user) => {
             user.memory.db.get({ subject: 'name', predicate: 'r1user1' }, (err, results) => {
-              results[0].object.should.containEql('Adam');
+              should(results[0].object).containEql('Adam');
 
               // Now lets hit the other reply / filter
               helpers.getBot().reply('r1user1', 'my name is Adam.', (err, reply1) => {
-                reply1.string.should.containEql('I know, you already told me your name.');
+                should(reply1.string).containEql('I know, you already told me your name.');
                 done();
               });
             });
@@ -288,24 +288,24 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Augment reply Object', () => {
     it('Should have replyProp', (done) => {
       helpers.getBot().reply('user1', 'Can you smile?', (err, reply) => {
-        reply.string.should.eql('Sure can.');
-        reply.emoji.should.eql('smile');
+        should(reply.string).eql('Sure can.');
+        should(reply.emoji).eql('smile');
         done();
       });
     });
 
     it('Augment callback 1', (done) => {
       helpers.getBot().reply('user1', 'object param one', (err, reply) => {
-        reply.string.should.eql('world');
-        reply.attachments.should.eql([{ text: 'Optional text that appears *within* the attachment' }]);
+        should(reply.string).eql('world');
+        should(reply.attachments).eql([{ text: 'Optional text that appears *within* the attachment' }]);
         done();
       });
     });
 
     it('Augment callback 2', (done) => {
       helpers.getBot().reply('user1', 'object param 2', (err, reply) => {
-        reply.string.should.eql('world');
-        reply.foo.should.eql('bar');
+        should(reply.string).eql('world');
+        should(reply.foo).eql('bar');
         done();
       });
     });
@@ -313,9 +313,9 @@ describe('SuperScript Scripting + Style Interface', () => {
     // Params though redirects & Merge
     it('Augment callback 3', (done) => {
       helpers.getBot().reply('user1', 'object param 3', (err, reply) => {
-        reply.string.should.eql('world');
-        reply.foo.should.eql('bar');
-        reply.attachments.should.eql([{ text: 'Optional text that appears *within* the attachment' }]);
+        should(reply.string).eql('world');
+        should(reply.foo).eql('bar');
+        should(reply.attachments).eql([{ text: 'Optional text that appears *within* the attachment' }]);
         done();
       });
     });
@@ -324,7 +324,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Wrapping lines', () => {
     it('should continue onto the next line', (done) => {
       helpers.getBot().reply('user1', 'tell me a poem', (err, reply) => {
-        reply.string.should.eql('Little Miss Muffit sat on her tuffet,\nIn a nonchalant sort of way.\nWith her forcefield around her,\nThe Spider, the bounder,\nIs not in the picture today.');
+        should(reply.string).eql('Little Miss Muffit sat on her tuffet,\nIn a nonchalant sort of way.\nWith her forcefield around her,\nThe Spider, the bounder,\nIs not in the picture today.');
         done();
       });
     });
@@ -333,21 +333,21 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Normalize Trigger', () => {
     it('should be expanded before trying to match', (done) => {
       helpers.getBot().reply('user1', 'it is all good in the hood', (err, reply) => {
-        reply.string.should.eql('normalize trigger test');
+        should(reply.string).eql('normalize trigger test');
         done();
       });
     });
 
     it('should be expanded before trying to match contract form', (done) => {
       helpers.getBot().reply('user1', "it's all good in the hood two", (err, reply) => {
-        reply.string.should.eql('normalize trigger test');
+        should(reply.string).eql('normalize trigger test');
         done();
       });
     });
 
     it('message should exist after normalize', (done) => {
       helpers.getBot().reply('user1', 'then', (err, reply) => {
-        reply.string.should.eql('');
+        should(reply.string).eql('');
         done();
       });
     });
@@ -356,42 +356,42 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Mix case test', () => {
     it('should match all capitals', (done) => {
       helpers.getBot().reply('user1', 'this is all capitals', (err, reply) => {
-        reply.string.should.eql('Test six must pass');
+        should(reply.string).eql('Test six must pass');
         done();
       });
     });
 
     it('should match some capitals', (done) => {
       helpers.getBot().reply('user1', 'this IS ALL capitals', (err, reply) => {
-        reply.string.should.eql('Test six must pass');
+        should(reply.string).eql('Test six must pass');
         done();
       });
     });
 
     it('should match with or without puct - 1', (done) => {
       helpers.getBot().reply('user1', 'Do you have a clue?', (err, reply) => {
-        reply.string.should.eql('Test seven must pass');
+        should(reply.string).eql('Test seven must pass');
         done();
       });
     });
 
     it('should match with or without puct - 2', (done) => {
       helpers.getBot().reply('user1', 'Do you have a cause', (err, reply) => {
-        reply.string.should.eql('Test seven must pass');
+        should(reply.string).eql('Test seven must pass');
         done();
       });
     });
 
     it('should match with extra spaces mixed in', (done) => {
       helpers.getBot().reply('user1', 'Do       you       have   a    condition', (err, reply) => {
-        reply.string.should.eql('Test seven must pass');
+        should(reply.string).eql('Test seven must pass');
         done();
       });
     });
 
     it('should allow spaces at the end of replies', (done) => {
       helpers.getBot().reply('user1', 'spaced out', (err, reply) => {
-        reply.string.should.eql('note the space  ');
+        should(reply.string).eql('note the space  ');
         done();
       });
     });
@@ -400,28 +400,28 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Style - burst related', () => {
     it('should removed bursted commas', (done) => {
       helpers.getBot().reply('user1', 'John is older than Mary, and Mary is older than Sarah', (err, reply) => {
-        reply.string.should.eql('Test eight must pass');
+        should(reply.string).eql('Test eight must pass');
         done();
       });
     });
 
     it('should removed bursted commas 2', (done) => {
       helpers.getBot().reply('user1', 'Is it morning, noon, night?', (err, reply) => {
-        reply.string.should.eql('Test nine must pass');
+        should(reply.string).eql('Test nine must pass');
         done();
       });
     });
 
     it('should removed quotes', (done) => {
       helpers.getBot().reply('user1', 'remove quotes around "car"?', (err, reply) => {
-        reply.string.should.eql('Test ten must pass');
+        should(reply.string).eql('Test ten must pass');
         done();
       });
     });
 
     it('should keep reply quotes', (done) => {
       helpers.getBot().reply('user1', 'reply quotes', (err, reply) => {
-        reply.string.should.eql('Test "eleven" must pass');
+        should(reply.string).eql('Test "eleven" must pass');
         done();
       });
     });
@@ -430,10 +430,10 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Keep the current topic when a special topic is matched', () => {
     it('Should redirect to the first gambit', (done) => {
       helpers.getBot().reply('user1', 'flow match', (err, reply) => {
-        reply.string.should.eql('You are in the first reply.');
+        should(reply.string).eql('You are in the first reply.');
 
         helpers.getBot().reply('user1', 'next flow match', (err, reply) => {
-          reply.string.should.eql('You are in the second reply. You are in the first reply.');
+          should(reply.string).eql('You are in the second reply. You are in the first reply.');
           done();
         });
       });
@@ -441,10 +441,10 @@ describe('SuperScript Scripting + Style Interface', () => {
 
     it('Should redirect to the first gambit after matching __pre__', (done) => {
       helpers.getBot().reply('user1', 'flow match', (err, reply) => {
-        reply.string.should.eql('You are in the first reply.');
+        should(reply.string).eql('You are in the first reply.');
 
         helpers.getBot().reply('user1', 'flow redirection test', (err, reply) => {
-          reply.string.should.eql('Going back. You are in the first reply.');
+          should(reply.string).eql('Going back. You are in the first reply.');
           done();
         });
       });
@@ -454,19 +454,19 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('gh-173', () => {
     it('should keep topic though sequence', (done) => {
       helpers.getBot().reply('user1', 'name', (err, reply) => {
-        reply.string.should.eql('What is your first name?');
-        reply.topicName.should.eql('set_name');
+        should(reply.string).eql('What is your first name?');
+        should(reply.topicName).eql('set_name');
 
         helpers.getBot().reply('user1', 'Bob', (err, reply) => {
-          reply.topicName.should.eql('set_name');
-          reply.string.should.eql('Ok Bob, what is your last name?');
+          should(reply.topicName).eql('set_name');
+          should(reply.string).eql('Ok Bob, what is your last name?');
 
           helpers.getBot().reply('user1', 'Hope', (err, reply) => {
             // this is where we FOUND the reply
-            reply.topicName.should.eql('set_name');
+            should(reply.topicName).eql('set_name');
             // the new topic (pending topic should now be random)
             helpers.getBot().getUser('user1', (err, user) => {
-              user.getTopic().should.eql('random');
+              should(user.getTopic()).eql('random');
               done();
             });
           });
@@ -478,7 +478,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('scope creep!', () => {
     it('pass scope into redirect', (done) => {
       helpers.getBot().reply('user1', 'scope though redirect', (err, reply) => {
-        reply.string.should.eql('A user1 __B__');
+        should(reply.string).eql('A user1 __B__');
         done();
       }, {
         key: 'A',
@@ -504,8 +504,8 @@ describe('SuperScript Scripting + Style Interface', () => {
       ],
       // optional callback
       (err, results) => {
-        results.should.containEql('generic reply A userA generic message');
-        results.should.containEql('generic reply B userB generic message 2');
+        should(results).containEql('generic reply A userA generic message');
+        should(results).containEql('generic reply B userB generic message 2');
 
         done();
       });
@@ -515,7 +515,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Direct Reply', () => {
     it('should return reply', (done) => {
       helpers.getBot().directReply('user1', 'generic', '__simple__', (err, reply) => {
-        reply.string.should.eql('');
+        should(reply.string).eql('');
         done();
       });
     });
@@ -524,14 +524,14 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('GH-243', () => {
     it('Should pass data back into filter function on input', (done) => {
       helpers.getBot().reply('user2', 'filter by logic', (err, reply) => {
-        reply.string.should.eql('logic');
+        should(reply.string).eql('logic');
         done();
       });
     });
 
     it('Should pass data back into filter function on input 2', (done) => {
       helpers.getBot().reply('user2', 'filter by ai', (err, reply) => {
-        reply.string.should.eql('ai');
+        should(reply.string).eql('ai');
         done();
       });
     });
@@ -540,8 +540,8 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('GH-301: addMessageProp should work through redirects', () => {
     it('Should return multiple props', (done) => {
       helpers.getBot().reply('user2', '__preview', (err, reply) => {
-        should.exist(reply.topLevelProp);
-        should.exist(reply.subProp);
+        should(reply.topLevelProp).exist;
+        should(reply.subProp).exist;
         done();
       });
     });
@@ -550,7 +550,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('custom functions should work with objects and arrays as parameters', () => {
     it('Should understand objects and arrays as parameters', (done) => {
       helpers.getBot().reply('user2', "let's test objects/arrays as custom function args", (err, reply) => {
-        reply.string.should.eql("here's my answer value hey!");
+        should(reply.string).eql("here's my answer value hey!");
         done();
       });
     });
@@ -559,7 +559,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('custom functions that return more tags should process them', () => {
     it('Should process result of custom function', (done) => {
       helpers.getBot().reply('user2', "what if there's more tags in custom func", (err, reply) => {
-        reply.string.should.eql('and the result is yay');
+        should(reply.string).eql('and the result is yay');
         done();
       });
     });
@@ -568,7 +568,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('should use custom tags', () => {
     it('should respond to different version of saying hello', (done) => {
       helpers.getBot().reply('user3', 'hi', (err, reply) => {
-        reply.string.should.eql('Greetings!');
+        should(reply.string).eql('Greetings!');
         done();
       });
     });
@@ -577,14 +577,14 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('gh-265', () => {
     it('variable length issue simple case', (done) => {
       helpers.getBot().reply('user5', 'i go by bus', (err, reply) => {
-        reply.string.should.eql('so you go by bus');
+        should(reply.string).eql('so you go by bus');
         done();
       });
     });
 
     it('variable length issue fail case', (done) => {
       helpers.getBot().reply('user5', 'i go by something else', (err, reply) => {
-        reply.string.should.eql('so you go by something else');
+        should(reply.string).eql('so you go by something else');
         done();
       });
     });
@@ -593,7 +593,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('gh-312', () => {
     it('should not crash calling ^createUserFact', (done) => {
       helpers.getBot().reply('user6', 'set a fact', (err, reply) => {
-        reply.string.should.eql('that is a cool fact');
+        should(reply.string).eql('that is a cool fact');
         done();
       });
     });
@@ -602,14 +602,14 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('Simple Question Matching', () => {
     it('should reply to simple string', (done) => {
       helpers.getBot().reply('asdf', 'which way to the bathroom?', (err, reply) => {
-        reply.string.should.eql('Down the hall on the left');
+        should(reply.string).eql('Down the hall on the left');
         done();
       });
     });
 
     it('should not match', (done) => {
       helpers.getBot().reply('asdf', 'My mom cleans the bathroom.', (err, reply) => {
-        reply.string.should.eql('');
+        should(reply.string).eql('');
         done();
       });
     });
@@ -618,7 +618,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('gh-237', () => {
     it('variable length stars should not undercatch', (done) => {
       helpers.getBot().directReply('user7', 'testfoo', 'foo', (err, reply) => {
-        reply.string.should.eql('Direct match');
+        should(reply.string).eql('Direct match');
         done();
       });
     });
@@ -627,7 +627,7 @@ describe('SuperScript Scripting + Style Interface', () => {
   describe('gh-171', () => {
     it('topicRedirects should not skip replies', (done) => {
       helpers.getBot().reply('user8', 'redirect setup', (err, reply) => {
-        reply.string.should.eql('who are you?');
+        should(reply.string).eql('who are you?');
         done();
       });
     });
