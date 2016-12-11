@@ -385,3 +385,11 @@
 
 + set a fact
 - that is a cool fact ^createUserFact("thisfact", "cooler", "thatfact")
+
+> topic:system testfoo
++ *(3-99)
+- {keep}Caught by variable length
+
++ foo
+- {keep}Direct match
+< topic

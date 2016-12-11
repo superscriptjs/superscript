@@ -615,5 +615,14 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('gh-237', () => {
+    it('variable length stars should not undercatch', (done) => {
+      helpers.getBot().directReply('user7', 'testfoo', 'foo', (err, reply) => {
+        reply.string.should.eql('Direct match');
+        done();
+      });
+    });
+  });
+
   after(helpers.after);
 });
