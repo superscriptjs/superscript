@@ -60,7 +60,7 @@
     "ss-message": "^1.0.2",
     "ss-parser": "alpha",
     "syllablistic": "^0.1.0",
-    "wordnet-db": "^3.1.2"
+    "wordpos": "^1.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",

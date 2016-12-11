@@ -1,14 +1,19 @@
 // This is a shim for wordnet lookup.
 // http://wordnet.princeton.edu/wordnet/man/wninput.5WN.html
 
-import natural from 'natural';
 import async from 'async';
 import _ from 'lodash';
+import WordPOS from 'wordpos';
 
-const wordnet = new natural.WordNet();
+const wordpos = new WordPOS();
+
+// Unhandled promises should throw top-level errors, not just silently fail
+process.on('unhandledRejection', (err) => {
+  throw err;
+});
 
 const define = function define(word, cb) {
-  wordnet.lookup(word, (results) => {
+  wordpos.lookup(word).then((results) => {
     if (!_.isEmpty(results)) {
       cb(null, results[0].def);
     } else {
@@ -30,7 +35,7 @@ const lookup = function lookup(word, pointerSymbol = '~', cb) {
 
   const synets = [];
 
-  wordnet.lookup(word, (results) => {
+  wordpos.lookup(word).then((results) => {
     results.forEach((result) => {
       result.ptrs.forEach((part) => {
         if (pos !== null && part.pos === pos && part.pointerSymbol === pointerSymbol) {
@@ -42,7 +47,7 @@ const lookup = function lookup(word, pointerSymbol = '~', cb) {
     });
 
     const itor = (word, next) => {
-      wordnet.get(word.synsetOffset, word.pos, (sub) => {
+      wordpos.seek(word.synsetOffset, word.pos).then((sub) => {
         next(null, sub.lemma);
       });
     };
@@ -60,7 +65,7 @@ const lookup = function lookup(word, pointerSymbol = '~', cb) {
 const explore = function explore(word, cb) {
   let ptrs = [];
 
-  wordnet.lookup(word, (results) => {
+  wordpos.lookup(word).then((results) => {
     for (let i = 0; i < results.length; i++) {
       ptrs.push(results[i].ptrs);
     }
@@ -70,12 +75,10 @@ const explore = function explore(word, cb) {
 
     ptrs = _.chain(ptrs)
       .groupBy('pos')
-      .map((value, key) => {
-        return {
-          pos: key,
-          ptr: _.uniq(_.map(value, 'sym')),
-        };
-      })
+      .map((value, key) => ({
+        pos: key,
+        ptr: _.uniq(_.map(value, 'sym')),
+      }))
       .value();
 
     const itor = (item, next) => {

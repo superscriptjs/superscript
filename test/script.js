@@ -122,7 +122,7 @@ describe('SuperScript Scripting + Style Interface', () => {
 
     it('should call a custom function', (done) => {
       helpers.getBot().reply('user1', 'custom function', (err, reply) => {
-        reply.string.should.eql('The Definition of function is perform duties attached to a particular office or place or function');
+        reply.string.should.eql('The Definition of function is perform as expected when applied');
         done();
       });
     });
@@ -610,6 +610,15 @@ describe('SuperScript Scripting + Style Interface', () => {
     it('should not match', (done) => {
       helpers.getBot().reply('asdf', 'My mom cleans the bathroom.', (err, reply) => {
         reply.string.should.eql('');
+        done();
+      });
+    });
+  });
+
+  describe('gh-237', () => {
+    it('variable length stars should not undercatch', (done) => {
+      helpers.getBot().directReply('user7', 'testfoo', 'foo', (err, reply) => {
+        reply.string.should.eql('Direct match');
         done();
       });
     });
