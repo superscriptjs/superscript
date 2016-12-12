@@ -25,33 +25,24 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
           if (topic) {
             // We do realtime post processing on the input against the user object
             if (topic.filter !== '') {
-              const filterFunction = topic.filter.match(regexes.filter);
-              const functionName = filterFunction[1];
-              debug.verbose(`Topic Filter function found with plugin name: ${functionName}`);
-              if (system.plugins[functionName]) {
-                const cleanArgs = [];
-                cleanArgs.push((err, filterReply) => {
-                  if (err) {
-                    console.error(err);
-                  }
-                  if (filterReply === 'true' || filterReply === true) {
-                    callback(null, false);
-                  } else {
-                    topic.findMatch(messageObject, options, callback);
-                  }
-                });
-                const filterScope = _.merge({}, system.scope);
-                filterScope.user = options.user;
-                filterScope.message = messageObject;
-                filterScope.topic = topic;
-                filterScope.message_props = options.system.extraScope;
-                debug.verbose(`Calling topic filter plugin function: ${functionName} with args: ${cleanArgs}`);
-                system.plugins[functionName].apply(filterScope, cleanArgs);
-              } else {
-                console.log(`\nWARNING:\nYou have a missing filter function (${functionName}) - your script will not behave as expected!"`);
-                // If the topic function does not exist, we process the topic like normal.
-                topic.findMatch(messageObject, options, callback);
-              }
+              debug.verbose(`Topic filter function found: ${topic.filter}`);
+
+              const filterScope = _.merge({}, system.scope);
+              filterScope.user = options.user;
+              filterScope.message = messageObject;
+              filterScope.topic = topic;
+              filterScope.message_props = options.system.extraScope;
+
+              Utils.runPluginFunc(topic.filter, filterScope, system.plugins, (err, filterReply) => {
+                if (err) {
+                  console.error(err);
+                  return topic.findMatch(messageObject, options, callback);
+                }
+                if (filterReply === 'true' || filterReply === true) {
+                  return callback(null, false);
+                }
+                return topic.findMatch(messageObject, options, callback);
+              });
             } else {
               // We look for a match in the topic.
               topic.findMatch(messageObject, options, callback);
@@ -256,47 +247,24 @@ const filterRepliesByFunction = function filterRepliesByFunction(potentialReplie
     if (potentialReply.reply.filter !== '') {
       const stars = { stars: potentialReply.stars };
       processTags.preprocess(potentialReply.reply.filter, stars, options, (err, cleanFilter) => {
-        const filterFunction = cleanFilter.match(regexes.filter);
-        const functionName = filterFunction[1];
-        const functionArgs = filterFunction[2];
+        debug.verbose(`Reply filter function found: ${cleanFilter}`);
 
-        debug.verbose(`Filter function found with plugin name: ${functionName}`);
+        const filterScope = _.merge({}, system.scope);
+        filterScope.user = options.user;
+        filterScope.message = options.message;
+        filterScope.message_props = options.system.extraScope;
 
-        if (system.plugins[functionName]) {
-          let cleanArgs = null;
-          try {
-            cleanArgs = safeEval(`[${functionArgs}]`);
-          } catch (err) {
-            console.error(`Error in filter function arguments: ${err}`);
+        Utils.runPluginFunc(cleanFilter, filterScope, system.plugins, (err, filterReply) => {
+          if (err) {
+            console.error(err);
+            return cb(null, true);
           }
 
-          cleanArgs.push((err, filterReply) => {
-            if (err) {
-              console.error(err);
-            }
-
-            if (filterReply === 'true' || filterReply === true) {
-              cb(err, true);
-            } else {
-              cb(err, false);
-            }
-          });
-
-          const filterScope = _.merge({}, system.scope);
-          filterScope.user = options.user;
-          filterScope.message = options.message;
-          filterScope.message_props = options.system.extraScope;
-
-          debug.verbose(`Calling plugin function: ${functionName} with args: ${cleanArgs}`);
-          system.plugins[functionName].apply(filterScope, cleanArgs);
-        } else {
-          // If a function is missing, we kill the line and return empty handed
-          // Let's remove it and try to carry on.
-          console.log(`\nWARNING:\nYou have a missing filter function (${pluginName}) - your script will not behave as expected!"`);
-          // Wow, worst variable name ever - sorry.
-          potentialReply = potentialReply.reply.reply.replace(filterFunction[0], '').trim();
-          cb(null, true);
-        }
+          if (filterReply === 'true' || filterReply === true) {
+            return cb(null, true);
+          }
+          return cb(null, false);
+        });
       });
     } else {
       cb(null, true);
@@ -461,7 +429,7 @@ const afterFindPendingTopics = function afterFindPendingTopics(pendingTopics, me
       }
 
       // Remove the empty topics, and flatten the array down.
-      let matches = _.flatten(_.filter(results, n => n));
+      const matches = _.flatten(_.filter(results, n => n));
 
       debug.verbose('Matching gambits are: ');
       matches.forEach((match) => {

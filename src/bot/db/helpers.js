@@ -36,7 +36,7 @@ const _walkReplyParent = function _walkReplyParent(db, tenantId, replyId, replyI
 };
 
 const _walkGambitParent = function _walkGambitParent(db, tenantId, gambitId, gambitIds, cb) {
-  db.model(modelNames.gambit).byTenant(tenantId).findOne({ _id: gambitId })
+  db.model(modelNames.gambit).byTenant(tenantId).findById(gambitId)
     .populate('parent')
     .exec((err, gambit) => {
       if (err) {
@@ -65,33 +65,23 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
       console.error(err);
     }
 
-    const populateGambits = function populateGambits(gambit, next) {
-      db.model(modelNames.reply).byTenant(tenantId).populate(gambit, { path: 'replies' }, next);
-    };
-
-    async.each(gambitsParent.gambits, populateGambits, (err) => {
-      debug.verbose('Completed populating gambits');
-      if (err) {
-        console.error(err);
-      }
-      async.map(gambitsParent.gambits,
-        _eachGambitHandle(message, options),
-        (err3, matches) => {
-          callback(null, _.flatten(matches));
-        });
+    async.map(gambitsParent.gambits, eachGambitHandle(message, options), (err3, matches) => {
+      callback(null, _.flatten(matches));
     });
   };
 
   if (type === 'topic') {
     debug.verbose('Looking back Topic', id);
-    db.model(modelNames.topic).byTenant(tenantId).findOne({ _id: id }, 'gambits')
+    db.model(modelNames.topic).byTenant(tenantId).findById(id, 'gambits')
       .populate({ path: 'gambits' })
+      .populate({ path: 'replies' })
       .exec(execHandle);
   } else if (type === 'reply') {
     options.topic = 'reply';
     debug.verbose('Looking back at Conversation', id);
-    db.model(modelNames.reply).byTenant(tenantId).findOne({ _id: id }, 'gambits')
+    db.model(modelNames.reply).byTenant(tenantId).findById(id, 'gambits')
       .populate({ path: 'gambits' })
+      .populate({ path: 'replies' })
       .exec(execHandle);
   } else {
     debug.verbose('We should never get here');
@@ -184,13 +174,10 @@ const doesMatch = function doesMatch(gambit, message, options, callback) {
       if (!match) {
         match = message.lemString.match(pattern);
       }
-    } else {
-      // This is a normal match
-      if (gambit.isQuestion === false) {
-        match = message.clean.match(pattern);
-        if (!match) {
-          match = message.lemString.match(pattern);
-        }
+    } else if (gambit.isQuestion === false) {
+      match = message.clean.match(pattern);
+      if (!match) {
+        match = message.lemString.match(pattern);
       }
     }
 
@@ -201,7 +188,7 @@ const doesMatch = function doesMatch(gambit, message, options, callback) {
 };
 
 // This is the main function that looks for a matching entry
-const _eachGambitHandle = function (message, options) {
+const eachGambitHandle = function eachGambitHandle(message, options) {
   // This takes a gambit that is a child of a topic or reply and checks if
   // it matches the user's message or not.
   return (gambit, callback) => {
@@ -221,24 +208,6 @@ const _eachGambitHandle = function (message, options) {
       if (gambit.filter !== '') {
         debug.verbose(`We have a filter function: ${gambit.filter}`);
 
-        const filterFunction = gambit.filter.match(regexes.filter);
-        const functionName = filterFunction[1];
-        const functionArgs = filterFunction[2];
-
-        debug.verbose(`Filter function found with plugin name: ${functionName}`);
-
-        if (!plugins[functionName]) {
-          debug.verbose(`Filter function plugin not found: ${functionName}`);
-          return callback(null, []);
-        }
-
-        let cleanArgs = null;
-        try {
-          cleanArgs = safeEval(`[${functionArgs}]`);
-        } catch (err) {
-          console.error(`Error in filter function arguments: ${err}`);
-        }
-
         // The filterScope is what 'this' is during the execution of the plugin.
         // This is so you can write plugins that can access, e.g. this.user or this.chatSystem
         // Here we augment the global scope (system.scope) with any additional local scope for
@@ -248,9 +217,10 @@ const _eachGambitHandle = function (message, options) {
         // filterScope.message_props = options.localOptions.messageScope;
         filterScope.user = options.user;
 
-        cleanArgs.push((err, filterReply) => {
+        Utils.runPluginFunc(gambit.filter, filterScope, plugins, (err, filterReply) => {
           if (err) {
             console.error(err);
+            return callback(null, []);
           }
 
           debug.verbose(`Reply from filter function was: ${filterReply}`);
@@ -275,9 +245,6 @@ const _eachGambitHandle = function (message, options) {
             callback(null, []);
           }
         });
-
-        debug.verbose(`Calling plugin function: ${functionName} with args: ${cleanArgs}`);
-        plugins[functionName].apply(filterScope, cleanArgs);
       } else if (gambit.redirect !== '') {
           // If there's no filter, check if there's a redirect
           // TODO: Check this works/is sane
