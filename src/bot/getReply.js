@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import debuglog from 'debug-levels';
 import async from 'async';
-import safeEval from 'safe-eval';
 
-import regexes from './regexes';
 import Utils from './utils';
 import processTags from './processTags';
 
@@ -16,7 +14,7 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
 
   return (topicData, callback) => {
     if (topicData.type === 'TOPIC') {
-      system.chatSystem.Topic.findOne({ _id: topicData.id })
+      system.chatSystem.Topic.findById(topicData.id)
         .populate('gambits')
         .exec((err, topic) => {
           if (err) {
@@ -55,7 +53,7 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
         },
       );
     } else if (topicData.type === 'REPLY') {
-      system.chatSystem.Reply.findOne({ _id: topicData.id })
+      system.chatSystem.Reply.findById(topicData.id)
         .populate('gambits')
         .exec((err, reply) => {
           if (err) {
@@ -453,13 +451,12 @@ const afterFindPendingTopics = function afterFindPendingTopics(pendingTopics, me
       // Remove the empty topics, and flatten the array down.
       const matches = _.flatten(_.filter(results, n => n));
 
-      debug.verbose('Matching gambits are: ');
+      debug.info('Matching gambits are: ');
       matches.forEach((match) => {
-        debug.verbose(`Trigger: ${match.gambit.input}`);
-        debug.verbose(`Replies: ${match.gambit.replies.map(reply => reply.reply).join('\n')}`);
+        debug.info(`Trigger: ${match.gambit.input}`);
+        debug.info(`Replies: ${match.gambit.replies.map(reply => reply.reply).join('\n')}`);
       });
 
-      // Was `eachSeries`
       async.mapSeries(matches, matchItorHandle(messageObject, options), afterHandle(options.user, callback));
     },
   );
