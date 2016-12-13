@@ -162,8 +162,13 @@ const afterHandle = function afterHandle(user, callback) {
 };
 
 // This may be called several times, once for each topic.
-const filterRepliesBySeen = function filterRepliesBySeen(filteredResults, options, callback) {
+// filteredResults
+const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, callback) {
+  let filteredResults = replyData.filteredResults;
+  let replyOptions = replyData.replyOptions;
+  console.log(JSON.stringify(replyData, null, 2));
   const system = options.system;
+  const pickScheme = replyOptions.order;
   debug.verbose('filterRepliesBySeen', filteredResults);
   const bucket = [];
 
@@ -230,14 +235,26 @@ const filterRepliesBySeen = function filterRepliesBySeen(filteredResults, option
   async.each(filteredResults, eachResultItor, () => {
     debug.verbose('Bucket of selected replies: ', bucket);
     if (!_.isEmpty(bucket)) {
-      callback(null, Utils.pickItem(bucket));
+      if (pickScheme === "replies_ordered") {
+        console.log(bucket);
+        let picked = bucket.shift();
+        console.log(picked);
+        callback(null, picked);
+      } else {
+        // Random order
+        callback(null, Utils.pickItem(bucket));
+      }
     } else {
       callback(true);
     }
   });
 }; // end filterBySeen
 
-const filterRepliesByFunction = function filterRepliesByFunction(potentialReplies, options, callback) {
+// replyData = {potentialReplies, replyOptions}
+const filterRepliesByFunction = function filterRepliesByFunction(replyData, options, callback) {
+  let potentialReplies = replyData.potentialReplies;
+  let replyOptions = replyData.replyOptions;
+
   const filterHandle = function filterHandle(potentialReply, cb) {
     const system = options.system;
 
@@ -274,7 +291,8 @@ const filterRepliesByFunction = function filterRepliesByFunction(potentialReplie
   async.filter(potentialReplies, filterHandle, (err, filteredReplies) => {
     debug.verbose('filterByFunction results: ', filteredReplies);
 
-    filterRepliesBySeen(filteredReplies, options, (err, reply) => {
+    filterRepliesBySeen({filteredReplies, replyOptions}, options, (err, reply) => {
+      // At this point we just have one reply
       if (err) {
         debug.error(err);
         // Keep looking for results
@@ -370,8 +388,13 @@ const matchItorHandle = function matchItorHandle(message, options) {
             potentialReplies.push(replyData);
           }
 
+          const replyOptions = {
+            keep: match.gambit.reply_exhaustion,
+            order: match.gambit.reply_order
+          };
+
           // Find a reply for the match.
-          filterRepliesByFunction(potentialReplies, options, callback);
+          filterRepliesByFunction({potentialReplies, replyOptions}, options, callback);
         });
       },
     );

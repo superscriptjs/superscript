@@ -49,11 +49,20 @@ const scoreTopics = function scoreTopics(message) {
 const createTopicModel = function createTopicModel(db) {
   const topicSchema = new mongoose.Schema({
     name: { type: String, index: true, unique: true },
+    // Depricated
     keep: { type: Boolean, default: false },
+
     system: { type: Boolean, default: false },
     nostay: { type: Boolean, default: false },
     filter: { type: String, default: '' },
     keywords: { type: Array },
+
+    // How we choose gambits can be `random` or `ordered`
+    reply_order: { type: String, default: 'random'},
+
+    // How we handle the reply exhaustion can be `keep` or `exhaust`
+    reply_exhaustion: { type: String, default: 'exhaust'},
+
     gambits: [{ type: String, ref: modelNames.gambit }],
   });
 

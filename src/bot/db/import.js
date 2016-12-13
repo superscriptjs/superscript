@@ -26,6 +26,14 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
     input: gambit.trigger.raw,
   };
 
+  if (gambit.trigger.reply_options.order) {
+    gambitData.reply_order = gambit.trigger.reply_options.order;
+  }
+
+  if (gambit.trigger.reply_options.keep) {
+    gambitData.reply_exhaustion = gambit.trigger.reply_options.keep;
+  }
+
   if (gambit.trigger.question !== null) {
     gambitData.isQuestion = true;
   }
@@ -118,6 +126,8 @@ const importData = function importData(chatSystem, data, callback) {
       system: topic.flags.indexOf('system') !== -1,
       keywords: topic.keywords,
       filter: topic.filter || '',
+      reply_order: topic.globals.order || null,
+      reply_exhaustion: topic.globals.keep || null,
     };
 
     Topic.findOrCreate({ name: topic.name }, topicProperties, (err, mongoTopic) => {
