@@ -4,7 +4,7 @@
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "lib/bot/index.js",
   "scripts": {
-    "build": "babel src --presets babel-preset-es2015 --out-dir lib --copy-files",
+    "build": "babel src --out-dir lib --copy-files",
     "lint": "eslint --env node src *.js",
     "test": "mocha --compilers js:babel-register test -R spec -s 1700 -t 300000 --recursive",
     "prepublish": "npm run build",
@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
-    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-env": "^1.0.2",
     "babel-register": "^6.18.0",
     "coveralls": "^2.11.9",
     "eslint": "^3.9.1",
