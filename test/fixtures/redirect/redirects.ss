@@ -81,7 +81,7 @@
 + _two_thing
 - two thing
 
-> topic:keep weather
+> topic weather {keep}
 
 	+ __to_say__
 	- Is it hot
@@ -131,12 +131,12 @@
 + topic set systest
 - Setting systest. ^changetopic("systest")
 
-> topic:system hidden
+> topic hidden {system}
   + I am hidden
   - You can't find me.
 < topic
 
-> topic:system systest
+> topic systest {system}
   + where am I
   - In systest.
 < topic
@@ -146,7 +146,7 @@
   - {keep} must not match post.
 < topic
 
-> topic:keep preview_words (preview)
+> topic preview_words (preview) {keep}
 + __preview
 - {@__preview_question_kickoff}
 

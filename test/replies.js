@@ -4,7 +4,7 @@ import mocha from 'mocha';
 import should from 'should';
 import helpers from './helpers';
 
-describe.only('SuperScript Replies', () => {
+describe.skip('SuperScript Replies', () => {
   before(helpers.before('replies'));
 
   describe.skip('replies random', () => {

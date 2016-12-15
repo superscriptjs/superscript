@@ -9,9 +9,6 @@ import debuglog from 'debug-levels';
 
 const debug = debuglog('SS:Importer');
 
-const KEEP_REGEX = /{keep}/i;
-const FILTER_REGEX = /{\s*\^(\w+)\(([^)]*)\)\s*}/i;
-
 // Whenever and only when a breaking change is made to ss-parser, this needs
 // to be updated.
 const MIN_SUPPORTED_SCRIPT_VERSION = 1;
@@ -26,12 +23,12 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
     input: gambit.trigger.raw,
   };
 
-  if (gambit.trigger.reply_options.order) {
-    gambitData.reply_order = gambit.trigger.reply_options.order;
+  if (gambit.trigger.flags.order) {
+    gambitData.reply_order = gambit.trigger.flags.order;
   }
 
-  if (gambit.trigger.reply_options.keep) {
-    gambitData.reply_exhaustion = gambit.trigger.reply_options.keep;
+  if (gambit.trigger.flags.keep) {
+    gambitData.reply_exhaustion = gambit.trigger.flags.keep;
   }
 
   if (gambit.trigger.question !== null) {
@@ -62,22 +59,11 @@ const importData = function importData(chatSystem, data, callback) {
       debug.verbose('Reply process: %s', replyId);
       const properties = {
         id: replyId,
-        reply: data.replies[replyId],
+        reply: data.replies[replyId].string,
+        keep: data.replies[replyId].keep,
+        filter: data.replies[replyId].filter,
         parent: gambit._id,
       };
-
-      // TODO: Move this to ss-parser
-      let match = properties.reply.match(KEEP_REGEX);
-      if (match) {
-        properties.keep = true;
-        properties.reply = properties.reply.replace(match[0], '').trim();
-      }
-
-      match = properties.reply.match(FILTER_REGEX);
-      if (match) {
-        properties.filter = `^${match[1]}(${match[2]})`;
-        properties.reply = properties.reply.replace(match[0], '').trim();
-      }
 
       gambit.addReply(properties, (err) => {
         if (err) {
@@ -121,13 +107,13 @@ const importData = function importData(chatSystem, data, callback) {
     debug.verbose(`Find or create topic with name '${topicName}'`);
     const topicProperties = {
       name: topic.name,
-      keep: topic.flags.indexOf('keep') !== -1,
-      nostay: topic.flags.indexOf('nostay') !== -1,
-      system: topic.flags.indexOf('system') !== -1,
+      keep: topic.flags.keep,
+      nostay: topic.flags.nostay,
+      system: topic.flags.system,
       keywords: topic.keywords,
       filter: topic.filter || '',
-      reply_order: topic.globals.order || null,
-      reply_exhaustion: topic.globals.keep || null,
+      reply_order: topic.flags.order || null,
+      reply_exhaustion: topic.flags.keep || null,
     };
 
     Topic.findOrCreate({ name: topic.name }, topicProperties, (err, mongoTopic) => {

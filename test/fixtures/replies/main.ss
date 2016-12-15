@@ -1,8 +1,4 @@
-> topic:keep replies
-
-  // shorthand
-  // + {exhaust, random} test random
-  // + {keep, ordered} test random
+> topic replies {keep}
 
   // This is the default reply behaviour 
   + {random} test random
