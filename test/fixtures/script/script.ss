@@ -216,7 +216,7 @@
 < topic
 
 // Object params though topicRedirect (related topic)
-> topic:keep test_topic
+> topic test_topic {keep}
   + __objParams__
   - ^objparam1()
 < topic
@@ -323,7 +323,7 @@
 + name
 - {keep} ^respond("set_name")
 
-> topic:keep:system set_name
+> topic set_name {keep, system}
   + *
   - What is your first name?
 
@@ -337,7 +337,7 @@
 < topic
 
 
-> topic:keep:system generic
+> topic generic {keep, system}
 
   + __simple__
   - ^breakFunc()
@@ -357,7 +357,7 @@
 + scope though redirect
 - ^topicRedirect("__A__", "__B__")
 
-> topic:keep:system __A__
+> topic __A__ {keep, system}
   + __B__
   - ^showScope()
 < topic
@@ -375,7 +375,7 @@
 + what if there's more tags in custom func
 - and the result is ^testMoreTags("super", "awesome")
 
-> topic:keep super
+> topic super {keep}
   + awesome
   - yay
 < topic
@@ -386,7 +386,7 @@
 + set a fact
 - that is a cool fact ^createUserFact("thisfact", "cooler", "thatfact")
 
-> topic:system testfoo
+> topic testfoo {system}
 + *(3-99)
 - {keep}Caught by variable length
 
@@ -397,7 +397,7 @@
 + redirect setup
 - {keep} ^topicRedirect("setup","setup")
 
-> topic:keep:system setup
+> topic setup {keep, system}
   + setup
   - who are you?
 

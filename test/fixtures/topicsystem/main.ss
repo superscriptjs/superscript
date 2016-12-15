@@ -22,7 +22,7 @@
 + break * continue
 - test passed
 
-> topic:keep __pre__
+> topic __pre__ {keep}
 
 	+ testing topic system
 	- ^save("key", "value")
@@ -38,17 +38,17 @@
 
 < topic
 
-> topic:keep filter1 ^filterTopic()
+> topic filter1 ^filterTopic() {keep}
   + filter topic *
   - filter pass topic1
 < topic
 
-> topic:keep filter2 ^filterTopic()
+> topic filter2 ^filterTopic() {keep}
   + filter topic *
   - filter pass topic2
 < topic
 
-> topic:keep outdoors ( fishing hunting camping )
+> topic outdoors ( fishing, hunting, camping ) {keep}
 
 	+ I like to *
 	- i like to spend time outdoors
@@ -62,7 +62,7 @@
 < topic
 
 
-> topic fishing (fish fishing to_fish rod worms)
+> topic fishing (fish, fishing, to_fish, rod, worms)
 
   + I like to spend time *
   - fishing
@@ -86,7 +86,7 @@
 + test respond
 - ^respond("test")
 
-> topic:keep test
+> topic test {keep}
     + __empty__
     - {END}
 

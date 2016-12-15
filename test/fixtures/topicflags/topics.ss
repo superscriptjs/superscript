@@ -49,19 +49,19 @@
 + * go on
 - end
 
-> topic:system system_recurr
+> topic system_recurr {system}
 
   + test recursion
   - ^respond("hidden")
 
 < topic
 
-> topic:system system_why
+> topic system_why {system}
   + * you run
   - to get away from someone
 < topic
 
-> topic:system hidden
+> topic hidden {system}
   + this is a system topic
   - some reply
 < topic
@@ -84,7 +84,7 @@
   Keep Flag Test
   We use the keep flag to allow us to reuse the gambit over and over
 */
-> topic:keep keeptopic
+> topic keeptopic {keep}
   + i have 1 thing to say
   - topic test pass
 < topic
@@ -93,14 +93,14 @@
 + respond test
 - ^respond("respond_test")
 
-> topic:system respond_test
+> topic respond_test {system}
 
   + *
   - ^respond("respond_test2")
 
 < topic
 
-> topic:system respond_test2
+> topic respond_test2 {system}
 
   + *
   - final {topic=random}
@@ -114,13 +114,13 @@
   to the previous one after saying the gambit.
 */
 
-> topic:nostay:keep:system loaded
+> topic loaded {nostay, keep, system}
   + this topic is loaded
   - woot
 < topic
 
 
-> topic:nostay nostay
+> topic nostay {nostay}
   + _bounce_
   - topic test pass
 
@@ -129,7 +129,7 @@
 < topic
 
 
-> topic:system newHidden
+> topic newHidden {system}
 
 + testing hidden
 - some reply
@@ -146,7 +146,7 @@
 + test no stay
 - {keep} {@__testnostay__}
 
-> topic:nostay __testnostay__
+> topic __testnostay__ {nostay}
     + test no stay
     - {keep} Mustn't stay here.
 < topic

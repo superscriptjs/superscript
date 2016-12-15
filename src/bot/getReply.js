@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import debuglog from 'debug-levels';
 import async from 'async';
-import safeEval from 'safe-eval';
 
-import regexes from './regexes';
 import Utils from './utils';
 import processTags from './processTags';
 
@@ -16,7 +14,7 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
 
   return (topicData, callback) => {
     if (topicData.type === 'TOPIC') {
-      system.chatSystem.Topic.findOne({ _id: topicData.id })
+      system.chatSystem.Topic.findById(topicData.id)
         .populate('gambits')
         .exec((err, topic) => {
           if (err) {
@@ -24,7 +22,7 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
           }
           if (topic) {
             // We do realtime post processing on the input against the user object
-            if (topic.filter !== '') {
+            if (topic.filter) {
               debug.verbose(`Topic filter function found: ${topic.filter}`);
 
               const filterScope = _.merge({}, system.scope);
@@ -55,7 +53,7 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
         },
       );
     } else if (topicData.type === 'REPLY') {
-      system.chatSystem.Reply.findOne({ _id: topicData.id })
+      system.chatSystem.Reply.findById(topicData.id)
         .populate('gambits')
         .exec((err, reply) => {
           if (err) {
@@ -162,8 +160,12 @@ const afterHandle = function afterHandle(user, callback) {
 };
 
 // This may be called several times, once for each topic.
-const filterRepliesBySeen = function filterRepliesBySeen(filteredResults, options, callback) {
+// filteredResults
+const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, callback) {
+  const filteredResults = replyData.filteredReplies;
+  const replyOptions = replyData.replyOptions;
   const system = options.system;
+  const pickScheme = replyOptions.order;
   debug.verbose('filterRepliesBySeen', filteredResults);
   const bucket = [];
 
@@ -230,21 +232,31 @@ const filterRepliesBySeen = function filterRepliesBySeen(filteredResults, option
   async.each(filteredResults, eachResultItor, () => {
     debug.verbose('Bucket of selected replies: ', bucket);
     if (!_.isEmpty(bucket)) {
-      callback(null, Utils.pickItem(bucket));
+      if (pickScheme === 'ordered') {
+        const picked = bucket.shift();
+        callback(null, picked);
+      } else {
+        // Random order
+        callback(null, Utils.pickItem(bucket));
+      }
     } else {
       callback(true);
     }
   });
 }; // end filterBySeen
 
-const filterRepliesByFunction = function filterRepliesByFunction(potentialReplies, options, callback) {
+// replyData = {potentialReplies, replyOptions}
+const filterRepliesByFunction = function filterRepliesByFunction(replyData, options, callback) {
+  const potentialReplies = replyData.potentialReplies;
+  const replyOptions = replyData.replyOptions;
+
   const filterHandle = function filterHandle(potentialReply, cb) {
     const system = options.system;
 
     // We support a single filter function in the reply
     // It returns true/false to aid in the selection.
 
-    if (potentialReply.reply.filter !== '') {
+    if (potentialReply.reply.filter) {
       const stars = { stars: potentialReply.stars };
       processTags.preprocess(potentialReply.reply.filter, stars, options, (err, cleanFilter) => {
         debug.verbose(`Reply filter function found: ${cleanFilter}`);
@@ -274,7 +286,8 @@ const filterRepliesByFunction = function filterRepliesByFunction(potentialReplie
   async.filter(potentialReplies, filterHandle, (err, filteredReplies) => {
     debug.verbose('filterByFunction results: ', filteredReplies);
 
-    filterRepliesBySeen(filteredReplies, options, (err, reply) => {
+    filterRepliesBySeen({ filteredReplies, replyOptions }, options, (err, reply) => {
+      // At this point we just have one reply
       if (err) {
         debug.error(err);
         // Keep looking for results
@@ -370,8 +383,13 @@ const matchItorHandle = function matchItorHandle(message, options) {
             potentialReplies.push(replyData);
           }
 
+          const replyOptions = {
+            keep: match.gambit.reply_exhaustion,
+            order: match.gambit.reply_order,
+          };
+
           // Find a reply for the match.
-          filterRepliesByFunction(potentialReplies, options, callback);
+          filterRepliesByFunction({ potentialReplies, replyOptions }, options, callback);
         });
       },
     );
@@ -431,13 +449,12 @@ const afterFindPendingTopics = function afterFindPendingTopics(pendingTopics, me
       // Remove the empty topics, and flatten the array down.
       const matches = _.flatten(_.filter(results, n => n));
 
-      debug.verbose('Matching gambits are: ');
+      debug.info('Matching gambits are: ');
       matches.forEach((match) => {
-        debug.verbose(`Trigger: ${match.gambit.input}`);
-        debug.verbose(`Replies: ${match.gambit.replies.map(reply => reply.reply).join('\n')}`);
+        debug.info(`Trigger: ${match.gambit.input}`);
+        debug.info(`Replies: ${match.gambit.replies.map(reply => reply.reply).join('\n')}`);
       });
 
-      // Was `eachSeries`
       async.mapSeries(matches, matchItorHandle(messageObject, options), afterHandle(options.user, callback));
     },
   );

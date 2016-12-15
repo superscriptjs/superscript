@@ -1,4 +1,4 @@
-> topic:keep random
+> topic random {keep}
 
   + new capture (interface|face)
   - capture test <cap>

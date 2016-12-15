@@ -1,4 +1,3 @@
-
 > topic random2
 
 + new conversation
@@ -25,7 +24,7 @@
 
 < topic
 
-> topic:keep random
+> topic random {keep}
 
 + i went to highschool
 - did you finish ?

@@ -5,7 +5,6 @@ import should from 'should/as-function';
 import async from 'async';
 
 import helpers from './helpers';
-import Utils from '../src/bot/utils';
 
 describe('SuperScript Scripting + Style Interface', () => {
   before(helpers.before('script'));

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import requireDir from 'require-dir';
 import debuglog from 'debug-levels';
+import Message from 'ss-message';
 
 import processHelpers from './reply/common';
 import connect from './db/connect';
@@ -8,7 +9,6 @@ import factSystem from './factSystem';
 import chatSystem from './chatSystem';
 import getReply from './getReply';
 import Importer from './db/import';
-import Message from 'ss-message';
 import Logger from './logger';
 
 const debug = debuglog('SS:SuperScript');

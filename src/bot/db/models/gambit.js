@@ -45,6 +45,12 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     // An array of replies.
     replies: [{ type: String, ref: modelNames.reply }],
 
+    // How we choose gambits can be `random` or `ordered`
+    reply_order: { type: String, default: 'random'},
+
+    // How we handle the reply exhaustion can be `keep` or `exhaust`
+    reply_exhaustion: { type: String, default: 'exhaust'},
+
     // Save a reference to the parent Reply, so we can walk back up the tree
     parent: { type: String, ref: modelNames.reply },
 
