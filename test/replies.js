@@ -1,7 +1,7 @@
 /* global describe, it, before, after */
 
 import mocha from 'mocha';
-import should from 'should';
+import should from 'should/as-function';
 import helpers from './helpers';
 
 describe.skip('SuperScript Replies', () => {
@@ -19,11 +19,11 @@ describe.skip('SuperScript Replies', () => {
 
   describe('replies ordered', () => {
     it('should exaused replies orderedly', (done) => {
-      helpers.getBot().reply('ux','test ordered', (err, reply) => {
-        reply.string.should.eql('reply one');
+      helpers.getBot().reply('ux', 'test ordered', (err, reply) => {
+        should(reply.string).eql('reply one');
         console.log(reply);
         done();
-        
+
         // helpers.getBot().reply('ux','test ordered', (err, reply) => {
         //   reply.string.should.eql('reply two');
         //   console.log(reply);

@@ -100,9 +100,13 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
 
     const stars = replyObj.stars;
 
-    // Don't serialize MongoDOWN to Mongo
+    // Don't serialize some superfluous stuff to Mongo
     msg.factSystem = null;
+    msg.plugins = null;
+    msg.nlp = null;
     reply.factSystem = null;
+    reply.plugins = null;
+    reply.nlp = null;
     reply.replyIds = replyObj.replyIds;
 
     this.history.stars.unshift(stars);
@@ -121,10 +125,10 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
           this.currentTopic = pendingTopic;
         }
         this.save((err) => {
-          debug.verbose('Saved user');
           if (err) {
             console.error(err);
           }
+          debug.verbose('Saved user');
           cb(err, log);
         });
       });

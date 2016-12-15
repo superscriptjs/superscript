@@ -24,7 +24,7 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
           }
           if (topic) {
             // We do realtime post processing on the input against the user object
-            if (topic.filter !== '') {
+            if (topic.filter) {
               debug.verbose(`Topic filter function found: ${topic.filter}`);
 
               const filterScope = _.merge({}, system.scope);
@@ -164,9 +164,8 @@ const afterHandle = function afterHandle(user, callback) {
 // This may be called several times, once for each topic.
 // filteredResults
 const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, callback) {
-  let filteredResults = replyData.filteredResults;
-  let replyOptions = replyData.replyOptions;
-  console.log(JSON.stringify(replyData, null, 2));
+  const filteredResults = replyData.filteredReplies;
+  const replyOptions = replyData.replyOptions;
   const system = options.system;
   const pickScheme = replyOptions.order;
   debug.verbose('filterRepliesBySeen', filteredResults);
@@ -235,9 +234,9 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
   async.each(filteredResults, eachResultItor, () => {
     debug.verbose('Bucket of selected replies: ', bucket);
     if (!_.isEmpty(bucket)) {
-      if (pickScheme === "replies_ordered") {
+      if (pickScheme === 'replies_ordered') {
         console.log(bucket);
-        let picked = bucket.shift();
+        const picked = bucket.shift();
         console.log(picked);
         callback(null, picked);
       } else {
@@ -252,8 +251,8 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
 
 // replyData = {potentialReplies, replyOptions}
 const filterRepliesByFunction = function filterRepliesByFunction(replyData, options, callback) {
-  let potentialReplies = replyData.potentialReplies;
-  let replyOptions = replyData.replyOptions;
+  const potentialReplies = replyData.potentialReplies;
+  const replyOptions = replyData.replyOptions;
 
   const filterHandle = function filterHandle(potentialReply, cb) {
     const system = options.system;
@@ -261,7 +260,7 @@ const filterRepliesByFunction = function filterRepliesByFunction(replyData, opti
     // We support a single filter function in the reply
     // It returns true/false to aid in the selection.
 
-    if (potentialReply.reply.filter !== '') {
+    if (potentialReply.reply.filter) {
       const stars = { stars: potentialReply.stars };
       processTags.preprocess(potentialReply.reply.filter, stars, options, (err, cleanFilter) => {
         debug.verbose(`Reply filter function found: ${cleanFilter}`);
@@ -291,7 +290,7 @@ const filterRepliesByFunction = function filterRepliesByFunction(replyData, opti
   async.filter(potentialReplies, filterHandle, (err, filteredReplies) => {
     debug.verbose('filterByFunction results: ', filteredReplies);
 
-    filterRepliesBySeen({filteredReplies, replyOptions}, options, (err, reply) => {
+    filterRepliesBySeen({ filteredReplies, replyOptions }, options, (err, reply) => {
       // At this point we just have one reply
       if (err) {
         debug.error(err);
@@ -390,11 +389,11 @@ const matchItorHandle = function matchItorHandle(message, options) {
 
           const replyOptions = {
             keep: match.gambit.reply_exhaustion,
-            order: match.gambit.reply_order
+            order: match.gambit.reply_order,
           };
 
           // Find a reply for the match.
-          filterRepliesByFunction({potentialReplies, replyOptions}, options, callback);
+          filterRepliesByFunction({ potentialReplies, replyOptions }, options, callback);
         });
       },
     );

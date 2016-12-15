@@ -73,15 +73,13 @@ const findMatchingGambitsForMessage = function findMatchingGambitsForMessage(db,
   if (type === 'topic') {
     debug.verbose('Looking back Topic', id);
     db.model(modelNames.topic).byTenant(tenantId).findById(id, 'gambits')
-      .populate({ path: 'gambits' })
-      .populate({ path: 'replies' })
+      .populate({ path: 'gambits', populate: { path: 'replies' } })
       .exec(execHandle);
   } else if (type === 'reply') {
     options.topic = 'reply';
     debug.verbose('Looking back at Conversation', id);
     db.model(modelNames.reply).byTenant(tenantId).findById(id, 'gambits')
-      .populate({ path: 'gambits' })
-      .populate({ path: 'replies' })
+      .populate({ path: 'gambits', populate: { path: 'replies' } })
       .exec(execHandle);
   } else {
     debug.verbose('We should never get here');
@@ -205,7 +203,7 @@ const eachGambitHandle = function eachGambitHandle(message, options) {
 
       // A filter is syntax that calls a plugin function such as:
       // - {^functionX(true)} Yes, you are.
-      if (gambit.filter !== '') {
+      if (gambit.filter) {
         debug.verbose(`We have a filter function: ${gambit.filter}`);
 
         // The filterScope is what 'this' is during the execution of the plugin.

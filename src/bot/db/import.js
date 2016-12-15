@@ -16,9 +16,9 @@ const MIN_SUPPORTED_SCRIPT_VERSION = 1;
 const rawToGambitData = function rawToGambitData(gambitId, gambit) {
   const gambitData = {
     id: gambitId,
-    isQuestion: false,
+    isQuestion: gambit.trigger.question,
     conditions: gambit.conditional,
-    filter: gambit.trigger.filter || '',
+    filter: gambit.trigger.filter,
     trigger: gambit.trigger.clean,
     input: gambit.trigger.raw,
   };
@@ -29,10 +29,6 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
 
   if (gambit.trigger.flags.keep) {
     gambitData.reply_exhaustion = gambit.trigger.flags.keep;
-  }
-
-  if (gambit.trigger.question !== null) {
-    gambitData.isQuestion = true;
   }
 
   if (gambit.redirect) {
@@ -108,10 +104,10 @@ const importData = function importData(chatSystem, data, callback) {
     const topicProperties = {
       name: topic.name,
       keep: topic.flags.keep,
-      nostay: topic.flags.nostay,
+      nostay: topic.flags.stay === false,
       system: topic.flags.system,
       keywords: topic.keywords,
-      filter: topic.filter || '',
+      filter: topic.filter,
       reply_order: topic.flags.order || null,
       reply_exhaustion: topic.flags.keep || null,
     };
