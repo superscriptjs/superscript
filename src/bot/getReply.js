@@ -232,10 +232,8 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
   async.each(filteredResults, eachResultItor, () => {
     debug.verbose('Bucket of selected replies: ', bucket);
     if (!_.isEmpty(bucket)) {
-      if (pickScheme === 'replies_ordered') {
-        console.log(bucket);
+      if (pickScheme === 'ordered') {
         const picked = bucket.shift();
-        console.log(picked);
         callback(null, picked);
       } else {
         // Random order
