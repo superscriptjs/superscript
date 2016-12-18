@@ -1,12 +1,27 @@
-> topic replies {keep}
+> topic replies1 {exhaust}
 
   // This is the default reply behaviour 
-  + {random} test random
+  + {random} test exhaust random
   - reply one
   - reply two
   - reply three
 
-  + {ordered} test ordered
+  + {ordered} test exhaust ordered
+  - reply one
+  - reply two
+  - reply three
+
+< topic
+
+> topic replies2 {keep}
+
+  // This is the default reply behaviour 
+  + {random} test keep random
+  - reply one
+  - reply two
+  - reply three
+
+  + {ordered} test keep ordered
   - reply one
   - reply two
   - reply three

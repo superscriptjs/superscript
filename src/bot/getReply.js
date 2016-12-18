@@ -229,8 +229,9 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
       });
   };
 
-  async.each(filteredResults, eachResultItor, () => {
+  async.eachSeries(filteredResults, eachResultItor, () => {
     debug.verbose('Bucket of selected replies: ', bucket);
+    debug.verbose('Pick Scheme:', pickScheme);
     if (!_.isEmpty(bucket)) {
       if (pickScheme === 'ordered') {
         const picked = bucket.shift();
@@ -283,7 +284,7 @@ const filterRepliesByFunction = function filterRepliesByFunction(replyData, opti
     }
   };
 
-  async.filter(potentialReplies, filterHandle, (err, filteredReplies) => {
+  async.filterSeries(potentialReplies, filterHandle, (err, filteredReplies) => {
     debug.verbose('filterByFunction results: ', filteredReplies);
 
     filterRepliesBySeen({ filteredReplies, replyOptions }, options, (err, reply) => {
