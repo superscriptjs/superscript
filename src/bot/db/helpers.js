@@ -162,8 +162,8 @@ const doesMatch = function doesMatch(gambit, message, options, callback) {
   postParse(gambit.trigger, message, options.user, (regexp) => {
     const pattern = new RegExp(`^${regexp}$`, 'i');
 
-    debug.verbose(`Try to match (clean)'${message.clean}' against ${gambit.trigger} (${pattern})`);
-    debug.verbose(`Try to match (lemma)'${message.lemString}' against ${gambit.trigger} (${pattern})`);
+    debug.verbose(`Try to match (clean)'${message.clean}' against '${gambit.trigger}' (${pattern})`);
+    debug.verbose(`Try to match (lemma)'${message.lemString}' against '${gambit.trigger}' (${pattern})`);
 
     // Match on isQuestion
     if (gambit.isQuestion && message.isQuestion) {
@@ -172,7 +172,7 @@ const doesMatch = function doesMatch(gambit, message, options, callback) {
       if (!match) {
         match = message.lemString.match(pattern);
       }
-    } else if (gambit.isQuestion === false) {
+    } else if (gambit.isQuestion === false || gambit.isQuestion === null) {
       match = message.clean.match(pattern);
       if (!match) {
         match = message.lemString.match(pattern);

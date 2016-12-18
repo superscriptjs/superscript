@@ -388,10 +388,10 @@
 
 > topic testfoo {system}
 + *(3-99)
-- {keep}Caught by variable length
+- {keep} Caught by variable length
 
 + foo
-- {keep}Direct match
+- {keep} Direct match
 < topic
 
 + redirect setup

@@ -130,7 +130,6 @@ describe('SuperScript Topics', () => {
     it('should keep topic for reuse', (done) => {
       helpers.getBot().reply('user1', 'set topic to keeptopic', (err, reply) => {
         should(reply.string).eql('Okay we are going to keeptopic');
-
         helpers.getBot().getUser('user1', (err, cu) => {
           should(cu.getTopic()).eql('keeptopic');
           helpers.getBot().reply('user1', 'i have 1 thing to say', (err, reply) => {

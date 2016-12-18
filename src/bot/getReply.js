@@ -166,6 +166,8 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
   const replyOptions = replyData.replyOptions;
   const system = options.system;
   const pickScheme = replyOptions.order;
+  const keepScheme = replyOptions.keep;
+
   debug.verbose('filterRepliesBySeen', filteredResults);
   const bucket = [];
 
@@ -206,7 +208,8 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
               debug.verbose('Past gambitId', String(pastInput.gambitId));
               debug.verbose('Current gambitId', String(gambitId));
               debug.verbose('reply.keep', reply.keep);
-              debug.verbose('currentTopic.keep', currentTopic.keep);
+              debug.verbose('currentTopic.reply_exhaustion', currentTopic.reply_exhaustion);
+              debug.verbose('gambit keepScheme', keepScheme);
 
               if (String(replyId) === String(pastGambit.replyId) &&
                 // TODO: For conversation threads this should be disabled because we are looking
@@ -214,7 +217,7 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
                 // But for forward threads it should be enabled.
                 // String(pastInput.gambitId) === String(inputId) &&
                 reply.keep === false &&
-                currentTopic.keep === false) {
+                currentTopic.reply_exhaustion !== "keep") {
                 debug.verbose('Already Seen', reply);
                 seenReply = true;
               }

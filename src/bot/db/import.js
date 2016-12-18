@@ -23,11 +23,12 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
     input: gambit.trigger.raw,
   };
 
-  if (gambit.trigger.flags.order) {
+  // Conditional rolled up triggers will not have a flags
+  if (gambit.trigger.flags && gambit.trigger.flags.order) {
     gambitData.reply_order = gambit.trigger.flags.order;
   }
 
-  if (gambit.trigger.flags.keep) {
+  if (gambit.trigger.flags && gambit.trigger.flags.keep) {
     gambitData.reply_exhaustion = gambit.trigger.flags.keep;
   }
 

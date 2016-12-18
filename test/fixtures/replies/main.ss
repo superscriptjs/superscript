@@ -15,7 +15,6 @@
 
 > topic replies2 {keep}
 
-  // This is the default reply behaviour 
   + {random} test keep random
   - reply one
   - reply two
