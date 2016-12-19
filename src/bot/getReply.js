@@ -212,12 +212,12 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
               debug.verbose('gambit keepScheme', keepScheme);
 
               if (String(replyId) === String(pastGambit.replyId) &&
-                // TODO: For conversation threads this should be disabled because we are looking
-                // the wrong way.
-                // But for forward threads it should be enabled.
-                // String(pastInput.gambitId) === String(inputId) &&
-                reply.keep === false &&
-                currentTopic.reply_exhaustion !== "keep") {
+              // TODO: For conversation threads this should be disabled because we are looking
+              // the wrong way.
+              // But for forward threads it should be enabled.
+              // String(pastInput.gambitId) === String(inputId) &&
+              reply.keep === false &&
+              currentTopic.reply_exhaustion !== "keep") {
                 debug.verbose('Already Seen', reply);
                 seenReply = true;
               }
@@ -243,6 +243,10 @@ const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, cal
         // Random order
         callback(null, Utils.pickItem(bucket));
       }
+    } else if (_.isEmpty(bucket) && keepScheme === 'reload') {
+      // TODO - reload the replies responsibly, lets call this method again?
+      debug.verbose('Lets RELOAD the replies');
+      callback(true);
     } else {
       callback(true);
     }
