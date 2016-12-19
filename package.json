@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "1.0.0-alpha10",
+  "version": "1.0.0-alpha11",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "lib/bot/index.js",
   "scripts": {
@@ -39,7 +39,7 @@
   "dependencies": {
     "async": "^2.1.4",
     "async-replace": "^1.0.1",
-    "bot-lang": "^1.0.6",
+    "bot-lang": "^1.0.7",
     "commander": "^2.4.0",
     "debug": "^2.3.3",
     "debug-levels": "^0.2.0",
