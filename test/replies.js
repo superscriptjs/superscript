@@ -30,7 +30,7 @@ describe('SuperScript Replies', () => {
       });
     });
 
-    describe('ordered', () => {
+    describe.skip('ordered', () => {
       it('should exaused replies orderedly', (done) => {
         var data = (new Array(4)).fill('test exhaust ordered');
         async.mapSeries(data, itor('us4'), (err, replies1) => {

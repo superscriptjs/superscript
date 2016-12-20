@@ -70,7 +70,9 @@ const filterSeenReplies = function filterSeenReplies(replyData, options, callbac
           // But for forward threads it should be enabled.
           // String(pastInput.gambitId) === String(inputId) &&
           reply.keep === false &&
-          topicKeepScheme !== "keep") {
+          gambitKeepScheme !== "keep" &&
+          topicKeepScheme !== "keep"
+          ) {
             debug.verbose('Already Seen', reply);
             seenReply = true;
           }
@@ -100,7 +102,6 @@ const filterSeenReplies = function filterSeenReplies(replyData, options, callbac
       }
     } else if (_.isEmpty(bucket) && keepScheme === 'reload') {
       // TODO - reload the replies responsibly, lets call this method again?
-      console.log('Lets RELOAD the replies');
       callback(true);
     } else {
       callback(true);
