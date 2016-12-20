@@ -128,7 +128,7 @@ const createGambitModel = function createGambitModel(db, factSystem) {
       db.model(modelNames.topic).byTenant(this.getTenantId())
         .findOne({ gambits: { $in: [this._id] } })
         .exec((err, doc) => {
-          cb(err, doc.name);
+          cb(err, doc);
         });
     } else {
       helpers.walkGambitParent(db, this.getTenantId(), this._id, (err, gambits) => {
@@ -136,10 +136,17 @@ const createGambitModel = function createGambitModel(db, factSystem) {
           db.model(modelNames.topic).byTenant(this.getTenantId())
             .findOne({ gambits: { $in: [gambits.pop()] } })
             .exec((err, topic) => {
-              cb(null, topic.name);
-            });
+              cb(null, topic);
+            }
+          );
         } else {
-          cb(null, 'random');
+          // Fallback to Random Topic
+          db.model(modelNames.topic).byTenant(this.getTenantId())
+            .findOne({name: 'random'})
+            .exec((err, topic) => {
+              cb(null, topic);
+            }
+          );
         }
       });
     }
