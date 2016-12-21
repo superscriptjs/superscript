@@ -11,7 +11,7 @@ import async from 'async';
 import parser from 'ss-parser';
 
 import modelNames from '../modelNames';
-import helpers from '../helpers';
+import helpers from '../../getReply/helpers';
 import Utils from '../../utils';
 
 const debug = debuglog('SS:Gambit');
@@ -46,10 +46,10 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     replies: [{ type: String, ref: modelNames.reply }],
 
     // How we choose gambits can be `random` or `ordered`
-    reply_order: { type: String, default: 'random'},
+    reply_order: { type: String, default: 'random' },
 
     // How we handle the reply exhaustion can be `keep` or `exhaust`
-    reply_exhaustion: { type: String, default: 'exhaust'},
+    reply_exhaustion: { type: String, default: 'exhaust' },
 
     // Save a reference to the parent Reply, so we can walk back up the tree
     parent: { type: String, ref: modelNames.reply },
@@ -121,28 +121,6 @@ const createGambitModel = function createGambitModel(db, factSystem) {
         callback(err2, clearedReplies);
       });
     });
-  };
-
-  gambitSchema.methods.getRootTopic = function (cb) {
-    if (!this.parent) {
-      db.model(modelNames.topic).byTenant(this.getTenantId())
-        .findOne({ gambits: { $in: [this._id] } })
-        .exec((err, doc) => {
-          cb(err, doc.name);
-        });
-    } else {
-      helpers.walkGambitParent(db, this.getTenantId(), this._id, (err, gambits) => {
-        if (gambits.length !== 0) {
-          db.model(modelNames.topic).byTenant(this.getTenantId())
-            .findOne({ gambits: { $in: [gambits.pop()] } })
-            .exec((err, topic) => {
-              cb(null, topic.name);
-            });
-        } else {
-          cb(null, 'random');
-        }
-      });
-    }
   };
 
   gambitSchema.plugin(findOrCreate);

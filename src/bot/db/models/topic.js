@@ -11,7 +11,6 @@ import debuglog from 'debug-levels';
 
 import modelNames from '../modelNames';
 import Sort from '../sort';
-import helpers from '../helpers';
 
 const debug = debuglog('SS:Topics');
 
@@ -73,12 +72,6 @@ const createTopicModel = function createTopicModel(db) {
       this.gambits = newList.map(gambit => gambit._id);
       this.save(callback);
     });
-  };
-
-  topicSchema.methods.findMatch = function findMatch(message, options, callback) {
-    options.topic = this.name;
-
-    helpers.findMatchingGambitsForMessage(db, this.getTenantId(), 'topic', this._id, message, options, callback);
   };
 
   // Lightweight match for one topic

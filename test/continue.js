@@ -146,7 +146,7 @@ describe('SuperScript Continue System aka Conversation', () => {
     });
   });
 
-  describe('Match and continue KEEP', () => {
+  describe.only('Match and continue KEEP', () => {
     it('Should be even more awesome', (done) => {
       helpers.getBot().reply('user3', 'new conversation', (err, reply) => {
         should(reply.string).eql('What is your name?');

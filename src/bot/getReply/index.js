@@ -2,11 +2,16 @@
 
 import _ from 'lodash';
 import debuglog from 'debug-levels';
-import async from 'async';
 
 import Utils from '../utils';
 import processTags from '../processTags';
+
 import getPendingTopics from './getPendingTopics';
+import filterRepliesByFunction from './filterFunction';
+import filterRepliesBySeen from './filterSeen';
+import processReplyTags from './processReplyTags';
+
+import helpers from './helpers';
 
 const debug = debuglog('SS:GetReply');
 
@@ -28,353 +33,180 @@ const getReply = async function getReply(messageObject, options, callback) {
     }
   }
 
-  let pendingTopics = [];
+  let matches = [];
   try {
-    pendingTopics = await getPendingTopics(messageObject, options);
+    const pendingTopics = await getPendingTopics(messageObject, options);
+    matches = await findMatches(pendingTopics, messageObject, options);
   } catch (err) {
     console.error(err);
   }
-  findMatchingGambits(pendingTopics, messageObject, options, callback);
+
+  afterHandle(options.user, callback)(null, matches);
 };
 
-const findMatchingGambits = function findMatchingGambits(pendingTopics, messageObject, options, callback) {
+const findMatches = async function findMatches(pendingTopics, messageObject, options) {
   debug.verbose(`Found pending topics/conversations: ${JSON.stringify(pendingTopics)}`);
 
-  // We use map here because it will bail on error.
+  const replies = [];
+  let stopSearching = false;
+
+  // We use a for loop here because we can break on finding a reply.
   // The error is our escape hatch when we have a reply WITH data.
-  async.mapSeries(
-    pendingTopics,
-    topicItorHandle(messageObject, options),
-    (err, results) => {
-      if (err) {
-        console.error(err);
+  for (let i = 0; i < pendingTopics.length && !stopSearching; ++i) {
+    const topic = pendingTopics[i];
+    let unfilteredMatches = await topicItorHandle(topic, messageObject, options);
+
+    // Remove the empty topics, and flatten the array down.
+    unfilteredMatches = _.flatten(_.filter(unfilteredMatches, n => n));
+
+    debug.info('Matching unfiltered gambits are: ');
+    unfilteredMatches.forEach((match) => {
+      debug.info(`Trigger: ${match.gambit.input}`);
+      debug.info(`Replies: ${match.gambit.replies.map(reply => reply.reply).join('\n')}`);
+    });
+
+    for (let j = 0; j < unfilteredMatches.length && !stopSearching; ++j) {
+      const match = unfilteredMatches[j];
+      const reply = await matchItorHandle(match, messageObject, options);
+
+      if (!_.isEmpty(reply)) {
+        if (reply.continueMatching === false) {
+          debug.info('Continue matching is set to false: returning.');
+          stopSearching = true;
+          replies.push(reply);
+        } else if (reply.continueMatching === true || reply.reply.reply === '') {
+          debug.info('Continue matching is set to true or reply is empty: continuing.');
+          replies.push(reply);
+        } else {
+          debug.info('Reply is not empty: returning.');
+          stopSearching = true;
+          replies.push(reply);
+        }
       }
+    }
+  }
 
-      // Remove the empty topics, and flatten the array down.
-      const matches = _.flatten(_.filter(results, n => n));
-
-      debug.info('Matching gambits are: ');
-      matches.forEach((match) => {
-        debug.info(`Trigger: ${match.gambit.input}`);
-        debug.info(`Replies: ${match.gambit.replies.map(reply => reply.reply).join('\n')}`);
-      });
-
-      async.mapSeries(matches, matchItorHandle(messageObject, options), afterHandle(options.user, callback));
-    },
-  );
+  return replies;
 };
 
 // Topic iterator, we call this on each topic or conversation reply looking for a match.
 // All the matches are stored and returned in the callback.
-const topicItorHandle = function topicItorHandle(messageObject, options) {
+const topicItorHandle = async function topicItorHandle(topicData, messageObject, options) {
   const system = options.system;
 
-  return (topicData, callback) => {
-    if (topicData.type === 'TOPIC') {
-      system.chatSystem.Topic.findById(topicData.id)
-        .populate('gambits')
-        .exec((err, topic) => {
-          if (err) {
-            console.error(err);
-          }
-          if (topic) {
-            // We do realtime post processing on the input against the user object
-            if (topic.filter) {
-              debug.verbose(`Topic filter function found: ${topic.filter}`);
-
-              const filterScope = _.merge({}, system.scope);
-              filterScope.user = options.user;
-              filterScope.message = messageObject;
-              filterScope.topic = topic;
-              filterScope.message_props = options.system.extraScope;
-
-              Utils.runPluginFunc(topic.filter, filterScope, system.plugins, (err, filterReply) => {
-                if (err) {
-                  console.error(err);
-                  return topic.findMatch(messageObject, options, callback);
-                }
-                if (filterReply === 'true' || filterReply === true) {
-                  return callback(null, false);
-                }
-                return topic.findMatch(messageObject, options, callback);
-              });
-            } else {
-              // We look for a match in the topic.
-              topic.findMatch(messageObject, options, callback);
-            }
-          } else {
-            // We call back if there is no topic Object
-            // Non-existant topics return false
-            callback(null, false);
-          }
-        },
-      );
-    } else if (topicData.type === 'REPLY') {
-      system.chatSystem.Reply.findById(topicData.id)
-        .populate('gambits')
-        .exec((err, reply) => {
-          if (err) {
-            console.error(err);
-          }
-          debug.verbose('Conversation reply thread: ', reply);
-          if (reply) {
-            reply.findMatch(messageObject, options, callback);
-          } else {
-            callback(null, false);
-          }
-        },
-      );
-    } else {
-      debug.verbose("We shouldn't hit this! 'topicData.type' should be 'TOPIC' or 'REPLY'");
-      callback(null, false);
-    }
-  };
-};
-
-// Iterates through matched gambits
-const matchItorHandle = function matchItorHandle(message, options) {
-  const system = options.system;
-  options.message = message;
-
-  return (match, callback) => {
-    debug.verbose('Match itor: ', match.gambit);
-
-    // In some edge cases, replies were not being populated...
-    // Let's do it here
-    system.chatSystem.Gambit.findById(match.gambit._id)
-      .populate('replies')
-      .exec((err, gambitExpanded) => {
-        if (err) {
-          console.log(err);
-        }
-
-        match.gambit = gambitExpanded;
-
-        match.gambit.getRootTopic((err, topic) => {
-          if (err) {
-            console.log(err);
-          }
-
-          let rootTopic;
-          if (match.topic) {
-            rootTopic = match.topic;
-          } else {
-            rootTopic = topic;
-          }
-
-          let stars = match.stars;
-          if (!_.isEmpty(message.stars)) {
-            stars = message.stars;
-          }
-
-          const potentialReplies = [];
-
-          for (let i = 0; i < match.gambit.replies.length; i++) {
-            const reply = match.gambit.replies[i];
-            const replyData = {
-              id: reply.id,
-              topic: rootTopic,
-              stars,
-              reply,
-
-              // For the logs
-              trigger: match.gambit.input,
-              trigger_id: match.gambit.id,
-              trigger_id2: match.gambit._id,
-            };
-            potentialReplies.push(replyData);
-          }
-
-          const replyOptions = {
-            keep: match.gambit.reply_exhaustion,
-            order: match.gambit.reply_order,
-          };
-
-          // Find a reply for the match.
-          filterRepliesByFunction({ potentialReplies, replyOptions }, options, callback);
-        });
-      },
-    );
-  };
-};
-
-
-// replyData = {potentialReplies, replyOptions}
-const filterRepliesByFunction = function filterRepliesByFunction(replyData, options, callback) {
-  const potentialReplies = replyData.potentialReplies;
-  const replyOptions = replyData.replyOptions;
-
-  const filterHandle = function filterHandle(potentialReply, cb) {
-    const system = options.system;
-
-    // We support a single filter function in the reply
-    // It returns true/false to aid in the selection.
-
-    if (potentialReply.reply.filter) {
-      const stars = { stars: potentialReply.stars };
-      processTags.preprocess(potentialReply.reply.filter, stars, options, (err, cleanFilter) => {
-        debug.verbose(`Reply filter function found: ${cleanFilter}`);
+  if (topicData.type === 'TOPIC') {
+    const topic = await system.chatSystem.Topic.findById(topicData.id).populate('gambits');
+    if (topic) {
+      // We do realtime post processing on the input against the user object
+      if (topic.filter) {
+        debug.verbose(`Topic filter function found: ${topic.filter}`);
 
         const filterScope = _.merge({}, system.scope);
         filterScope.user = options.user;
-        filterScope.message = options.message;
+        filterScope.message = messageObject;
+        filterScope.topic = topic;
         filterScope.message_props = options.system.extraScope;
 
-        Utils.runPluginFunc(cleanFilter, filterScope, system.plugins, (err, filterReply) => {
-          if (err) {
-            console.error(err);
-            return cb(null, true);
-          }
-
-          if (filterReply === 'true' || filterReply === true) {
-            return cb(null, true);
-          }
-          return cb(null, false);
-        });
-      });
-    } else {
-      cb(null, true);
-    }
-  };
-
-  async.filterSeries(potentialReplies, filterHandle, (err, filteredReplies) => {
-    debug.verbose('filterByFunction results: ', filteredReplies);
-
-    filterRepliesBySeen({ filteredReplies, replyOptions }, options, (err, reply) => {
-      // At this point we just have one reply
-      if (err) {
-        debug.error(err);
-        // Keep looking for results
-        // Invoking callback with no arguments ensure mapSeries carries on looking at matches from other gambits
-        callback();
-      } else {
-        processTags.processReplyTags(reply, options, (err, replyObj) => {
-          if (!_.isEmpty(replyObj)) {
-            // reply is the selected reply object that we created earlier (wrapped mongoDB reply)
-            // reply.reply is the actual mongoDB reply object
-            // reply.reply.reply is the reply string
-            replyObj.matched_reply_string = reply.reply.reply;
-            replyObj.matched_topic_string = reply.topic;
-
-            debug.verbose('Reply object after processing tags: ', replyObj);
-
-            if (replyObj.continueMatching === false) {
-              debug.info('Continue matching is set to false: returning.');
-              callback(true, replyObj);
-            } else if (replyObj.continueMatching === true || replyObj.reply.reply === '') {
-              debug.info('Continue matching is set to true or reply is not empty: continuing.');
-              // By calling back with error set as 'true', we break out of async flow
-              // and return the reply to the user.
-              callback(null, replyObj);
-            } else {
-              debug.info('Reply is not empty: returning.');
-              callback(true, replyObj);
-            }
-          } else {
-            debug.verbose('No reply object was received from processTags so check for more.');
+        return await new Promise((resolve, reject) => {
+          Utils.runPluginFunc(topic.filter, filterScope, system.plugins, async (err, filterReply) => {
             if (err) {
-              debug.verbose('There was an error in processTags', err);
+              return reject(err);
             }
-            callback(null, null);
-          }
+            if (filterReply === 'true' || filterReply === true) {
+              return resolve(false);
+            }
+            options.topic = topic.name;
+            const gambits = await helpers.findMatchingGambitsForMessage(options.system.chatSystem, 'topic', topic._id, messageObject, options);
+            resolve(gambits);
+          });
         });
       }
-    });
-  });
+
+      options.topic = topic.name;
+      return await helpers.findMatchingGambitsForMessage(options.system.chatSystem, 'topic', topic._id, messageObject, options);
+    }
+    // We call back if there is no topic Object
+    // Non-existant topics return false
+    return false;
+  } else if (topicData.type === 'REPLY') {
+    const reply = await system.chatSystem.Reply.findById(topicData.id).populate('gambits');
+    debug.verbose('Conversation reply thread: ', reply);
+    if (reply) {
+      return await helpers.findMatchingGambitsForMessage(options.system.chatSystem, 'reply', reply._id, messageObject, options);
+    }
+    return false;
+  }
+
+  debug.verbose("We shouldn't hit this! 'topicData.type' should be 'TOPIC' or 'REPLY'");
+  return false;
 };
 
-// This may be called several times, once for each topic.
-const filterRepliesBySeen = function filterRepliesBySeen(replyData, options, callback) {
-  const filteredResults = replyData.filteredReplies;
-  const replyOptions = replyData.replyOptions;
+// Iterates through matched gambits
+const matchItorHandle = async function matchItorHandle(match, message, options) {
   const system = options.system;
-  const pickScheme = replyOptions.order;
-  const keepScheme = replyOptions.keep;
+  options.message = message;
 
-  debug.verbose('filterRepliesBySeen', filteredResults);
-  const bucket = [];
+  debug.verbose('Match itor: ', match.gambit);
 
-  const eachResultItor = function eachResultItor(filteredResult, next) {
-    const topicName = filteredResult.topic;
-    system.chatSystem.Topic
-      .findOne({ name: topicName })
-      .exec((err, currentTopic) => {
-        if (err) {
-          console.log(err);
-        }
+  // In some edge cases, replies were not being populated...
+  // Let's do it here
+  const gambitExpanded = await system.chatSystem.Gambit.findById(match.gambit._id)
+    .populate('replies');
 
-        // var repIndex = filteredResult.id;
-        const replyId = filteredResult.reply._id;
-        const reply = filteredResult.reply;
-        const gambitId = filteredResult.trigger_id2;
-        let seenReply = false;
+  match.gambit = gambitExpanded;
 
-        // Filter out SPOKEN replies.
-        // If something is said on a different trigger we don't remove it.
-        // If the trigger is very open ie "*", you should consider putting a {keep} flag on it.
+  const topic = await helpers.getRootTopic(match.gambit, system.chatSystem);
 
-        for (let i = 0; i <= 10; i++) {
-          const topicItem = options.user.history.topic[i];
+  let rootTopic;
+  if (match.topic) {
+    rootTopic = match.topic;
+  } else {
+    rootTopic = topic;
+  }
 
-          if (topicItem !== undefined) {
-            // TODO: Come back to this and check names make sense
-            const pastGambit = options.user.history.reply[i];
-            const pastInput = options.user.history.input[i];
+  let stars = match.stars;
+  if (!_.isEmpty(message.stars)) {
+    stars = message.stars;
+  }
 
-            // Sometimes the history has null messages because we spoke first.
-            if (pastGambit && pastInput) {
-              // Do they match and not have a keep flag
+  const potentialReplies = [];
 
-              debug.verbose('--------------- FILTER SEEN ----------------');
-              debug.verbose('Past replyId', pastGambit.replyId);
-              debug.verbose('Current replyId', replyId);
-              debug.verbose('Past gambitId', String(pastInput.gambitId));
-              debug.verbose('Current gambitId', String(gambitId));
-              debug.verbose('reply.keep', reply.keep);
-              debug.verbose('currentTopic.reply_exhaustion', currentTopic.reply_exhaustion);
-              debug.verbose('gambit keepScheme', keepScheme);
+  for (let i = 0; i < match.gambit.replies.length; i++) {
+    const reply = match.gambit.replies[i];
+    const replyData = {
+      id: reply.id,
+      topic: rootTopic,
+      stars,
+      reply,
 
-              if (String(replyId) === String(pastGambit.replyId) &&
-              // TODO: For conversation threads this should be disabled because we are looking
-              // the wrong way.
-              // But for forward threads it should be enabled.
-              // String(pastInput.gambitId) === String(inputId) &&
-              reply.keep === false &&
-              currentTopic.reply_exhaustion !== 'keep') {
-                debug.verbose('Already Seen', reply);
-                seenReply = true;
-              }
-            }
-          }
-        }
+      // For the logs
+      trigger: match.gambit.input,
+      trigger_id: match.gambit.id,
+      trigger_id2: match.gambit._id,
+    };
+    potentialReplies.push(replyData);
+  }
 
-        if (!seenReply || system.editMode) {
-          bucket.push(filteredResult);
-        }
-        next();
-      });
+  const replyOptions = {
+    keep: match.gambit.reply_exhaustion,
+    order: match.gambit.reply_order,
   };
 
-  async.eachSeries(filteredResults, eachResultItor, () => {
-    debug.verbose('Bucket of selected replies: ', bucket);
-    debug.verbose('Pick Scheme:', pickScheme);
-    if (!_.isEmpty(bucket)) {
-      if (pickScheme === 'ordered') {
-        const picked = bucket.shift();
-        callback(null, picked);
-      } else {
-        // Random order
-        callback(null, Utils.pickItem(bucket));
-      }
-    } else if (_.isEmpty(bucket) && keepScheme === 'reload') {
-      // TODO - reload the replies responsibly, lets call this method again?
-      debug.verbose('Lets RELOAD the replies');
-      callback(true);
-    } else {
-      callback(true);
+  // Find a reply for the match.
+  let filtered = await filterRepliesByFunction({ potentialReplies, replyOptions }, options);
+  filtered = await filterRepliesBySeen({ filteredReplies: filtered, replyOptions }, options);
+  return processReplyTags(filtered, options);
+
+  /*
+    if (err) {
+      // debug.error(err);
+      // Keep looking for results
+      // Invoking callback with no arguments ensure mapSeries carries on looking at matches from other gambits
+      // callback();
     }
-  });
-}; // end filterBySeen
+    return resolve(replyObj);
+  */
+};
 
 const afterHandle = function afterHandle(user, callback) {
   // Note, the first arg is the ReplyBit (normally the error);

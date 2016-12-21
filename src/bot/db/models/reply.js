@@ -5,7 +5,6 @@ import async from 'async';
 import modelNames from '../modelNames';
 import Utils from '../../utils';
 import Sort from '../sort';
-import helpers from '../helpers';
 
 const createReplyModel = function createReplyModel(db) {
   const replySchema = new mongoose.Schema({
@@ -19,11 +18,6 @@ const createReplyModel = function createReplyModel(db) {
     // This forms the basis for the 'previous' - These are Children
     gambits: [{ type: String, ref: modelNames.gambit }],
   });
-
-  // This method is similar to the topic.findMatch
-  replySchema.methods.findMatch = function findMatch(message, options, callback) {
-    helpers.findMatchingGambitsForMessage(db, this.getTenantId(), 'reply', this._id, message, options, callback);
-  };
 
   replySchema.methods.sortGambits = function sortGambits(callback) {
     const self = this;
