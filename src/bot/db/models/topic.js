@@ -5,46 +5,15 @@
 
 import mongoose from 'mongoose';
 import mongoTenant from 'mongo-tenant';
-import natural from 'natural';
-import _ from 'lodash';
 import async from 'async';
 import findOrCreate from 'mongoose-findorcreate';
 import debuglog from 'debug-levels';
-import parser from 'ss-parser';
 
 import modelNames from '../modelNames';
 import Sort from '../sort';
 import helpers from '../helpers';
 
 const debug = debuglog('SS:Topics');
-
-const TfIdf = natural.TfIdf;
-const tfidf = new TfIdf();
-
-natural.PorterStemmer.attach();
-
-// Function to score the topics by TF-IDF
-const scoreTopics = function scoreTopics(message) {
-  let topics = [];
-  const tasMessage = message.lemString.tokenizeAndStem();
-  debug.verbose('Tokenised and stemmed words: ', tasMessage);
-
-  // Score the input against the topic keywords to come up with a topic order.
-  tfidf.tfidfs(tasMessage, (index, score, name) => {
-    // Filter out system topic pre/post
-    if (name !== '__pre__' && name !== '__post__') {
-      topics.push({ name, score, type: 'TOPIC' });
-    }
-  });
-
-  // Removes duplicate entries.
-  topics = _.uniqBy(topics, 'name');
-
-  const topicOrder = _.sortBy(topics, 'score').reverse();
-  debug.verbose('Scored topics: ', topicOrder);
-
-  return topicOrder;
-};
 
 const createTopicModel = function createTopicModel(db) {
   const topicSchema = new mongoose.Schema({
@@ -58,22 +27,12 @@ const createTopicModel = function createTopicModel(db) {
     keywords: { type: Array },
 
     // How we choose gambits can be `random` or `ordered`
-    reply_order: { type: String, default: 'random'},
+    reply_order: { type: String, default: 'random' },
 
     // How we handle the reply exhaustion can be `keep` or `exhaust`
-    reply_exhaustion: { type: String, default: 'exhaust'},
+    reply_exhaustion: { type: String, default: 'exhaust' },
 
     gambits: [{ type: String, ref: modelNames.gambit }],
-  });
-
-  topicSchema.pre('save', function (next) {
-    if (!_.isEmpty(this.keywords)) {
-      const keywords = this.keywords.join(' ');
-      if (keywords) {
-        tfidf.addDocument(keywords.tokenizeAndStem(), this.name);
-      }
-    }
-    next();
   });
 
   // This will create the Gambit and add it to the model
@@ -182,126 +141,6 @@ const createTopicModel = function createTopicModel(db) {
 
   topicSchema.statics.findByName = function (name, callback) {
     this.findOne({ name }, {}, callback);
-  };
-
-  topicSchema.statics.findPendingTopicsForUser = function (user, message, callback) {
-    const currentTopic = user.getTopic();
-    const pendingTopics = [];
-
-    const scoredTopics = scoreTopics(message);
-
-    const removeMissingTopics = function removeMissingTopics(topics) {
-      return _.filter(topics, topic =>
-         topic.id,
-      );
-    };
-
-    this.find({}, (err, allTopics) => {
-      if (err) {
-        debug.error(err);
-      }
-
-      // Add the current topic to the front of the array.
-      scoredTopics.unshift({ name: currentTopic, type: 'TOPIC' });
-
-      let otherTopics = _.map(allTopics, topic =>
-         ({ id: topic._id, name: topic.name, system: topic.system }),
-      );
-
-      // This gets a list if all the remaining topics.
-      otherTopics = _.filter(otherTopics, topic =>
-         !_.find(scoredTopics, { name: topic.name }),
-      );
-
-      // We remove the system topics
-      otherTopics = _.filter(otherTopics, topic =>
-         topic.system === false,
-      );
-
-      pendingTopics.push({ name: '__pre__', type: 'TOPIC' });
-
-      for (let i = 0; i < scoredTopics.length; i++) {
-        if (scoredTopics[i].name !== '__pre__' && scoredTopics[i].name !== '__post__') {
-          pendingTopics.push(scoredTopics[i]);
-        }
-      }
-
-      // Search random as the highest priority after current topic and pre
-      if (!_.find(pendingTopics, { name: 'random' }) && _.find(otherTopics, { name: 'random' })) {
-        pendingTopics.push({ name: 'random', type: 'TOPIC' });
-      }
-
-      for (let i = 0; i < otherTopics.length; i++) {
-        if (otherTopics[i].name !== '__pre__' && otherTopics[i].name !== '__post__') {
-          otherTopics[i].type = 'TOPIC';
-          pendingTopics.push(otherTopics[i]);
-        }
-      }
-
-      pendingTopics.push({ name: '__post__', type: 'TOPIC' });
-
-      debug.verbose(`Pending topics before conversations: ${JSON.stringify(pendingTopics)}`);
-
-      // Lets assign the ids to the topics
-      for (let i = 0; i < pendingTopics.length; i++) {
-        const topicName = pendingTopics[i].name;
-        for (let n = 0; n < allTopics.length; n++) {
-          if (allTopics[n].name === topicName) {
-            pendingTopics[i].id = allTopics[n]._id;
-          }
-        }
-      }
-
-      // If we are currently in a conversation, we want the entire chain added
-      // to the topics to search
-      const lastReply = user.history.reply[0];
-      if (!_.isEmpty(lastReply)) {
-        // If the message is less than 5 minutes old we continue
-        // TODO: Make this time configurable
-        const delta = new Date() - lastReply.createdAt;
-        if (delta <= 1000 * 300) {
-          const replyId = lastReply.replyId;
-          const clearConversation = lastReply.clearConversation;
-          if (clearConversation === true) {
-            debug('Conversation RESET by clearBit');
-            callback(null, removeMissingTopics(pendingTopics));
-          } else {
-            db.model(modelNames.reply).byTenant(this.getTenantId())
-              .find({ _id: { $in: lastReply.replyIds } })
-              .exec((err, replies) => {
-                if (err) {
-                  console.error(err);
-                }
-                if (replies === []) {
-                  debug("We couldn't match the last reply. Continuing.");
-                  callback(null, removeMissingTopics(pendingTopics));
-                } else {
-                  debug('Last reply: ', lastReply.original, replyId, clearConversation);
-                  let replyThreads = [];
-                  async.eachSeries(replies, (reply, next) => {
-                    helpers.walkReplyParent(db, this.getTenantId(), reply._id, (err, threads) => {
-                      debug.verbose(`Threads found by walkReplyParent: ${threads}`);
-                      threads.forEach(thread => replyThreads.push(thread));
-                      next();
-                    });
-                  }, (err) => {
-                    replyThreads = replyThreads.map(item => ({ id: item, type: 'REPLY' }));
-                    // This inserts the array replyThreads into pendingTopics after the first topic
-                    replyThreads.unshift(1, 0);
-                    Array.prototype.splice.apply(pendingTopics, replyThreads);
-                    callback(null, removeMissingTopics(pendingTopics));
-                  });
-                }
-              });
-          }
-        } else {
-          debug.info('The conversation thread was to old to continue it.');
-          callback(null, removeMissingTopics(pendingTopics));
-        }
-      } else {
-        callback(null, removeMissingTopics(pendingTopics));
-      }
-    });
   };
 
   topicSchema.plugin(findOrCreate);

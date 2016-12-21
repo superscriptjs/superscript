@@ -8,32 +8,8 @@ import safeEval from 'safe-eval';
 import modelNames from './modelNames';
 import Utils from '../utils';
 import postParse from '../postParse';
-import regexes from '../regexes';
 
 const debug = debuglog('SS:Common');
-
-const _walkReplyParent = function _walkReplyParent(db, tenantId, replyId, replyIds, cb) {
-  db.model(modelNames.reply).byTenant(tenantId).findById(replyId)
-    .populate('parent')
-    .exec((err, reply) => {
-      if (err) {
-        debug.error(err);
-      }
-
-      debug.info('Walk', reply);
-
-      if (reply) {
-        replyIds.push(reply._id);
-        if (reply.parent && reply.parent.parent) {
-          _walkReplyParent(db, tenantId, reply.parent.parent, replyIds, cb);
-        } else {
-          cb(null, replyIds);
-        }
-      } else {
-        cb(null, replyIds);
-      }
-    });
-};
 
 const _walkGambitParent = function _walkGambitParent(db, tenantId, gambitId, gambitIds, cb) {
   db.model(modelNames.gambit).byTenant(tenantId).findById(gambitId)
@@ -267,16 +243,11 @@ const eachGambitHandle = function eachGambitHandle(message, options) {
   };
 }; // end EachGambit
 
-const walkReplyParent = (db, tenantId, replyId, cb) => {
-  _walkReplyParent(db, tenantId, replyId, [], cb);
-};
-
 const walkGambitParent = (db, tenantId, gambitId, cb) => {
   _walkGambitParent(db, tenantId, gambitId, [], cb);
 };
 
 export default {
-  walkReplyParent,
   walkGambitParent,
   doesMatch,
   findMatchingGambitsForMessage,
