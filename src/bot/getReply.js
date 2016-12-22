@@ -4,7 +4,7 @@ import async from 'async';
 
 import Utils from './utils';
 import processTags from './processTags';
-import filter from './replies/filterFunction';
+import filter from './replies/filter';
 
 const debug = debuglog('SS:GetReply');
 
@@ -213,12 +213,65 @@ const matchItorHandle = function matchItorHandle(message, options) {
           };
 
           // Find a reply for the match.
-          filter.filterRepliesByFunction({ potentialReplies, replyOptions }, options, callback);
+          filter.filterRepliesByFunction({ potentialReplies, replyOptions }, options, (err, replies) => {
+            const pickScheme = replyOptions.order;
+            const keepScheme = options.system.defaultKeepScheme;
+
+            debug.verbose('Bucket of selected replies: ', replies);
+            debug.verbose('Pick Scheme:', pickScheme);
+
+            if (!_.isEmpty(replies)) {
+              const picked = (pickScheme === 'ordered')
+                ? replies.shift()
+                : Utils.pickItem(replies);
+              funtProcessTags(Utils.pickItem(replies), options, callback);
+            } else if (_.isEmpty(replies) && keepScheme === 'reload') {
+              callback();
+            } else {
+              // Keep looking for results
+              // Invoking callback with no arguments ensure mapSeries carries on looking at matches from other gambits
+              callback();
+            }
+          });
         });
       },
     );
   };
 };
+
+
+const funtProcessTags = function funtProcessTags(reply, options, callback) {
+  processTags.processReplyTags(reply, options, (err, replyObj) => {
+    if (!_.isEmpty(replyObj)) {
+      // reply is the selected reply object that we created earlier (wrapped mongoDB reply)
+      // reply.reply is the actual mongoDB reply object
+      // reply.reply.reply is the reply string
+      replyObj.matched_reply_string = reply.reply.reply;
+      replyObj.matched_topic_string = reply.topic;
+
+      debug.verbose('Reply object after processing tags: ', replyObj);
+
+      if (replyObj.continueMatching === false) {
+        debug.info('Continue matching is set to false: returning.');
+        callback(true, replyObj);
+      } else if (replyObj.continueMatching === true || replyObj.reply.reply === '') {
+        debug.info('Continue matching is set to true or reply is not empty: continuing.');
+        // By calling back with error set as 'true', we break out of async flow
+        // and return the reply to the user.
+        callback(null, replyObj);
+      } else {
+        debug.info('Reply is not empty: returning.');
+        callback(true, replyObj);
+      }
+    } else {
+      debug.verbose('No reply object was received from processTags so check for more.');
+      if (err) {
+        debug.verbose('There was an error in processTags', err);
+      }
+      callback(null, null);
+    }
+  });
+}
 
 /**
  * The real craziness to retreive a reply.

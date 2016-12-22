@@ -1,9 +1,55 @@
 import _ from 'lodash';
 import debuglog from 'debug-levels';
 import async from 'async';
+
+import processTags from '../processTags';
 import Utils from '../utils';
 
-const debug = debuglog('SS:GetReply:FilterSeen');
+const debug = debuglog('SS:GetReply:Filters');
+
+// replyData = {potentialReplies, replyOptions}
+const filterRepliesByFunction = function filterRepliesByFunction(replyData, options, callback) {
+  const potentialReplies = replyData.potentialReplies;
+  const replyOptions = replyData.replyOptions;
+
+  const filterHandle = function filterHandle(potentialReply, cb) {
+    const system = options.system;
+
+    // We support a single filter function in the reply
+    // It returns true/false to aid in the selection.
+
+    if (potentialReply.reply.filter) {
+      const stars = { stars: potentialReply.stars };
+      processTags.preprocess(potentialReply.reply.filter, stars, options, (err, cleanFilter) => {
+        debug.verbose(`Reply filter function found: ${cleanFilter}`);
+
+        const filterScope = _.merge({}, system.scope);
+        filterScope.user = options.user;
+        filterScope.message = options.message;
+        filterScope.message_props = options.system.extraScope;
+
+        Utils.runPluginFunc(cleanFilter, filterScope, system.plugins, (err, filterReply) => {
+          if (err) {
+            console.error(err);
+            return cb(null, true);
+          }
+
+          if (filterReply === 'true' || filterReply === true) {
+            return cb(null, true);
+          }
+          return cb(null, false);
+        });
+      });
+    } else {
+      cb(null, true);
+    }
+  };
+
+  async.filterSeries(potentialReplies, filterHandle, (err, filteredReplies) => {
+    debug.verbose('filterByFunction results: ', filteredReplies);
+    filterSeenReplies({ filteredReplies, replyOptions }, options, callback);
+  });
+};
 
 // This may be called several times, once for each topic.
 // filteredResults
@@ -11,7 +57,6 @@ const filterSeenReplies = function filterSeenReplies(replyData, options, callbac
   const filteredResults = replyData.filteredReplies;
   const replyOptions = replyData.replyOptions;
   const system = options.system;
-  const pickScheme = replyOptions.order;
   const gambitKeepScheme = replyOptions.gambitKeep;
   const topicKeepScheme = replyOptions.topicKeep;
   let keepScheme = options.system.defaultKeepScheme;
@@ -25,13 +70,6 @@ const filterSeenReplies = function filterSeenReplies(replyData, options, callbac
     keepScheme = (options.system.defaultKeepScheme !== topicKeepScheme)
       ? topicKeepScheme 
       : options.system.defaultKeepScheme;
-
-    // If it is not the default then it sticks
-    // console.log("-----------------");
-    // console.log("Default", options.system.defaultKeepScheme);
-    // console.log("Topic", currentTopic.reply_exhaustion);
-    // console.log("Gambit", replyOptions.keep);
-    // console.log("Winning", keepScheme);
 
     // var repIndex = filteredResult.id;
     const replyId = filteredResult.reply._id;
@@ -88,27 +126,12 @@ const filterSeenReplies = function filterSeenReplies(replyData, options, callbac
   };
   // --- /Rip
 
-  async.eachSeries(filteredResults, eachSeenResultItor, () => {
-    debug.verbose('Bucket of selected replies: ', bucket);
-    debug.verbose('Pick Scheme:', pickScheme);
-
-    if (!_.isEmpty(bucket)) {
-      if (pickScheme === 'ordered') {
-        const picked = bucket.shift();
-        callback(null, picked);
-      } else {
-        // Random order
-        callback(null, Utils.pickItem(bucket));
-      }
-    } else if (_.isEmpty(bucket) && keepScheme === 'reload') {
-      // TODO - reload the replies responsibly, lets call this method again?
-      callback(true);
-    } else {
-      callback(true);
-    }
+  async.eachSeries(filteredResults, eachSeenResultItor, (err) => {
+    callback(err, bucket);
   });
 };
 
+
 export default {
-  filterSeenReplies
+  filterRepliesByFunction
 };
