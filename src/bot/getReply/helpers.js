@@ -263,16 +263,15 @@ const walkReplyParent = async function walkReplyParent(replyId, chatSystem) {
 
 const getRootTopic = async function getRootTopic(gambit, chatSystem) {
   if (!gambit.parent) {
-    const doc = await chatSystem.Topic.findOne({ gambits: { $in: [gambit._id] } });
-    return doc.name;
+    return await chatSystem.Topic.findOne({ gambits: { $in: [gambit._id] } });
   }
 
   const gambits = await walkGambitParent(this._id, chatSystem);
   if (gambits.length !== 0) {
-    const topic = await chatSystem.Topic.findOne({ gambits: { $in: [gambits.pop()] } });
-    return topic.name;
+    return await chatSystem.Topic.findOne({ gambits: { $in: [gambits.pop()] } });
   }
-  return 'random';
+
+  return await chatSystem.Topic.findOne({ name: 'random' });
 };
 
 export default {

@@ -157,13 +157,6 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
 
   const topic = await helpers.getRootTopic(match.gambit, system.chatSystem);
 
-  let rootTopic;
-  if (match.topic) {
-    rootTopic = match.topic;
-  } else {
-    rootTopic = topic;
-  }
-
   let stars = match.stars;
   if (!_.isEmpty(message.stars)) {
     stars = message.stars;
@@ -175,7 +168,7 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
     const reply = match.gambit.replies[i];
     const replyData = {
       id: reply.id,
-      topic: rootTopic,
+      topic: topic.name,
       stars,
       reply,
 
@@ -188,24 +181,29 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
   }
 
   const replyOptions = {
-    keep: match.gambit.reply_exhaustion,
+    gambitKeep: match.gambit.reply_exhaustion,
+    topicKeep: topic.reply_exhaustion,
     order: match.gambit.reply_order,
   };
 
   // Find a reply for the match.
   let filtered = await filterRepliesByFunction({ potentialReplies, replyOptions }, options);
   filtered = await filterRepliesBySeen({ filteredReplies: filtered, replyOptions }, options);
-  return processReplyTags(filtered, options);
 
-  /*
-    if (err) {
-      // debug.error(err);
-      // Keep looking for results
-      // Invoking callback with no arguments ensure mapSeries carries on looking at matches from other gambits
-      // callback();
-    }
-    return resolve(replyObj);
-  */
+  const pickScheme = replyOptions.order;
+  const keepScheme = options.system.defaultKeepScheme;
+
+  debug.verbose('Bucket of selected replies: ', filtered);
+  debug.verbose('Pick Scheme:', pickScheme);
+
+  if (!_.isEmpty(filtered)) {
+    const picked = (pickScheme === 'ordered') ? filtered.shift() : Utils.pickItem(filtered);
+    return processReplyTags(picked, options);
+  } else if (_.isEmpty(filtered) && keepScheme === 'reload') {
+    return processReplyTags(Utils.pickItem(potentialReplies), options);
+  }
+
+  return null;
 };
 
 const afterHandle = function afterHandle(user, callback) {
@@ -274,7 +272,7 @@ const afterHandle = function afterHandle(user, callback) {
       threadsArr[1] = lastSubReplies;
     }
 
-    const cbdata = {
+    const callbackData = {
       replyId: lastReplyId,
       replyIds: lastReplyIds,
       props,
@@ -287,9 +285,8 @@ const afterHandle = function afterHandle(user, callback) {
       continueMatching: lastContinueMatching,
     };
 
-    debug.verbose('afterHandle', cbdata);
-
-    callback(null, cbdata);
+    debug.verbose('afterHandle', callbackData);
+    callback(null, callbackData);
   };
 };
 

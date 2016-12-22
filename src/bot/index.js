@@ -110,6 +110,8 @@ class SuperScript {
       chatSystem: this.chatSystem,
       factSystem: this.factSystem,
       editMode: this.editMode,
+      defaultKeepScheme: 'exhaust',
+      defaultOrderScheme: 'random',
     };
 
     this.findOrCreateUser(options.userId, (err, user) => {

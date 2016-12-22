@@ -153,7 +153,7 @@ export const findPendingTopicsForUser = async function findPendingTopicsForUser(
 
 const getPendingTopics = async function getPendingTopics(messageObject, options) {
   // We already have a pre-set list of potential topics from directReply, respond or topicRedirect
-  if (!_.isEmpty(options.pendingTopics)) {
+  if (!_.isEmpty(_.reject(options.pendingTopics, _.isNull))) {
     debug.verbose('Using pre-set topic list via directReply, respond or topicRedirect');
     debug.info('Topics to check: ', options.pendingTopics.map(topic => topic.name));
     return options.pendingTopics;
