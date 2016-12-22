@@ -119,7 +119,16 @@ const topicItorHandle = function topicItorHandle(messageObject, options) {
   };
 };
 
+const findAndProcessTopics = function findAndProcessTopics(messageObject, options, callback) {
+  findTopicsToProcess(messageObject, options, function(err, pendingTopics) {
+    if (err) {
+      console.error(err);
+    }
+
+    afterFindPendingTopics(pendingTopics, messageObject, options, callback);
+  });
+}
+
 export default {
-  findTopicsToProcess,
-  afterFindPendingTopics
+  findAndProcessTopics
 };

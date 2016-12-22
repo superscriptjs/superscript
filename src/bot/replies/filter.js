@@ -8,9 +8,11 @@ import Utils from '../utils';
 const debug = debuglog('SS:GetReply:Filters');
 
 // replyData = {potentialReplies, replyOptions}
-const filterRepliesByFunction = function filterRepliesByFunction(replyData, options, callback) {
+const byFunction = function byFunction(replyData, options, callback) {
   const potentialReplies = replyData.potentialReplies;
   const replyOptions = replyData.replyOptions;
+  debug.verbose('replyData', replyData);
+  debug.verbose('filterRepliesByFunction', potentialReplies);
 
   const filterHandle = function filterHandle(potentialReply, cb) {
     const system = options.system;
@@ -45,26 +47,24 @@ const filterRepliesByFunction = function filterRepliesByFunction(replyData, opti
     }
   };
 
-  async.filterSeries(potentialReplies, filterHandle, (err, filteredReplies) => {
-    debug.verbose('filterByFunction results: ', filteredReplies);
-    filterSeenReplies({ filteredReplies, replyOptions }, options, callback);
+  async.filterSeries(potentialReplies, filterHandle, function(err, filteredReplies) {
+    debug.verbose(`filterByFunction results: ${filteredReplies}`);
+    callback(null, { filteredReplies, replyOptions }, options);
   });
 };
 
 // This may be called several times, once for each topic.
 // filteredResults
-const filterSeenReplies = function filterSeenReplies(replyData, options, callback) {
+const bySeen = function bySeen(replyData, options, callback) {
   const filteredResults = replyData.filteredReplies;
   const replyOptions = replyData.replyOptions;
   const system = options.system;
   const gambitKeepScheme = replyOptions.gambitKeep;
   const topicKeepScheme = replyOptions.topicKeep;
   let keepScheme = options.system.defaultKeepScheme;
-
   debug.verbose('filterRepliesBySeen', filteredResults);
   const bucket = [];
 
-  // --- Rip this out
   const eachSeenResultItor = function eachSeenResultItor(filteredResult, next) {
     
     keepScheme = (options.system.defaultKeepScheme !== topicKeepScheme)
@@ -124,14 +124,14 @@ const filterSeenReplies = function filterSeenReplies(replyData, options, callbac
 
     next();
   };
-  // --- /Rip
 
   async.eachSeries(filteredResults, eachSeenResultItor, (err) => {
-    callback(err, bucket);
+    callback(null, {filteredReplies: bucket, replyOptions }, options);
   });
 };
 
 
 export default {
-  filterRepliesByFunction
+  byFunction, 
+  bySeen
 };

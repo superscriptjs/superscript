@@ -75,7 +75,7 @@ const afterHandle = function afterHandle(user, callback) {
       threadsArr[1] = lastSubReplies;
     }
 
-    const cbdata = {
+    const callbackData = {
       replyId: lastReplyId,
       replyIds: lastReplyIds,
       props,
@@ -88,9 +88,8 @@ const afterHandle = function afterHandle(user, callback) {
       continueMatching: lastContinueMatching,
     };
 
-    debug.verbose('afterHandle', cbdata);
-
-    callback(null, cbdata);
+    debug.verbose('afterHandle', callbackData);
+    callback(null, callbackData);
   };
 };
 
@@ -146,33 +145,38 @@ const matchItorHandle = function matchItorHandle(message, options) {
             order: match.gambit.reply_order,
           };
 
-          // Find a reply for the match.
-          filter.filterRepliesByFunction({ potentialReplies, replyOptions }, options, (err, replies) => {
-            const pickScheme = replyOptions.order;
-            const keepScheme = options.system.defaultKeepScheme;
+          const data = { potentialReplies, replyOptions };
 
-            debug.verbose('Bucket of selected replies: ', replies);
-            debug.verbose('Pick Scheme:', pickScheme);
+          async.waterfall([
+              async.apply(filter.byFunction, data, options),
+              filter.bySeen
+            ],
+            (err, replies) => {
+              const filteredReplies = replies.filteredReplies;
+              const pickScheme = replyOptions.order;
+              const keepScheme = options.system.defaultKeepScheme;
 
-            if (!_.isEmpty(replies)) {
-              const picked = (pickScheme === 'ordered')
-                ? replies.shift()
-                : Utils.pickItem(replies);
-              funtProcessTags(Utils.pickItem(replies), options, callback);
-            } else if (_.isEmpty(replies) && keepScheme === 'reload') {
-              callback();
-            } else {
-              // Keep looking for results
-              // Invoking callback with no arguments ensure mapSeries carries on looking at matches from other gambits
-              callback();
-            }
+              debug.verbose(`Bucket of selected replies: ${filteredReplies}`);
+              debug.verbose(`Pick Scheme: ${pickScheme}`);
+
+              if (!_.isEmpty(filteredReplies)) {
+                const picked = (pickScheme === 'ordered')
+                  ? filteredReplies.shift()
+                  : Utils.pickItem(filteredReplies);
+                funtProcessTags(Utils.pickItem(filteredReplies), options, callback);
+              } else if (_.isEmpty(filteredReplies) && keepScheme === 'reload') {
+                callback();
+              } else {
+                // Keep looking for results
+                // Invoking callback with no arguments ensure mapSeries carries on looking at matches from other gambits
+                callback();
+              }
           });
         });
       },
     );
   };
 };
-
 
 const funtProcessTags = function funtProcessTags(reply, options, callback) {
   processTags.processReplyTags(reply, options, (err, replyObj) => {
@@ -200,6 +204,7 @@ const funtProcessTags = function funtProcessTags(reply, options, callback) {
     } else {
       debug.verbose('No reply object was received from processTags so check for more.');
       if (err) {
+        console.error(err);
         debug.verbose('There was an error in processTags', err);
       }
       callback(null, null);
@@ -226,13 +231,8 @@ const getReply = function getReply(messageObject, options, callback) {
     }
   }
 
-  topic.findTopicsToProcess(messageObject, options, function(err, pendingTopics) {
-    if (err) {
-      console.error(err);
-    }
-    topic.afterFindPendingTopics(pendingTopics, messageObject, options, (err, matches) => {
-      async.mapSeries(matches, matchItorHandle(messageObject, options), afterHandle(options.user, callback));
-    });
+  topic.findAndProcessTopics(messageObject, options, (err, matches) => {
+    async.mapSeries(matches, matchItorHandle(messageObject, options), afterHandle(options.user, callback));
   });
 };
 
