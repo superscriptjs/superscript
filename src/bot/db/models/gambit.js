@@ -11,7 +11,6 @@ import async from 'async';
 import parser from 'ss-parser';
 
 import modelNames from '../modelNames';
-import helpers from '../../getReply/helpers';
 import Utils from '../../utils';
 
 const debug = debuglog('SS:Gambit');
@@ -94,10 +93,6 @@ const createGambitModel = function createGambitModel(db, factSystem) {
         callback(err, reply);
       });
     });
-  };
-
-  gambitSchema.methods.doesMatch = function (message, options, callback) {
-    helpers.doesMatch(this, message, options, callback);
   };
 
   gambitSchema.methods.clearReplies = function (callback) {

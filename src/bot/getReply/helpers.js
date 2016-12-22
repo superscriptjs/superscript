@@ -102,43 +102,57 @@ const processConditions = function processConditions(conditions, options) {
 /**
  * Takes a gambit and a message, and returns non-null if they match.
  */
-const doesMatch = function doesMatch(gambit, message, options, callback) {
+export const doesMatch = async function doesMatch(gambit, message, options) {
   if (gambit.conditions && gambit.conditions.length > 0) {
     const conditionsMatch = processConditions(gambit.conditions, options);
     if (!conditionsMatch) {
       debug.verbose('Conditions did not match');
-      callback(null, false);
-      return;
+      return false;
     }
   }
 
   let match = false;
 
-  // Replace <noun1>, <adverb1> etc. with the actual words in user message
-  postParse(gambit.trigger, message, options.user, (regexp) => {
-    const pattern = new RegExp(`^${regexp}$`, 'i');
-
-    debug.verbose(`Try to match (clean)'${message.clean}' against '${gambit.trigger}' (${pattern})`);
-    debug.verbose(`Try to match (lemma)'${message.lemString}' against '${gambit.trigger}' (${pattern})`);
-
-    // Match on isQuestion
-    if (gambit.isQuestion && message.isQuestion) {
-      debug.verbose('Gambit and message are questions, testing against question types');
-      match = message.clean.match(pattern);
-      if (!match) {
-        match = message.lemString.match(pattern);
-      }
-    } else if (gambit.isQuestion === false || gambit.isQuestion === null) {
-      match = message.clean.match(pattern);
-      if (!match) {
-        match = message.lemString.match(pattern);
-      }
-    }
-
-    debug.verbose(`Match at the end of doesMatch was: ${match}`);
-
-    callback(null, match);
+  const regexp = await new Promise((resolve) => {
+    // Replace <noun1>, <adverb1> etc. with the actual words in user message
+    postParse(gambit.trigger, message, options.user, (regexp) => {
+      resolve(regexp);
+    });
   });
+
+  const pattern = new RegExp(`^${regexp}$`, 'i');
+
+  debug.verbose(`Try to match (clean)'${message.clean}' against '${gambit.trigger}' (${pattern})`);
+  debug.verbose(`Try to match (lemma)'${message.lemString}' against '${gambit.trigger}' (${pattern})`);
+
+  // Match on isQuestion
+  if (gambit.isQuestion && message.isQuestion) {
+    debug.verbose('Gambit and message are questions, testing against question types');
+    match = message.clean.match(pattern);
+    if (!match) {
+      match = message.lemString.match(pattern);
+    }
+  } else if (gambit.isQuestion === false || gambit.isQuestion === null) {
+    match = message.clean.match(pattern);
+    if (!match) {
+      match = message.lemString.match(pattern);
+    }
+  }
+
+  debug.verbose(`Match at the end of doesMatch was: ${match}`);
+
+  return match;
+};
+
+// This only exists for testing, ideally we should get rid of this
+export const doesMatchTopic = async function doesMatchTopic(topicName, message, options) {
+  const topic = await options.chatSystem.Topic.findOne({ name: topicName }, 'gambits')
+    .populate('gambits');
+
+  return await Promise.all(topic.gambits.map(async (gambit) => {
+    const match = await doesMatch(gambit, message, options);
+    return match;
+  }));
 };
 
 // This is the main function that looks for a matching entry
@@ -151,7 +165,7 @@ const eachGambitHandle = function eachGambitHandle(message, options) {
     const topic = options.topic || 'reply';
     const chatSystem = options.system.chatSystem;
 
-    doesMatch(gambit, message, options, (err, match) => {
+    doesMatch(gambit, message, options).then((match) => {
       if (!match) {
         debug.verbose('Gambit trigger does not match input.');
         return callback(null, []);
@@ -266,7 +280,7 @@ const getRootTopic = async function getRootTopic(gambit, chatSystem) {
     return await chatSystem.Topic.findOne({ gambits: { $in: [gambit._id] } });
   }
 
-  const gambits = await walkGambitParent(this._id, chatSystem);
+  const gambits = await walkGambitParent(gambit._id, chatSystem);
   if (gambits.length !== 0) {
     return await chatSystem.Topic.findOne({ gambits: { $in: [gambits.pop()] } });
   }

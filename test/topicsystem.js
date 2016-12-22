@@ -3,6 +3,7 @@
 import mocha from 'mocha';
 import should from 'should/as-function';
 import helpers from './helpers';
+import { doesMatch, doesMatchTopic } from '../src/bot/getReply/helpers';
 
 /*
 
@@ -56,10 +57,10 @@ describe('SuperScript TopicsSystem', () => {
         helpers.getBot().chatSystem.Gambit.findOne({ input: 'I like to *' }, (e, g) => {
           helpers.getBot().getUser('user1', (err, user) => {
             const options = { user };
-            g.doesMatch(msg, options, (e, r) => {
+            doesMatch(g, msg, options).then((r) => {
               should(r).exist;
               done();
-            });
+            }).catch(err => done(err));
           });
         });
       });
@@ -71,20 +72,20 @@ describe('SuperScript TopicsSystem', () => {
           helpers.getBot().message('this is a create test', (err, msg) => {
             helpers.getBot().getUser('user1', (err, user) => {
               const options = { user };
-              gam.doesMatch(msg, options, (e, r) => {
+              doesMatch(gam, msg, options).then((r) => {
                 should(r).exist;
                 gam.input = 'this is a create *~2';
                 // Clear the normalized trigger created in the first step.
                 gam.trigger = '';
                 gam.save(() => {
                   helpers.getBot().message('this is a create hello world', (err, msg) => {
-                    gam.doesMatch(msg, options, (e, r) => {
+                    doesMatch(gam, msg, options).then((r) => {
                       should(r[1]).eql('hello world');
                       done();
-                    });
+                    }).catch(err => done(err));
                   });
                 });
-              });
+              }).catch(err => done(err));
             });
           });
         });
@@ -99,16 +100,13 @@ describe('SuperScript TopicsSystem', () => {
     // We want a string in and false or matches out
     it('Should try string agaist topic', (done) => {
       helpers.getBot().message('I like to play outside', (err, msg) => {
-        helpers.getBot().chatSystem.Topic.findOne({ name: 'outdoors' }, (e, topic) => {
-          const options = {};
-          helpers.getBot().getUser('user1', (err, user) => {
-            options.user = user;
-            topic.doesMatch(msg, options, (e, r) => {
-              should(r).not.be.empty;
-              should(r[0].input).containEql('I like to *');
-              done();
-            });
-          });
+        helpers.getBot().getUser('user1', (err, user) => {
+          const options = { user, chatSystem: helpers.getBot().chatSystem };
+          doesMatchTopic('outdoors', msg, options).then((r) => {
+            should(r).not.be.empty;
+            should(r[0].input).containEql('I like to play outside');
+            done();
+          }).catch(err => done(err));
         });
       });
     });

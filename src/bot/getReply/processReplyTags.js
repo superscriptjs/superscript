@@ -10,7 +10,7 @@ const processReplyTags = async function processReplyTags(reply, options) {
     processTags.processReplyTags(reply, options, (err, replyObj) => {
       if (err) {
         debug.verbose('There was an error in processTags', err);
-        return reject(err);
+        return resolve(null);
       }
       return resolve(replyObj);
     });
@@ -30,7 +30,6 @@ const processReplyTags = async function processReplyTags(reply, options) {
 
   debug.verbose('No reply object was received from processTags so check for more.');
   return null;
-  // callback(null, null);
 };
 
 export default processReplyTags;

@@ -74,30 +74,6 @@ const createTopicModel = function createTopicModel(db) {
     });
   };
 
-  // Lightweight match for one topic
-  // TODO: offload this to common
-  topicSchema.methods.doesMatch = function (message, options, cb) {
-    const itor = (gambit, next) => {
-      gambit.doesMatch(message, options, (err, match2) => {
-        if (err) {
-          debug.error(err);
-        }
-        next(err, match2 ? gambit._id : null);
-      });
-    };
-
-    db.model(modelNames.topic).byTenant(this.getTenantId()).findOne({ name: this.name }, 'gambits')
-      .populate('gambits')
-      .exec((err, mgambits) => {
-        if (err) {
-          debug.error(err);
-        }
-        async.filter(mgambits.gambits, itor, (err, res) => {
-          cb(null, res);
-        });
-      });
-  };
-
   topicSchema.methods.clearGambits = function (callback) {
     const clearGambit = (gambitId, cb) => {
       this.gambits.pull({ _id: gambitId });
