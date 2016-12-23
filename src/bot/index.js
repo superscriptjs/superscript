@@ -204,6 +204,10 @@ class SuperScriptInstance {
     if (options.pluginsPath) {
       this.loadPlugins(options.pluginsPath);
     }
+
+    if (options.messagePluginsPath) {
+      Message.loadPlugins(options.messagePluginsPath);
+    }
   }
 
   loadPlugins(path) {
@@ -247,6 +251,7 @@ const defaultOptions = {
   scope: {},
   editMode: false,
   pluginsPath: `${process.cwd()}/plugins`,
+  messagePluginsPath: null,
   logPath: `${process.cwd()}/logs`,
   useMultitenancy: false,
 };
