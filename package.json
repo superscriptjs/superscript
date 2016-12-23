@@ -41,13 +41,13 @@
     "async-replace": "^1.0.1",
     "bot-lang": "^1.0.7",
     "commander": "^2.4.0",
-    "debug": "^2.3.3",
+    "debug": "^2.5.1",
     "debug-levels": "^0.2.0",
     "lodash": "^4.16.5",
     "mkdirp": "^0.5.1",
     "moment": "^2.17.0",
     "mongo-tenant": "^1.0.1",
-    "mongoose": "^4.7.0",
+    "mongoose": "^4.7.4",
     "mongoose-findorcreate": "^0.1.2",
     "natural": "^0.4.0",
     "pegjs": "^0.10.0",
@@ -57,10 +57,10 @@
     "roman-numerals": "^0.3.2",
     "safe-eval": "^0.3.0",
     "sfacts": "alpha",
-    "ss-message": "^1.0.3",
+    "ss-message": "^1.0.6",
     "ss-parser": "alpha",
     "syllablistic": "^0.1.0",
-    "wordpos": "^1.1.0"
+    "wordpos": "^1.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
