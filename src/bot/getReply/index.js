@@ -41,7 +41,8 @@ const getReply = async function getReply(messageObject, options, callback) {
     console.error(err);
   }
 
-  afterHandle(options.user, callback)(null, matches);
+  const data = afterHandle(matches);
+  return callback(null, data);
 };
 
 const findMatches = async function findMatches(pendingTopics, messageObject, options) {
@@ -70,17 +71,15 @@ const findMatches = async function findMatches(pendingTopics, messageObject, opt
       const reply = await matchItorHandle(match, messageObject, options);
 
       if (!_.isEmpty(reply)) {
+        replies.push(reply);
         if (reply.continueMatching === false) {
           debug.info('Continue matching is set to false: returning.');
           stopSearching = true;
-          replies.push(reply);
         } else if (reply.continueMatching === true || reply.reply.reply === '') {
           debug.info('Continue matching is set to true or reply is empty: continuing.');
-          replies.push(reply);
         } else {
           debug.info('Reply is not empty: returning.');
           stopSearching = true;
-          replies.push(reply);
         }
       }
     }
@@ -116,14 +115,14 @@ const topicItorHandle = async function topicItorHandle(topicData, messageObject,
               return resolve(false);
             }
             options.topic = topic.name;
-            const gambits = await helpers.findMatchingGambitsForMessage(options.system.chatSystem, 'topic', topic._id, messageObject, options);
+            const gambits = await helpers.findMatchingGambitsForMessage('topic', topic._id, messageObject, options);
             resolve(gambits);
           });
         });
       }
 
       options.topic = topic.name;
-      return await helpers.findMatchingGambitsForMessage(options.system.chatSystem, 'topic', topic._id, messageObject, options);
+      return await helpers.findMatchingGambitsForMessage('topic', topic._id, messageObject, options);
     }
     // We call back if there is no topic Object
     // Non-existant topics return false
@@ -132,7 +131,7 @@ const topicItorHandle = async function topicItorHandle(topicData, messageObject,
     const reply = await system.chatSystem.Reply.findById(topicData.id).populate('gambits');
     debug.verbose('Conversation reply thread: ', reply);
     if (reply) {
-      return await helpers.findMatchingGambitsForMessage(options.system.chatSystem, 'reply', reply._id, messageObject, options);
+      return await helpers.findMatchingGambitsForMessage('reply', reply._id, messageObject, options);
     }
     return false;
   }
@@ -206,88 +205,80 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
   return null;
 };
 
-const afterHandle = function afterHandle(user, callback) {
-  // Note, the first arg is the ReplyBit (normally the error);
-  // We are breaking the matchItorHandle flow on data stream.
-  return (continueSearching, matchSet) => {
-    debug.verbose(`Continue searching: ${continueSearching}`);
-    debug.verbose(`Set of matches: ${matchSet}`);
+const afterHandle = function afterHandle(matches) {
+  debug.verbose(`Set of matches: ${matches}`);
 
-    // remove empties
-    matchSet = _.compact(matchSet);
+  const debugAll = [];
+  let props = {};
+  let clearConversation = false;
+  let lastTopicToMatch = null;
+  let lastStarSet = null;
+  let lastReplyId = null;
+  let replyString = '';
+  let lastSubReplies = null;
+  let lastContinueMatching = null;
+  let lastReplyIds = null;
 
-    const minMatchSet = [];
-    let props = {};
-    let clearConversation = false;
-    let lastTopicToMatch = null;
-    let lastStarSet = null;
-    let lastReplyId = null;
-    let replyString = '';
-    let lastSubReplies = null;
-    let lastContinueMatching = null;
-    let lastReplyIds = null;
-
-    for (let i = 0; i < matchSet.length; i++) {
-      const item = matchSet[i];
-      const mmm = {
-        topic: item.matched_topic_string || item.topic,
-        input: item.trigger,
-        reply: item.matched_reply_string,
-      };
-
-      if (!_.isEmpty(item.minMatchSet)) {
-        mmm.subset = item.minMatchSet;
-      } else {
-        mmm.output = item.reply.reply;
-      }
-
-      minMatchSet.push(mmm);
-
-      if (item && item.reply && item.reply.reply) {
-        if (replyString === '') {
-          replyString += `${item.reply.reply}`;
-        } else {
-          replyString += ` ${item.reply.reply}`;
-        }
-      }
-
-      props = _.assign(props, item.props);
-      lastTopicToMatch = item.topic;
-      lastStarSet = item.stars;
-      lastReplyId = item.reply._id;
-      lastSubReplies = item.subReplies;
-      lastContinueMatching = item.continueMatching;
-      lastReplyIds = item.replyIds;
-
-      if (item.clearConversation) {
-        clearConversation = item.clearConversation;
-      }
-    }
-
-    let threadsArr = [];
-    if (_.isEmpty(lastSubReplies)) {
-      threadsArr = processTags.processThreadTags(replyString);
-    } else {
-      threadsArr[0] = replyString;
-      threadsArr[1] = lastSubReplies;
-    }
-
-    const callbackData = {
-      replyId: lastReplyId,
-      replyIds: lastReplyIds,
-      props,
-      clearConversation,
-      topicName: lastTopicToMatch,
-      minMatchSet,
-      string: threadsArr[0],
-      subReplies: threadsArr[1],
-      stars: lastStarSet,
-      continueMatching: lastContinueMatching,
+  matches.forEach((match) => {
+    const debugMatch = {
+      topic: match.matched_topic_string || match.topic,
+      input: match.trigger,
+      reply: match.matched_reply_string,
     };
 
-    debug.verbose('afterHandle', callbackData);
-    callback(null, callbackData);
+    if (!_.isEmpty(match.debug)) {
+      debugMatch.subset = match.debug;
+    } else {
+      debugMatch.output = match.reply.reply;
+    }
+
+    debugAll.push(debugMatch);
+
+    if (match.reply && match.reply.reply) {
+      if (replyString === '') {
+        replyString += `${match.reply.reply}`;
+      } else {
+        replyString += ` ${match.reply.reply}`;
+      }
+    }
+
+    props = _.assign(props, match.props);
+    lastTopicToMatch = match.topic;
+    lastStarSet = match.stars;
+    lastReplyId = match.reply._id;
+    lastSubReplies = match.subReplies;
+    lastContinueMatching = match.continueMatching;
+    lastReplyIds = match.replyIds;
+
+    if (match.clearConversation) {
+      clearConversation = match.clearConversation;
+    }
+  });
+
+  let threadsArr = [];
+  if (_.isEmpty(lastSubReplies)) {
+    threadsArr = processTags.processThreadTags(replyString);
+  } else {
+    threadsArr[0] = replyString;
+    threadsArr[1] = lastSubReplies;
+  }
+
+  const data = {
+    replyId: lastReplyId,
+    replyIds: lastReplyIds,
+    props,
+    clearConversation,
+    topicName: lastTopicToMatch,
+    debug: debugAll,
+    string: threadsArr[0],
+    subReplies: threadsArr[1],
+    stars: lastStarSet,
+    continueMatching: lastContinueMatching,
   };
+
+  debug.verbose('afterHandle', data);
+
+  return data;
 };
 
 export default getReply;

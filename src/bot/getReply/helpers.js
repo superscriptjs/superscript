@@ -10,8 +10,9 @@ const debug = debuglog('SS:Helpers');
 
 // This will find all the gambits to process by parent (topic or conversation)
 // and return ones that match the message
-const findMatchingGambitsForMessage = async function findMatchingGambitsForMessage(chatSystem, type, id, message, options) {
+const findMatchingGambitsForMessage = async function findMatchingGambitsForMessage(type, id, message, options) {
   let gambitsParent = {};
+  const chatSystem = options.system.chatSystem;
 
   if (type === 'topic') {
     debug.verbose('Looking back Topic', id);
@@ -113,12 +114,8 @@ export const doesMatch = async function doesMatch(gambit, message, options) {
 
   let match = false;
 
-  const regexp = await new Promise((resolve) => {
-    // Replace <noun1>, <adverb1> etc. with the actual words in user message
-    postParse(gambit.trigger, message, options.user, (regexp) => {
-      resolve(regexp);
-    });
-  });
+  // Replace <noun1>, <adverb1> etc. with the actual words in user message
+  const regexp = postParse(gambit.trigger, message, options.user);
 
   const pattern = new RegExp(`^${regexp}$`, 'i');
 
@@ -144,7 +141,7 @@ export const doesMatch = async function doesMatch(gambit, message, options) {
   return match;
 };
 
-// This only exists for testing, ideally we should get rid of this
+// TODO: This only exists for testing, ideally we should get rid of this
 export const doesMatchTopic = async function doesMatchTopic(topicName, message, options) {
   const topic = await options.chatSystem.Topic.findOne({ name: topicName }, 'gambits')
     .populate('gambits');

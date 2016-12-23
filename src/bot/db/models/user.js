@@ -73,7 +73,7 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
       user_id: this.id,
       raw_input: msg.original,
       normalized_input: msg.clean,
-      matched_gambit: replyObj.minMatchSet,
+      matched_gambit: replyObj.debug,
       final_output: reply.clean,
       timestamp: msg.createdAt,
     };

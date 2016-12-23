@@ -14,9 +14,9 @@ const inputReplyRE = /<(input|reply)([1-9])?>/g;
  *
  * This function contains the user object so it may be contextual to this user.
  */
-const postParse = function postParse(regexp, message, user, callback) {
+const postParse = function postParse(regexp, message, user) {
   if (_.isNull(regexp)) {
-    return callback(null);
+    return null;
   }
 
   regexp = regexp.replace(searchRE, (match, p1, p2) => {
@@ -55,7 +55,7 @@ const postParse = function postParse(regexp, message, user, callback) {
     });
   }
 
-  return callback(regexp);
+  return regexp;
 };
 
 export default postParse;
