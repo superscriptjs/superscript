@@ -149,11 +149,6 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
 
   // In some edge cases, replies were not being populated...
   // Let's do it here
-  const gambitExpanded = await system.chatSystem.Gambit.findById(match.gambit._id)
-    .populate('replies');
-
-  match.gambit = gambitExpanded;
-
   const topic = await helpers.getRootTopic(match.gambit, system.chatSystem);
 
   let stars = match.stars;

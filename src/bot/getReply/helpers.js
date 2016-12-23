@@ -27,24 +27,16 @@ const findMatchingGambitsForMessage = async function findMatchingGambitsForMessa
     throw new Error('We should never get here');
   }
 
-  const matches = await new Promise((resolve, reject) => {
-    async.map(gambitsParent.gambits, eachGambitHandle(message, options), (err3, matches) => {
-      resolve(matches);
-    });
-  });
-
-/*
   const matches = await Promise.all(gambitsParent.gambits.map(async (gambit) => {
     const match = await eachGambitHandle(gambit, message, options);
     return match;
   }));
-  */
 
   return _.flatten(matches);
 };
 
 
-const processStars = function processStars(match, gambit, topic, cb) {
+const processStars = function processStars(match, gambit, topic) {
   debug.verbose(`Match found: ${gambit.input} in topic: ${topic}`);
   const stars = [];
   if (match.length > 1) {
@@ -64,7 +56,7 @@ const processStars = function processStars(match, gambit, topic, cb) {
   }
 
   const matches = [data];
-  cb(null, matches);
+  return matches;
 };
 
 /* This is a function to determine whether a certain key has been set to a certain value.
@@ -153,85 +145,64 @@ export const doesMatchTopic = async function doesMatchTopic(topicName, message, 
 };
 
 // This is the main function that looks for a matching entry
-const eachGambitHandle = function eachGambitHandle(message, options) {
-  // This takes a gambit that is a child of a topic or reply and checks if
-  // it matches the user's message or not.
-  return (gambit, callback) => {
-    const plugins = options.system.plugins;
-    const scope = options.system.scope;
-    const topic = options.topic || 'reply';
-    const chatSystem = options.system.chatSystem;
+// This takes a gambit that is a child of a topic or reply and checks if
+// it matches the user's message or not.
+const eachGambitHandle = async function eachGambitHandle(gambit, message, options) {
+  const plugins = options.system.plugins;
+  const scope = options.system.scope;
+  const topic = options.topic || 'reply';
+  const chatSystem = options.system.chatSystem;
 
-    doesMatch(gambit, message, options).then((match) => {
-      if (!match) {
-        debug.verbose('Gambit trigger does not match input.');
-        return callback(null, []);
-      }
+  const match = await doesMatch(gambit, message, options);
+  if (!match) {
+    debug.verbose('Gambit trigger does not match input.');
+    return [];
+  }
 
-      // A filter is syntax that calls a plugin function such as:
-      // - {^functionX(true)} Yes, you are.
-      if (gambit.filter) {
-        debug.verbose(`We have a filter function: ${gambit.filter}`);
+  // A filter is syntax that calls a plugin function such as:
+  // - {^functionX(true)} Yes, you are.
+  if (gambit.filter) {
+    debug.verbose(`We have a filter function: ${gambit.filter}`);
 
-        // The filterScope is what 'this' is during the execution of the plugin.
-        // This is so you can write plugins that can access, e.g. this.user or this.chatSystem
-        // Here we augment the global scope (system.scope) with any additional local scope for
-        // the current reply.
-        const filterScope = _.merge({}, scope);
-        filterScope.message = message;
-        // filterScope.message_props = options.localOptions.messageScope;
-        filterScope.user = options.user;
+    // The filterScope is what 'this' is during the execution of the plugin.
+    // This is so you can write plugins that can access, e.g. this.user or this.chatSystem
+    // Here we augment the global scope (system.scope) with any additional local scope for
+    // the current reply.
+    const filterScope = _.merge({}, scope);
+    filterScope.message = message;
+    // filterScope.message_props = options.localOptions.messageScope;
+    filterScope.user = options.user;
 
+    let filterReply;
+    try {
+      filterReply = await new Promise((resolve, reject) => {
         Utils.runPluginFunc(gambit.filter, filterScope, plugins, (err, filterReply) => {
-          if (err) {
-            console.error(err);
-            return callback(null, []);
-          }
-
-          debug.verbose(`Reply from filter function was: ${filterReply}`);
-
-          if (filterReply === 'true' || filterReply === true) {
-            if (gambit.redirect !== '') {
-              debug.verbose('Found Redirect Match with topic %s', topic);
-              chatSystem.Topic.findTriggerByTrigger(gambit.redirect, (err2, trigger) => {
-                if (err2) {
-                  console.error(err2);
-                }
-
-                gambit = trigger;
-                callback(null, []);
-              });
-            } else {
-              // Tag the message with the found Trigger we matched on
-              message.gambitId = gambit._id;
-              processStars(match, gambit, topic, callback);
-            }
-          } else {
-            callback(null, []);
-          }
+          err ? reject(err) : resolve(filterReply);
         });
-      } else if (gambit.redirect !== '') {
-          // If there's no filter, check if there's a redirect
-          // TODO: Check this works/is sane
-        debug.verbose('Found Redirect Match with topic');
-        chatSystem.Topic.findTriggerByTrigger(gambit.redirect, (err, trigger) => {
-          if (err) {
-            console.log(err);
-          }
+      });
+    } catch (err) {
+      return [];
+    }
 
-          debug.verbose('Redirecting to New Gambit', trigger);
-          gambit = trigger;
-            // Tag the message with the found Trigger we matched on
-          message.gambitId = gambit._id;
-          processStars(match, gambit, topic, callback);
-        });
-      } else {
-          // Tag the message with the found Trigger we matched on
-        message.gambitId = gambit._id;
-        processStars(match, gambit, topic, callback);
-      }
-    }); // end regexReply
-  };
+    debug.verbose(`Reply from filter function was: ${filterReply}`);
+
+    if (filterReply !== 'true' && filterReply !== true) {
+      debug.verbose('Gambit is not matched since the filter function returned false');
+      return [];
+    }
+  }
+
+  if (gambit.redirect !== '') {
+    debug.verbose('Gambit has a redirect', topic);
+    // FIXME: ensure this works
+    const redirectedGambit = await chatSystem.Gambit.findOne({ input: gambit.redirect })
+      .populate({ path: 'replies' });
+    return processStars(match, redirectedGambit, topic);
+  }
+
+  // Tag the message with the found Trigger we matched on
+  message.gambitId = gambit._id;
+  return processStars(match, gambit, topic);
 };
 
 const walkGambitParent = async function walkGambitParent(gambitId, chatSystem) {

@@ -103,11 +103,6 @@ const createTopicModel = function createTopicModel(db) {
     });
   };
 
-  // This will find a gambit in any topic
-  topicSchema.statics.findTriggerByTrigger = function (input, callback) {
-    db.model(modelNames.gambit).byTenant(this.getTenantId()).findOne({ input }).exec(callback);
-  };
-
   topicSchema.statics.findByName = function (name, callback) {
     this.findOne({ name }, {}, callback);
   };
