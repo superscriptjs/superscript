@@ -3,6 +3,7 @@
 import mocha from 'mocha';
 import should from 'should/as-function';
 import helpers from './helpers';
+import { findPendingTopicsForUser } from '../src/bot/getReply/getPendingTopics';
 
 describe('SuperScript Topics', () => {
   before(helpers.before('topicflags'));
@@ -11,14 +12,13 @@ describe('SuperScript Topics', () => {
     // The length of this should equal five (at present): this excludes system topics which
     // are not searched by default, and includes the random topic (it always does).
     it('should fetch a list of topics', (done) => {
-      helpers.getBot().findOrCreateUser('user1', (err, user) => {
+      helpers.getBot().findOrCreateUser('user1', async (err, user) => {
         const message = { lemString: 'hello world' };
 
-        helpers.getBot().chatSystem.Topic.findPendingTopicsForUser(user, message, (e, topics) => {
-          should(topics).not.be.empty;
-          should(topics).have.length(6);
-          done();
-        });
+        const topics = await findPendingTopicsForUser(user, message, helpers.getBot().chatSystem);
+        should(topics).not.be.empty;
+        should(topics).have.length(6);
+        done();
       });
     });
 

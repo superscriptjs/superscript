@@ -1,8 +1,6 @@
-import fs from 'fs';
 import _ from 'lodash';
 import debuglog from 'debug-levels';
 import findOrCreate from 'mongoose-findorcreate';
-import mkdirp from 'mkdirp';
 import mongoose from 'mongoose';
 import mongoTenant from 'mongo-tenant';
 
@@ -73,7 +71,7 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
       user_id: this.id,
       raw_input: msg.original,
       normalized_input: msg.clean,
-      matched_gambit: replyObj.minMatchSet,
+      matched_gambit: replyObj.debug,
       final_output: reply.clean,
       timestamp: msg.createdAt,
     };

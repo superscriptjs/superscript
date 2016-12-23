@@ -222,7 +222,7 @@ const postAugment = function postAugment(replyObject, tag, callback) {
       }
     }
 
-    replyObject.minMatchSet = augmentedReplyObject.minMatchSet;
+    replyObject.debug = augmentedReplyObject.debug;
     return callback(null, augmentedReplyObject.string);
   };
 };

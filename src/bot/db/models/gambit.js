@@ -11,7 +11,6 @@ import async from 'async';
 import parser from 'ss-parser';
 
 import modelNames from '../modelNames';
-import helpers from '../helpers';
 import Utils from '../../utils';
 
 const debug = debuglog('SS:Gambit');
@@ -46,10 +45,10 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     replies: [{ type: String, ref: modelNames.reply }],
 
     // How we choose gambits can be `random` or `ordered`
-    reply_order: { type: String, default: 'random'},
+    reply_order: { type: String, default: 'random' },
 
     // How we handle the reply exhaustion can be `keep` or `exhaust`
-    reply_exhaustion: { type: String, default: 'exhaust'},
+    reply_exhaustion: { type: String, default: 'exhaust' },
 
     // Save a reference to the parent Reply, so we can walk back up the tree
     parent: { type: String, ref: modelNames.reply },
@@ -96,10 +95,6 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     });
   };
 
-  gambitSchema.methods.doesMatch = function (message, options, callback) {
-    helpers.doesMatch(this, message, options, callback);
-  };
-
   gambitSchema.methods.clearReplies = function (callback) {
     const self = this;
 
@@ -121,35 +116,6 @@ const createGambitModel = function createGambitModel(db, factSystem) {
         callback(err2, clearedReplies);
       });
     });
-  };
-
-  gambitSchema.methods.getRootTopic = function (cb) {
-    if (!this.parent) {
-      db.model(modelNames.topic).byTenant(this.getTenantId())
-        .findOne({ gambits: { $in: [this._id] } })
-        .exec((err, doc) => {
-          cb(err, doc);
-        });
-    } else {
-      helpers.walkGambitParent(db, this.getTenantId(), this._id, (err, gambits) => {
-        if (gambits.length !== 0) {
-          db.model(modelNames.topic).byTenant(this.getTenantId())
-            .findOne({ gambits: { $in: [gambits.pop()] } })
-            .exec((err, topic) => {
-              cb(null, topic);
-            }
-          );
-        } else {
-          // Fallback to Random Topic
-          db.model(modelNames.topic).byTenant(this.getTenantId())
-            .findOne({name: 'random'})
-            .exec((err, topic) => {
-              cb(null, topic);
-            }
-          );
-        }
-      });
-    }
   };
 
   gambitSchema.plugin(findOrCreate);
