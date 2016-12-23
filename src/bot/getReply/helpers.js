@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import async from 'async';
 import debuglog from 'debug-levels';
 import safeEval from 'safe-eval';
 

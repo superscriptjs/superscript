@@ -147,8 +147,6 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
 
   debug.verbose('Match itor: ', match.gambit);
 
-  // In some edge cases, replies were not being populated...
-  // Let's do it here
   const topic = await helpers.getRootTopic(match.gambit, system.chatSystem);
 
   let stars = match.stars;
