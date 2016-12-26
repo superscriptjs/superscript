@@ -172,30 +172,47 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
     potentialReplies.push(replyData);
   }
 
-  const replyOptions = {
-    gambitKeep: match.gambit.reply_exhaustion,
-    topicKeep: topic.reply_exhaustion,
-    order: match.gambit.reply_order,
-  };
-
   // Find a reply for the match.
-  let filtered = await filterRepliesByFunction({ potentialReplies, replyOptions }, options);
-  filtered = await filterRepliesBySeen({ filteredReplies: filtered, replyOptions }, options);
+  let filtered = await filterRepliesByFunction(potentialReplies, options);
+  filtered = await filterRepliesBySeen(filtered, options);
 
-  const pickScheme = replyOptions.order;
-  const keepScheme = options.system.defaultKeepScheme;
+  const pickScheme = match.gambit.reply_order;
 
-  debug.verbose('Bucket of selected replies: ', filtered);
   debug.verbose('Pick Scheme:', pickScheme);
 
-  if (!_.isEmpty(filtered)) {
-    const picked = (pickScheme === 'ordered') ? filtered.shift() : Utils.pickItem(filtered);
-    return processReplyTags(picked, options);
-  } else if (_.isEmpty(filtered) && keepScheme === 'reload') {
-    return processReplyTags(Utils.pickItem(potentialReplies), options);
+  debug.verbose("Default Keep", options.system.defaultKeepScheme);
+  debug.verbose("Topic Keep", topic.reply_exhaustion);
+  debug.verbose("Gambit Keep", match.gambit.reply_exhaustion);
+
+  const keepScheme = (match.gambit.reply_exhaustion)
+    ? match.gambit.reply_exhaustion
+    : (topic.reply_exhaustion)
+      ? topic.reply_exhaustion
+      : options.system.defaultKeepScheme;
+
+  let filteredNew = [];
+  debug.verbose("Using KeepScheme", keepScheme);
+
+  if (keepScheme === "exhaust" || keepScheme === "reload") {
+    filteredNew = _.filter(filtered, function(reply) {
+      return reply.seenCount === 0 || reply.reply.keep
+    });
   }
 
-  return null;
+  // We reload the replies if we have nothing else to show.
+  if (keepScheme === "reload" && _.isEmpty(filteredNew)) {
+    debug.verbose("Reloading Replies");
+    filteredNew = filtered;
+  } else if (keepScheme === "keep") {
+    filteredNew = filtered;
+  }
+
+  // Orderd or Random
+  const picked = (pickScheme === 'ordered') ? filteredNew.shift() : Utils.pickItem(filteredNew);
+
+  // If we have an item lets use it, otherwise retutn null and keep matching.
+  debug.verbose("Picked", picked);
+  return picked ? processReplyTags(picked, options) : null;
 };
 
 const afterHandle = function afterHandle(matches) {

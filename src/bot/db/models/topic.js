@@ -17,8 +17,6 @@ const debug = debuglog('SS:Topics');
 const createTopicModel = function createTopicModel(db) {
   const topicSchema = new mongoose.Schema({
     name: { type: String, index: true, unique: true },
-    // Depricated
-    // keep: { type: Boolean, default: false },
 
     system: { type: Boolean, default: false },
     nostay: { type: Boolean, default: false },
@@ -29,7 +27,7 @@ const createTopicModel = function createTopicModel(db) {
     reply_order: { type: String, default: 'random' },
 
     // How we handle the reply exhaustion can be `keep` or `exhaust`
-    reply_exhaustion: { type: String, default: 'exhaust' },
+    reply_exhaustion: { type: String },
 
     gambits: [{ type: String, ref: modelNames.gambit }],
   });

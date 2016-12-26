@@ -30,7 +30,7 @@ describe('SuperScript Replies', () => {
       });
     });
 
-    describe.skip('ordered', () => {
+    describe('ordered', () => {
       it('should exaused replies orderedly', (done) => {
         var data = (new Array(4)).fill('test exhaust ordered');
         async.mapSeries(data, itor('us4'), (err, replies1) => {
@@ -66,13 +66,12 @@ describe('SuperScript Replies', () => {
     });
   });
 
-  describe.skip('replies reload', () => {
+  describe('replies reload', () => {
     describe('random', () => {
       it('should reload replies randomly', (done) => {
-        var data = (new Array(4)).fill('test reload random');
+        var data = (new Array(7)).fill('test reload random');
         async.mapSeries(data, itor('us5'), (err, replies1) => {
           async.mapSeries(data, itor('us6'), (err, replies2) => {
-            console.log(replies1, replies1)
             should.notDeepEqual(replies1, replies2);
             should.notEqual(replies1[3], '');
             should.notEqual(replies2[3], '');
@@ -86,7 +85,7 @@ describe('SuperScript Replies', () => {
       it('should reload replies orderedly', (done) => {
         var data = (new Array(4)).fill('test reload ordered');
         async.mapSeries(data, itor('us4'), (err, replies1) => {
-          should(replies1).deepEqual(['reply one', 'reply one', 'reply one', 'reply one']);
+          should(replies1).deepEqual(['reply one', 'reply two', 'reply three', 'reply one']);
           done();
         });
       });

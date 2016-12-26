@@ -48,7 +48,7 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     reply_order: { type: String, default: 'random' },
 
     // How we handle the reply exhaustion can be `keep` or `exhaust`
-    reply_exhaustion: { type: String, default: 'exhaust' },
+    reply_exhaustion: { type: String },
 
     // Save a reference to the parent Reply, so we can walk back up the tree
     parent: { type: String, ref: modelNames.reply },

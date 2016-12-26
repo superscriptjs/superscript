@@ -6,9 +6,7 @@ import Utils from '../utils';
 
 const debug = debuglog('SS:FilterFunction');
 
-// replyData = {potentialReplies, replyOptions}
-const filterRepliesByFunction = async function filterRepliesByFunction(replyData, options) {
-  let potentialReplies = replyData.potentialReplies;
+const filterRepliesByFunction = async function filterRepliesByFunction(potentialReplies, options) {
 
   const bits = await Promise.all(potentialReplies.map(async (potentialReply) => {
     const system = options.system;
