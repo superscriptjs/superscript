@@ -59,8 +59,30 @@ const get = function get(key, cb) {
   });
 };
 
+// Query SV return O and if that failes query OV return S
+const queryUserFact = function queryUserFact(subject, verb, cb) {
+  var subject = subject.replace(/\s/g,"_").toLowerCase();
+  var memory = this.user.memory;
+  memory.db.get({subject:subject, predicate:verb}, function(err, result){
+    if (!_.isEmpty(result)) {
+      cb(null, result[0].object);
+    } else {
+      memory.db.get({object:subject, predicate:verb}, function(err, result){
+        if (!_.isEmpty(result)) {
+          cb(null, result[0].subject);
+        } else {
+          cb(null,"");
+        }
+      });
+    }
+  });
+}
+
 const createUserFact = function createUserFact(subject, predicate, object, cb) {
   const memory = this.user.memory;
+
+  var subject = subject.replace(/\s/g,"_").toLowerCase();
+  var object = object.replace(/\s/g,"_").toLowerCase();
 
   memory.db.get({ subject, predicate, object }, (err, results) => {
     if (!_.isEmpty(results)) {
@@ -101,6 +123,7 @@ const inTopic = function inTopic(topic, cb) {
 
 export default {
   createUserFact,
+  queryUserFact,
   get,
   hasItem,
   inTopic,
