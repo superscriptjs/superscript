@@ -136,7 +136,7 @@ export const findPendingTopicsForUser = async function findPendingTopicsForUser(
 
   pendingTopics.push({ name: '__post__', type: 'TOPIC' });
 
-  debug.verbose(`Pending topics before conversations: ${JSON.stringify(pendingTopics)}`);
+  debug.verbose(`Pending topics before conversations: ${JSON.stringify(pendingTopics, null, 2)}`);
 
   // Lets assign the ids to the topics
   for (let i = 0; i < pendingTopics.length; i++) {

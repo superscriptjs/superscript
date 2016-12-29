@@ -154,7 +154,6 @@ const eachGambitHandle = async function eachGambitHandle(gambit, message, option
 
   const match = await doesMatch(gambit, message, options);
   if (!match) {
-    debug.verbose('Gambit trigger does not match input.');
     return [];
   }
 

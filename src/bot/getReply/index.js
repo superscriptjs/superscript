@@ -178,6 +178,7 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
 
   const pickScheme = match.gambit.reply_order;
 
+  debug.verbose('Filtered Results', filtered);
   debug.verbose('Pick Scheme:', pickScheme);
 
   debug.verbose("Default Keep", options.system.defaultKeepScheme);

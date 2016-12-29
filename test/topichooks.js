@@ -11,6 +11,7 @@ describe('SuperScript Topic Hooks', () => {
   describe('Pre/Post Topic Hooks', () => {
     it('pre topic should be called', (done) => {
       helpers.getBot().chatSystem.Topic.findOne({ name: '__pre__' }, (err, res) => {
+        should(res.reply_exhaustion).eql('keep');
         should(res.gambits).have.length(1);
         done();
       });
@@ -18,6 +19,7 @@ describe('SuperScript Topic Hooks', () => {
 
     it('post topic should be called', (done) => {
       helpers.getBot().chatSystem.Topic.findOne({ name: '__post__' }, (err, res) => {
+        should(res.reply_exhaustion).eql('keep');
         should(res.gambits).have.length(1);
         done();
       });
