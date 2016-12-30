@@ -14,7 +14,7 @@ program
 fs.exists(program.output, (exists) => {
   if (!exists || program.force) {
     // TODO: Allow use of own fact system in this script
-    parser.loadDirectory(program.path, (err, result) => {
+    parser.parseDirectory(program.path, (err, result) => {
       if (err) {
         console.error(`Error parsing bot script: ${err}`);
       }

@@ -55,7 +55,7 @@ const parse = function parse(file, callback) {
   fs.exists(fileCache, (exists) => {
     if (!exists) {
       bootstrap((err, factSystem) => {
-        parser.loadDirectory(`${__dirname}/fixtures/${file}`, { factSystem }, (err, result) => {
+        parser.parseDirectory(`${__dirname}/fixtures/${file}`, { factSystem }, (err, result) => {
           if (err) {
             return callback(err);
           }
@@ -72,7 +72,7 @@ const parse = function parse(file, callback) {
           return callback(err);
         }
         const checksums = contents.checksums;
-        return parser.loadDirectory(`${__dirname}/fixtures/${file}`, { factSystem, cache: checksums }, (err, result) => {
+        return parser.parseDirectory(`${__dirname}/fixtures/${file}`, { factSystem, cache: checksums }, (err, result) => {
           if (err) {
             return callback(err);
           }

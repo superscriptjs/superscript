@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "1.0.0-alpha12",
+  "version": "1.0.0-alpha13",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "lib/bot/index.js",
   "scripts": {
@@ -39,13 +39,13 @@
   "dependencies": {
     "async": "^2.1.4",
     "commander": "^2.4.0",
-    "debug": "^2.5.1",
+    "debug": "^2.6.0",
     "debug-levels": "^0.2.0",
-    "lodash": "^4.16.5",
+    "lodash": "^4.17.3",
     "mkdirp": "^0.5.1",
     "moment": "^2.17.0",
     "mongo-tenant": "^1.0.1",
-    "mongoose": "^4.7.4",
+    "mongoose": "^4.7.5",
     "mongoose-findorcreate": "^0.1.2",
     "natural": "^0.4.0",
     "pegjs": "^0.10.0",
@@ -55,10 +55,10 @@
     "roman-numerals": "^0.3.2",
     "safe-eval": "^0.3.0",
     "sfacts": "alpha",
-    "ss-message": "^1.0.6",
+    "ss-message": "^1.0.7",
     "ss-parser": "alpha",
     "syllablistic": "^0.1.0",
-    "wordpos": "^1.1.1"
+    "wordpos": "^1.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",

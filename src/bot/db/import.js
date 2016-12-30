@@ -113,7 +113,7 @@ const importData = function importData(chatSystem, data, callback) {
       reply_exhaustion: topic.flags.keep || null,
     };
 
-    debug.verbose("Creating Topic w/ Settings", topicProperties);
+    debug.verbose('Creating Topic w/ Settings', topicProperties);
     Topic.findOrCreate({ name: topic.name }, topicProperties, (err, mongoTopic) => {
       if (err) {
         console.error(err);

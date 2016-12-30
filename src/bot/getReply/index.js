@@ -42,7 +42,13 @@ const getReply = async function getReply(messageObject, options, callback) {
   }
 
   const data = afterHandle(matches);
-  return callback(null, data);
+  // One day, everything will be async/await and everything will be happy. Until
+  // then, catch exceptions in the callback and throw them at top-level on next tick.
+  try {
+    return callback(null, data);
+  } catch (err) {
+    process.nextTick(() => { throw err; });
+  }
 };
 
 const findMatches = async function findMatches(pendingTopics, messageObject, options) {
@@ -181,30 +187,29 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
   debug.verbose('Filtered Results', filtered);
   debug.verbose('Pick Scheme:', pickScheme);
 
-  debug.verbose("Default Keep", options.system.defaultKeepScheme);
-  debug.verbose("Topic Keep", topic.reply_exhaustion);
-  debug.verbose("Gambit Keep", match.gambit.reply_exhaustion);
+  debug.verbose('Default Keep', options.system.defaultKeepScheme);
+  debug.verbose('Topic Keep', topic.reply_exhaustion);
+  debug.verbose('Gambit Keep', match.gambit.reply_exhaustion);
 
-  const keepScheme = (match.gambit.reply_exhaustion)
-    ? match.gambit.reply_exhaustion
-    : (topic.reply_exhaustion)
-      ? topic.reply_exhaustion
-      : options.system.defaultKeepScheme;
+  let keepScheme = options.system.defaultKeepScheme;
+  if (match.gambit.reply_exhaustion) {
+    keepScheme = match.gambit.reply_exhaustion;
+  } else if (topic.reply_exhaustion) {
+    keepScheme = topic.reply_exhaustion;
+  }
 
   let filteredNew = [];
-  debug.verbose("Using KeepScheme", keepScheme);
+  debug.verbose('Using KeepScheme', keepScheme);
 
-  if (keepScheme === "exhaust" || keepScheme === "reload") {
-    filteredNew = _.filter(filtered, function(reply) {
-      return reply.seenCount === 0 || reply.reply.keep
-    });
+  if (keepScheme === 'exhaust' || keepScheme === 'reload') {
+    filteredNew = _.filter(filtered, reply => reply.seenCount === 0 || reply.reply.keep);
   }
 
   // We reload the replies if we have nothing else to show.
-  if (keepScheme === "reload" && _.isEmpty(filteredNew)) {
-    debug.verbose("Reloading Replies");
+  if (keepScheme === 'reload' && _.isEmpty(filteredNew)) {
+    debug.verbose('Reloading Replies');
     filteredNew = filtered;
-  } else if (keepScheme === "keep") {
+  } else if (keepScheme === 'keep') {
     filteredNew = filtered;
   }
 
@@ -212,7 +217,7 @@ const matchItorHandle = async function matchItorHandle(match, message, options) 
   const picked = (pickScheme === 'ordered') ? filteredNew.shift() : Utils.pickItem(filteredNew);
 
   // If we have an item lets use it, otherwise retutn null and keep matching.
-  debug.verbose("Picked", picked);
+  debug.verbose('Picked', picked);
   return picked ? processReplyTags(picked, options) : null;
 };
 
