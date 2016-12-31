@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import program from 'commander';
-import SuperScript from '../bot';
+import superscript from '../bot';
 
 program
   .version('1.0.0')
@@ -26,7 +26,7 @@ const options = {
   importFile: program.importFile,
 };
 
-SuperScript(options, (err) => {
+superscript.setup(options, (err) => {
   if (err) {
     console.error(err);
   }
