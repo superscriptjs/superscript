@@ -112,19 +112,15 @@ const topicItorHandle = async function topicItorHandle(topicData, messageObject,
         filterScope.topic = topic;
         filterScope.message_props = options.system.extraScope;
 
-        return await new Promise((resolve, reject) => {
-          Utils.runPluginFunc(topic.filter, filterScope, system.plugins, async (err, filterReply) => {
-            if (err) {
-              return reject(err);
-            }
-            if (filterReply === 'true' || filterReply === true) {
-              return resolve(false);
-            }
-            options.topic = topic.name;
-            const gambits = await helpers.findMatchingGambitsForMessage('topic', topic._id, messageObject, options);
-            resolve(gambits);
-          });
-        });
+        try {
+          const [filterReply] = await Utils.runPluginFunc(topic.filter, filterScope, system.plugins);
+          if (filterReply === 'true' || filterReply === true) {
+            return false;
+          }
+        } catch (err) {
+          console.error(err);
+          return false;
+        }
       }
 
       options.topic = topic.name;

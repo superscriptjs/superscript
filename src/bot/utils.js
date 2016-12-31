@@ -69,7 +69,7 @@ const replaceCapturedText = (strings, caps) => strings
       .filter(s => !_.isEmpty(s))
       .map(s => s.replace(regexes.captures, (m, p1) => caps[Number.parseInt(p1 || 1)]));
 
-const runPluginFunc = function runPluginFunc(functionRegex, scope, plugins, callback) {
+const runPluginFunc = async function runPluginFunc(functionRegex, scope, plugins) {
   const pluginFunction = functionRegex.match(regexes.filter);
   const functionName = pluginFunction[1];
   const functionArgs = pluginFunction[2];
@@ -77,20 +77,23 @@ const runPluginFunc = function runPluginFunc(functionRegex, scope, plugins, call
   debug.verbose(`Running plugin function with name: ${functionName}`);
 
   if (!plugins[functionName]) {
-    return callback(`Plugin function not found: ${functionName}`);
+    throw new Error(`Plugin function not found: ${functionName}`);
   }
 
   let cleanArgs = null;
   try {
     cleanArgs = safeEval(`[${functionArgs}]`);
   } catch (err) {
-    return callback(`Error in plugin function arguments: ${err}`);
+    throw new Error(`Error in plugin function arguments: ${err}`);
   }
 
-  cleanArgs.push(callback);
-
-  debug.verbose(`Calling plugin function: ${functionName} with args: ${cleanArgs}`);
-  return plugins[functionName].apply(scope, cleanArgs);
+  return await new Promise((resolve, reject) => {
+    cleanArgs.push((err, ...args) => {
+      err ? reject(err) : resolve(args);
+    });
+    debug.verbose(`Calling plugin function: ${functionName} with args: ${cleanArgs}`);
+    plugins[functionName].apply(scope, cleanArgs);
+  });
 };
 
 export default {

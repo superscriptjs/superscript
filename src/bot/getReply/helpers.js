@@ -173,12 +173,9 @@ const eachGambitHandle = async function eachGambitHandle(gambit, message, option
 
     let filterReply;
     try {
-      filterReply = await new Promise((resolve, reject) => {
-        Utils.runPluginFunc(gambit.filter, filterScope, plugins, (err, filterReply) => {
-          err ? reject(err) : resolve(filterReply);
-        });
-      });
+      [filterReply] = await Utils.runPluginFunc(gambit.filter, filterScope, plugins);
     } catch (err) {
+      console.error(err);
       return [];
     }
 
