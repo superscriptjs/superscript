@@ -115,7 +115,7 @@ const processPreviousInput = function processPreviousInput(tag, replyObj, option
     // Nothing yet in the history
     replacedInput = '';
   } else {
-    replacedInput = options.user.history.input[inputID].clean;
+    replacedInput = options.user.history.input[inputID].original;
   }
   debug.verbose(`Replacing <input${inputID + 1}> with "${replacedInput}"`);
   return callback(null, replacedInput);

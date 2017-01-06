@@ -51,7 +51,7 @@ const postParse = function postParse(regexp, message, user) {
     const history = user.history;
     regexp = regexp.replace(inputReplyRE, (match, p1, p2) => {
       const index = p2 ? Number.parseInt(p2) : 0;
-      return history[p1][index] ? history[p1][index].raw : match;
+      return history[p1][index] ? history[p1][index].original : match;
     });
   }
 

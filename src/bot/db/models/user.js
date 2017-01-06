@@ -15,10 +15,7 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
     currentTopic: String,
     pendingTopic: String,
     lastMessageSentAt: Date,
-    volley: Number,
-    rally: Number,
     prevAns: Number,
-    conversation: Number,
     conversationState: Object,
     history: {
       input: [],
@@ -78,24 +75,20 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
     const cleanId = this.id.replace(/\W/g, '');
     logger.log(`${JSON.stringify(log)}\r\n`, `${cleanId}_trans.txt`);
 
-    this.conversation = this.conversation + 1;
-
     debug.verbose('Updating History');
-    message.messageScope = null;
 
     const stars = reply.stars;
 
-    // Don't serialize some superfluous stuff to Mongo
-    message.factSystem = null;
-    message.plugins = null;
-    message.nlp = null;
+    const messageToSave = {
+      original: message.original,
+      clean: message.clean,
+      timestamp: message.createdAt,
+    };
 
     reply.createdAt = Date.now();
 
-    console.log(reply);
-
     this.history.stars.unshift(stars);
-    this.history.input.unshift(message);
+    this.history.input.unshift(messageToSave);
     this.history.reply.unshift(reply);
     this.history.topic.unshift(this.currentTopic);
 

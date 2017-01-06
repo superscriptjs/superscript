@@ -52,8 +52,6 @@ class SuperScript {
       currentTopic: 'random',
       status: 0,
       conversation: 0,
-      volley: 0,
-      rally: 0,
     };
 
     this.chatSystem.User.findOrCreate(findProps, createProps, callback);
