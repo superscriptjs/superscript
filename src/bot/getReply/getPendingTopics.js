@@ -46,20 +46,21 @@ const findConversationTopics = async function findConversationTopics(pendingTopi
     // TODO: Make this time configurable
     const delta = new Date() - lastReply.createdAt;
     if (delta <= 1000 * 300) {
-      const replyId = lastReply.replyId;
-      const clearConversation = lastReply.clearConversation;
-      if (clearConversation === true) {
-        debug.verbose('Conversation RESET by clearBit');
-        return removeMissingTopics(pendingTopics);
+      debug.verbose(`Last reply string: ${lastReply.original}`);
+      debug.verbose(`Last reply sequence: ${lastReply.replyIds}`);
+      debug.verbose(`Clear conversation: ${lastReply.clearConversation}`);
+
+      if (lastReply.clearConversation) {
+        debug.verbose('Conversation RESET since clearConversation was true');
+        return pendingTopics;
       }
 
       const replies = await chatSystem.Reply.find({ _id: { $in: lastReply.replyIds } });
       if (replies === []) {
         debug.verbose("We couldn't match the last reply. Continuing.");
-        return removeMissingTopics(pendingTopics);
+        return pendingTopics;
       }
 
-      debug.verbose('Last reply: ', lastReply.original, replyId, clearConversation);
       let replyThreads = [];
 
       await Promise.all(replies.map(async (reply) => {
@@ -71,13 +72,13 @@ const findConversationTopics = async function findConversationTopics(pendingTopi
       replyThreads = replyThreads.map(item => ({ id: item, type: 'REPLY' }));
       // This inserts the array replyThreads into pendingTopics after the first topic
       pendingTopics.splice(1, 0, ...replyThreads);
-      return removeMissingTopics(pendingTopics);
+      return pendingTopics;
     }
 
     debug.info('The conversation thread was to old to continue it.');
-    return removeMissingTopics(pendingTopics);
+    return pendingTopics;
   }
-  return removeMissingTopics(pendingTopics);
+  return pendingTopics;
 };
 
 export const findPendingTopicsForUser = async function findPendingTopicsForUser(user, message, chatSystem) {
@@ -148,7 +149,8 @@ export const findPendingTopicsForUser = async function findPendingTopicsForUser(
     }
   }
 
-  return findConversationTopics(pendingTopics, user, chatSystem);
+  const allFoundTopics = await findConversationTopics(pendingTopics, user, chatSystem);
+  return removeMissingTopics(allFoundTopics);
 };
 
 const getPendingTopics = async function getPendingTopics(messageObject, options) {

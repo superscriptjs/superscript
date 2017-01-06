@@ -136,43 +136,28 @@ class SuperScript {
           }
 
           getReply(messageObject, options, (err, replyObj) => {
-            // Convert the reply into a message object too.
-            let replyMessage = '';
-            const messageOptions = {
-              factSystem: system.factSystem,
-            };
-
-            if (replyObj) {
-              messageOptions.replyId = replyObj.replyId;
-              replyMessage = replyObj.string;
-
-              if (replyObj.clearConversation) {
-                messageOptions.clearConversation = replyObj.clearConversation;
-              }
-            } else {
+            if (!replyObj) {
               replyObj = {};
               console.log('There was no response matched.');
             }
 
-            Message.createMessage(replyMessage, messageOptions, (err, replyMessageObject) => {
-              user.updateHistory(messageObject, replyMessageObject, replyObj, (err, log) => {
-                // We send back a smaller message object to the clients.
-                const clientObject = {
-                  replyId: replyObj.replyId,
-                  createdAt: replyMessageObject.createdAt || new Date(),
-                  string: replyMessage || '',
-                  topicName: replyObj.topicName,
-                  subReplies: replyObj.subReplies,
-                  debug: log,
-                };
+            user.updateHistory(messageObject, replyObj, (err, log) => {
+              // We send back a smaller message object to the clients.
+              const clientObject = {
+                replyId: replyObj.replyId,
+                createdAt: Date.now(),
+                string: replyObj.string || '',
+                topicName: replyObj.topicName,
+                subReplies: replyObj.subReplies,
+                debug: log,
+              };
 
-                const newClientObject = _.merge(clientObject, replyObj.props || {});
+              const newClientObject = _.merge(clientObject, replyObj.props || {});
 
-                debug.verbose("Update and Reply to user '%s'", user.id, replyObj.string);
-                debug.info("[ Final Reply - '%s']- '%s'", user.id, replyObj.string);
+              debug.verbose("Update and Reply to user '%s'", user.id, replyObj.string);
+              debug.info("[ Final Reply - '%s']- '%s'", user.id, replyObj.string);
 
-                return callback(err, newClientObject);
-              });
+              return callback(err, newClientObject);
             });
           });
         });

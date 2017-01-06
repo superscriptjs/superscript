@@ -120,7 +120,7 @@ export const doesMatch = async function doesMatch(gambit, message, options) {
     if (!match) {
       match = message.lemString.match(pattern);
     }
-  } else if (gambit.isQuestion === false || gambit.isQuestion === null) {
+  } else if (!gambit.isQuestion) {
     match = message.clean.match(pattern);
     if (!match) {
       match = message.lemString.match(pattern);

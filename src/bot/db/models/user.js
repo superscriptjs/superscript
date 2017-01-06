@@ -61,54 +61,41 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
     return this.currentTopic;
   };
 
-  userSchema.methods.updateHistory = function (msg, reply, replyObj, cb) {
-    if (!_.isNull(msg)) {
-      this.lastMessageSentAt = new Date();
+  userSchema.methods.updateHistory = function (message, reply, cb) {
+    if (!_.isNull(message)) {
+      this.lastMessageSentAt = Date.now();
     }
 
-    // New Log format.
     const log = {
       user_id: this.id,
-      raw_input: msg.original,
-      normalized_input: msg.clean,
-      matched_gambit: replyObj.debug,
-      final_output: reply.clean,
-      timestamp: msg.createdAt,
+      raw_input: message.original,
+      normalized_input: message.clean,
+      matched_gambit: reply.debug,
+      final_output: reply.original,
+      timestamp: message.createdAt,
     };
 
     const cleanId = this.id.replace(/\W/g, '');
     logger.log(`${JSON.stringify(log)}\r\n`, `${cleanId}_trans.txt`);
 
-    // Did we successfully volley?
-    // In order to keep the conversation flowing we need to have rythum and this means we always
-    // need to continue to engage.
-    if (reply.isQuestion) {
-      this.volley = 1;
-      this.rally = this.rally + 1;
-    } else {
-      // We killed the rally
-      this.volley = 0;
-      this.rally = 0;
-    }
-
     this.conversation = this.conversation + 1;
 
     debug.verbose('Updating History');
-    msg.messageScope = null;
+    message.messageScope = null;
 
-    const stars = replyObj.stars;
+    const stars = reply.stars;
 
     // Don't serialize some superfluous stuff to Mongo
-    msg.factSystem = null;
-    msg.plugins = null;
-    msg.nlp = null;
-    reply.factSystem = null;
-    reply.plugins = null;
-    reply.nlp = null;
-    reply.replyIds = replyObj.replyIds;
+    message.factSystem = null;
+    message.plugins = null;
+    message.nlp = null;
+
+    reply.createdAt = Date.now();
+
+    console.log(reply);
 
     this.history.stars.unshift(stars);
-    this.history.input.unshift(msg);
+    this.history.input.unshift(message);
     this.history.reply.unshift(reply);
     this.history.topic.unshift(this.currentTopic);
 
