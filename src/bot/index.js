@@ -14,7 +14,7 @@ import Logger from './logger';
 const debug = debuglog('SS:SuperScript');
 
 class SuperScript {
-  constructor(coreChatSystem, coreFactSystem, plugins, scope, editMode, tenantId = 'master') {
+  constructor(coreChatSystem, coreFactSystem, plugins, scope, editMode, conversationTimeout, tenantId = 'master') {
     this.chatSystem = coreChatSystem.getChatSystem(tenantId);
     this.factSystem = coreFactSystem.getFactSystem(tenantId);
 
@@ -28,6 +28,8 @@ class SuperScript {
     this.scope.botfacts = this.memory;
 
     this.plugins = plugins;
+    this.editMode = editMode;
+    this.conversationTimeout = conversationTimeout;
   }
 
   importFile(filePath, callback) {
@@ -108,6 +110,7 @@ class SuperScript {
       chatSystem: this.chatSystem,
       factSystem: this.factSystem,
       editMode: this.editMode,
+      conversationTimeout: this.conversationTimeout,
       defaultKeepScheme: 'exhaust',
       defaultOrderScheme: 'random',
     };
@@ -173,11 +176,11 @@ class SuperScriptInstance {
   constructor(coreChatSystem, coreFactSystem, options) {
     this.coreChatSystem = coreChatSystem;
     this.coreFactSystem = coreFactSystem;
-    this.editMode = options.editMode || false;
     this.plugins = [];
 
     // This is a kill switch for filterBySeen which is useless in the editor.
     this.editMode = options.editMode || false;
+    this.conversationTimeout = options.conversationTimeout;
     this.scope = options.scope || {};
 
     // Built-in plugins
@@ -219,6 +222,7 @@ class SuperScriptInstance {
       this.plugins,
       this.scope,
       this.editMode,
+      this.conversationTimeout,
       tenantId,
     );
   }
@@ -237,6 +241,7 @@ const defaultOptions = {
   messagePluginsPath: null,
   logPath: `${process.cwd()}/logs`,
   useMultitenancy: false,
+  conversationTimeout: 1000 * 300,
 };
 
 /**
@@ -262,6 +267,8 @@ const defaultOptions = {
  * @param {Boolean} options.useMultitenancy - If true, will return a bot instance instead
  *                  of a bot, so you can get different tenancies of a single server. Otherwise,
  *                  returns a default bot in the 'master' tenancy.
+ * @param {Number} options.conversationTimeout - The time to wait before a conversation expires,
+ *                 so you start matching from the top-level triggers.
  */
 const setup = function setup(options = {}, callback) {
   options = _.merge(defaultOptions, options);

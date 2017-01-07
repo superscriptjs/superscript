@@ -37,15 +37,14 @@ const removeMissingTopics = function removeMissingTopics(topics) {
   return _.filter(topics, topic => topic.id);
 };
 
-const findConversationTopics = async function findConversationTopics(pendingTopics, user, chatSystem) {
+const findConversationTopics = async function findConversationTopics(pendingTopics, user, chatSystem, conversationTimeout) {
   // If we are currently in a conversation, we want the entire chain added
   // to the topics to search
   const lastReply = user.history.reply[0];
   if (!_.isEmpty(lastReply)) {
-    // If the message is less than 5 minutes old we continue
-    // TODO: Make this time configurable
-    const delta = new Date() - lastReply.createdAt;
-    if (delta <= 1000 * 300) {
+    // If the message is less than _ minutes old we continue
+    const delta = Date.now() - lastReply.createdAt;
+    if (delta <= conversationTimeout) {
       debug.verbose(`Last reply string: ${lastReply.original}`);
       debug.verbose(`Last reply sequence: ${lastReply.replyIds}`);
       debug.verbose(`Clear conversation: ${lastReply.clearConversation}`);
@@ -81,7 +80,7 @@ const findConversationTopics = async function findConversationTopics(pendingTopi
   return pendingTopics;
 };
 
-export const findPendingTopicsForUser = async function findPendingTopicsForUser(user, message, chatSystem) {
+export const findPendingTopicsForUser = async function findPendingTopicsForUser(user, message, chatSystem, conversationTimeout) {
   const allTopics = await chatSystem.Topic.find({});
 
   const tfidf = new TfIdf();
@@ -149,7 +148,7 @@ export const findPendingTopicsForUser = async function findPendingTopicsForUser(
     }
   }
 
-  const allFoundTopics = await findConversationTopics(pendingTopics, user, chatSystem);
+  const allFoundTopics = await findConversationTopics(pendingTopics, user, chatSystem, conversationTimeout);
   return removeMissingTopics(allFoundTopics);
 };
 
@@ -162,7 +161,12 @@ const getPendingTopics = async function getPendingTopics(messageObject, options)
   }
 
   // Find potential topics for the response based on the message (tfidfs)
-  return await findPendingTopicsForUser(options.user, messageObject, options.system.chatSystem);
+  return await findPendingTopicsForUser(
+    options.user,
+    messageObject,
+    options.system.chatSystem,
+    options.system.conversationTimeout,
+  );
 };
 
 export default getPendingTopics;
