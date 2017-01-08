@@ -1,4 +1,4 @@
-import SuperScript from 'superscript';
+import superscript from 'superscript';
 // slack-client provides auth and sugar around dealing with the RealTime API.
 import Slack from 'slack-client';
 
@@ -95,6 +95,6 @@ const options = {
   importFile: './data.json',
 };
 
-SuperScript.setup(options, (err, bot) => {
+superscript.setup(options, (err, bot) => {
   botHandle(null, bot);
 });

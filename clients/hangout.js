@@ -1,4 +1,4 @@
-import SuperScript from 'superscript';
+import superscript from 'superscript';
 import xmpp from 'simple-xmpp';
 
 const receiveData = function receiveData(from, bot, data) {
@@ -44,6 +44,6 @@ const options = {
   importFile: './data.json',
 };
 
-SuperScript.setup(options, (err, bot) => {
+superscript.setup(options, (err, bot) => {
   botHandle(null, bot);
 });

@@ -1,5 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api';
-import SuperScript from 'superscript';
+import superscript from 'superscript';
 
 const options = {
   factSystem: {
@@ -8,7 +8,7 @@ const options = {
   importFile: './data.json',
 };
 
-SuperScript.setup(options, (err, bot) => {
+superscript.setup(options, (err, bot) => {
   if (err) {
     console.error(err);
   }

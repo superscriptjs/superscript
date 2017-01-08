@@ -3,7 +3,7 @@ import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import bodyParser from 'body-parser';
 import twilio from 'twilio';
-import SuperScript from 'superscript';
+import superscript from 'superscript';
 
 const app = express();
 const MongoStore = connectMongo(session);
@@ -77,7 +77,7 @@ const options = {
   importFile: './data.json',
 };
 
-SuperScript.setup(options, (err, bot) => {
+superscript.setup(options, (err, bot) => {
   // Middleware
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));

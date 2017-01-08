@@ -1,7 +1,7 @@
 // Run this and then telnet to localhost:2000 and chat with the bot
 
 import net from 'net';
-import SuperScript from 'superscript';
+import superscript from 'superscript';
 
 const sockets = [];
 
@@ -47,7 +47,7 @@ const botHandle = function botHandle(err, bot) {
 
     // Send a welcome message.
     socket.write('Welcome to the Telnet server!\n');
-    socket.write(`Hello ${socket.name}! ` + `Type /quit to disconnect.\n\n`);
+    socket.write(`Hello ${socket.name}! ` + 'Type /quit to disconnect.\n\n');
 
     // Send their prompt.
     socket.write('You> ');
@@ -80,6 +80,6 @@ const options = {
   importFile: './data.json',
 };
 
-SuperScript.setup(options, (err, bot) => {
+superscript.setup(options, (err, bot) => {
   botHandle(null, bot);
 });
