@@ -405,3 +405,14 @@
   % who are you
   - ^save(name,<cap>) Nice to meet you <cap>! {topic=random}
 < topic
+
+> topic testkeep
++ {keep} we should keep this trigger
+- {@__partone__} some other text i dynamically generate {@__parttwo__}
+
++ __partone__
+- part one reply
+
++ __parttwo__
+- part two reply
+< topic

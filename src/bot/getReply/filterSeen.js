@@ -17,7 +17,7 @@ const filterRepliesBySeen = async function filterRepliesBySeen(filteredResults, 
         const pastInput = options.user.history.input[i];
 
         if (pastGambit && pastInput) {
-          if (String(replyId) === String(pastGambit.replyId)) {
+          if (pastGambit.replyIds && pastGambit.replyIds.find(id => String(id) === String(replyId))) {
             debug.verbose('Already Seen', filteredResult.reply);
             filteredResult.seenCount += 1;
           }

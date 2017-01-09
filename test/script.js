@@ -632,5 +632,17 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
   });
 
+  describe('gh-218', () => {
+    it('replies using redirects should exhaust all the triggers it hits on the way', (done) => {
+      helpers.getBot().reply('user9', 'we should keep this trigger', (err, reply) => {
+        should(reply.string).eql('part one reply some other text i dynamically generate part two reply');
+        helpers.getBot().reply('user9', 'we should keep this trigger', (err, reply) => {
+          should(reply.string).eql('some other text i dynamically generate');
+          done();
+        });
+      });
+    });
+  });
+
   after(helpers.after);
 });
