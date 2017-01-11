@@ -1,18 +1,21 @@
-.DS_Store
-node_modules/*
+# SuperScript
+lib/*
 logs/*
-npm-debug.log
 test/fixtures/cache/*
-systemDB
-factsystem
-botfacts
-dump.rdb
-dump/*
-coverage
-*.sw*
+coverage/*
+
+# Node
+node_modules/*
+npm-debug.log
 
 # Node profiler logs
 isolate-*-v8.log
+
+# OS Files
+.DS_Store
+*.sw*
+dump.rdb
+dump/*
 
 # IDEA/WebStorm Project Files
 .idea

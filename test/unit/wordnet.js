@@ -1,45 +1,46 @@
-var mocha = require("mocha");
-var should  = require("should");
+import mocha from 'mocha';
+import should from 'should/as-function';
 
-var wordnet = require("../../lib/wordnet");
+import wordnet from '../../src/bot/reply/wordnet';
 
-wordnet.lookup("milk", "~", function(e,r) {
-  console.log(e,r);
+describe('Wordnet Interface', () => {
+  it('should have have lookup and explore function', (done) => {
+    should(wordnet.lookup).be.a.Function;
+    should(wordnet.explore).be.a.Function;
+    done();
+  });
+
+  it('should perform lookup correctly', (done) => {
+    wordnet.lookup('like', '@', (err, results) => {
+      should(err).not.exist;
+      should(results).not.be.empty;
+      should(results).have.length(3);
+      done();
+    });
+  });
+
+  it('should perform lookup correctly', (done) => {
+    wordnet.lookup('like~v', '@', (err, results) => {
+      should(err).not.exist;
+      should(results).not.be.empty;
+      should(results).have.length(2);
+      done();
+    });
+  });
+
+  it('should refine to POS', (done) => {
+    wordnet.lookup('milk', '~', (err, results) => {
+      should(err).not.exist;
+      should(results).not.be.empty;
+      should(results).have.length(25);
+      done();
+    });
+  });
+
+  it('should explore a concept', (done) => {
+    wordnet.explore('job', (err, results) => {
+      console.log(results);
+      done();
+    });
+  });
 });
-
-
-// describe('Wordnet Interface', function(){
-
-//   it("should have have a lookup function", function(done){
-//     wordnet.lookup.should.be.Function;
-//     wordnet.explore.should.be.Function;
-//     done()
-//   });
-  
-//   it("should have have perform lookup", function(done){
-//     wordnet.lookup("like", "@", function(err, results){
-//       should.not.exist(err);
-//       results.should.not.be.empty;
-//       results.should.have.length(3);
-//       done();
-//     });
-//   });
-
-//   it("should refine to POS ", function(done){
-//     wordnet.lookup("like~v", "@", function(err, results){
-//       should.not.exist(err);
-//       results.should.not.be.empty;
-//       results.should.have.length(2)
-//       done();
-//     });
-//   });
-
-//   // not sure how I want to test this yet
-//   // it("should refine to POS ", function(done){
-//   //  wordnet.explore("job", function(err, results){      
-//   //    done();
-//   //  });
-//   // });
-
-
-// });

@@ -1,49 +1,41 @@
-var mocha = require("mocha");
-var should  = require("should");
-var help = require("./helpers");
+/* global describe, it, before, after */
 
-describe('SuperScript substitution Interface', function(){
+import mocha from 'mocha';
+import should from 'should/as-function';
+import helpers from './helpers';
 
-  before(help.before("substitution"));
- 
-  describe('Message Subs', function(){
-    it("name subsitution", function(done) {
-      bot.reply("user1", "Rob is here", function(err, reply) {
-        reply.string.should.eql("hi Rob");
+describe('SuperScript substitution Interface', () => {
+  before(helpers.before('substitution'));
+
+  describe('Message Subs', () => {
+    it('name subsitution', (done) => {
+      helpers.getBot().reply('user1', 'Ashley is here', (err, reply) => {
+        should(reply.string).eql('hi Ashley');
         done();
       });
     });
 
-    it("name subsitution - 2", function(done) {
-      bot.reply("user1", "Rob is taller than Heather", function(err, reply) {
-        reply.string.should.eql("Heather is shorter than Rob");
+    it('name subsitution - 2', (done) => {
+      helpers.getBot().reply('user1', 'Ashley is taller than Heather', (err, reply) => {
+        should(reply.string).eql('Heather is shorter than Ashley');
         done();
       });
     });
 
-    it("name subsitution - 3", function(done) {
-      bot.reply("user1", "Rob Ellis is taller than Heather Allen", function(err, reply) {
-        reply.string.should.eql("Heather Allen is shorter than Rob Ellis");
+    it('name subsitution - 3', (done) => {
+      helpers.getBot().reply('user1', 'John Ellis is taller than Heather Allen', (err, reply) => {
+        should(reply.string).eql('Heather Allen is shorter than John Ellis');
         done();
       });
     });
 
-    it("name subsitution - 4", function(done) {
-      bot.reply("user1", "Rob is taller than Rob", function(err, reply) {
-        reply.string.should.eql("");
+    it('verb pronoun noun subsitution ', (done) => {
+      helpers.getBot().reply('user1', 'She ran to Vancouver', (err, reply) => {
+        should(reply.string).eql('okay');
         done();
       });
     });
+  });
 
-
-    it("verb pronoun noun subsitution ", function(done) {
-      bot.reply("user1", "She ran to Vancouver", function(err, reply) {
-        reply.string.should.eql("okay");
-        done();
-      });
-    });
-  });  
-
-  after(help.after);
-
+  after(helpers.after);
 });

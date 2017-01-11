@@ -22,23 +22,34 @@
 + break * continue
 - test passed
 
-> topic:keep __pre__
+> topic __pre__ {keep}
 
 	+ testing topic system
-	- ^save(key, value)
+	- ^save("key", "value")
 
 	+ force break
-	- ^break()
+	- ^breakFunc()
 
 	+ force continue
 	- ^nobreak() force one
 
 	+ testing flow
-	- ^save(key, value)
+	- ^save("key", "value")
 
 < topic
-> topic:keep outdoors ( fishing hunting camping ) ^sometest()
-	
+
+> topic filter1 ^filterTopic() {keep}
+  + filter topic *
+  - filter pass topic1
+< topic
+
+> topic filter2 ^filterTopic() {keep}
+  + filter topic *
+  - filter pass topic2
+< topic
+
+> topic outdoors ( fishing, hunting, camping ) {keep}
+
 	+ I like to *
 	- i like to spend time outdoors
 
@@ -51,11 +62,11 @@
 < topic
 
 
-> topic fishing ^sometest() ( fish fishing to_fish rod worms )
+> topic fishing (fish, fishing, to_fish, rod, worms)
 
   + I like to spend time *
   - fishing
-  
+
 	+ I like to *
 	- me too
 
@@ -64,24 +75,24 @@
 
 // GH-240
 + test empty
-- ^topicRedirect(test, __empty__)
+- ^topicRedirect("test", "__empty__")
 
 + generic redirect
-- ^topicRedirect(test, __something__)
+- ^topicRedirect("test", "__something__")
 
 + generic respond
-- ^respond(test)
+- ^respond("test")
 
 + test respond
-- ^respond(test)
+- ^respond("test")
 
-> topic:keep test
+> topic test {keep}
     + __empty__
     - {END}
 
     + test respond
     - {END}
-    
+
     + __something__
     - Something
 

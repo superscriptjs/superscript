@@ -1,4 +1,3 @@
-
 > topic random2
 
 + new conversation
@@ -8,11 +7,11 @@
    % What is your name
    - So your first name is <cap1>?
 
-    + ~yes
+    + yes
     % So your first name is *
     - Okay good.
 
-    + ~no
+    + no
     % So your first name is *
     - Oh, lets try this again... {@new conversation}
 
@@ -25,7 +24,7 @@
 
 < topic
 
-> topic:keep random
+> topic random {keep}
 
 + i went to highschool
 - did you finish ?
@@ -38,11 +37,11 @@
 
 + i like to travel
 - have you been to Madird?
-  + ~yes *
+  + yes *
   % have you been to Madird?
   - Madird is amazing.
 
-  + ~no *
+  + no *
   % have you been to Madird?
   - Madird is my favorite city.
 
@@ -50,14 +49,14 @@
 + something random
 - What is your favorite color?
 
-  + *1 
+  + *1
   % What is your favorite color?
   - <cap> is mine too.
 
   + (blue|green)
   % What is your favorite color?
   - I hate that color.
-    
+
 
 + test complex
 - reply test {@__complex__}
@@ -72,11 +71,11 @@
 // Testing conversation exaustion GH-133 from slack
 + conversation
 - Are you happy?
-  + ~yes
+  + yes
   % are you happy
   - OK, so you are happy
 
-  + ~no
+  + no
   % are you happy
   - OK, so you are not happy
 
@@ -136,7 +135,7 @@
 + start 2 (*) or *1
 - reply 2 <cap1>
 
-  + second match (*)
+  + 2 match (*)
   % reply 2 *
   - reply 3 <cap1> <p1cap1> <p1cap2>
 

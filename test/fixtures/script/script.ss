@@ -83,10 +83,7 @@
 
   // Mix case testing
   + THIS IS ALL CAPITALS
-  - Test six should pass
-
-  + Do you have a clue
-  - Test seven should pass
+  - Test six must pass
 
   + this reply is random
   - yes this reply is ((awesome|random))
@@ -100,9 +97,9 @@
   - normalize trigger test
 
   // Replies accross triggers should be allowd, even if the reply is identical
-  + trigger one
+  + trigger 1
   - generic reply
-  + trigger two
+  + trigger 2
   - generic reply
 
   // Reply Flags
@@ -133,7 +130,7 @@
   - ^one() + ^one() = 2
 
   + custom 5 *1
-  - he ^plural(like) this
+  - he ^plural("like") this
 
   + custom 6 *1
   - he ^plural(~like) this
@@ -142,7 +139,7 @@
   - he ^plural(<cap1>) this
 
   + custom 8 *1
-  - ^num(4) + ^num(3) = 7
+  - ^num("4") + ^num("3") = 7
 
   + custom 9 *1
   - a\n
@@ -175,47 +172,51 @@
   + what [is] [the] * letter (in|of) the [english] alphabet
   - {keep} ^letterLookup()
 
-  + ~emohello
-  - Hello
-
   + call function with new topic
-  - ^changetopic(fish)
+  - ^changetopic("fish")
 
   + reply with a new topic from function
-  - ^changefunctionreply(fish)
+  - ^changefunctionreply("fish")
 
   // This will save the name to the internal fact system for this user.
-  + My name is *1
-  - {keep} ^save(name, <cap1>) Hi <cap1>.
+  + save name *1
+  - {keep} ^save("name", <cap1>) Hi <cap1>.
 
-  + ^not(filter|filterx) trigger *1 function
+  + {^not("filter|filterx")} trigger *1 function
   - trigger filter reply
 
 + can you smile
-- ^addMessageProp(emoji,smile) Sure can.
+- ^addMessageProp("emoji","smile") Sure can.
 
-+ object param one
++ object param 1
 - ^objparam1()
 
-+ object param two
-- ^objparam2() ^addMessageProp(foo, bar)
++ object param 2
+- ^objparam2() ^addMessageProp("foo", "bar")
 
 // Object params though topicRedirect
-+ object param three
--  ^addMessageProp(foo, bar) ^topicRedirect(test_topic, __objParams__)
++ object param 3
+-  ^addMessageProp("foo", "bar") ^topicRedirect("test_topic", "__objParams__")
 
 // Reply Filter functions
-+ okay my name is <name>
-- {^hasName(false)} ^save(name,<cap1>) Nice to meet you, <cap1>.
-- {^hasName(true)} I know, you already told me your name.
++ my name is <name>
+- {^hasName("false")} ^save("name",<cap1>) Nice to meet you, <cap1>.
+- {^hasName("true")} I know, you already told me your name.
 
-?:WH * your name
+? * your name
 - My name is Brit.
+
++ i go by *~4
+- {keep} so you go by <cap1>
+
+// Moved over from qtypes (isQuestion test)
+? * bathroom
+- {keep} Down the hall on the left
 
 < topic
 
 // Object params though topicRedirect (related topic)
-> topic:keep test_topic
+> topic test_topic {keep}
   + __objParams__
   - ^objparam1()
 < topic
@@ -230,41 +231,38 @@
 + generic message
 - {keep} generic reply ^showScope()
 
-+ generic message two
++ generic message 2
 - {keep} generic reply ^showScope()
 
 
 // Style Tests
 
-
-
-
 // Mix case testing
 + THIS IS ALL CAPITALS
-- {keep} Test six should pass
+- {keep} Test six must pass
 
 + Do you have a clue
-- Test seven should pass
+- Test seven must pass
 
 + Do you have a cause
-- Test seven should pass
+- Test seven must pass
 
 + Do you have a condition
-- Test seven should pass
+- Test seven must pass
 
 + John is older than Mary and Mary is older than Sarah
-- Test eight should pass
+- Test eight must pass
 
-// Should match without commas
+// should match without commas
 + is it morning noon night
-- Test nine should pass
+- Test nine must pass
 
 // Remove Quotes
 + remove quotes around car
-- Test ten should pass
+- Test ten must pass
 
 + reply quotes
-- Test "eleven" should pass
+- Test "eleven" must pass
 
 // Test Multiple line output
 + tell me a poem
@@ -280,7 +278,7 @@
 + it's all good in the hood
 - normalize trigger test
 
-+ it's all good in the hood two
++ it's all good in the hood 2
 - normalize trigger test
 
 + I ~like basketball
@@ -292,7 +290,7 @@
 
 // Sub Replies
 + redirect_rainbow
-- ^topicRedirect(rainbow,__delay__)
+- ^topicRedirect("rainbow","__delay__")
 
 > topic rainbow
   + __delay__
@@ -311,38 +309,38 @@
 // Special topics flow with inline redirection
 > topic __pre__
   + flow redirection test
-  - Going back. {@first flow match}
+  - Going back. {@flow match}
 < topic
 
 > topic flow_test
-  + first flow match
+  + flow match
   - {keep} You are in the first reply.
-  + second flow match
-  - You are in the second reply. {@first flow match}
+  + next flow match
+  - You are in the second reply. {@flow match}
 < topic
 
 // gh-173
 + name
-- {keep} ^respond(set_name)
+- {keep} ^respond("set_name")
 
-> topic:keep:system set_name
+> topic set_name {keep, system}
   + *
   - What is your first name?
 
   + *~5
   % * is your first name?
-  - ^save(firstName, <cap>) Ok <cap>, what is your last name?
+  - ^save("firstName", <cap>) Ok <cap>, what is your last name?
 
   + *~5
   % * what is your last name?
-  - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random} {clear  }
+  - ^save("lastName", <cap>) Thanks, ^get("firstName") ^get("lastName")! {topic=random} {clear  }
 < topic
 
 
-> topic:keep:system generic
-  
+> topic generic {keep, system}
+
   + __simple__
-  - ^break()
+  - ^breakFunc()
 
   + *
   - no match
@@ -351,16 +349,70 @@
 
 // GH-243
 + filter by *1
-- {^word(<cap1>,logic)} logic
-- {^word(<cap1>,though)} though
-- {^word(<cap1>,ai)} ai
+- {^word(<cap1>,"logic")} logic
+- {^word(<cap1>,"though")} though
+- {^word(<cap1>,"ai")} ai
 
 
 + scope though redirect
-- ^topicRedirect(__A__, __B__)
+- ^topicRedirect("__A__", "__B__")
 
-> topic:keep:system __A__
+> topic __A__ {keep, system}
   + __B__
   - ^showScope()
 < topic
 
++ __preview
+- {@__preview_question_kickoff} ^addMessageProp("topLevelProp","myProp")
+
++ __preview_question_kickoff
+- Do you want to play word games? Yes? ^addMessageProp("subProp","mySubProp1")
+- Let's play word games OK? ^addMessageProp("subProp","mySubProp2")
+
++ let's test objects/arrays as custom function args
+- here's my answer ^testCustomArgs({myKey: "value"}, ['hey!'])
+
++ what if there's more tags in custom func
+- and the result is ^testMoreTags("super", "awesome")
+
+> topic super {keep}
+  + awesome
+  - yay
+< topic
+
++ {^hasTag("hello")} *
+- Greetings!
+
++ set a fact
+- that is a cool fact ^createUserFact("thisfact", "cooler", "thatfact")
+
+> topic testfoo {system}
++ *(3-99)
+- {keep} Caught by variable length
+
++ foo
+- {keep} Direct match
+< topic
+
++ redirect setup
+- {keep} ^topicRedirect("setup","setup")
+
+> topic setup {keep, system}
+  + setup
+  - who are you?
+
+  + *~2
+  % who are you
+  - ^save(name,<cap>) Nice to meet you <cap>! {topic=random}
+< topic
+
+> topic testkeep
++ {keep} we should keep this trigger
+- {@__partone__} some other text i dynamically generate {@__parttwo__}
+
++ __partone__
+- part one reply
+
++ __parttwo__
+- part two reply
+< topic

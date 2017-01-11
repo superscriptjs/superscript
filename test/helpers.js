@@ -1,16 +1,18 @@
-/* global gFacts:true, bot:true, Promise */
+import fs from 'fs';
+import _ from 'lodash';
+import async from 'async';
+import sfacts from 'sfacts';
+import parser from 'ss-parser';
 
-var script = require("../index");
-var sfact = require("sfacts");
-var fs = require("fs");
-var rmdir = require("rmdir");
-var async = require("async");
-var mongoose = require("mongoose");
-var mergex = require("deepmerge");
+import SuperScript from '../src/bot/index';
 
-var data, botData, bootstrap;
+let bot;
 
-data = [
+const getBot = function getBot() {
+  return bot;
+};
+
+const data = [
   // './test/fixtures/concepts/bigrams.tbl', // Used in Reason tests
   // './test/fixtures/concepts/trigrams.tbl',
   // './test/fixtures/concepts/concepts.top',
@@ -19,142 +21,133 @@ data = [
   // './test/fixtures/concepts/opp.tbl'
 ];
 
-botData = [
+/* const botData = [
   './test/fixtures/concepts/botfacts.tbl',
-  './test/fixtures/concepts/botown.tbl'
-];
+  './test/fixtures/concepts/botown.tbl',
+];*/
 
-exports.bootstrap = bootstrap = function(cb) {
-  sfact.load(data, 'factsystem', function(err, facts){
-    gFacts = facts;
+// If you want to use data in tests, then use bootstrap
+const bootstrap = function bootstrap(cb) {
+  sfacts.load('mongodb://localhost/superscripttest', data, true, (err, facts) => {
+    if (err) {
+      console.error(err);
+    }
     cb(null, facts);
   });
 };
 
-var removeModel = function(name) {
-  return new Promise(function(resolve, reject){
-    mongoose.connection.models[name].remove(function(error, removed) {
-      if(error) {
-        return reject(error);
-      }
-      delete mongoose.connection.models[name];
-      resolve(removed);
-    });
-  });
-};
-
-exports.after = function(end) {
-
-  var itor = function(item, next) {
-    fs.exists(item, function (exists) {
-      if (exists) {
-        rmdir(item, next);
-      } else {
-        next();
-      }
-    });
-  };
+const after = function after(end) {
   if (bot) {
-    bot.factSystem.db.close(function(){
-      // Kill the globals
-      gFacts = null;
+    bot.factSystem.db.close(() => {
+      // Kill the globals and remove any fact systems
       bot = null;
-      async.each(['./factsystem', './systemDB'], itor, function(){
-        Promise.all(Object.keys(mongoose.connection.models).map(removeModel)).then(function(){
-          end();
-        }, function(error) {
-          console.log(error.trace);
-          throw error;
-        });
-        //mongoose.connection.models = {};
-        //mongoose.connection.db.dropDatabase();
-        //end();
-      });
+      async.each(['mongodb://localhost/superscripttest'], (item, next) => {
+        sfacts.clean(item, next);
+      }, end);
     });
   } else {
     end();
   }
-
 };
 
-var importFilePath = function(path, facts, callback) {
-  if(!mongoose.connection.readyState) {
-    mongoose.connect('mongodb://localhost/superscriptDB');
-  }
-  var TopicSystem = require("../lib/topics/index")(mongoose, facts);
-  TopicSystem.importerFile(path, callback);
+const parse = function parse(file, callback) {
+  const fileCache = `${__dirname}/fixtures/cache/${file}.json`;
+  fs.exists(fileCache, (exists) => {
+    if (!exists) {
+      bootstrap((err, factSystem) => {
+        parser.parseDirectory(`${__dirname}/fixtures/${file}`, { factSystem }, (err, result) => {
+          if (err) {
+            return callback(err);
+          }
+          return callback(null, fileCache, result);
+        });
+      });
+    } else {
+      console.log(`Loading cached script from ${fileCache}`);
+      let contents = fs.readFileSync(fileCache, 'utf-8');
+      contents = JSON.parse(contents);
 
-  // This is here in case you want to see what exactly was imported.
-  // TopicSystem.importerFile(path, function () {
-  //   Topic.find({name: 'random'}, "gambits")
-  //     .populate("gambits")
-  //     .exec(function (err, mgambits) {
-  //     console.log("------", err, mgambits);
-  //     callback();
-  //   });
-  // });
-
+      bootstrap((err, factSystem) => {
+        if (err) {
+          return callback(err);
+        }
+        const checksums = contents.checksums;
+        return parser.parseDirectory(`${__dirname}/fixtures/${file}`, { factSystem, cache: checksums }, (err, result) => {
+          if (err) {
+            return callback(err);
+          }
+          const results = _.merge(contents, result);
+          return callback(null, fileCache, results);
+        });
+      });
+    }
+  });
 };
 
-exports.before = function(file) {
+const saveToCache = function saveToCache(fileCache, result, callback) {
+  fs.exists(`${__dirname}/fixtures/cache`, (exists) => {
+    if (!exists) {
+      fs.mkdirSync(`${__dirname}/fixtures/cache`);
+    }
+    return fs.writeFile(fileCache, JSON.stringify(result), (err) => {
+      if (err) {
+        return callback(err);
+      }
+      return callback();
+    });
+  });
+};
 
-  var options = {
-    scope: {}
+const parseAndSaveToCache = function parseAndSaveToCache(file, callback) {
+  parse(file, (err, fileCache, result) => {
+    if (err) {
+      return callback(err);
+    }
+    return saveToCache(fileCache, result, (err) => {
+      if (err) {
+        return callback(err);
+      }
+      return callback(null, fileCache);
+    });
+  });
+};
+
+const setupBot = function setupBot(fileCache, multitenant, callback) {
+  const options = {
+    mongoURI: 'mongodb://localhost/superscripttest',
+    factSystem: {
+      clean: false,
+    },
+    logPath: null,
+    pluginsPath: null,
+    importFile: fileCache,
+    useMultitenancy: multitenant,
   };
 
-  return function(done) {
-    var fileCache = './test/fixtures/cache/'+ file +'.json';
-    fs.exists(fileCache, function (exists) {
+  return SuperScript.setup(options, (err, botInstance) => {
+    if (err) {
+      return callback(err);
+    }
+    bot = botInstance;
+    return callback();
+  });
+};
 
-      if (!exists) {
-        bootstrap(function(err, facts) {
-          var parse = require("ss-parser")(facts);
-          parse.loadDirectory('./test/fixtures/' + file, function(err, result) {
-            options.factSystem = facts;
-            options.mongoose = mongoose;
-
-            fs.writeFile(fileCache, JSON.stringify(result), function (err) {
-              // Load the topic file into the MongoDB
-              importFilePath(fileCache, facts, function() {
-                new script(options, function(err, botx) {
-                  bot = botx;
-                  done();
-                });
-              });
-            });
-          });
-        });
-      } else {
-        console.log("Loading Cached Script");
-        var contents = fs.readFileSync(fileCache, 'utf-8');
-        contents = JSON.parse(contents);
-
-        bootstrap(function(err, facts) {
-          options.factSystem = facts;
-          options.mongoose   = mongoose;
-
-          var sums = contents.checksums;
-          var parse = require("ss-parser")(facts);
-          var start = new Date().getTime();
-          var results;
-
-          parse.loadDirectory('./test/fixtures/' + file, sums, function(err, result) {
-            results = mergex(contents, result);
-            fs.writeFile(fileCache, JSON.stringify(results), function (err) {
-              // facts.createUserDBWithData('botfacts', botData, function(err, botfacts){
-                // options.botfacts = botfacts;
-                bot = null;
-                importFilePath(fileCache, facts, function() {
-                  new script(options, function(err, botx) {
-                    bot = botx;
-                    done();
-                  }); // new bot
-                }); // import file
-              // }); // create user
-            }); // write file
-          }); // Load files to parse
-        });
+const before = function before(file, multitenant = false) {
+  return (done) => {
+    parseAndSaveToCache(file, (err, fileCache) => {
+      if (err) {
+        return done(err);
       }
+      return setupBot(fileCache, multitenant, done);
     });
   };
+};
+
+export default {
+  after,
+  before,
+  getBot,
+  parseAndSaveToCache,
+  setupBot,
 };
