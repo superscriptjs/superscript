@@ -54,7 +54,7 @@ Alternatively, check out the [`hello-superscript`](https://github.com/silentrob/
 
 ## Upgrading to v1.x
 
-Information on upgrading to v1.x can be found [on the wiki](https://github.com/superscriptjs/superscript/wiki/Upgrading_to_v1).
+Information on upgrading to v1.x can be found [on the wiki](https://github.com/superscriptjs/superscript/wiki/Upgrading-to-v1).
 
 ## Documentation
 
