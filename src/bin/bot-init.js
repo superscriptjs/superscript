@@ -44,7 +44,7 @@ fs.mkdir(botPath, (err) => {
     version: '0.0.0',
     private: true,
     dependencies: {
-      superscript: 'alpha',
+      superscript: '^1.0.0',
     },
     devDependencies: {
       'babel-cli': '^6.16.0',

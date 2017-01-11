@@ -1,6 +1,6 @@
 {
   "name": "superscript",
-  "version": "1.0.0-alpha16",
+  "version": "1.0.0",
   "description": "A dialog system and bot engine for creating human-like chat bots.",
   "main": "lib/bot/index.js",
   "scripts": {
@@ -54,22 +54,22 @@
     "rhymes": "^1.0.1",
     "roman-numerals": "^0.3.2",
     "safe-eval": "^0.3.0",
-    "sfacts": "alpha",
-    "ss-message": "^1.0.10",
-    "ss-parser": "alpha",
+    "sfacts": "^1.0.0",
+    "ss-message": "^1.1.0",
+    "ss-parser": "^1.0.0",
     "syllablistic": "^0.1.0",
     "wordpos": "^1.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
-    "babel-preset-env": "^1.1.6",
+    "babel-preset-env": "^1.1.8",
     "babel-register": "^6.18.0",
     "coveralls": "^2.11.9",
-    "eslint": "^3.9.1",
-    "eslint-config-airbnb": "^13.0.0",
+    "eslint": "^3.13.1",
+    "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.6.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-react": "^6.9.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.2.0",
     "should": "^11.1.0"

@@ -43,7 +43,7 @@ cd myBotName
 npm install
 parse
 npm run build
-npm run start
+npm run start-[clientName]
 ```
 
 The `parse` step is another script that will compile your SuperScript script. By default, it will look at the `chat` folder in your current directory.
