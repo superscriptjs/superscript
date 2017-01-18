@@ -1,3 +1,8 @@
+### 1.0.1
+
+* Fixes GH-317 by expanding custom concepts at parse time.
+* Removes unused field in User model.
+
 ### 1.0.0
 
 We're very excited to push v1 into the wild, which marks the first major release of SuperScript! In this version, we've focused mainly on cleaning up the codebase, ensuring extensibility, and squeezing performance out of the runtime to ensure that your bots are nice and snappy.

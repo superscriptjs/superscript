@@ -11,8 +11,7 @@ const debug = debuglog('SS:User');
 const createUserModel = function createUserModel(db, factSystem, logger) {
   const userSchema = mongoose.Schema({
     id: String,
-    status: Number,
-    currentTopic: String,
+    currentTopic: { type: String, default: 'random' },
     pendingTopic: String,
     lastMessageSentAt: Date,
     prevAns: Number,
