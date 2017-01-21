@@ -15,11 +15,7 @@ const filterRepliesByFunction = async function filterRepliesByFunction(potential
 
     if (potentialReply.reply.filter) {
       const stars = { stars: potentialReply.stars };
-      const cleanFilter = await new Promise((resolve) => {
-        processTags.preprocess(potentialReply.reply.filter, stars, options, (err, cleanFilter) => {
-          resolve(cleanFilter);
-        });
-      });
+      const cleanFilter = await processTags.preprocess(potentialReply.reply.filter, stars, options);
 
       debug.verbose(`Reply filter function found: ${cleanFilter}`);
 

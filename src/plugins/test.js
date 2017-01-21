@@ -15,7 +15,7 @@ const num = function num(n, cb) {
 };
 
 const changetopic = function changetopic(n, cb) {
-  this.user.setTopic(n, () => cb(null, ''));
+  this.user.setTopic(n).then(() => cb(null, ''));
 };
 
 const changefunctionreply = function changefunctionreply(newtopic, cb) {
@@ -103,13 +103,13 @@ const testMoreTags = function testMoreTags(topic, trigger, cb) {
 
 // This function is called from the topic filter function
 // Return true if you want the method to filter it out
-const filterTopic = function(cb) {
-  if (this.topic.name === "filter2") {
+const filterTopic = function (cb) {
+  if (this.topic.name === 'filter2') {
     cb(null, false);
   } else {
     cb(null, true);
   }
-}
+};
 
 export default {
   bail,

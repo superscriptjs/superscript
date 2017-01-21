@@ -10,8 +10,10 @@ const wordnetDefine = function wordnetDefine(cb) {
     word = this.message.words.pop();
   }
 
-  wd.define(word, (err, result) => {
+  wd.define(word).then((result) => {
     cb(null, `The Definition of ${word} is ${result}`);
+  }).catch(() => {
+    cb(null, `There is no definition for the word ${word}!`);
   });
 };
 

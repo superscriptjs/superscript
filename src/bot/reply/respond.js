@@ -5,29 +5,22 @@ import getReply from '../getReply';
 
 const debug = debuglog('SS:Reply:Respond');
 
-const respond = function respond(topicName, options, callback) {
+const respond = async function respond(topicName, options) {
   debug.verbose(`Responding to topic: ${topicName}`);
 
-  processHelpers.getTopic(options.system.chatSystem, topicName, (err, topicData) => {
-    if (err) {
-      console.error(err);
-    }
+  const topicData = await processHelpers.getTopic(options.system.chatSystem, topicName);
 
-    options.pendingTopics = [topicData];
+  options.pendingTopics = [topicData];
 
+  const respondReply = await new Promise((resolve, reject) => {
     getReply(options.message, options, (err, respondReply) => {
-      if (err) {
-        console.error(err);
-      }
-
-      debug.verbose('Callback from respond getReply: ', respondReply);
-
-      if (respondReply) {
-        return callback(err, respondReply);
-      }
-      return callback(err, {});
+      err ? reject(err) : resolve(respondReply);
     });
   });
+
+  debug.verbose('Callback from respond getReply: ', respondReply);
+
+  return respondReply || {};
 };
 
 export default respond;

@@ -38,18 +38,17 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
     this.save(callback);
   };
 
-  userSchema.methods.setTopic = function (topic, callback) {
-    if (topic !== '' || topic !== 'undefined') {
-      debug.verbose('setTopic', topic);
-      this.pendingTopic = topic;
-      this.save(() => {
-        debug.verbose('setTopic Complete');
-        callback(null);
-      });
-    } else {
-      debug.warn('Trying to set topic to someting invalid');
-      callback(null);
+  userSchema.methods.setTopic = async function (topic = '') {
+    debug.verbose('Set topic', topic);
+
+    if (topic === '') {
+      debug.warn('Trying to set topic to something invalid');
+      return;
     }
+
+    this.pendingTopic = topic;
+    await this.save();
+    debug.verbose('Set topic Complete');
   };
 
   userSchema.methods.getTopic = function () {

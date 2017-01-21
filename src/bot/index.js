@@ -125,7 +125,7 @@ class SuperScript {
       };
 
       Message.createMessage(messageString, messageOptions, (err, messageObject) => {
-        processHelpers.getTopic(system.chatSystem, system.topicName, (err, topicData) => {
+        processHelpers.getTopic(system.chatSystem, system.topicName).then((topicData) => {
           const options = {
             user,
             system,

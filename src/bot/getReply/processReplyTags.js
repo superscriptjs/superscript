@@ -6,15 +6,12 @@ import processTags from '../processTags';
 const debug = debuglog('SS:GetReply:ProcessTags');
 
 const processReplyTags = async function processReplyTags(reply, options) {
-  const replyObj = await new Promise((resolve, reject) => {
-    processTags.processReplyTags(reply, options, (err, replyObj) => {
-      if (err) {
-        debug.verbose('There was an error in processTags', err);
-        return resolve(null);
-      }
-      return resolve(replyObj);
-    });
-  });
+  let replyObj;
+  try {
+    replyObj = await processTags.processReplyTags(reply, options);
+  } catch (err) {
+    debug.verbose('There was an error in processTags: ', err);
+  }
 
   if (!_.isEmpty(replyObj)) {
     // reply is the selected reply object that we created earlier (wrapped mongoDB reply)

@@ -137,10 +137,9 @@ export const doesMatchTopic = async function doesMatchTopic(topicName, message, 
   const topic = await options.chatSystem.Topic.findOne({ name: topicName }, 'gambits')
     .populate('gambits');
 
-  return await Promise.all(topic.gambits.map(async (gambit) => {
-    const match = await doesMatch(gambit, message, options);
-    return match;
-  }));
+  return Promise.all(topic.gambits.map(async gambit => (
+    doesMatch(gambit, message, options)
+  )));
 };
 
 // This is the main function that looks for a matching entry
@@ -240,15 +239,15 @@ const walkReplyParent = async function walkReplyParent(replyId, chatSystem) {
 
 const getRootTopic = async function getRootTopic(gambit, chatSystem) {
   if (!gambit.parent) {
-    return await chatSystem.Topic.findOne({ gambits: { $in: [gambit._id] } });
+    return chatSystem.Topic.findOne({ gambits: { $in: [gambit._id] } });
   }
 
   const gambits = await walkGambitParent(gambit._id, chatSystem);
   if (gambits.length !== 0) {
-    return await chatSystem.Topic.findOne({ gambits: { $in: [gambits.pop()] } });
+    return chatSystem.Topic.findOne({ gambits: { $in: [gambits.pop()] } });
   }
 
-  return await chatSystem.Topic.findOne({ name: 'random' });
+  return chatSystem.Topic.findOne({ name: 'random' });
 };
 
 export default {

@@ -1,7 +1,6 @@
 // This is a shim for wordnet lookup.
 // http://wordnet.princeton.edu/wordnet/man/wninput.5WN.html
 
-import async from 'async';
 import _ from 'lodash';
 import WordPOS from 'wordpos';
 
@@ -12,19 +11,18 @@ process.on('unhandledRejection', (err) => {
   throw err;
 });
 
-const define = function define(word, cb) {
-  wordpos.lookup(word).then((results) => {
-    if (!_.isEmpty(results)) {
-      cb(null, results[0].def);
-    } else {
-      cb(`No results for wordnet definition of '${word}'`);
-    }
-  });
+const define = async function define(word) {
+  const results = await wordpos.lookup(word);
+  if (_.isEmpty(results)) {
+    throw new Error(`No results for wordnet definition of '${word}'`);
+  }
+
+  return results[0].def;
 };
 
 // Does a word lookup
 // @word can be a word or a word/pos to filter out unwanted types
-const lookup = function lookup(word, pointerSymbol = '~', cb) {
+const lookup = async function lookup(word, pointerSymbol = '~') {
   let pos = null;
 
   const match = word.match(/~(\w)$/);
@@ -35,66 +33,52 @@ const lookup = function lookup(word, pointerSymbol = '~', cb) {
 
   const synets = [];
 
-  wordpos.lookup(word).then((results) => {
-    results.forEach((result) => {
-      result.ptrs.forEach((part) => {
-        if (pos !== null && part.pos === pos && part.pointerSymbol === pointerSymbol) {
-          synets.push(part);
-        } else if (pos === null && part.pointerSymbol === pointerSymbol) {
-          synets.push(part);
-        }
-      });
-    });
-
-    const itor = (word, next) => {
-      wordpos.seek(word.synsetOffset, word.pos).then((sub) => {
-        next(null, sub.lemma);
-      });
-    };
-
-    async.map(synets, itor, (err, items) => {
-      items = _.uniq(items);
-      items = items.map(x => x.replace(/_/g, ' '));
-      cb(err, items);
+  const results = await wordpos.lookup(word);
+  results.forEach((result) => {
+    result.ptrs.forEach((part) => {
+      if (pos !== null && part.pos === pos && part.pointerSymbol === pointerSymbol) {
+        synets.push(part);
+      } else if (pos === null && part.pointerSymbol === pointerSymbol) {
+        synets.push(part);
+      }
     });
   });
+
+  let items = await Promise.all(synets.map(async (word) => {
+    const sub = await wordpos.seek(word.synsetOffset, word.pos);
+    return sub.lemma;
+  }));
+
+  items = _.uniq(items);
+  items = items.map(x => x.replace(/_/g, ' '));
+  return items;
 };
 
 // Used to explore a word or concept
 // Spits out lots of info on the word
-const explore = function explore(word, cb) {
+const explore = async function explore(word, cb) {
   let ptrs = [];
 
-  wordpos.lookup(word).then((results) => {
-    for (let i = 0; i < results.length; i++) {
-      ptrs.push(results[i].ptrs);
-    }
+  const results = await wordpos.lookup(word);
+  for (let i = 0; i < results.length; i++) {
+    ptrs.push(results[i].ptrs);
+  }
 
-    ptrs = _.uniq(_.flatten(ptrs));
-    ptrs = _.map(ptrs, item => ({ pos: item.pos, sym: item.pointerSymbol }));
+  ptrs = _.uniq(_.flatten(ptrs));
+  ptrs = _.map(ptrs, item => ({ pos: item.pos, sym: item.pointerSymbol }));
 
-    ptrs = _.chain(ptrs)
-      .groupBy('pos')
-      .map((value, key) => ({
-        pos: key,
-        ptr: _.uniq(_.map(value, 'sym')),
-      }))
-      .value();
+  ptrs = _.chain(ptrs)
+    .groupBy('pos')
+    .map((value, key) => ({
+      pos: key,
+      ptr: _.uniq(_.map(value, 'sym')),
+    }))
+    .value();
 
-    const itor = (item, next) => {
-      const itor2 = (ptr, next2) => {
-        lookup(`${word}~${item.pos}`, ptr, (err, res) => {
-          if (err) {
-            console.error(err);
-          }
-          console.log(word, item.pos, ':', ptr, res.join(', '));
-          next2();
-        });
-      };
-      async.map(item.ptr, itor2, next);
-    };
-    async.each(ptrs, itor, () => cb());
-  });
+  return Promise.all(ptrs.map(async item => Promise.all(item.ptr.map(async (ptr) => {
+    const res = await lookup(`${word}~${item.pos}`, ptr);
+    console.log(word, item.pos, ':', ptr, res.join(', '));
+  }))));
 };
 
 export default {

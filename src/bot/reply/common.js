@@ -2,18 +2,19 @@ import debuglog from 'debug-levels';
 
 const debug = debuglog('SS:ProcessHelpers');
 
-const getTopic = function getTopic(chatSystem, name, cb) {
-  if (name) {
-    chatSystem.Topic.findOne({ name }, (err, topicData) => {
-      if (!topicData) {
-        cb(new Error(`No topic found for the topic name "${name}"`));
-      } else {
-        debug.verbose('Getting topic data for', topicData);
-        cb(err, { id: topicData._id, name, type: 'TOPIC' });
-      }
-    });
+const getTopic = async function getTopic(chatSystem, name) {
+  if (!name) {
+    // TODO: This should probably throw, not return null
+    return null;
+  }
+
+  debug.verbose('Getting topic data for', name);
+  const topicData = await chatSystem.Topic.findOne({ name });
+
+  if (!topicData) {
+    throw new Error(`No topic found for the topic name "${name}"`);
   } else {
-    cb(null, null);
+    return { id: topicData._id, name, type: 'TOPIC' };
   }
 };
 

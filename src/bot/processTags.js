@@ -73,15 +73,15 @@ const preprocessParser = peg.generate(preprocessGrammar, { trace: false });
 / setState
 / string*/
 
-const processCapture = function processCapture(tag, replyObj, options, callback) {
+const processCapture = function processCapture(tag, replyObj, options) {
   const starID = (tag.starID || 1) - 1;
   debug.verbose(`Processing capture: <cap${starID + 1}>`);
   const replacedCapture = (starID < replyObj.stars.length) ? replyObj.stars[starID] : '';
   debug.verbose(`Replacing <cap${starID + 1}> with "${replacedCapture}"`);
-  callback(null, replacedCapture);
+  return replacedCapture;
 };
 
-const processPreviousCapture = function processPreviousCapture(tag, replyObj, options, callback) {
+const processPreviousCapture = function processPreviousCapture(tag, replyObj, options) {
   // This is to address GH-207, pulling the stars out of the history and
   // feeding them forward into new replies. It allows us to save a tiny bit of
   // context though a conversation cycle.
@@ -97,15 +97,15 @@ const processPreviousCapture = function processPreviousCapture(tag, replyObj, op
   } else {
     debug.verbose('Attempted to use previous capture data, but none was found in user history.');
   }
-  callback(null, replacedCapture);
+  return replacedCapture;
 };
 
-const processPreviousInput = function processPreviousInput(tag, replyObj, options, callback) {
+const processPreviousInput = function processPreviousInput(tag, replyObj, options) {
   if (tag.inputID === null) {
     debug.verbose('Processing previous input <input>');
     // This means <input> instead of <input1>, <input2> etc. so give the current input back
     const replacedInput = options.message.clean;
-    return callback(null, replacedInput);
+    return replacedInput;
   }
 
   const inputID = (tag.inputID || 1) - 1;
@@ -118,10 +118,10 @@ const processPreviousInput = function processPreviousInput(tag, replyObj, option
     replacedInput = options.user.history.input[inputID].original;
   }
   debug.verbose(`Replacing <input${inputID + 1}> with "${replacedInput}"`);
-  return callback(null, replacedInput);
+  return replacedInput;
 };
 
-const processPreviousReply = function processPreviousReply(tag, replyObj, options, callback) {
+const processPreviousReply = function processPreviousReply(tag, replyObj, options) {
   const replyID = (tag.replyID || 1) - 1;
   debug.verbose(`Processing previous reply <reply${replyID + 1}>`);
   let replacedReply = '';
@@ -132,107 +132,91 @@ const processPreviousReply = function processPreviousReply(tag, replyObj, option
     replacedReply = options.user.history.reply[replyID];
   }
   debug.verbose(`Replacing <reply{replyID + 1}> with "${replacedReply}"`);
-  return callback(null, replacedReply);
+  return replacedReply;
 };
 
-const processWordnetLookup = function processWordnetLookup(tag, replyObj, options, callback) {
+const processWordnetLookup = async function processWordnetLookup(tag, replyObj, options) {
   debug.verbose(`Processing wordnet lookup for word: ~${tag.term}`);
-  wordnet.lookup(tag.term, '~', (err, words) => {
-    if (err) {
-      console.error(err);
-    }
+  let words = await wordnet.lookup(tag.term, '~');
+  words = words.map(item => item.replace(/_/g, ' '));
+  debug.verbose(`Terms found in wordnet: ${words}`);
 
-    words = words.map(item => item.replace(/_/g, ' '));
-    debug.verbose(`Terms found in wordnet: ${words}`);
-
-    const replacedWordnet = Utils.pickItem(words);
-    debug.verbose(`Wordnet replaced term: ${replacedWordnet}`);
-    callback(null, replacedWordnet);
-  });
+  const replacedWordnet = Utils.pickItem(words);
+  debug.verbose(`Wordnet replaced term: ${replacedWordnet}`);
+  return replacedWordnet;
 };
 
 // Replacements are captures or wordnet lookups
-const processReplacement = function processReplacement(tag, replyObj, options, callback) {
+const processReplacement = async function processReplacement(tag, replyObj, options) {
   switch (tag.type) {
     case 'capture': {
-      return processCapture(tag, replyObj, options, callback);
+      return processCapture(tag, replyObj, options);
     }
     case 'previousCapture': {
-      return processPreviousCapture(tag, replyObj, options, callback);
+      return processPreviousCapture(tag, replyObj, options);
     }
     case 'previousInput': {
-      return processPreviousInput(tag, replyObj, options, callback);
+      return processPreviousInput(tag, replyObj, options);
     }
     case 'previousReply': {
-      return processPreviousReply(tag, replyObj, options, callback);
+      return processPreviousReply(tag, replyObj, options);
     }
     case 'wordnetLookup': {
-      return processWordnetLookup(tag, replyObj, options, callback);
+      return processWordnetLookup(tag, replyObj, options);
     }
     default: {
-      return callback(`Replacement tag type does not exist: ${tag.type}`);
+      throw new Error(`Replacement tag type does not exist: ${tag.type}`);
     }
   }
 };
 
-const preprocess = function preprocess(reply, replyObj, options, callback) {
+const preprocess = async function preprocess(reply, replyObj, options) {
   let captureTags = preprocessParser.parse(reply);
   captureTags = _.flattenDeep(captureTags);
-  async.map(captureTags, (tag, next) => {
+  const cleanTags = await Promise.all(captureTags.map(async (tag) => {
     // Don't do anything to non-captures/wordnet terms
     if (typeof tag === 'string') {
-      return next(null, tag);
+      return tag;
     }
     // It's a capture or wordnet lookup e.g. <cap2> or ~like, so replace it with
     // the captured star in replyObj.stars or a random selection of wordnet term
-    return processReplacement(tag, replyObj, options, (err, replacement) => {
-      const escapedReplacement = `"${replacement}"`;
-      next(err, escapedReplacement);
+    const replacement = await processReplacement(tag, replyObj, options);
+    return `"${replacement}"`;
+  }));
+  return cleanTags.join('');
+};
+
+const postAugment = function postAugment(replyObject, augmentedReplyObject) {
+  replyObject.continueMatching = augmentedReplyObject.continueMatching;
+  replyObject.clearConversation = augmentedReplyObject.clearConversation;
+  replyObject.topic = augmentedReplyObject.topicName;
+  replyObject.props = _.merge(replyObject.props, augmentedReplyObject.props);
+
+  // Keep track of all the ids of all the triggers we go through via redirects
+  if (augmentedReplyObject.replyIds) {
+    augmentedReplyObject.replyIds.forEach((replyId) => {
+      replyObject.replyIds.push(replyId);
     });
-  }, (err, cleanTags) => {
-    callback(err, cleanTags.join(''));
-  });
+  }
+
+  if (augmentedReplyObject.subReplies) {
+    if (replyObject.subReplies) {
+      replyObject.subReplies = replyObject.subReplies.concat(augmentedReplyObject.subReplies);
+    } else {
+      replyObject.subReplies = augmentedReplyObject.subReplies;
+    }
+  }
+
+  replyObject.debug = augmentedReplyObject.debug;
+  return augmentedReplyObject.string;
 };
 
-const postAugment = function postAugment(replyObject, tag, callback) {
-  return (err, augmentedReplyObject) => {
-    if (err) {
-      // If we get an error, we back out completely and reject the reply.
-      debug.verbose('We got an error back from one of the handlers', err);
-      return callback(err, '');
-    }
-
-    replyObject.continueMatching = augmentedReplyObject.continueMatching;
-    replyObject.clearConversation = augmentedReplyObject.clearConversation;
-    replyObject.topic = augmentedReplyObject.topicName;
-    replyObject.props = _.merge(replyObject.props, augmentedReplyObject.props);
-
-    // Keep track of all the ids of all the triggers we go through via redirects
-    if (augmentedReplyObject.replyIds) {
-      augmentedReplyObject.replyIds.forEach((replyId) => {
-        replyObject.replyIds.push(replyId);
-      });
-    }
-
-    if (augmentedReplyObject.subReplies) {
-      if (replyObject.subReplies) {
-        replyObject.subReplies = replyObject.subReplies.concat(augmentedReplyObject.subReplies);
-      } else {
-        replyObject.subReplies = augmentedReplyObject.subReplies;
-      }
-    }
-
-    replyObject.debug = augmentedReplyObject.debug;
-    return callback(null, augmentedReplyObject.string);
-  };
-};
-
-const processTopicRedirect = function processTopicRedirect(tag, replyObj, options, callback) {
+const processTopicRedirect = async function processTopicRedirect(tag, replyObj, options) {
   let cleanedArgs = null;
   try {
     cleanedArgs = safeEval(tag.functionArgs);
   } catch (err) {
-    return callback(`Error processing topicRedirect args: ${err}`);
+    throw new Error(`Error processing topicRedirect args: ${err}`);
   }
 
   const topicName = cleanedArgs[0];
@@ -240,106 +224,105 @@ const processTopicRedirect = function processTopicRedirect(tag, replyObj, option
 
   debug.verbose(`Processing topic redirect ^topicRedirect(${topicName},${topicTrigger})`);
   options.depth += 1;
-  return topicRedirect(topicName, topicTrigger, options, postAugment(replyObj, tag, callback));
+  const augmentedReplyObject = await topicRedirect(topicName, topicTrigger, options);
+  return postAugment(replyObj, augmentedReplyObject);
 };
 
-const processRespond = function processRespond(tag, replyObj, options, callback) {
+const processRespond = async function processRespond(tag, replyObj, options) {
   let cleanedArgs = null;
   try {
     cleanedArgs = safeEval(tag.functionArgs);
   } catch (err) {
-    return callback(`Error processing respond args: ${err}`);
+    throw new Error(`Error processing respond args: ${err}`);
   }
 
   const topicName = cleanedArgs[0];
 
   debug.verbose(`Processing respond: ^respond(${topicName})`);
   options.depth += 1;
-  return respond(topicName, options, postAugment(replyObj, tag, callback));
+  const augmentedReplyObject = await respond(topicName, options);
+  return postAugment(replyObj, augmentedReplyObject);
 };
 
-const processRedirect = function processRedirect(tag, replyObj, options, callback) {
+const processRedirect = async function processRedirect(tag, replyObj, options) {
   debug.verbose(`Processing inline redirect: {@${tag.trigger}}`);
   options.depth += 1;
-  inlineRedirect(tag.trigger, options, postAugment(replyObj, tag, callback));
+  const augmentedReplyObject = await inlineRedirect(tag.trigger, options);
+  return postAugment(replyObj, augmentedReplyObject);
 };
 
-const processCustomFunction = function processCustomFunction(tag, replyObj, options, callback) {
+const processCustomFunction = async function processCustomFunction(tag, replyObj, options) {
   if (tag.functionArgs === null) {
     debug.verbose(`Processing custom function: ^${tag.functionName}()`);
-    return customFunction(tag.functionName, [], replyObj, options, callback);
+    return customFunction(tag.functionName, [], replyObj, options);
   }
 
   let cleanArgs = null;
   try {
     cleanArgs = safeEval(tag.functionArgs);
   } catch (e) {
-    return callback(`Error processing custom function arguments: ${e}`);
+    throw new Error(`Error processing custom function arguments: ${e}`);
   }
 
-  return customFunction(tag.functionName, cleanArgs, replyObj, options, (err, response) => {
-    // The custom function might return something with more tags, so do it all again
-    preprocess(response, replyObj, options, (err, preprocessed) => {
-      if (err) {
-        return callback(`There was an error preprocessing reply tags: ${err}`);
-      }
+  const response = await customFunction(tag.functionName, cleanArgs, replyObj, options);
+  // The custom function might return something with more tags, so do it all again
+  let preprocessed;
+  try {
+    preprocessed = await preprocess(response, replyObj, options);
+  } catch (err) {
+    throw new Error(`There was an error preprocessing reply tags: ${err}`);
+  }
 
-      const replyTags = parser.parse(preprocessed);
+  const replyTags = parser.parse(preprocessed);
 
-      return async.mapSeries(replyTags, (tag, next) => {
-        if (typeof tag === 'string') {
-          next(null, tag);
-        } else {
-          processTag(tag, replyObj, options, next);
-        }
-      }, (err, processedReplyParts) => {
-        if (err) {
-          console.error(`There was an error processing reply tags: ${err}`);
-        }
-
-        callback(err, processedReplyParts.join('').trim());
-      });
-    });
-  });
+  try {
+    const processedReplyParts = await Promise.all(replyTags.map(async tag => (
+      processTag(tag, replyObj, options)
+    )));
+    return processedReplyParts.join('').trim();
+  } catch (err) {
+    throw new Error(`There was an error processing reply tags: ${err}`);
+  }
 };
 
-const processNewTopic = function processNewTopic(tag, replyObj, options, callback) {
+const processNewTopic = async function processNewTopic(tag, replyObj, options) {
   debug.verbose(`Processing new topic: ${tag.topicName}`);
   const newTopic = tag.topicName;
-  options.user.setTopic(newTopic, () => callback(null, ''));
+  await options.user.setTopic(newTopic);
+  return '';
 };
 
-const processClearConversation = function processClearConversation(tag, replyObj, options, callback) {
+const processClearConversation = function processClearConversation(tag, replyObj, options) {
   debug.verbose('Processing clear conversation: setting clear conversation to true');
   replyObj.clearConversation = true;
-  callback(null, '');
+  return '';
 };
 
-const processContinueSearching = function processContinueSearching(tag, replyObj, options, callback) {
+const processContinueSearching = function processContinueSearching(tag, replyObj, options) {
   debug.verbose('Processing continue searching: setting continueMatching to true');
   replyObj.continueMatching = true;
-  callback(null, '');
+  return '';
 };
 
-const processEndSearching = function processEndSearching(tag, replyObj, options, callback) {
+const processEndSearching = function processEndSearching(tag, replyObj, options) {
   debug.verbose('Processing end searching: setting continueMatching to false');
   replyObj.continueMatching = false;
-  callback(null, '');
+  return '';
 };
 
-const processAlternates = function processAlternates(tag, replyObj, options, callback) {
+const processAlternates = function processAlternates(tag, replyObj, options) {
   debug.verbose(`Processing alternates: ${tag.alternates}`);
   const alternates = tag.alternates;
   const random = Utils.getRandomInt(0, alternates.length - 1);
   const result = alternates[random];
-  callback(null, result);
+  return result;
 };
 
-const processDelay = function processDelay(tag, replyObj, options, callback) {
-  callback(null, `{delay=${tag.delayLength}}`);
+const processDelay = function processDelay(tag, replyObj, options) {
+  return `{delay=${tag.delayLength}}`;
 };
 
-const processSetState = function processSetState(tag, replyObj, options, callback) {
+const processSetState = function processSetState(tag, replyObj, options) {
   debug.verbose(`Processing setState: ${JSON.stringify(tag.stateToSet)}`);
   const stateToSet = tag.stateToSet;
   const newState = {};
@@ -367,81 +350,64 @@ const processSetState = function processSetState(tag, replyObj, options, callbac
   debug.verbose(`New state: ${JSON.stringify(newState)}`);
   options.user.conversationState = _.merge(options.user.conversationState, newState);
   options.user.markModified('conversationState');
-  callback(null, '');
+  return '';
 };
 
-const processTag = function processTag(tag, replyObj, options, next) {
+const processTag = async function processTag(tag, replyObj, options) {
   if (typeof tag === 'string') {
-    next(null, tag);
-  } else {
-    const tagType = tag.type;
-    switch (tagType) {
-      case 'capture':
-      case 'previousCapture':
-      case 'previousInput':
-      case 'previousReply':
-      case 'wordnetLookup': {
-        processReplacement(tag, replyObj, options, next);
-        break;
-      }
-      case 'topicRedirect': {
-        processTopicRedirect(tag, replyObj, options, next);
-        break;
-      }
-      case 'respond': {
-        processRespond(tag, replyObj, options, next);
-        break;
-      }
-      case 'customFunction': {
-        processCustomFunction(tag, replyObj, options, next);
-        break;
-      }
-      case 'newTopic': {
-        processNewTopic(tag, replyObj, options, next);
-        break;
-      }
-      case 'clearConversation': {
-        processClearConversation(tag, replyObj, options, next);
-        break;
-      }
-      case 'continueSearching': {
-        processContinueSearching(tag, replyObj, options, next);
-        break;
-      }
-      case 'endSearching': {
-        processEndSearching(tag, replyObj, options, next);
-        break;
-      }
-      case 'wordnetLookup': {
-        processWordnetLookup(tag, replyObj, options, next);
-        break;
-      }
-      case 'redirect': {
-        processRedirect(tag, replyObj, options, next);
-        break;
-      }
-      case 'alternates': {
-        processAlternates(tag, replyObj, options, next);
-        break;
-      }
-      case 'delay': {
-        processDelay(tag, replyObj, options, next);
-        break;
-      }
-      case 'setState': {
-        processSetState(tag, replyObj, options, next);
-        break;
-      }
-      default: {
-        next(`No such tag type: ${tagType}`);
-        break;
-      }
+    return tag;
+  }
+
+  const tagType = tag.type;
+  switch (tagType) {
+    case 'capture':
+    case 'previousCapture':
+    case 'previousInput':
+    case 'previousReply':
+    case 'wordnetLookup': {
+      return processReplacement(tag, replyObj, options);
+    }
+    case 'topicRedirect': {
+      return processTopicRedirect(tag, replyObj, options);
+    }
+    case 'respond': {
+      return processRespond(tag, replyObj, options);
+    }
+    case 'customFunction': {
+      return processCustomFunction(tag, replyObj, options);
+    }
+    case 'newTopic': {
+      return processNewTopic(tag, replyObj, options);
+    }
+    case 'clearConversation': {
+      return processClearConversation(tag, replyObj, options);
+    }
+    case 'continueSearching': {
+      return processContinueSearching(tag, replyObj, options);
+    }
+    case 'endSearching': {
+      return processEndSearching(tag, replyObj, options);
+    }
+    case 'redirect': {
+      return processRedirect(tag, replyObj, options);
+    }
+    case 'alternates': {
+      return processAlternates(tag, replyObj, options);
+    }
+    case 'delay': {
+      return processDelay(tag, replyObj, options);
+    }
+    case 'setState': {
+      return processSetState(tag, replyObj, options);
+    }
+    default: {
+      throw new Error(`No such tag type: ${tagType}`);
     }
   }
 };
 
 
-const processReplyTags = function processReplyTags(replyObj, options, callback) {
+const processReplyTags = async function processReplyTags(replyObj, options) {
   debug.verbose('Depth: ', options.depth);
 
   let replyString = replyObj.reply.reply;
@@ -452,38 +418,38 @@ const processReplyTags = function processReplyTags(replyObj, options, callback) 
 
   // Deals with captures and wordnet lookups within functions as a preprocessing step
   // e.g. ^myFunction(<cap1>, ~hey, "otherThing")
-  preprocess(replyString, replyObj, options, (err, preprocessed) => {
-    if (err) {
-      console.error(`There was an error preprocessing reply tags: ${err}`);
-    }
+  let preprocessed;
+  try {
+    preprocessed = await preprocess(replyString, replyObj, options);
+  } catch (err) {
+    console.error(`There was an error preprocessing reply tags: ${err}`);
+    return null;
+  }
 
-    const replyTags = parser.parse(preprocessed);
+  const replyTags = parser.parse(preprocessed);
 
-    async.mapSeries(replyTags, (tag, next) => {
-      if (typeof tag === 'string') {
-        next(null, tag);
-      } else {
-        processTag(tag, replyObj, options, next);
-      }
-    }, (err, processedReplyParts) => {
-      if (err) {
-        console.error(`There was an error processing reply tags: ${err}`);
-      }
+  let processedReplyParts;
+  try {
+    processedReplyParts = await Promise.all(replyTags.map(async tag => (
+      processTag(tag, replyObj, options)
+    )));
+  } catch (err) {
+    console.error(`There was an error processing reply tags: ${err}`);
+    return null;
+  }
 
-      replyString = processedReplyParts.join('').trim();
+  replyString = processedReplyParts.join('').trim();
 
-      const spaceRegex = /\\s/g;
-      replyObj.reply.reply = replyString.replace(spaceRegex, ' ');
+  const spaceRegex = /\\s/g;
+  replyObj.reply.reply = replyString.replace(spaceRegex, ' ');
 
-      debug.verbose('Final reply object from processTags: ', replyObj);
+  debug.verbose('Final reply object from processTags: ', replyObj);
 
-      if (_.isEmpty(options.user.pendingTopic)) {
-        return options.user.setTopic(replyObj.topic, () => callback(err, replyObj));
-      }
+  if (_.isEmpty(options.user.pendingTopic)) {
+    await options.user.setTopic(replyObj.topic);
+  }
 
-      return callback(err, replyObj);
-    });
-  });
+  return replyObj;
 };
 
 const processThreadTags = function processThreadTags(string) {
