@@ -30,7 +30,6 @@
  */
 
 import _ from 'lodash';
-import async from 'async';
 import debuglog from 'debug-levels';
 import peg from 'pegjs';
 import fs from 'fs';

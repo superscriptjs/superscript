@@ -9,7 +9,7 @@ const getTopic = async function getTopic(chatSystem, name) {
   }
 
   debug.verbose('Getting topic data for', name);
-  const topicData = await chatSystem.Topic.findOne({ name });
+  const topicData = await chatSystem.Topic.findOne({ name }).lean().exec();
 
   if (!topicData) {
     throw new Error(`No topic found for the topic name "${name}"`);

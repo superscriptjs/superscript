@@ -54,7 +54,9 @@ const findConversationTopics = async function findConversationTopics(pendingTopi
         return pendingTopics;
       }
 
-      const replies = await chatSystem.Reply.find({ _id: { $in: lastReply.replyIds } });
+      const replies = await chatSystem.Reply.find({ _id: { $in: lastReply.replyIds } })
+        .lean()
+        .exec();
       if (replies === []) {
         debug.verbose("We couldn't match the last reply. Continuing.");
         return pendingTopics;
@@ -81,7 +83,7 @@ const findConversationTopics = async function findConversationTopics(pendingTopi
 };
 
 export const findPendingTopicsForUser = async function findPendingTopicsForUser(user, message, chatSystem, conversationTimeout) {
-  const allTopics = await chatSystem.Topic.find({});
+  const allTopics = await chatSystem.Topic.find({}).lean().exec();
 
   const tfidf = new TfIdf();
 
@@ -161,7 +163,7 @@ const getPendingTopics = async function getPendingTopics(messageObject, options)
   }
 
   // Find potential topics for the response based on the message (tfidfs)
-  return await findPendingTopicsForUser(
+  return findPendingTopicsForUser(
     options.user,
     messageObject,
     options.system.chatSystem,

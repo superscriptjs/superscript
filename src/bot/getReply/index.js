@@ -100,7 +100,10 @@ const topicItorHandle = async function topicItorHandle(topicData, messageObject,
   const system = options.system;
 
   if (topicData.type === 'TOPIC') {
-    const topic = await system.chatSystem.Topic.findById(topicData.id).populate('gambits');
+    const topic = await system.chatSystem.Topic.findById(topicData.id)
+      .populate('gambits')
+      .lean()
+      .exec();
     if (topic) {
       // We do realtime post processing on the input against the user object
       if (topic.filter) {
@@ -124,16 +127,19 @@ const topicItorHandle = async function topicItorHandle(topicData, messageObject,
       }
 
       options.topic = topic.name;
-      return await helpers.findMatchingGambitsForMessage('topic', topic._id, messageObject, options);
+      return helpers.findMatchingGambitsForMessage('topic', topic._id, messageObject, options);
     }
     // We call back if there is no topic Object
     // Non-existant topics return false
     return false;
   } else if (topicData.type === 'REPLY') {
-    const reply = await system.chatSystem.Reply.findById(topicData.id).populate('gambits');
+    const reply = await system.chatSystem.Reply.findById(topicData.id)
+      .populate('gambits')
+      .lean()
+      .exec();
     debug.verbose('Conversation reply thread: ', reply);
     if (reply) {
-      return await helpers.findMatchingGambitsForMessage('reply', reply._id, messageObject, options);
+      return helpers.findMatchingGambitsForMessage('reply', reply._id, messageObject, options);
     }
     return false;
   }

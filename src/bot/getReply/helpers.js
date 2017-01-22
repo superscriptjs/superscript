@@ -16,12 +16,16 @@ const findMatchingGambitsForMessage = async function findMatchingGambitsForMessa
   if (type === 'topic') {
     debug.verbose('Looking back Topic', id);
     gambitsParent = await chatSystem.Topic.findById(id, 'gambits')
-      .populate({ path: 'gambits', populate: { path: 'replies' } });
+      .populate({ path: 'gambits', populate: { path: 'replies' } })
+      .lean()
+      .exec();
   } else if (type === 'reply') {
     options.topic = 'reply';
     debug.verbose('Looking back at Conversation', id);
     gambitsParent = await chatSystem.Reply.findById(id, 'gambits')
-      .populate({ path: 'gambits', populate: { path: 'replies' } });
+      .populate({ path: 'gambits', populate: { path: 'replies' } })
+      .lean()
+      .exec();
   } else {
     throw new Error('We should never get here');
   }
@@ -135,7 +139,9 @@ export const doesMatch = async function doesMatch(gambit, message, options) {
 // TODO: This only exists for testing, ideally we should get rid of this
 export const doesMatchTopic = async function doesMatchTopic(topicName, message, options) {
   const topic = await options.chatSystem.Topic.findOne({ name: topicName }, 'gambits')
-    .populate('gambits');
+    .populate('gambits')
+    .lean()
+    .exec();
 
   return Promise.all(topic.gambits.map(async gambit => (
     doesMatch(gambit, message, options)
@@ -190,7 +196,9 @@ const eachGambitHandle = async function eachGambitHandle(gambit, message, option
     debug.verbose('Gambit has a redirect', topic);
     // FIXME: ensure this works
     const redirectedGambit = await chatSystem.Gambit.findOne({ input: gambit.redirect })
-      .populate({ path: 'replies' });
+      .populate({ path: 'replies' })
+      .lean()
+      .exec();
     return processStars(match, redirectedGambit, topic);
   }
 
@@ -202,7 +210,10 @@ const eachGambitHandle = async function eachGambitHandle(gambit, message, option
 const walkGambitParent = async function walkGambitParent(gambitId, chatSystem) {
   const gambitIds = [];
   try {
-    const gambit = await chatSystem.Gambit.findById(gambitId).populate('parent');
+    const gambit = await chatSystem.Gambit.findById(gambitId, '_id parent')
+      .populate('parent')
+      .lean()
+      .exec();
     debug.verbose('Walk', gambit);
 
     if (gambit) {
@@ -221,7 +232,10 @@ const walkGambitParent = async function walkGambitParent(gambitId, chatSystem) {
 const walkReplyParent = async function walkReplyParent(replyId, chatSystem) {
   const replyIds = [];
   try {
-    const reply = await chatSystem.Reply.findById(replyId).populate('parent');
+    const reply = await chatSystem.Reply.findById(replyId, '_id parent')
+      .populate('parent')
+      .lean()
+      .exec();
     debug.verbose('Walk', reply);
 
     if (reply) {
@@ -239,15 +253,15 @@ const walkReplyParent = async function walkReplyParent(replyId, chatSystem) {
 
 const getRootTopic = async function getRootTopic(gambit, chatSystem) {
   if (!gambit.parent) {
-    return chatSystem.Topic.findOne({ gambits: { $in: [gambit._id] } });
+    return chatSystem.Topic.findOne({ gambits: { $in: [gambit._id] } }).lean().exec();
   }
 
   const gambits = await walkGambitParent(gambit._id, chatSystem);
   if (gambits.length !== 0) {
-    return chatSystem.Topic.findOne({ gambits: { $in: [gambits.pop()] } });
+    return chatSystem.Topic.findOne({ gambits: { $in: [gambits.pop()] } }).lean().exec();
   }
 
-  return chatSystem.Topic.findOne({ name: 'random' });
+  return chatSystem.Topic.findOne({ name: 'random' }).lean().exec();
 };
 
 export default {
