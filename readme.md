@@ -52,6 +52,22 @@ The `parse` step is another script that will compile your SuperScript script. By
 
 Alternatively, check out the [`hello-superscript`](https://github.com/silentrob/hello-superscript) repo for a clean starting point to building your own bot. There's no guarantee at present that this is using the latest version of SuperScript.
 
+### Using Heroku's one-click deploy
+
+Thanks to @bmann we now have a one-click deploy to Heroku! More info can be found over at [superscript-heroku](https://github.com/bmann/superscript-heroku).
+
+#### Express Client
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/bmann/superscript-heroku/tree/master)
+
+#### Slack Client
+
+The slack-client branch creates a superscript powered bot that sits in your Slack. You'll need to create a bot and give it a name in the [Slack apps directory](http://my.slack.com/apps/A0F7YS25R-bots) in order to get a token that lets your bot connect to your Slack.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/bmann/superscript-heroku/tree/slack-client)
+
+Creating the bot in the Slack directory means you'll see the bot appear in your Slack as offline. When your server from above is running correctly, the status of the bot will go green, and you can say "Hi" to it and it will respond.
+
 ## Upgrading to v1.x
 
 Information on upgrading to v1.x can be found [on the wiki](https://github.com/superscriptjs/superscript/wiki/Upgrading-to-v1).
