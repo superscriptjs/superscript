@@ -34,7 +34,7 @@ If you've installed superscript globally (`npm install -g superscript`), a good 
 
     bot-init myBotName --clients telnet,slack
 
-This will create a bot in a new 'myBotName' folder in your current directory. You can specify the clients you want with the `--clients` flag (currently bot-init only supports Slack and Telnet).
+This will create a bot in a new 'myBotName' folder in your current directory. You can specify the clients you want with the `--clients` flag.
 
 Then all you need to do is run:
 
@@ -46,7 +46,9 @@ npm run build
 npm run start-[clientName]
 ```
 
-The `parse` step is another script that will compile your SuperScript script. By default, it will look at the `chat` folder in your current directory.
+This will start the server. You then need to connect to a client to be able to talk to your bot! If you're using the telnet client, you'll need to open up a new Terminal tab, and run `telnet localhost 2000`.
+
+Note: The `parse` step is a bin script that will compile your SuperScript script. By default, it will look at the `chat` folder in your current directory.
 
 ### Clone a template
 
