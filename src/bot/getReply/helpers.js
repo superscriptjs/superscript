@@ -9,28 +9,8 @@ const debug = debuglog('SS:Helpers');
 
 // This will find all the gambits to process by parent (topic or conversation)
 // and return ones that match the message
-const findMatchingGambitsForMessage = async function findMatchingGambitsForMessage(type, id, message, options) {
-  let gambitsParent = {};
-  const chatSystem = options.system.chatSystem;
-
-  if (type === 'topic') {
-    debug.verbose('Looking back Topic', id);
-    gambitsParent = await chatSystem.Topic.findById(id, 'gambits')
-      .populate({ path: 'gambits', populate: { path: 'replies' } })
-      .lean()
-      .exec();
-  } else if (type === 'reply') {
-    options.topic = 'reply';
-    debug.verbose('Looking back at Conversation', id);
-    gambitsParent = await chatSystem.Reply.findById(id, 'gambits')
-      .populate({ path: 'gambits', populate: { path: 'replies' } })
-      .lean()
-      .exec();
-  } else {
-    throw new Error('We should never get here');
-  }
-
-  const matches = await Promise.all(gambitsParent.gambits.map(async (gambit) => {
+const findMatchingGambitsForMessage = async function findMatchingGambitsForMessage(type, parent, message, options) {
+  const matches = await Promise.all(parent.gambits.map(async (gambit) => {
     const match = await eachGambitHandle(gambit, message, options);
     return match;
   }));

@@ -100,8 +100,8 @@ const topicItorHandle = async function topicItorHandle(topicData, messageObject,
   const system = options.system;
 
   if (topicData.type === 'TOPIC') {
-    const topic = await system.chatSystem.Topic.findById(topicData.id)
-      .populate('gambits')
+    const topic = await system.chatSystem.Topic.findById(topicData.id, '_id name filter gambits')
+      .populate({ path: 'gambits', populate: { path: 'replies' } })
       .lean()
       .exec();
     if (topic) {
@@ -127,19 +127,19 @@ const topicItorHandle = async function topicItorHandle(topicData, messageObject,
       }
 
       options.topic = topic.name;
-      return helpers.findMatchingGambitsForMessage('topic', topic._id, messageObject, options);
+      return helpers.findMatchingGambitsForMessage('topic', topic, messageObject, options);
     }
     // We call back if there is no topic Object
     // Non-existant topics return false
     return false;
   } else if (topicData.type === 'REPLY') {
-    const reply = await system.chatSystem.Reply.findById(topicData.id)
-      .populate('gambits')
+    const reply = await system.chatSystem.Reply.findById(topicData.id, '_id name filter gambits')
+      .populate({ path: 'gambits', populate: { path: 'replies' } })
       .lean()
       .exec();
     debug.verbose('Conversation reply thread: ', reply);
     if (reply) {
-      return helpers.findMatchingGambitsForMessage('reply', reply._id, messageObject, options);
+      return helpers.findMatchingGambitsForMessage('reply', reply, messageObject, options);
     }
     return false;
   }
