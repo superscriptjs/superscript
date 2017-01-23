@@ -87,7 +87,7 @@ const runPluginFunc = async function runPluginFunc(functionRegex, scope, plugins
     throw new Error(`Error in plugin function arguments: ${err}`);
   }
 
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     cleanArgs.push((err, ...args) => {
       err ? reject(err) : resolve(args);
     });

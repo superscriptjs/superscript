@@ -1,3 +1,8 @@
+### 1.0.2
+
+* Performance improvement by another 20% or so by using Mongoose's lean queries, and skipping an extraneous query.
+* All the internal reply logic now uses async/await instead of callbacks.
+
 ### 1.0.1
 
 * Fixes GH-317 by expanding custom concepts at parse time.
