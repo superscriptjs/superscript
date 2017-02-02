@@ -1,3 +1,8 @@
+### 1.0.3
+
+* Fixes issue with significantly large triggers (over 1024 bytes) not being serialised into Mongo.
+* Fact system import internals have been re-written.
+
 ### 1.0.2
 
 * Performance improvement by another 20% or so by using Mongoose's lean queries, and skipping an extraneous query.

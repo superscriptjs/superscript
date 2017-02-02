@@ -30,7 +30,7 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     input: { type: String },
 
     // The Trigger is a partly baked regex.
-    trigger: { type: String, index: true },
+    trigger: { type: String },
 
     // If the trigger is a Question Match
     isQuestion: { type: Boolean, default: false },
