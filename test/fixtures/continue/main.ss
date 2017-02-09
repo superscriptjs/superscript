@@ -139,4 +139,23 @@
   % reply 2 *
   - reply 3 <cap1> <p1cap1> <p1cap2>
 
+
++ this is a triumph
+- I'm making a note here, huge success
+
+  + it is hard to overstate my satisfaction
+  % I'm making a note here, huge success
+  - aperture science {@__portal__} {clear}
+
+  + *
+  % I'm making a note here, huge success
+  - That's the wrong lyric, you goon {@__portal__} {clear}
+
++ __portal__
+- The cake is a lie
+
++ I like cake
+- do you like portal
+
+
 < topic

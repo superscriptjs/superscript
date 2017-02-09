@@ -184,5 +184,20 @@ describe('SuperScript Continue System aka Conversation', () => {
     });
   });
 
+  describe('Contrived edge case not forwarding conversation clears with redirects', () => {
+    it('should forward conversation clears', (done) => {
+      helpers.getBot().reply('user6', 'this is a triumph', (err, reply) => {
+        should(reply.string).eql("I'm making a note here, huge success");
+        helpers.getBot().reply('user6', 'wrong lyric', (err, reply) => {
+          should(reply.string).eql("That's the wrong lyric, you goon The cake is a lie");
+          helpers.getBot().reply('user6', 'I like cake', (err, reply) => {
+            should(reply.string).eql('do you like portal');
+            done();
+          });
+        });
+      });
+    });
+  });
+
   after(helpers.after);
 });

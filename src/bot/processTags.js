@@ -187,7 +187,7 @@ const preprocess = async function preprocess(reply, replyObj, options) {
 
 const postAugment = function postAugment(replyObject, augmentedReplyObject) {
   replyObject.continueMatching = augmentedReplyObject.continueMatching;
-  replyObject.clearConversation = augmentedReplyObject.clearConversation;
+  replyObject.clearConversation = replyObject.clearConversation || augmentedReplyObject.clearConversation;
   replyObject.topic = augmentedReplyObject.topicName;
   replyObject.props = _.merge(replyObject.props, augmentedReplyObject.props);
 

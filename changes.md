@@ -1,3 +1,7 @@
+### 1.0.4
+
+* Fixes issue when using {clear} with inline redirects.
+
 ### 1.0.3
 
 * Fixes issue with significantly large triggers (over 1024 bytes) not being serialised into Mongo.
