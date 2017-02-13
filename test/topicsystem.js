@@ -66,7 +66,7 @@ describe('SuperScript TopicsSystem', () => {
       });
     });
 
-    it.only('update gambit test', (done) => {
+    it('update gambit test', (done) => {
       helpers.getBot().chatSystem.Gambit.create({ input: 'this is a create test' }, (er, gam) => {
         helpers.getBot().message('this is a create test', (err, msg) => {
           helpers.getBot().getUser('user1', (err, user) => {
