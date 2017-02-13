@@ -38,9 +38,13 @@ const removeMissingTopics = function removeMissingTopics(topics) {
 };
 
 const findConversationTopics = async function findConversationTopics(pendingTopics, user, chatSystem, conversationTimeout) {
+  if (user.history.length === 0) {
+    return pendingTopics;
+  }
+
   // If we are currently in a conversation, we want the entire chain added
   // to the topics to search
-  const lastReply = user.history.reply[0];
+  const lastReply = user.history[0].reply;
   if (!_.isEmpty(lastReply)) {
     // If the message is less than _ minutes old we continue
     const delta = Date.now() - lastReply.createdAt;
@@ -79,7 +83,6 @@ const findConversationTopics = async function findConversationTopics(pendingTopi
     debug.info('The conversation thread was to old to continue it.');
     return pendingTopics;
   }
-  return pendingTopics;
 };
 
 export const findPendingTopicsForUser = async function findPendingTopicsForUser(user, message, chatSystem, conversationTimeout) {

@@ -45,18 +45,18 @@ class SuperScript {
   }
 
   getUser(userId, callback) {
-    this.chatSystem.User.findOne({ id: userId }, callback);
+    this.chatSystem.User.findOne({ id: userId })
+      .slice('history', 10)
+      .exec(callback);
   }
 
   findOrCreateUser(userId, callback) {
-    const findProps = { id: userId };
-    const createProps = {
-      currentTopic: 'random',
-      status: 0,
-      conversation: 0,
-    };
-
-    this.chatSystem.User.findOrCreate(findProps, createProps, callback);
+    this.chatSystem.User.findOneAndUpdate({ id: userId }, {}, {
+      upsert: true,
+      setDefaultsOnInsert: true,
+      new: true,
+    }).slice('history', 10)
+      .exec(callback);
   }
 
   // Converts msg into a message object, then checks for a match

@@ -6,7 +6,6 @@
 import mongoose from 'mongoose';
 import mongoTenant from 'mongo-tenant';
 import async from 'async';
-import findOrCreate from 'mongoose-findorcreate';
 import debuglog from 'debug-levels';
 
 import modelNames from '../modelNames';
@@ -105,7 +104,6 @@ const createTopicModel = function createTopicModel(db) {
     this.findOne({ name }, {}, callback);
   };
 
-  topicSchema.plugin(findOrCreate);
   topicSchema.plugin(mongoTenant);
 
   return db.model(modelNames.topic, topicSchema);

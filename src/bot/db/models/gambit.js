@@ -4,7 +4,6 @@
 **/
 
 import mongoose from 'mongoose';
-import findOrCreate from 'mongoose-findorcreate';
 import mongoTenant from 'mongo-tenant';
 import debuglog from 'debug-levels';
 import async from 'async';
@@ -118,7 +117,6 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     });
   };
 
-  gambitSchema.plugin(findOrCreate);
   gambitSchema.plugin(mongoTenant);
 
   return db.model('ss_gambit', gambitSchema);

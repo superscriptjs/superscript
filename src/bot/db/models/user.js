@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import debuglog from 'debug-levels';
-import findOrCreate from 'mongoose-findorcreate';
 import mongoose from 'mongoose';
 import mongoTenant from 'mongo-tenant';
 
@@ -16,20 +15,19 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
     lastMessageSentAt: Date,
     prevAns: Number,
     conversationState: Object,
-    history: {
-      input: [],
-      reply: [],
-      topic: [],
-      stars: [],
-    },
+    history: [{
+      input: Object,
+      reply: Object,
+      topic: Object,
+      stars: Object,
+    }],
   });
 
   userSchema.pre('save', function (next) {
     debug.verbose('Pre-Save Hook');
-    this.history.input = this.history.input.slice(0, 15);
-    this.history.reply = this.history.reply.slice(0, 15);
-    this.history.topic = this.history.topic.slice(0, 15);
-    this.history.stars = this.history.stars.slice(0, 15);
+    // save a full log of user conversations, but just in case a user has a
+    // super long conversation, don't take up too much storage space
+    this.history = this.history.slice(0, 500);
     next();
   });
 
@@ -85,10 +83,12 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
 
     reply.createdAt = Date.now();
 
-    this.history.stars.unshift(stars);
-    this.history.input.unshift(messageToSave);
-    this.history.reply.unshift(reply);
-    this.history.topic.unshift(this.currentTopic);
+    this.history.unshift({
+      stars,
+      input: messageToSave,
+      reply,
+      topic: this.currentTopic,
+    });
 
     if (this.pendingTopic !== undefined && this.pendingTopic !== '') {
       const pendingTopic = this.pendingTopic;
@@ -96,7 +96,7 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
 
       db.model(modelNames.topic).byTenant(this.getTenantId()).findOne({ name: pendingTopic }, (err, topicData) => {
         if (topicData && topicData.nostay === true) {
-          this.currentTopic = this.history.topic[0];
+          this.currentTopic = this.history[0].topic;
         } else {
           this.currentTopic = pendingTopic;
         }
@@ -154,7 +154,6 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
     });
   };
 
-  userSchema.plugin(findOrCreate);
   userSchema.plugin(mongoTenant);
 
   userSchema.virtual('memory').get(function () {

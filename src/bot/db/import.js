@@ -114,7 +114,11 @@ const importData = function importData(chatSystem, data, callback) {
     };
 
     debug.verbose('Creating Topic w/ Settings', topicProperties);
-    Topic.findOrCreate({ name: topic.name }, topicProperties, (err, mongoTopic) => {
+    Topic.findOneAndUpdate({ name: topic.name }, topicProperties, {
+      upsert: true,
+      setDefaultsOnInsert: true,
+      new: true,
+    }, (err, mongoTopic) => {
       if (err) {
         console.error(err);
       }

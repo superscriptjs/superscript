@@ -12,8 +12,8 @@ const inlineRedirect = async function inlineRedirect(triggerTarget, options) {
   // if we have a special topic, reset it to the previous one
   // in order to preserve the context for inline redirection
   if (options.topic === '__pre__' || options.topic === '__post__') {
-    if (options.user.history.topic.length) {
-      options.topic = options.user.history.topic[0];
+    if (options.user.history.length !== 0) {
+      options.topic = options.user.history[0].topic;
     }
   }
 

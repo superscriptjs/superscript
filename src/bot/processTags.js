@@ -90,8 +90,8 @@ const processPreviousCapture = function processPreviousCapture(tag, replyObj, op
   debug.verbose(`Processing previous capture: <p${conversationID + 1}cap${starID + 1}>`);
   let replacedCapture = '';
 
-  if (options.user.history.stars[conversationID] && options.user.history.stars[conversationID][starID]) {
-    replacedCapture = options.user.history.stars[conversationID][starID];
+  if (options.user.history[conversationID].stars && options.user.history[conversationID].stars[starID]) {
+    replacedCapture = options.user.history[conversationID].stars[starID];
     debug.verbose(`Replacing <p${conversationID + 1}cap${starID + 1}> with "${replacedCapture}"`);
   } else {
     debug.verbose('Attempted to use previous capture data, but none was found in user history.');
@@ -110,11 +110,11 @@ const processPreviousInput = function processPreviousInput(tag, replyObj, option
   const inputID = (tag.inputID || 1) - 1;
   debug.verbose(`Processing previous input <input${inputID + 1}>`);
   let replacedInput = '';
-  if (!options.user.history.input) {
+  if (options.user.history.length === 0) {
     // Nothing yet in the history
     replacedInput = '';
   } else {
-    replacedInput = options.user.history.input[inputID].original;
+    replacedInput = options.user.history[inputID].input.original;
   }
   debug.verbose(`Replacing <input${inputID + 1}> with "${replacedInput}"`);
   return replacedInput;
@@ -124,11 +124,11 @@ const processPreviousReply = function processPreviousReply(tag, replyObj, option
   const replyID = (tag.replyID || 1) - 1;
   debug.verbose(`Processing previous reply <reply${replyID + 1}>`);
   let replacedReply = '';
-  if (!options.user.history.reply) {
+  if (options.user.history === 0) {
     // Nothing yet in the history
     replacedReply = '';
   } else {
-    replacedReply = options.user.history.reply[replyID];
+    replacedReply = options.user.history[replyID].reply;
   }
   debug.verbose(`Replacing <reply{replyID + 1}> with "${replacedReply}"`);
   return replacedReply;

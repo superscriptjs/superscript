@@ -66,27 +66,25 @@ describe('SuperScript TopicsSystem', () => {
       });
     });
 
-    it('update gambit test', (done) => {
-      helpers.getBot().chatSystem.Gambit.findOrCreate({ input: 'this is a create test' }, (er, gam) => {
-        gam.save(() => {
-          helpers.getBot().message('this is a create test', (err, msg) => {
-            helpers.getBot().getUser('user1', (err, user) => {
-              const options = { user };
-              doesMatch(gam, msg, options).then((r) => {
-                should(r).exist;
-                gam.input = 'this is a create *~2';
-                // Clear the normalized trigger created in the first step.
-                gam.trigger = '';
-                gam.save(() => {
-                  helpers.getBot().message('this is a create hello world', (err, msg) => {
-                    doesMatch(gam, msg, options).then((r) => {
-                      should(r[1]).eql('hello world');
-                      done();
-                    }).catch(err => done(err));
-                  });
+    it.only('update gambit test', (done) => {
+      helpers.getBot().chatSystem.Gambit.create({ input: 'this is a create test' }, (er, gam) => {
+        helpers.getBot().message('this is a create test', (err, msg) => {
+          helpers.getBot().getUser('user1', (err, user) => {
+            const options = { user };
+            doesMatch(gam, msg, options).then((r) => {
+              should(r).exist;
+              gam.input = 'this is a create *~2';
+              // Clear the normalized trigger created in the first step.
+              gam.trigger = '';
+              gam.save(() => {
+                helpers.getBot().message('this is a create hello world', (err, msg) => {
+                  doesMatch(gam, msg, options).then((r) => {
+                    should(r[1]).eql('hello world');
+                    done();
+                  }).catch(err => done(err));
                 });
-              }).catch(err => done(err));
-            });
+              });
+            }).catch(err => done(err));
           });
         });
       });

@@ -1,3 +1,8 @@
+### 1.0.5
+
+* The history field on the User model now retains 500 messages (up from 15) for logging purposes. It also is now an array of objects, rather than being an object of arrays, so we can more easily iterate over the history, and allows us to slice the array easily.
+* Removed mongoose-findorcreate and replaced with native mongoose options `upsert` and `new`.
+
 ### 1.0.4
 
 * Fixes issue when using {clear} with inline redirects.

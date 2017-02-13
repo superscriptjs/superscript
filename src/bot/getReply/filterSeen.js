@@ -11,10 +11,10 @@ const filterRepliesBySeen = async function filterRepliesBySeen(filteredResults, 
     if (!filteredResult.seenCount) {
       filteredResult.seenCount = 0;
     }
-    for (let i = 0; i <= 10; i++) {
-      if (options.user.history.topic[i] !== undefined) {
-        const pastGambit = options.user.history.reply[i];
-        const pastInput = options.user.history.input[i];
+    options.user.history.map((historyItem) => {
+      if (historyItem.topic !== undefined) {
+        const pastGambit = historyItem.reply;
+        const pastInput = historyItem.input;
 
         if (pastGambit && pastInput) {
           if (pastGambit.replyIds && pastGambit.replyIds.find(id => String(id) === String(replyId))) {
@@ -23,7 +23,7 @@ const filterRepliesBySeen = async function filterRepliesBySeen(filteredResults, 
           }
         }
       }
-    }
+    });
     return filteredResult;
   });
   return bucket;
