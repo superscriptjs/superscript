@@ -6,12 +6,21 @@ import parser from 'ss-parser';
 import facts from 'sfacts';
 
 program
-  .version('1.0.1')
+  .version('1.0.2')
   .option('-p, --path [type]', 'Input path', './chat')
   .option('-o, --output [type]', 'Output options', 'data.json')
   .option('-f, --force [type]', 'Force save if output file already exists', false)
   .option('-F, --facts [type]', 'Fact system files path', files => files.split(','), [])
+  .option('--host [type]', 'Mongo Host', 'localhost')
+  .option('--port [type]', 'Mongo Port', '27017')
+  .option('--mongo [type]', 'Mongo Database Name', 'superscriptParse')
+  .option('--mongoURI [type]', 'Mongo URI')
   .parse(process.argv);
+
+const mongoURI = process.env.MONGO_URI
+  || process.env.MONGODB_URI
+  || program.mongoURI
+  || `mongodb://${program.host}:${program.port}/${program.mongo}`;
 
 fs.exists(program.output, (exists) => {
   if (exists && !program.force) {
@@ -19,7 +28,7 @@ fs.exists(program.output, (exists) => {
     return process.exit();
   }
 
-  return facts.load('mongodb://localhost/superscriptParse', program.facts, true, (err, factSystem) => {
+  return facts.load(mongoURI, program.facts, true, (err, factSystem) => {
     parser.parseDirectory(program.path, { factSystem }, (err, result) => {
       if (err) {
         console.error(`Error parsing bot script: ${err}`);

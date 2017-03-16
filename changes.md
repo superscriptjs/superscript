@@ -1,3 +1,9 @@
+### 1.0.6
+
+* Mongoose now uses the global Promise object to avoid a DeprecationWarning (thanks @Lewwwk!).
+* Cleanup and parse bin scripts now accept a MONGODB_URI environment variable for easy cleanup/parsing on Heroku.
+* Parse bin script also now accepts custom MongoDB connection params.
+
 ### 1.0.5
 
 * The history field on the User model now retains 500 messages (up from 15) for logging purposes. It also is now an array of objects, rather than being an object of arrays, so we can more easily iterate over the history, and allows us to slice the array easily.
