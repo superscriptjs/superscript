@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+mongoose.Promise = global.Promise;
 
 export default (mongoURI) => {
   const db = mongoose.createConnection(`${mongoURI}`);
