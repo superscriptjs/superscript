@@ -1,15 +1,15 @@
-> topic:keep random
+> topic random {keep}
 
   + new capture (interface|face)
   - capture test <cap>
 
-  + new capture [interface|face] two
+  + new capture [interface|face] 2
   - capture test <cap>
 
-  + new capture *~1 three
+  + new capture *~1 3
   - capture test <cap1>
 
-  + new capture *1 four
+  + new capture *1 4
   - capture test <cap1>
 
   + new capture ~like wordnet
@@ -34,10 +34,10 @@
   + *(1-5) is related to *(1-5)
   - <cap1> is <cap2>
 
-  + previous capture one (*)
+  + previous capture 1 (*)
   - previous capture test one <cap1>
 
-  + previous capture two
+  + previous capture 2
   - previous capture test two <p1cap1>
 
 < topic

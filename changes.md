@@ -1,3 +1,63 @@
+### 1.0.5
+
+* The history field on the User model now retains 500 messages (up from 15) for logging purposes. It also is now an array of objects, rather than being an object of arrays, so we can more easily iterate over the history, and allows us to slice the array easily.
+* Removed mongoose-findorcreate and replaced with native mongoose options `upsert` and `new`.
+
+### 1.0.4
+
+* Fixes issue when using {clear} with inline redirects.
+
+### 1.0.3
+
+* Fixes issue with significantly large triggers (over 1024 bytes) not being serialised into Mongo.
+* Fact system import internals have been re-written.
+
+### 1.0.2
+
+* Performance improvement by another 20% or so by using Mongoose's lean queries, and skipping an extraneous query.
+* All the internal reply logic now uses async/await instead of callbacks.
+
+### 1.0.1
+
+* Fixes GH-317 by expanding custom concepts at parse time.
+* Removes unused field in User model.
+
+### 1.0.0
+
+We're very excited to push v1 into the wild, which marks the first major release of SuperScript! In this version, we've focused mainly on cleaning up the codebase, ensuring extensibility, and squeezing performance out of the runtime to ensure that your bots are nice and snappy.
+
+An overview of the big changes include:
+
+* Parsing is now lightning fast. We're looking at over 100x faster. 🔥
+* Replying is faster too, by over 10x. These two improvements are mainly thanks to some new logic in the normalisation step, which is now supported by the [bot-lang](https://github.com/bot-ai/bot-lang) repo.
+* More reliable trigger matching and reply exhaustion.
+* An easy-to-use API to set up SuperScript. No more dealing with setting up fact systems or topic systems yourselves: just set the relevant options and we take care of it for you.
+* A brand new [PEG.js](https://github.com/pegjs/pegjs) parser to parse bot scripts, allowing us to easily extend and modify syntax in the future, and be able to reliably inform you if you've written an invalid script.
+* Moved the fact system to Mongo to be completely independent of the file system and stateless. You can now run on Heroku, AWS, or other cloud services without fear of writing to a transient file system or syncing data between servers.
+* Re-written the code to take advantage of the latest ES6+ features.
+* Windows support! 🖥️
+* Closed over 50 GitHub issues, from topic redirection issues to capturing data.
+
+We've added some cool new features like:
+
+* We've added some new ways to define how replies should be chosen: `{ordered}`, `{random}`, `{keep}`, `{exhaust}` and `{reload}`.
+* Arguments to plugin functions are now JavaScript literals, so you can pass objects, arrays, numbers and so on to your functions.
+* We now support message plugin functions to run a plugin on every message, so you can attach extra properties to your messages like 'names' to use in later plugins.
+* You can now run multiple bots from different database URIs on a single server, and also run multiple bots from a single database URI using built-in multi-tenancy.
+* You can now customise the conversation timeout from the default of 5 minutes.
+
+We've also deprecated some of the old syntax. For the full list, see the [Upgrading to v1 Guide](https://github.com/superscriptjs/superscript/wiki/Upgrading-to-v1). Some of the more important points are:
+
+* The API to use SuperScript has changed dramatically. Now, you call `superscript.setup` and pass an `options` object.
+* The old tags like `~emohello` and `~emogreetings` are deprecated. Now, you'd use the plugin `^hasTag('hello')` to check if a user has said something like `hello`.
+* Questions no longer have types or sub-types. We're looking to improve this in the future.
+
+We really hope you like v1, and we're always open to new ideas, improvements, issues and pull requests. We already have some exciting things lined up for v2, and we hope this brings SuperScript closer to being the de-facto choice of human-like bot for developers! Join us on [Slack](http://superscript-slackin.herokuapp.com/) to talk about what we have planned and anything else bot-related.
+
+A big thank you to everyone who has contributed towards our first release. We couldn't have got there without you.
+
+The SuperScript Team
+
 ### 0.11.26
 * Fix for GH-262. If a concept is captured we convert it to a non-concept. ^save() will now test for 3 arguments.
 * Fix for GH-259. Harden missing filter and plugin routes, warn louder and pass errors down if hit in topicRedirect.
@@ -36,7 +96,7 @@
 
 ### 0.11.16
 * Fixed a regression in ^respond
-* Moved some console.log to debug.error 
+* Moved some console.log to debug.error
 
 ### 0.11.15
 * Adds new directReply endpoint and more cheanup on msg
@@ -85,7 +145,7 @@
 * Just a tiny change to unlock the normalizer version.
 
 ### 0.11.0
-* Adds a new command `%%` for dynamic conversations (gh-206). 
+* Adds a new command `%%` for dynamic conversations (gh-206).
 
 This works by setting some state in a reply for example:
 ```
@@ -96,11 +156,11 @@ This works by setting some state in a reply for example:
 Then later in the conversation you can create a condition by one of three methods:
 ```
 // trigger is assumed to be a wildcard
-%% (key === value) 
+%% (key === value)
 - now say this
 
-// setting a trigger 
-%% (key === value) 
+// setting a trigger
+%% (key === value)
 + then match this
 - now say this
 

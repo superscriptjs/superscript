@@ -1,71 +1,70 @@
-var mocha = require("mocha");
-var should  = require("should");
-var help = require("./helpers");
+/* global describe, it, before, after */
 
-// We need to revisit userConnect 
-describe('Super Script Topics', function(){
+import mocha from 'mocha';
+import should from 'should/as-function';
+import helpers from './helpers';
+import { findPendingTopicsForUser } from '../src/bot/getReply/getPendingTopics';
 
-  before(help.before("topicflags"));
+describe('SuperScript Topics', () => {
+  before(helpers.before('topicflags'));
 
-  describe('Topic Functions', function(){
-    // This test is failing and Im not sure if random or system topics should be included
-    it.skip("should fetch a list of topics", function(done){
-      bot.findOrCreateUser("user1", function(err, user){
-        var message = {lemString: "hello world"};
+  describe('Topic Functions', () => {
+    // The length of this should equal five (at present): this excludes system topics which
+    // are not searched by default, and includes the random topic (it always does).
+    it('should fetch a list of topics', (done) => {
+      helpers.getBot().findOrCreateUser('user1', async (err, user) => {
+        const message = { lemString: 'hello world' };
 
-        bot.topicSystem.topic.findPendingTopicsForUser(user, message, function(e,topics) {
-          topics.should.not.be.empty;
-          topics.should.have.length(7);
-          done();
-        });
+        const topics = await findPendingTopicsForUser(user, message, helpers.getBot().chatSystem);
+        should(topics).not.be.empty;
+        should(topics).have.length(6);
+        done();
       });
     });
 
-    it("find topic by Name", function(done){
-      bot.topicSystem.topic.findByName('random', function(err, topic){
-        topic.should.not.be.empty;
+    it('find topic by Name', (done) => {
+      helpers.getBot().chatSystem.Topic.findByName('random', (err, topic) => {
+        should(topic).not.be.empty;
         done();
       });
     });
   });
-    
-  describe('Topics - System', function(){
-    it("topic should have system flag", function(done){
-      bot.reply("user1", "this is a system topic", function(err, reply){
-        reply.string.should.be.empty;
+
+  describe('Topics - System', () => {
+    it('topic should have system flag', (done) => {
+      helpers.getBot().reply('user1', 'this is a system topic', (err, reply) => {
+        should(reply.string).be.empty;
         done();
       });
     });
 
     // Re-check this
-    it("Go to hidden topic indirectly", function(done){
-      bot.reply("user1", "why did you run", function(err, reply){
+    it('Go to hidden topic indirectly', (done) => {
+      helpers.getBot().reply('user1', 'why did you run', (err, reply) => {
         // This really just makes sure the reply is not accesses directly
-        reply.string.should.eql("to get away from someone");
-        reply.topicName.should.eql("system_why");
+        should(reply.string).eql('to get away from someone');
+        should(reply.topicName).eql('system_why');
         done();
       });
     });
 
-    it("topic recurrsion with respond", function(done){
-      bot.reply("user1", "test recursion", function(err, reply){
-        reply.string.should.eql("");
+    it('topic recurrsion with respond', (done) => {
+      helpers.getBot().reply('user1', 'test recursion', (err, reply) => {
+        should(reply.string).eql('');
         done();
       });
     });
-
   });
 
-  describe('Topic - sort', function(){
-
-    it("topic should not be orderd by default", function(done) {
-      bot.reply("user1", "this should catch some", function(err, reply) {
-        bot.topicSystem.topic.findByName('random', function(err, topic) {
-          topic.createGambit({input:'this should catch some more'}, function(er, gam) {
-            gam.addReply({reply: "New Reply"}, function(err, rep) {
-              topic.sortGambits(function() {
-                bot.reply("user1", "this should catch some more", function(err, reply) {
-                  reply.string.should.eql("New Reply");
+  describe('Topic - sort', () => {
+    it('topic should not be orderd by default', (done) => {
+      helpers.getBot().reply('user1', 'this must catch some', (err, reply) => {
+        helpers.getBot().chatSystem.Topic.findByName('random', (err, topic) => {
+          topic.createGambit({ input: 'this must catch some more' }, (er, gam) => {
+            gam.addReply({ reply: 'New Reply' }, (err, rep) => {
+              topic.sortGambits(() => {
+                helpers.getBot().reply('user1', 'this must catch some more', (err, reply) => {
+                  should(reply.string).eql('New Reply');
                   done();
                 });
               });
@@ -73,114 +72,112 @@ describe('Super Script Topics', function(){
           });
         });
       });
-
     });
   });
 
 
-  describe('Topic Flow', function() {
-
-    it("topic flow 0", function(done) {
-      bot.reply("user1", "respond test", function(err, reply) {
-        reply.string.should.eql("final");
+  describe('Topic Flow', () => {
+    it('topic flow 0', (done) => {
+      helpers.getBot().reply('user1', 'respond test', (err, reply) => {
+        should(reply.string).eql('final');
         done();
       });
     });
 
-    it("topic flow 1", function(done){
-      bot.reply("user 10", "testing hidden", function(err, reply) {
-        reply.string.should.eql("some reply");
+    it('topic flow 1', (done) => {
+      helpers.getBot().reply('user 10', 'testing hidden', (err, reply) => {
+        should(reply.string).eql('some reply');
 
-        bot.reply("user 10", "yes", function(err, reply) {
-          reply.string.should.eql("this should work.");
+        helpers.getBot().reply('user 10', 'yes', (err, reply) => {
+          should(reply.string).eql('this must work.');
           done();
         });
-
       });
     });
 
-    it("topic flow 2", function(done){
-      bot.reply("user2", "testing hidden", function(err, reply) {
-        reply.string.should.eql("some reply");
+    it('topic flow 2', (done) => {
+      helpers.getBot().reply('user2', 'testing hidden', (err, reply) => {
+        should(reply.string).eql('some reply');
 
-        bot.reply("user2", "lets not go on", function(err, reply) {
-          reply.string.should.eql("end");
+        helpers.getBot().reply('user2', 'lets not go on', (err, reply) => {
+          should(reply.string).eql('end');
           done();
         });
-
       });
     });
-
   });
 
-  describe('Topics - NoStay Flag', function() {
-    it("topic should have keep flag", function(done){
-      bot.reply("User1", "testing nostay", function(err, reply) {
-        reply.string.should.eql("topic test pass");
-        bot.reply("User1", "something else", function(err, reply) {
-          reply.string.should.eql("reply in random");
+  describe('Topics - NoStay Flag', () => {
+    it('topic should have keep flag', (done) => {
+      helpers.getBot().reply('User1', 'testing nostay', (err, reply) => {
+        should(reply.string).eql('topic test pass');
+        helpers.getBot().reply('User1', 'something else', (err, reply) => {
+          should(reply.string).eql('reply in random');
           done();
         });
       });
     });
-
   });
 
-  describe('Topics - Keep', function() {
-
-    it("topic should have keep flag", function(done){
-      bot.topicSystem.topic.findByName('keeptopic', function(err, t) {
-        t.keep.should.be.true;
+  describe('Topics - Keep', () => {
+    it('topic should have keep flag', (done) => {
+      helpers.getBot().chatSystem.Topic.findByName('keeptopic', (err, t) => {
+        should(t.keep).be.true;
         done();
       });
     });
 
-    it("should keep topic for reuse", function(done){
-      bot.reply("user1", "set topic to keeptopic", function(err, reply) {
-        reply.string.should.eql("Okay we are going to keeptopic");
-
-        bot.getUser("user1", function(err, cu){
-          cu.getTopic().should.eql("keeptopic");
-          bot.reply("user1", "i have one thing to say", function(err, reply) {
-            reply.string.should.eql("topic test pass");
-            bot.reply("user1", "i have one thing to say", function(err, reply) {
-              reply.string.should.eql("topic test pass");
+    it('should keep topic for reuse', (done) => {
+      helpers.getBot().reply('user1', 'set topic to keeptopic', (err, reply) => {
+        should(reply.string).eql('Okay we are going to keeptopic');
+        helpers.getBot().getUser('user1', (err, cu) => {
+          should(cu.getTopic()).eql('keeptopic');
+          helpers.getBot().reply('user1', 'i have 1 thing to say', (err, reply) => {
+            should(reply.string).eql('topic test pass');
+            helpers.getBot().reply('user1', 'i have 1 thing to say', (err, reply) => {
+              should(reply.string).eql('topic test pass');
               done();
             });
           });
-
         });
       });
     });
-  
 
-    it("should not repeat itself", function(done){
+
+    it('should not repeat itself', (done) => {
       // Manually reset the topic
-      bot.findOrCreateUser("user1", function(err, user){
-        user.currentTopic = "random";
+      helpers.getBot().findOrCreateUser('user1', (err, user) => {
+        user.currentTopic = 'random';
 
-        bot.reply("user1", "set topic to dry", function(err, reply) {
+        helpers.getBot().reply('user1', 'set topic to dry', (err, reply) => {
           // Now in dry topic
-          bot.getUser("user1", function(err, su) {
-            ct = su.getTopic();
-            ct.should.eql("dry");
+          helpers.getBot().getUser('user1', (err, su) => {
+            const ct = su.getTopic();
+            should(ct).eql('dry');
 
-            bot.reply("user1", "this is a dry topic", function(err, reply) {
-              reply.string.should.eql("dry topic test pass");
+            helpers.getBot().reply('user1', 'this is a dry topic', (err, reply) => {
+              should(reply.string).eql('dry topic test pass');
               // Say it again...
-              bot.reply("user1", "this is a dry topic", function(err, reply) {
-
+              helpers.getBot().reply('user1', 'this is a dry topic', (err, reply) => {
                 // If something was said, we don't say it again
-                reply.string.should.eql("");
+                should(reply.string).eql('');
                 done();
               });
             });
-
           });
         });
       });
     });
   });
 
-  after(help.after);
+  describe('gh-230', () => {
+    it('nostay should not discard responses', (done) => {
+      helpers.getBot().reply('user2', 'test no stay', (err, reply) => {
+        should(reply.string).eql("Mustn't stay here.");
+        done();
+      });
+    });
+  });
+
+  after(helpers.after);
 });

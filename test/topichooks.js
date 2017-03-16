@@ -1,35 +1,37 @@
-var mocha = require("mocha");
-var should  = require("should");
-var help = require("./helpers");
+/* global describe, it, before, after */
+
+import mocha from 'mocha';
+import should from 'should/as-function';
+import helpers from './helpers';
 
 // Testing topics that include and mixin other topics.
-describe('Super Script Topic Hooks', function(){
+describe('SuperScript Topic Hooks', () => {
+  before(helpers.before('topichooks'));
 
-  before(help.before("topichooks"));
-
-  describe('Pre/Post Topic Hooks', function() {
-    it("pre topic should be called", function(done) {
-      bot.topicSystem.topic.findOne({name:'__pre__'}, function(err, res){
-        res.gambits.should.have.lengthOf(1);
+  describe('Pre/Post Topic Hooks', () => {
+    it('pre topic should be called', (done) => {
+      helpers.getBot().chatSystem.Topic.findOne({ name: '__pre__' }, (err, res) => {
+        should(res.reply_exhaustion).eql('keep');
+        should(res.gambits).have.length(1);
         done();
       });
     });
 
-    it("post topic should be called", function(done) {
-      bot.topicSystem.topic.findOne({name:'__post__'}, function(err, res){
-        res.gambits.should.have.lengthOf(1)
+    it('post topic should be called', (done) => {
+      helpers.getBot().chatSystem.Topic.findOne({ name: '__post__' }, (err, res) => {
+        should(res.reply_exhaustion).eql('keep');
+        should(res.gambits).have.length(1);
         done();
       });
     });
 
-    xit("normal topic should be called", function(done) {
-      bot.topicSystem.topic.findOne({name:'random'}, function(err, res){
-        res.gambits.should.have.lengthOf(1)
+    it('normal topic should be called', (done) => {
+      helpers.getBot().chatSystem.Topic.findOne({ name: 'random' }, (err, res) => {
+        should(res.gambits).have.length(1);
         done();
       });
     });
   });
 
-  after(help.after);
-
+  after(helpers.after);
 });

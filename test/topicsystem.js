@@ -1,6 +1,9 @@
-var mocha = require("mocha");
-var should  = require("should");
-var help = require("./helpers");
+/* global describe, it, before, after */
+
+import mocha from 'mocha';
+import should from 'should/as-function';
+import helpers from './helpers';
+import { doesMatch, doesMatchTopic } from '../src/bot/getReply/helpers';
 
 /*
 
@@ -11,162 +14,163 @@ var help = require("./helpers");
 */
 
 // Testing topics that include and mixin other topics.
-describe('SuperScript TopicsSystem', function(){
+describe('SuperScript TopicsSystem', () => {
+  before(helpers.before('topicsystem'));
 
-  before(help.before("topicsystem"));
-
-  describe('TopicSystem', function() {
-    it("Should skip empty replies until it finds a match", function(done){
-      bot.reply("testing topic system", function(err, reply){
-        ["we like it","i hate it"].should.containEql(reply.string);
-        done();
-      });
-    });
-    
-    it("Should break in function with third param", function(done){
-      bot.reply("userx", "force break", function(err, reply){
-        reply.string.should.eql("");
+  describe('TopicSystem', () => {
+    it('Should skip empty replies until it finds a match', (done) => {
+      helpers.getBot().reply('testing topic system', (err, reply) => {
+        should(['we like it', 'i hate it']).containEql(reply.string);
         done();
       });
     });
 
-    it("Should continue in function with third param", function(done){
-      bot.reply("userx", "force continue", function(err, reply){
-        reply.string.should.eql("force one force two");
+    it('Should break in function with third param', (done) => {
+      helpers.getBot().reply('userx', 'force break', (err, reply) => {
+        should(reply.string).eql('');
         done();
       });
     });
 
-    it("Should continue with a {CONTINUE} tag", function(done){
-      bot.reply("userx", "break with continue", function(err, reply){
-        reply.string.should.eql("ended test passed");
+    it('Should continue in function with third param', (done) => {
+      helpers.getBot().reply('userx', 'force continue', (err, reply) => {
+        should(reply.string).eql('force one force two');
         done();
       });
     });
-    
 
+    it('Should continue with a {CONTINUE} tag', (done) => {
+      helpers.getBot().reply('userx', 'break with continue', (err, reply) => {
+        should(reply.string).eql('ended test passed');
+        done();
+      });
+    });
   });
 
 
-
-  // Test Single gambit 
-  describe.skip('Test Gambit', function () {
+  // Test Single gambit
+  describe('Test Gambit', () => {
     // this is a testing input for the editor
     // We want a string in and false or matches out
-    it("Should try string agaist gambit", function(done){
-      bot.message("i like to build fires", function(err, msg){
-        bot.topicSystem.gambit.findOne({input:'I like to *'}, function(e,g){
-          g.doesMatch(msg, function (e,r) {
-            r.should.exist;
-            done();
+    it('Should try string agaist gambit', (done) => {
+      helpers.getBot().message('i like to build fires', (err, msg) => {
+        helpers.getBot().chatSystem.Gambit.findOne({ input: 'I like to *' }, (e, g) => {
+          helpers.getBot().getUser('user1', (err, user) => {
+            const options = { user };
+            doesMatch(g, msg, options).then((r) => {
+              should(r).exist;
+              done();
+            }).catch(err => done(err));
           });
         });
       });
     });
 
-    it("update gambit test", function (done) {
-      bot.topicSystem.gambit.findOrCreate({input: 'this is a create test'}, function (er, gam) {
-        gam.save(function(){
-          bot.message("this is a create test", function (err, msg) {
-            gam.doesMatch(msg, function (e, r) {
-              r.should.exist;
+    it('update gambit test', (done) => {
+      helpers.getBot().chatSystem.Gambit.create({ input: 'this is a create test' }, (er, gam) => {
+        helpers.getBot().message('this is a create test', (err, msg) => {
+          helpers.getBot().getUser('user1', (err, user) => {
+            const options = { user };
+            doesMatch(gam, msg, options).then((r) => {
+              should(r).exist;
               gam.input = 'this is a create *~2';
-              gam.save(function () {
-                bot.message("this is a create hello world", function (err, msg) {
-                  gam.doesMatch(msg, function (e, r) {
-                    r[1].should.eql(' hello world');
+              // Clear the normalized trigger created in the first step.
+              gam.trigger = '';
+              gam.save(() => {
+                helpers.getBot().message('this is a create hello world', (err, msg) => {
+                  doesMatch(gam, msg, options).then((r) => {
+                    should(r[1]).eql('hello world');
                     done();
-                  });
+                  }).catch(err => done(err));
                 });
               });
-            });
+            }).catch(err => done(err));
           });
         });
       });
     });
-
   });
 
 
   // Test Entire topic for Match
-  describe.skip('Test Topic', function() {
+  describe('Test Topic', () => {
     // this is a testing input for the editor
     // We want a string in and false or matches out
-    it("Should try string agaist topic", function(done){
-      bot.message("I like to play outside", function(err, msg){
-        bot.topicSystem.topic.findOne({name: 'outdoors'}, function(e,topic){
-          topic.doesMatch(msg, function (e,r) {
-            r.should.not.be.empty;
-            r[0].input.should.containEql('I like to *');
+    it('Should try string agaist topic', (done) => {
+      helpers.getBot().message('I like to play outside', (err, msg) => {
+        helpers.getBot().getUser('user1', (err, user) => {
+          const options = { user, chatSystem: helpers.getBot().chatSystem };
+          doesMatchTopic('outdoors', msg, options).then((r) => {
+            should(r).not.be.empty;
+            should(r[0].input).containEql('I like to play outside');
             done();
-          });
+          }).catch(err => done(err));
         });
       });
-      
     });
   });
 
-  describe('TopicDiscovery', function() {
-    it("Should find the right topic", function(done){
-      bot.reply("i like to hunt", function(err, reply){
-        reply.string.should.containEql("i like to spend time outdoors");
+  describe('TopicDiscovery', () => {
+    it('Should find the right topic', (done) => {
+      helpers.getBot().reply('i like to hunt', (err, reply) => {
+        should(reply.string).containEql('i like to spend time outdoors');
 
-        bot.reply("i like to fish", function(err, reply){
-          reply.string.should.containEql("me too");
+        helpers.getBot().reply('i like to fish', (err, reply) => {
+          should(reply.string).containEql('me too');
           done();
         });
-
       });
     });
   });
 
 
-  // it("Post Order Topics", function(done){
-  //   bot.reply("I like to spend time fishing", function(err, reply){
-  //     console.log(reply);
-  //     reply.string.should.containEql("fishing");
-  //     done();
-  //   });
-  // });
+  describe('Topic Filter Functions', () => {
+    // Now lets see it it works, we call it twice and it should be filtered both times.
+    it('Should filter topic', (done) => {
+      helpers.getBot().reply('filter topic test', (err, reply) => {
+        should(reply.string).containEql('filter pass topic2');
+        helpers.getBot().reply('filter topic test', (err, reply) => {
+          should(reply.string).containEql('filter pass topic2');
+          done();
+        });
+      });
+    });
+  });
 
-
-  describe("log-debug", function() {
-    it("Should show steps - redirect", function(done) {
-      bot.reply("user", "generic redirect", function(err, reply) {
-        reply.debug.matched_gambit[0].topic.should.containEql("random");
-        reply.debug.matched_gambit[0].subset[0].topic.should.containEql("test");
+  describe.skip('log-debug', () => {
+    it('Should show steps - redirect', (done) => {
+      helpers.getBot().reply('user', 'generic redirect', (err, reply) => {
+        should(reply.debug.matched_gambit[0].topic).containEql('random');
+        should(reply.debug.matched_gambit[0].subset[0].topic).containEql('test');
         done();
       });
     });
 
-    it("Should show steps - respond", function(done) {
-      bot.reply("user", "generic respond", function(err, reply) {
-        reply.debug.matched_gambit[0].topic.should.containEql("random");
-        reply.debug.matched_gambit[0].subset[0].topic.should.containEql("test");
+    it('Should show steps - respond', (done) => {
+      helpers.getBot().reply('user', 'generic respond', (err, reply) => {
+        should(reply.debug.matched_gambit[0].topic).containEql('random');
+        should(reply.debug.matched_gambit[0].subset[0].topic).containEql('test');
         done();
       });
     });
-
   });
 
 
-  describe("gh-240", function() {
-    it("should stop with topicRedirect", function(done) {
-      bot.reply("user", "test empty", function(err, reply) {
-        reply.string.should.containEql("");
-        done();
-      });
-    });
-    
-    it("should stop with respond", function(done) {
-      bot.reply("user", "test respond", function(err, reply) {
-        reply.string.should.containEql("");
+  describe('gh-240', () => {
+    it('should stop with topicRedirect', (done) => {
+      helpers.getBot().reply('user', 'test empty', (err, reply) => {
+        should(reply.string).containEql('');
         done();
       });
     });
 
-
+    it('should stop with respond', (done) => {
+      helpers.getBot().reply('user', 'test respond', (err, reply) => {
+        should(reply.string).containEql('');
+        done();
+      });
+    });
   });
 
-  after(help.after);
+  after(helpers.after);
 });

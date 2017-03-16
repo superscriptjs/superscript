@@ -1,45 +1,34 @@
-var mocha = require("mocha");
-var should  = require("should");
+/* global describe, it */
 
-var wordnet = require("../../lib/wordnet");
+import mocha from 'mocha';
+import should from 'should/as-function';
 
-wordnet.lookup("milk", "~", function(e,r) {
-  console.log(e,r);
+import wordnet from '../../src/bot/reply/wordnet';
+
+describe('Wordnet Interface', () => {
+  it('should have have lookup and explore function', (done) => {
+    should(wordnet.lookup).be.a.Function();
+    should(wordnet.explore).be.a.Function();
+    done();
+  });
+
+  it('should perform lookup correctly', async () => {
+    const results = await wordnet.lookup('like', '@');
+    should(results).have.length(3);
+  });
+
+  it('should perform lookup correctly', async () => {
+    const results = await wordnet.lookup('like~v', '@');
+    should(results).have.length(2);
+  });
+
+  it('should refine to POS', async () => {
+    const results = await wordnet.lookup('milk', '~');
+    should(results).have.length(25);
+  });
+
+  it('should explore a concept', async () => {
+    const results = wordnet.explore('job');
+    console.log(results);
+  });
 });
-
-
-// describe('Wordnet Interface', function(){
-
-//   it("should have have a lookup function", function(done){
-//     wordnet.lookup.should.be.Function;
-//     wordnet.explore.should.be.Function;
-//     done()
-//   });
-  
-//   it("should have have perform lookup", function(done){
-//     wordnet.lookup("like", "@", function(err, results){
-//       should.not.exist(err);
-//       results.should.not.be.empty;
-//       results.should.have.length(3);
-//       done();
-//     });
-//   });
-
-//   it("should refine to POS ", function(done){
-//     wordnet.lookup("like~v", "@", function(err, results){
-//       should.not.exist(err);
-//       results.should.not.be.empty;
-//       results.should.have.length(2)
-//       done();
-//     });
-//   });
-
-//   // not sure how I want to test this yet
-//   // it("should refine to POS ", function(done){
-//   //  wordnet.explore("job", function(err, results){      
-//   //    done();
-//   //  });
-//   // });
-
-
-// });

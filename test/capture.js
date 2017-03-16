@@ -1,35 +1,35 @@
-/*global describe, it, bot, before, after */
-var mocha = require("mocha");
-var should  = require("should");
-var help = require("./helpers");
+/* global describe, it, before, after */
 
-// The bulk of these tests now live in ss-parser, that script manages the
-// input capture infterface.
+import mocha from 'mocha';
+import should from 'should/as-function';
+import helpers from './helpers';
 
-describe('Super Script Capture System', function(){
+// The bulk of these tests now live in ss-parser - that script manages the
+// input capture interface.
 
-  before(help.before("capture"));
+describe('SuperScript Capture System', () => {
+  before(helpers.before('capture'));
 
-  describe('Previous Capture should return previous capture tag', function(){
-    it("Previous capture", function(done) {
-      bot.reply("user1", "previous capture one interface", function(err, reply) {
-        reply.string.should.eql("previous capture test one interface");
-        bot.reply("user1", "previous capture two", function(err, reply) {
-          reply.string.should.eql("previous capture test two interface");
+  describe('Previous Capture should return previous capture tag', () => {
+    it('Previous capture', (done) => {
+      helpers.getBot().reply('user1', 'previous capture one interface', (err, reply) => {
+        should(reply.string).eql('previous capture test one interface');
+        helpers.getBot().reply('user1', 'previous capture two', (err, reply) => {
+          should(reply.string).eql('previous capture test two interface');
           done();
         });
       });
     });
   });
 
-  describe("Match <input>", function() {
-    it("It should capture the last thing said", function(done) {
-      bot.reply("user1", "capture input", function(err, reply) {
-        reply.string.should.eql("capture input");
+  describe('Match <input>', () => {
+    it('It should capture the last thing said', (done) => {
+      helpers.getBot().reply('user1', 'capture input', (err, reply) => {
+        should(reply.string).eql('capture input');
         done();
       });
     });
   });
 
-  after(help.after);
+  after(helpers.after);
 });
