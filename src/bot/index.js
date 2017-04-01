@@ -14,7 +14,7 @@ import Logger from './logger';
 const debug = debuglog('SS:SuperScript');
 
 class SuperScript {
-  constructor(coreChatSystem, coreFactSystem, plugins, scope, editMode, conversationTimeout, tenantId = 'master') {
+  constructor(coreChatSystem, coreFactSystem, plugins, scope, editMode, conversationTimeout, historyCheckpoints, tenantId = 'master') {
     this.chatSystem = coreChatSystem.getChatSystem(tenantId);
     this.factSystem = coreFactSystem.getFactSystem(tenantId);
 
@@ -30,6 +30,7 @@ class SuperScript {
     this.plugins = plugins;
     this.editMode = editMode;
     this.conversationTimeout = conversationTimeout;
+    this.historyCheckpoints = historyCheckpoints;
   }
 
   importFile(filePath, callback) {
@@ -46,7 +47,7 @@ class SuperScript {
 
   getUser(userId, callback) {
     this.chatSystem.User.findOne({ id: userId })
-      .slice('history', 10)
+      .slice('history', this.historyCheckpoints)
       .exec(callback);
   }
 
@@ -55,7 +56,7 @@ class SuperScript {
       upsert: true,
       setDefaultsOnInsert: true,
       new: true,
-    }).slice('history', 10)
+    }).slice('history', this.historyCheckpoints)
       .exec(callback);
   }
 
@@ -242,6 +243,7 @@ const defaultOptions = {
   logPath: `${process.cwd()}/logs`,
   useMultitenancy: false,
   conversationTimeout: 1000 * 300,
+  historyCheckpoints: 10
 };
 
 /**
