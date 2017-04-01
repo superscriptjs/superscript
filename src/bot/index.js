@@ -182,6 +182,7 @@ class SuperScriptInstance {
     // This is a kill switch for filterBySeen which is useless in the editor.
     this.editMode = options.editMode || false;
     this.conversationTimeout = options.conversationTimeout;
+    this.historyCheckpoints = options.historyCheckpoints;
     this.scope = options.scope || {};
 
     // Built-in plugins
@@ -224,6 +225,7 @@ class SuperScriptInstance {
       this.scope,
       this.editMode,
       this.conversationTimeout,
+      this.historyCheckpoints,
       tenantId,
     );
   }
