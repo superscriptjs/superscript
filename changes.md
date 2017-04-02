@@ -1,3 +1,7 @@
+### 1.1.0
+
+* You can now configure the number of messages in the history that are checked when seeing if replies should be exhausted or not by using the `historyCheckpoints` option (thanks @Samurais!).
+
 ### 1.0.6
 
 * Mongoose now uses the global Promise object to avoid a DeprecationWarning (thanks @Lewwwk!).
