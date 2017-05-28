@@ -434,6 +434,9 @@ const processReplyTags = async function processReplyTags(replyObj, options) {
     )));
   } catch (err) {
     console.error(`There was an error processing reply tags: ${err}`);
+    if (replyTags[0].type === 'customFunction'){
+      console.error(`There is a syntax error in ${replyTags[0].functionName}`);
+    }
     return null;
   }
 
