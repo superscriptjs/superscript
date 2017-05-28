@@ -28,7 +28,7 @@ exports.getDate = function getDate(cb) {
 };
 
 exports.getDateTomorrow = function getDateTomorrow(cb) {
-  const date = moment().add('d', 1).format('ddd, MMMM Do');
+  const date = moment().add(1,'d').format('ddd, MMMM Do');
   cb(null, date);
 };
 
@@ -82,9 +82,9 @@ exports.getDayOfWeek = function getDayOfWeek(cb) {
 exports.getMonth = function getMonth(cb) {
   let reply = '';
   if (this.message.words.indexOf('next') !== -1) {
-    reply = moment().add('M', 1).format('MMMM');
+    reply = moment().add(1,'M').format('MMMM');
   } else if (this.message.words.indexOf('previous') !== -1) {
-    reply = moment().subtract('M', 1).format('MMMM');
+    reply = moment().subtract(1,'M').format('MMMM');
   } else if (this.message.words.indexOf('first') !== -1) {
     reply = 'January';
   } else if (this.message.words.indexOf('last') !== -1) {
