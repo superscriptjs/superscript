@@ -1,3 +1,8 @@
+### 1.1.1
+
+* Fixes a warning using the `moment` dependency.
+* Additional error message for errors within custom functions.
+
 ### 1.1.0
 
 * You can now configure the number of messages in the history that are checked when seeing if replies should be exhausted or not by using the `historyCheckpoints` option (thanks @Samurais!).
