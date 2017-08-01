@@ -198,6 +198,18 @@ describe('SuperScript Continue System aka Conversation', () => {
       });
     });
   });
-
+  
+  describe('GH-357 Conversation matching based on multiline replies', () => {
+    it('should match the conversation based on reply with linebreak', (done) => {
+      helpers.getBot().reply('user7', 'test linebreak', (err, reply) => {
+        should(reply.string).eql('first reply\nplease');
+        helpers.getBot().reply('user7', 'test linebreak', (err, reply) => {
+          should(reply.string).eql('second reply');
+          done();
+        });
+      });
+    });
+  });
+  
   after(helpers.after);
 });
