@@ -157,5 +157,14 @@
 + I like cake
 - do you like portal
 
+// GH-357
 
++ test linebreak
+- first reply\n
+^ please
+
+  + test linebreak
+  % * please *
+  - second reply
+  
 < topic

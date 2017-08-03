@@ -1,3 +1,7 @@
+### 1.1.2
+
+* Fixes an issue with doing conversations with multiline replies.
+
 ### 1.1.1
 
 * Fixes a warning using the `moment` dependency.
