@@ -47,7 +47,6 @@ const importData = function importData(chatSystem, data, callback) {
   const Topic = chatSystem.Topic;
   const Gambit = chatSystem.Gambit;
   const Reply = chatSystem.Reply;
-  const User = chatSystem.User;
 
   const gambitsWithConversation = [];
 
@@ -162,7 +161,7 @@ const importData = function importData(chatSystem, data, callback) {
   debug.info('Cleaning database: removing all data.');
 
   // Remove everything before we start importing
-  async.each([Gambit, Reply, Topic, User],
+  async.each([Gambit, Reply, Topic],
     (model, nextModel) => {
       model.remove({}, err => nextModel());
     },
