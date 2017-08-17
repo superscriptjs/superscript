@@ -1,3 +1,7 @@
+### 1.1.3
+
+* No longer removes `User` table on re-importing a bot script into MongoDB.
+
 ### 1.1.2
 
 * Fixes an issue with doing conversations with multiline replies.
