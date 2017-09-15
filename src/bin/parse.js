@@ -10,6 +10,7 @@ program
   .option('-p, --path [type]', 'Input path', './chat')
   .option('-o, --output [type]', 'Output options', 'data.json')
   .option('-f, --force [type]', 'Force save if output file already exists', false)
+  .option('-c, --clean [type]', 'Clean -> drops the mongodown collection', false)
   .option('-F, --facts [type]', 'Fact system files path', files => files.split(','), [])
   .option('--host [type]', 'Mongo Host', 'localhost')
   .option('--port [type]', 'Mongo Port', '27017')
@@ -28,7 +29,7 @@ fs.exists(program.output, (exists) => {
     return process.exit();
   }
 
-  return facts.load(mongoURI, program.facts, true, (err, factSystem) => {
+  return facts.load(mongoURI, program.facts, program.clean, (err, factSystem) => {
     parser.parseDirectory(program.path, { factSystem }, (err, result) => {
       if (err) {
         console.error(`Error parsing bot script: ${err}`);
