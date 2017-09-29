@@ -91,12 +91,12 @@ class SuperScript {
   }
 
   // This is like doing a topicRedirect
-  directReply(userId, topicName, messageString, callback) {
+  directReply(userId, topicName, messageString, callback, extraScope) {
     debug.log("[ New DirectReply - '%s']- %s", userId, messageString);
     const options = {
       userId,
       topicName,
-      extraScope: {},
+      extraScope: extraScope || {},
     };
 
     this._reply(messageString, options, callback);
