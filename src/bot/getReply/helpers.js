@@ -153,7 +153,7 @@ const eachGambitHandle = async function eachGambitHandle(gambit, message, option
     // the current reply.
     const filterScope = _.merge({}, scope);
     filterScope.message = message;
-    // filterScope.message_props = options.localOptions.messageScope;
+    filterScope.message_props = options.system.extraScope;
     filterScope.user = options.user;
 
     let filterReply;
