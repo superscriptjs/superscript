@@ -57,6 +57,9 @@ const createGambitModel = function createGambitModel(db, factSystem) {
     // TODO, change the type to a ID and reference another gambit directly
     // this will save us a lookup down the road (and improve performace.)
     redirect: { type: String, default: '' },
+
+    // topic field added to fix issue#375
+    topic: { type: String, default: 'random'}
   });
 
   gambitSchema.pre('save', function (next) {

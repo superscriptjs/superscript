@@ -21,6 +21,7 @@ const rawToGambitData = function rawToGambitData(gambitId, gambit) {
     filter: gambit.trigger.filter,
     trigger: gambit.trigger.clean,
     input: gambit.trigger.raw,
+    topic: gambit.topic
   };
 
   // Conditional rolled up triggers will not have a flags
