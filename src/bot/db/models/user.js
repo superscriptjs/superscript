@@ -23,6 +23,8 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
     }],
   });
 
+  userSchema.set('versionKey', false);
+
   userSchema.pre('save', function (next) {
     debug.verbose('Pre-Save Hook');
     // save a full log of user conversations, but just in case a user has a
@@ -100,7 +102,7 @@ const createUserModel = function createUserModel(db, factSystem, logger) {
         } else {
           this.currentTopic = pendingTopic;
         }
-        this.save((err) => {
+        this.save(function(err){
           if (err) {
             console.error(err);
           }
