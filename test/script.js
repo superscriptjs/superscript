@@ -224,7 +224,7 @@ describe('SuperScript Scripting + Style Interface', () => {
     });
 
     // This will require processing function tags before any other reply tags
-    it.skip('Change topic 2', (done) => {
+    it('Change topic 2', (done) => {
       helpers.getBot().reply('user4', 'reply with a new topic from function', (err, reply) => {
         helpers.getBot().getUser('user4', (err, user) => {
           should(user.currentTopic).eql('fish');

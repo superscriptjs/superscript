@@ -1,17 +1,18 @@
 ### 1.1.3
 
 * No longer removes `User` table on re-importing a bot script into MongoDB.
+* disable versioning in mongoDB,improved performance.
 
 ### 1.1.2
 
 * Fixes an issue with doing conversations with multiline replies.
-
-### 1.1.1
+* 
+### 1.1.1
 
 * Fixes a warning using the `moment` dependency.
 * Additional error message for errors within custom functions.
 
-### 1.1.0
+### 1.1.0
 
 * You can now configure the number of messages in the history that are checked when seeing if replies should be exhausted or not by using the `historyCheckpoints` option (thanks @Samurais!).
 
@@ -21,7 +22,7 @@
 * Cleanup and parse bin scripts now accept a MONGODB_URI environment variable for easy cleanup/parsing on Heroku.
 * Parse bin script also now accepts custom MongoDB connection params.
 
-### 1.0.5
+### 1.0.5
 
 * The history field on the User model now retains 500 messages (up from 15) for logging purposes. It also is now an array of objects, rather than being an object of arrays, so we can more easily iterate over the history, and allows us to slice the array easily.
 * Removed mongoose-findorcreate and replaced with native mongoose options `upsert` and `new`.
