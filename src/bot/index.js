@@ -41,17 +41,6 @@ class SuperScript {
     });
   }
 
-  importJSON(obj, callback) {
-    if (typeof obj === 'string') {
-      try {
-        obj = JSON.parse(obj);
-      } catch (error) {
-        callback(err); 
-      }
-    }
-    Importer.importData(this.chatSystem, obj, callback);
-  }
-
   getUsers(callback) {
     this.chatSystem.User.find({}, 'id', callback);
   }
@@ -91,12 +80,12 @@ class SuperScript {
   }
 
   // This is like doing a topicRedirect
-  directReply(userId, topicName, messageString, callback) {
+  directReply(userId, topicName, messageString, callback, extraScope) {
     debug.log("[ New DirectReply - '%s']- %s", userId, messageString);
     const options = {
       userId,
       topicName,
-      extraScope: {},
+      extraScope: extraScope || {},
     };
 
     this._reply(messageString, options, callback);
@@ -244,7 +233,6 @@ class SuperScriptInstance {
 
 const defaultOptions = {
   mongoURI: 'mongodb://localhost/superscriptDB',
-  importJSON: null,
   importFile: null,
   factSystem: {
     clean: false,
@@ -265,8 +253,6 @@ const defaultOptions = {
  * @param {Object} options - Any configuration settings you want to use.
  * @param {String} options.mongoURI - The database URL you want to connect to.
  *                 This will be used for both the chat and fact system.
- * @param {Object} options.importJSON - Use this if you want to re-import from JSON Object. 
- *                 Otherwise SuperScript will use whatever it currently finds in the database.
  * @param {String} options.importFile - Use this if you want to re-import your parsed
  *                 '*.json' file. Otherwise SuperScript will use whatever it currently
  *                 finds in the database.
@@ -316,9 +302,6 @@ const setup = function setup(options = {}, callback) {
     const bot = instance.getBot('master');
     if (options.importFile) {
       return bot.importFile(options.importFile, err => callback(err, bot));
-    }
-    if (options.importJSON) {
-      return bot.importJSON(options.importJSON, err => callback(err, bot));
     }
     return callback(null, bot);
   });
