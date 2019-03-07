@@ -72,6 +72,18 @@ const findMatches = async function findMatches(pendingTopics, messageObject, opt
       debug.info(`Replies: ${match.gambit.replies.map(reply => reply.reply).join('\n')}`);
     });
 
+    // If there are multiple matches, then select the one from topic. Issue #375  
+    function isTopicMatched(match) {
+      return match.gambit.topic === options.user.getTopic();
+    }
+    var topicIndex = unfilteredMatches.findIndex(isTopicMatched);
+
+    if (unfilteredMatches.length > 1 && topicIndex > 0) {
+      var tmp = unfilteredMatches[0];
+      unfilteredMatches[0] = unfilteredMatches[topicIndex];
+      unfilteredMatches[topicIndex] = tmp;
+    }
+
     for (let j = 0; j < unfilteredMatches.length && !stopSearching; ++j) {
       const match = unfilteredMatches[j];
       const reply = await matchItorHandle(match, messageObject, options);
